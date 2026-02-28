@@ -25,40 +25,56 @@ When user does not specify filters, use these defaults:
 - `timeFilter`: `3d` (近 3 天)
 - `sortType`: `score_desc` (按评分倒序)
 - `userLanguage`: `zh_CN`
-- `pageSize`: `100`
-- No qualifiedFilter (fetch all scored content, filter by score >= 85 client-side)
+- Client-side filter: score >= 85
+- Default output count: **20** items (adjustable per user request)
 
-To cover all content types comprehensively, make **3 parallel requests**:
+### Fetch Plan (5 parallel requests, max ~500 items)
 
 ```bash
-# 1. Articles + Podcasts + Videos (资源列表)
+# 1. AI articles (100 items)
 curl -s -X POST https://api.bestblogs.dev/openapi/v1/resource/list \
   -H "Content-Type: application/json" \
   -H "X-API-KEY: $BESTBLOGS_API_KEY" \
-  -d '{"timeFilter":"3d","sortType":"score_desc","userLanguage":"zh_CN","pageSize":100}'
+  -d '{"timeFilter":"3d","sortType":"score_desc","userLanguage":"zh_CN","pageSize":100,"type":"ARTICLE","category":"Artificial_Intelligence"}'
 
-# 2. Page 2 of resources (if totalCount > 100)
+# 2. Non-AI articles: Programming + Business + Product (100 items)
 curl -s -X POST https://api.bestblogs.dev/openapi/v1/resource/list \
   -H "Content-Type: application/json" \
   -H "X-API-KEY: $BESTBLOGS_API_KEY" \
-  -d '{"timeFilter":"3d","sortType":"score_desc","userLanguage":"zh_CN","pageSize":100,"currentPage":2}'
+  -d '{"timeFilter":"3d","sortType":"score_desc","userLanguage":"zh_CN","pageSize":100,"type":"ARTICLE","category":"Programming_Technology"}'
+# Note: also fetch Business_Tech and Product_Development if needed, or omit category to get all non-AI articles
 
-# 3. Tweets (独立端点)
+# 3. Videos (50 items)
+curl -s -X POST https://api.bestblogs.dev/openapi/v1/resource/list \
+  -H "Content-Type: application/json" \
+  -H "X-API-KEY: $BESTBLOGS_API_KEY" \
+  -d '{"timeFilter":"3d","sortType":"score_desc","userLanguage":"zh_CN","pageSize":50,"type":"VIDEO"}'
+
+# 4. Podcasts (50 items)
+curl -s -X POST https://api.bestblogs.dev/openapi/v1/resource/list \
+  -H "Content-Type: application/json" \
+  -H "X-API-KEY: $BESTBLOGS_API_KEY" \
+  -d '{"timeFilter":"3d","sortType":"score_desc","userLanguage":"zh_CN","pageSize":50,"type":"PODCAST"}'
+
+# 5. Tweets (200 items, use tweet endpoint)
 curl -s -X POST https://api.bestblogs.dev/openapi/v1/tweet/list \
   -H "Content-Type: application/json" \
   -H "X-API-KEY: $BESTBLOGS_API_KEY" \
   -d '{"timeFilter":"3d","language":"all","sortType":"score_desc","userLanguage":"zh_CN","pageSize":100}'
+# Fetch page 2 for tweets if needed (to reach 200)
 ```
 
-Continue paginating until all pages are fetched (check `totalCount` and `pageCount`).
+Run all 5 requests in parallel. After fetching, client-side filter **score >= 85**, then deduplicate and merge.
 
-After fetching, client-side filter: **keep items with score >= 85**.
+### Adjusting Parameters
 
-Adjust parameters based on user input:
+Adjust based on user input:
 - "今天的文章" → `timeFilter: "1d"`
-- "本周 AI 文章" → `timeFilter: "1w"`, `category: "Artificial_Intelligence"`
+- "本周 AI 文章" → `timeFilter: "1w"`, only fetch AI category
 - "精选文章" → add `qualifiedFilter: "true"`
 - "评分90以上" → client-side filter score >= 90
+- "给我50条" → output 50 items instead of default 20
+- "只看播客" → only fetch PODCAST type
 
 ## Other Operations
 

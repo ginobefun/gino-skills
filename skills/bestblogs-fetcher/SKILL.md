@@ -90,30 +90,68 @@ curl -s "https://api.bestblogs.dev/openapi/v1/newsletter/get?id={NEWSLETTER_ID}&
 
 For complete request/response field details, see `references/api_reference.md`.
 
-## Output Format
+## Core Workflow
 
-When presenting fetched content to the user, format as a readable Markdown list:
+Fetching content follows a 3-step process: list → filter → enrich → output.
 
-```markdown
-## BestBlogs 精选 (2025-02-27, 共 N 篇)
+### Step 1: Query List
 
-### 1. [文章标题](原文链接)
-- **来源**: 来源名称 | **评分**: 96 | **阅读时间**: 28 分钟
-- **分类**: 人工智能 > AI 模型
-- **摘要**: 一句话摘要内容
-- **标签**: 标签1, 标签2, 标签3
+Call `/resource/list` or `/tweet/list` to get candidates. Use appropriate filters (timeFilter, qualifiedFilter, category, etc.).
 
-### 2. [文章标题](原文链接)
-...
+### Step 2: Filter & Deduplicate
+
+From the list results:
+- Remove duplicates by matching `title` or `url` (same article from different sources)
+- Remove low-score items if the list is large (keep score >= 80 by default)
+- Group by topic if multiple articles cover the same event
+
+### Step 3: Enrich with Meta
+
+For each selected item, call `/resource/meta` to get full details:
+
+```bash
+curl -s "https://api.bestblogs.dev/openapi/v1/resource/meta?id={ID}&language=zh_CN" \
+  -H "X-API-KEY: $BESTBLOGS_API_KEY"
 ```
 
-For tweets, include engagement metrics:
+This returns richer content than the list endpoint: detailed `summary`, `mainPoints` (观点+解释), `keyQuotes` (金句), and `readUrl` (站内阅读链接).
+
+**Parallel fetching**: Make multiple meta calls in parallel to save time.
+
+### Step 4: Output
+
+Present the enriched content in the format below.
+
+## Output Format
+
+Use `readUrl` (BestBlogs 站内链接) for all article links. Use `url` only as fallback when `readUrl` is absent.
+
+### Articles / Podcasts / Videos
 
 ```markdown
-### 1. [推文标题](推文链接)
+## BestBlogs 精选 (YYYY-MM-DD, 共 N 篇)
+
+### 1. [文章标题](readUrl)
+- **来源**: 来源名称 | **作者**: 作者 | **评分**: 96 | **阅读时间**: 28 分钟
+- **分类**: 人工智能 > AI 模型
+- **摘要**: 详细摘要内容（来自 meta 接口的 summary 字段）
+- **核心观点**:
+  - **观点1**: 解释说明
+  - **观点2**: 解释说明
+- **金句**: "关键引用原文"
+- **标签**: 标签1, 标签2, 标签3
+```
+
+### Tweets
+
+```markdown
+### 1. [推文标题](readUrl)
 - **作者**: @username | **评分**: 91
 - **互动**: 👍 446 🔁 134 💬 36 👁 45K
-- **摘要**: 一句话摘要
+- **摘要**: 详细摘要内容
+- **核心观点**:
+  - **观点1**: 解释说明
+- **金句**: "关键引用原文"
 ```
 
 ## Pagination

@@ -19,36 +19,48 @@ All requests require header `X-API-KEY`. Read the key from environment variable 
 
 If `BESTBLOGS_API_KEY` is not set, prompt the user to configure it.
 
-## Quick Operations
+## Default Fetch Strategy
 
-### Fetch Today's Top Articles
+When user does not specify filters, use these defaults:
+- `timeFilter`: `3d` (近 3 天)
+- `sortType`: `score_desc` (按评分倒序)
+- `userLanguage`: `zh_CN`
+- `pageSize`: `100`
+- No qualifiedFilter (fetch all scored content, filter by score >= 85 client-side)
+
+To cover all content types comprehensively, make **3 parallel requests**:
 
 ```bash
+# 1. Articles + Podcasts + Videos (资源列表)
 curl -s -X POST https://api.bestblogs.dev/openapi/v1/resource/list \
   -H "Content-Type: application/json" \
   -H "X-API-KEY: $BESTBLOGS_API_KEY" \
-  -d '{"timeFilter":"1d","qualifiedFilter":"true","sortType":"score_desc","userLanguage":"zh_CN","pageSize":20}'
-```
+  -d '{"timeFilter":"3d","sortType":"score_desc","userLanguage":"zh_CN","pageSize":100}'
 
-### Fetch Recent 3-Day Articles by Category
-
-```bash
+# 2. Page 2 of resources (if totalCount > 100)
 curl -s -X POST https://api.bestblogs.dev/openapi/v1/resource/list \
   -H "Content-Type: application/json" \
   -H "X-API-KEY: $BESTBLOGS_API_KEY" \
-  -d '{"timeFilter":"3d","category":"Artificial_Intelligence","qualifiedFilter":"true","sortType":"score_desc","userLanguage":"zh_CN","pageSize":20}'
-```
+  -d '{"timeFilter":"3d","sortType":"score_desc","userLanguage":"zh_CN","pageSize":100,"currentPage":2}'
 
-Categories: `Artificial_Intelligence`, `Business_Tech`, `Programming_Technology`, `Product_Development`
-
-### Fetch Recent Tweets
-
-```bash
+# 3. Tweets (独立端点)
 curl -s -X POST https://api.bestblogs.dev/openapi/v1/tweet/list \
   -H "Content-Type: application/json" \
   -H "X-API-KEY: $BESTBLOGS_API_KEY" \
-  -d '{"timeFilter":"3d","language":"all","sortType":"score_desc","userLanguage":"zh_CN","pageSize":20}'
+  -d '{"timeFilter":"3d","language":"all","sortType":"score_desc","userLanguage":"zh_CN","pageSize":100}'
 ```
+
+Continue paginating until all pages are fetched (check `totalCount` and `pageCount`).
+
+After fetching, client-side filter: **keep items with score >= 85**.
+
+Adjust parameters based on user input:
+- "今天的文章" → `timeFilter: "1d"`
+- "本周 AI 文章" → `timeFilter: "1w"`, `category: "Artificial_Intelligence"`
+- "精选文章" → add `qualifiedFilter: "true"`
+- "评分90以上" → client-side filter score >= 90
+
+## Other Operations
 
 ### Get Article Markdown Content
 
@@ -68,7 +80,7 @@ curl -s -X POST https://api.bestblogs.dev/openapi/v1/newsletter/list \
   -d '{"pageSize":1,"userLanguage":"zh_CN"}'
 ```
 
-Then get details with the returned id:
+Then get details:
 
 ```bash
 curl -s "https://api.bestblogs.dev/openapi/v1/newsletter/get?id={NEWSLETTER_ID}&language=zh_CN" \
@@ -92,62 +104,77 @@ For complete request/response field details, see `references/api_reference.md`.
 
 ## Core Workflow
 
-### Step 1: Query List
+### Step 1: Fetch All Pages
 
-Call `/resource/list` or `/tweet/list` with appropriate filters. The list endpoint already returns all needed detail fields (summary, mainPoints, keyQuotes, etc.), no need to call `/resource/meta` separately.
+Make parallel requests per the Default Fetch Strategy. Check `totalCount` / `pageCount` and continue paginating until all data is retrieved.
 
-### Step 2: Filter & Deduplicate
+### Step 2: Client-side Filter & Deduplicate
 
-From the list results:
-- Remove duplicates by matching `title` or `url` (same article from different sources)
-- Remove low-score items if the list is large (keep score >= 80 by default)
-- Group by topic if multiple articles cover the same event
+1. **Score filter**: Keep items with `score >= 85` (or user-specified threshold)
+2. **Deduplicate**: Match by `title` similarity or same `url` — keep the highest-scored version
+3. **Sort**: By score descending, then by publish time descending
 
-### Step 3: Generate Recommendation & Output
+### Step 3: Output Full Details
 
-For each item, synthesize a **2-3 sentence recommendation text** from: title, sourceName, authors, oneSentenceSummary, summary, mainPoints, and keyQuotes. The recommendation should help the user quickly judge whether to click and read or share.
+Output all API detail fields for each item. Do NOT summarize or compress — downstream skills need full data for quality assessment.
 
 ## Output Format
 
-Use `readUrl` (BestBlogs 站内链接) for all article links. Use `url` only as fallback when `readUrl` is absent.
+Use `readUrl` (BestBlogs 站内链接) for all links. Use `url` only as fallback when `readUrl` is absent.
 
 ### Articles / Podcasts / Videos
 
 ```markdown
-## BestBlogs 精选 (YYYY-MM-DD, 共 N 篇)
+## BestBlogs 内容列表 (YYYY-MM-DD, 近 X 天, 共 N 篇)
+
+---
 
 ### 1. [文章标题](readUrl)
-- **来源**: 来源名称 | **作者**: 作者 | **评分**: 96 | **阅读时间**: 28 分钟
-- **推荐**: 基于标题、摘要、观点和金句综合提炼的 2-3 句推荐语，帮助快速判断是否值得阅读或推荐。
+- **来源**: 来源名称 | **作者**: 作者1, 作者2 | **评分**: 96 | **字数**: 6835 | **阅读时间**: 28 分钟
+- **分类**: 人工智能 > AI 模型
+- **一句话摘要**: oneSentenceSummary 内容
+- **详细摘要**: summary 完整内容（不截断）
+- **主要观点**:
+  1. **观点标题**: 详细解释说明
+  2. **观点标题**: 详细解释说明
+  3. **观点标题**: 详细解释说明
+- **文章金句**:
+  - "金句原文1"
+  - "金句原文2"
+  - "金句原文3"
 - **标签**: 标签1, 标签2, 标签3
+- **发布时间**: publishDateTimeStr
+
+---
+
+### 2. [文章标题](readUrl)
+...
 ```
 
 ### Tweets
 
 ```markdown
 ### 1. [推文标题](readUrl)
-- **作者**: @username | **评分**: 91
-- **互动**: 👍 446 🔁 134 💬 36 👁 45K
-- **推荐**: 综合提炼的 2-3 句推荐语。
+- **作者**: @username | **评分**: 91 | **影响力**: 90
+- **互动**: 👍 446 🔁 134 💬 36 💾 28 👁 45K
+- **一句话摘要**: oneSentenceSummary
+- **详细摘要**: summary 完整内容
+- **主要观点**:
+  1. **观点标题**: 详细解释
+- **金句**:
+  - "金句原文"
+- **标签**: 标签1, 标签2
+- **发布时间**: publishDateTimeStr
 ```
 
-### Recommendation Text Guidelines
+### Output Completeness Rules
 
-Synthesize from these fields to write the recommendation:
-- `oneSentenceSummary`: 核心内容一句话
-- `summary`: 详细分析
-- `mainPoints[].point` + `mainPoints[].explanation`: 核心观点
-- `keyQuotes[]`: 金句原文
-
-The recommendation should answer: **这篇文章讲了什么、有什么独特价值、为什么值得读。**
-
-## Pagination
-
-All list endpoints return paginated results. When the user needs more results than one page:
-
-1. Check `totalCount` and `pageCount` in response
-2. Increment `currentPage` to fetch subsequent pages
-3. Report total available count to user
+- `summary`: Output in full, never truncate
+- `mainPoints`: Output ALL points with both `point` and `explanation`
+- `keyQuotes`: Output ALL quotes
+- `tags`: Output ALL tags
+- If `mainPoints` or `keyQuotes` is empty, omit that section
+- For tweets with `translateContent`, include it after the summary
 
 ## Error Handling
 

@@ -95,17 +95,11 @@ curl -X POST https://api.bestblogs.dev/openapi/v1/resource/list \
 
 `GET /openapi/v1/resource/meta?id={id}&language={language}`
 
-获取单个资源的完整元数据，包含比列表接口更丰富的分析内容。**用于获取详细摘要、主要观点和金句。**
-
-字段与 Resource List 相同，额外包含:
+获取单个资源的完整元数据。字段与 Resource List 相同，额外包含:
 - `notExist`: 资源不存在标识(正常为 null)
 - `enclosureUrl`: 附件链接(音频/视频文件)
 
-关键详情字段（列表接口可能为空或简略，meta 接口返回完整内容）:
-- `summary`: 详细摘要（深度分析）
-- `mainPoints`: 主要观点 [{point, explanation}]
-- `keyQuotes`: 关键引用/金句列表
-- `readUrl`: BestBlogs 站内阅读链接
+注意：列表接口已返回 summary、mainPoints、keyQuotes 等详情字段，通常无需额外调用 meta。仅在需要单条资源详情时使用此端点。
 
 ### Example
 

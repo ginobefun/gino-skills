@@ -92,11 +92,9 @@ For complete request/response field details, see `references/api_reference.md`.
 
 ## Core Workflow
 
-Fetching content follows a 3-step process: list → filter → enrich → output.
-
 ### Step 1: Query List
 
-Call `/resource/list` or `/tweet/list` to get candidates. Use appropriate filters (timeFilter, qualifiedFilter, category, etc.).
+Call `/resource/list` or `/tweet/list` with appropriate filters. The list endpoint already returns all needed detail fields (summary, mainPoints, keyQuotes, etc.), no need to call `/resource/meta` separately.
 
 ### Step 2: Filter & Deduplicate
 
@@ -105,22 +103,9 @@ From the list results:
 - Remove low-score items if the list is large (keep score >= 80 by default)
 - Group by topic if multiple articles cover the same event
 
-### Step 3: Enrich with Meta
+### Step 3: Generate Recommendation & Output
 
-For each selected item, call `/resource/meta` to get full details:
-
-```bash
-curl -s "https://api.bestblogs.dev/openapi/v1/resource/meta?id={ID}&language=zh_CN" \
-  -H "X-API-KEY: $BESTBLOGS_API_KEY"
-```
-
-This returns richer content than the list endpoint: detailed `summary`, `mainPoints` (观点+解释), `keyQuotes` (金句), and `readUrl` (站内阅读链接).
-
-**Parallel fetching**: Make multiple meta calls in parallel to save time.
-
-### Step 4: Output
-
-Present the enriched content in the format below.
+For each item, synthesize a **2-3 sentence recommendation text** from: title, sourceName, authors, oneSentenceSummary, summary, mainPoints, and keyQuotes. The recommendation should help the user quickly judge whether to click and read or share.
 
 ## Output Format
 
@@ -133,12 +118,7 @@ Use `readUrl` (BestBlogs 站内链接) for all article links. Use `url` only as 
 
 ### 1. [文章标题](readUrl)
 - **来源**: 来源名称 | **作者**: 作者 | **评分**: 96 | **阅读时间**: 28 分钟
-- **分类**: 人工智能 > AI 模型
-- **摘要**: 详细摘要内容（来自 meta 接口的 summary 字段）
-- **核心观点**:
-  - **观点1**: 解释说明
-  - **观点2**: 解释说明
-- **金句**: "关键引用原文"
+- **推荐**: 基于标题、摘要、观点和金句综合提炼的 2-3 句推荐语，帮助快速判断是否值得阅读或推荐。
 - **标签**: 标签1, 标签2, 标签3
 ```
 
@@ -148,11 +128,18 @@ Use `readUrl` (BestBlogs 站内链接) for all article links. Use `url` only as 
 ### 1. [推文标题](readUrl)
 - **作者**: @username | **评分**: 91
 - **互动**: 👍 446 🔁 134 💬 36 👁 45K
-- **摘要**: 详细摘要内容
-- **核心观点**:
-  - **观点1**: 解释说明
-- **金句**: "关键引用原文"
+- **推荐**: 综合提炼的 2-3 句推荐语。
 ```
+
+### Recommendation Text Guidelines
+
+Synthesize from these fields to write the recommendation:
+- `oneSentenceSummary`: 核心内容一句话
+- `summary`: 详细分析
+- `mainPoints[].point` + `mainPoints[].explanation`: 核心观点
+- `keyQuotes[]`: 金句原文
+
+The recommendation should answer: **这篇文章讲了什么、有什么独特价值、为什么值得读。**
 
 ## Pagination
 

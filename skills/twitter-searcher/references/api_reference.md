@@ -1,35 +1,35 @@
-# XGo Twitter Searcher API Reference
+# XGo 推文搜索器 API 参考
 
-Base URL: `https://api.xgo.ing`
-Auth: Header `X-API-KEY` (env var `XGO_API_KEY`)
+接口地址: `https://api.xgo.ing`
+认证方式: 请求头 `X-API-KEY`（环境变量 `XGO_API_KEY`）
 
-## Table of Contents
+## 目录
 
-1. [Tweet Search](#tweet-search) - 实时搜索推文
-2. [Tweet Latest](#tweet-latest) - 获取用户最新推文
-3. [Tweet Refresh](#tweet-refresh) - 刷新指定推文数据
-4. [Data Types](#data-types) - TweetDTO 等
-5. [Error Codes](#error-codes)
+1. [搜索推文](#搜索推文) - 实时搜索推文
+2. [用户最新推文](#用户最新推文) - 获取用户最新推文
+3. [刷新推文](#刷新推文) - 刷新指定推文数据
+4. [数据类型](#数据类型) - TweetDTO 等
+5. [错误码](#错误码)
 
 ---
 
-## Tweet Search
+## 搜索推文
 
 `POST /openapi/v1/tweet/search`
 
 实时搜索推文（通过 Twitter API）。搜索失败时返回空列表（优雅降级）。
 
-### Request Body
+### 请求体
 
-| Field | Type | Required | Default | Description |
-|-------|------|----------|---------|-------------|
-| query | String | Yes | | 搜索查询（最大 500 字符），支持 Twitter 搜索运算符 |
-| queryType | String | No | Top | `Top`（热门）或 `Latest`（最新） |
-| maxResults | Integer | No | 20 | 最大结果数（最大 100） |
+| 字段 | 类型 | 必填 | 默认值 | 说明 |
+|------|------|------|--------|------|
+| query | String | 是 | | 搜索查询（最大 500 字符），支持 Twitter 搜索运算符 |
+| queryType | String | 否 | `Top` | `Top`（热门）或 `Latest`（最新） |
+| maxResults | Integer | 否 | 20 | 最大结果数（最大 100） |
 
-### Response
+### 响应
 
-**Note: This endpoint returns a flat array in `data`, NOT a paginated object. There is no `totalPage` or `currentPage`. All results are returned in a single response up to `maxResults`.**
+**注意: 此端点的 `data` 返回扁平数组，不是分页对象。没有 `totalPage` 或 `currentPage`。所有结果在单次响应中返回（不超过 `maxResults`）。**
 
 ```json
 {
@@ -41,9 +41,9 @@ Auth: Header `X-API-KEY` (env var `XGO_API_KEY`)
 }
 ```
 
-Returns empty list `[]` on search failure (graceful degradation).
+搜索失败时返回空列表 `[]`（优雅降级）。
 
-### Example
+### 示例
 
 ```bash
 curl -X POST https://api.xgo.ing/openapi/v1/tweet/search \
@@ -54,20 +54,20 @@ curl -X POST https://api.xgo.ing/openapi/v1/tweet/search \
 
 ---
 
-## Tweet Latest
+## 用户最新推文
 
 `GET /openapi/v1/tweet/latest`
 
 实时获取用户的最新推文（直接从 Twitter API 拉取）。
 
-### Parameters
+### 请求参数
 
-| Param | Type | Required | Default | Description |
-|-------|------|----------|---------|-------------|
-| userName | String | No | (from API Key) | 目标用户名，不填则为 API Key 对应用户 |
-| maxPages | Integer | No | 3 | 拉取页数（最大 5），每页约 20 条推文 |
+| 参数 | 类型 | 必填 | 默认值 | 说明 |
+|------|------|------|--------|------|
+| userName | String | 否 | (从 API Key 推断) | 目标用户名，不填则为 API Key 对应用户 |
+| maxPages | Integer | 否 | 3 | 拉取页数（最大 5），每页约 20 条推文 |
 
-### Response
+### 响应
 
 ```json
 {
@@ -79,7 +79,7 @@ curl -X POST https://api.xgo.ing/openapi/v1/tweet/search \
 }
 ```
 
-### Example
+### 示例
 
 ```bash
 curl "https://api.xgo.ing/openapi/v1/tweet/latest?userName=elonmusk&maxPages=3" \
@@ -88,19 +88,19 @@ curl "https://api.xgo.ing/openapi/v1/tweet/latest?userName=elonmusk&maxPages=3" 
 
 ---
 
-## Tweet Refresh
+## 刷新推文
 
 `POST /openapi/v1/tweet/refresh`
 
 按推文 ID 列表实时刷新推文数据（从 Twitter API 重新拉取最新互动数据）。
 
-### Request Body
+### 请求体
 
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
-| tweetIds | List\<String\> | Yes | 推文 ID 列表（最大 100 个） |
+| 字段 | 类型 | 必填 | 说明 |
+|------|------|------|------|
+| tweetIds | List\<String\> | 是 | 推文 ID 列表（最大 100 个） |
 
-### Response
+### 响应
 
 ```json
 {
@@ -112,7 +112,7 @@ curl "https://api.xgo.ing/openapi/v1/tweet/latest?userName=elonmusk&maxPages=3" 
 }
 ```
 
-### Example
+### 示例
 
 ```bash
 curl -X POST https://api.xgo.ing/openapi/v1/tweet/refresh \
@@ -123,12 +123,12 @@ curl -X POST https://api.xgo.ing/openapi/v1/tweet/refresh \
 
 ---
 
-## Data Types
+## 数据类型
 
 ### TweetDTO
 
-| Field | Type | Description |
-|-------|------|-------------|
+| 字段 | 类型 | 说明 |
+|------|------|------|
 | id | String | 推文唯一 ID |
 | url | String | 推文链接 `https://x.com/username/status/id` |
 | text | String | 推文文本内容 |
@@ -153,14 +153,14 @@ curl -X POST https://api.xgo.ing/openapi/v1/tweet/refresh \
 | retweetedTweet | TweetDTO | 转推原文完整信息 |
 | mediaList | List\<MediaDTO\> | 媒体列表 |
 | urlInfos | List\<UrlInfoDTO\> | URL 信息列表 |
-| hashTags | List\<HashTagDTO\> | Hashtag 列表 |
+| hashTags | List\<HashTagDTO\> | 话题标签列表 |
 | userMentions | List\<UserMentionDTO\> | @提及列表 |
 | tags | List\<String\> | 推文标签 |
 
 ### UserBrief
 
-| Field | Type | Description |
-|-------|------|-------------|
+| 字段 | 类型 | 说明 |
+|------|------|------|
 | id | String | 用户 ID |
 | name | String | 显示名称 |
 | userName | String | 用户名（@handle） |
@@ -168,8 +168,8 @@ curl -X POST https://api.xgo.ing/openapi/v1/tweet/refresh \
 
 ### MediaDTO
 
-| Field | Type | Description |
-|-------|------|-------------|
+| 字段 | 类型 | 说明 |
+|------|------|------|
 | idStr | String | 媒体 ID |
 | type | String | `photo`, `video`, `animated_gif` |
 | mediaUrlHttps | String | 媒体 URL |
@@ -179,37 +179,37 @@ curl -X POST https://api.xgo.ing/openapi/v1/tweet/refresh \
 
 ### HashTagDTO
 
-| Field | Type | Description |
-|-------|------|-------------|
+| 字段 | 类型 | 说明 |
+|------|------|------|
 | text | String | 标签文本（不含 #） |
 | indices | List\<Integer\> | 在文本中的位置 [start, end] |
 
 ### UserMentionDTO
 
-| Field | Type | Description |
-|-------|------|-------------|
+| 字段 | 类型 | 说明 |
+|------|------|------|
 | userId | String | 用户 ID |
 | name | String | 显示名称 |
 | userName | String | 用户名（@handle） |
 
 ---
 
-## Error Codes
+## 错误码
 
-**Important**: Some errors return HTTP 200 with `success: false` in the response body. Always check `response.success` or `response.code` — do not rely on HTTP status alone.
+**重要**: 部分错误返回 HTTP 200 但响应体中 `success: false`。始终检查 `response.success` 或 `response.code` — 不要仅依赖 HTTP 状态码。
 
-| Code | HTTP Status | Description |
-|------|-------------|-------------|
+| 错误码 | HTTP 状态码 | 说明 |
+|--------|------------|------|
 | AUTH_001 | 401 | API Key 缺失 |
 | AUTH_002 | 401 | API Key 无效 |
 | AUTH_003 | 401 | 用户设置无效 |
 | AUTH_004 | 403 | 需要 Plus 或 Pro 会员 |
 | xgo-0001 | **200** | 用户不存在（注意: HTTP 状态码为 200，需检查 `success` 字段） |
-| xgo-0010 | 429 | 频率限制（PLUS 200/min, PRO 600/min） |
+| xgo-0010 | 429 | 频率限制（PLUS 200次/分, PRO 600次/分） |
 | xgo-1001 | 400 | 参数错误 |
 | xgo-9999 | 500 | 系统错误 |
 
-## Common Response Format
+## 统一响应格式
 
 ```json
 {

@@ -1,92 +1,92 @@
 ---
 name: twitter-fetcher
-description: "Fetch tweets from XGo (xgo.ing) OpenAPI - following timeline, recommendations, lists, tags, and bookmarks. Use when user wants to: (1) get latest tweets from their Twitter/X timeline, (2) fetch trending or high-influence tweets, (3) browse tweets from a specific list or tag, (4) get recommended tweets, (5) filter tweets by language/time/type. Triggered by phrases like '拉取推文', '获取推特', 'fetch tweets', 'get twitter', 'xgo推文', '我的推特Timeline', '今天的推文', 'twitter timeline', '看看推特', '推文列表', '推荐推文', or any mention of tweet/twitter fetching from XGo."
+description: "通过 XGo (xgo.ing) 开放接口拉取推文 — 关注者时间线、推荐、列表、标签、收藏。适用场景: (1) 拉取 Twitter/X 时间线最新推文, (2) 获取高影响力/热门推文, (3) 浏览特定列表或标签的推文, (4) 获取推荐推文, (5) 按语言/时间/类型筛选推文。触发短语: '拉取推文', '获取推特', 'fetch tweets', 'get twitter', 'xgo推文', '我的推特Timeline', '今天的推文', 'twitter timeline', '看看推特', '推文列表', '推荐推文', 或任何与 XGo 推文拉取相关的表述。"
 ---
 
-# Twitter Fetcher
+# 推文拉取器 (Twitter Fetcher)
 
-Fetch tweets from XGo (xgo.ing) OpenAPI. Supports following timeline, recommendations, lists, tags, and bookmarks.
+通过 XGo (xgo.ing) 开放接口拉取推文。支持关注者时间线、推荐、列表、标签和收藏等多种查询方式。
 
-For full API parameter details, read `references/api_reference.md`.
+完整 API 参数详情见 `references/api_reference.md`。
 
-## Auth
+## 认证
 
-All requests require header `X-API-KEY`. Read the key from environment variable `XGO_API_KEY`:
+所有请求需要 `X-API-KEY` 请求头。从环境变量 `XGO_API_KEY` 读取密钥:
 
 ```bash
 -H "X-API-KEY: $XGO_API_KEY"
 ```
 
-If `XGO_API_KEY` is not set, prompt the user to configure it.
+若 `XGO_API_KEY` 未设置，提示用户配置。
 
-API Base URL: `https://api.xgo.ing`
+接口地址: `https://api.xgo.ing`
 
-The API Key is bound to a specific XGo user account. The server auto-fills `userName` from the authenticated key, so `userName` is **optional** in most requests. Only provide `userName` when `queryType=user` to query another user's public tweets.
+API Key 绑定特定 XGo 用户账号。服务端会自动从密钥推断 `userName`，因此大多数请求中 `userName` 为**可选**参数。仅在 `queryType=user` 时需要指定 `userName` 以查询其他用户的公开推文。
 
-## Default Fetch Strategy
+## 默认拉取策略
 
-When user does not specify filters, use these defaults:
-- `queryType`: `following` (关注者推文)
-- `timeRange`: `LAST_24H` (近 24 小时)
-- `sortType`: `influence` (按影响力排序)
-- `tweetType`: `NO_RETWEET` (排除纯转推)
+用户未指定筛选条件时，使用以下默认值:
+- `queryType`: `following`（关注者推文）
+- `timeRange`: `LAST_24H`（近 24 小时）
+- `sortType`: `influence`（按影响力排序）
+- `tweetType`: `NO_RETWEET`（排除纯转推）
 - `pageSize`: 50
-- Client-side filter: `influenceScore >= 50`
-- Default output count: **20** items (adjustable per user request)
+- 客户端过滤: `influenceScore >= 50`
+- 默认输出数量: **20** 条（可根据用户要求调整）
 
-### Fetch Plan (3 parallel requests)
+### 拉取方案（3 个并行请求）
 
 ```bash
-# 1. Following tweets - page 1 (50 items)
+# 1. 关注者推文 - 第1页（50条）
 curl -s -X POST https://api.xgo.ing/openapi/v1/tweet/list \
   -H "Content-Type: application/json" \
   -H "X-API-KEY: $XGO_API_KEY" \
   -d '{"queryType":"following","timeRange":"LAST_24H","sortType":"influence","tweetType":"NO_RETWEET","currentPage":1,"pageSize":50}'
 
-# 2. Following tweets - page 2 (50 items)
+# 2. 关注者推文 - 第2页（50条）
 curl -s -X POST https://api.xgo.ing/openapi/v1/tweet/list \
   -H "Content-Type: application/json" \
   -H "X-API-KEY: $XGO_API_KEY" \
   -d '{"queryType":"following","timeRange":"LAST_24H","sortType":"influence","tweetType":"NO_RETWEET","currentPage":2,"pageSize":50}'
 
-# 3. Recommendation tweets (50 items)
+# 3. 推荐推文（50条）
 curl -s -X POST https://api.xgo.ing/openapi/v1/tweet/list \
   -H "Content-Type: application/json" \
   -H "X-API-KEY: $XGO_API_KEY" \
   -d '{"queryType":"recommendation","timeRange":"LAST_24H","sortType":"influence","tweetType":"NO_RETWEET","currentPage":1,"pageSize":50}'
 ```
 
-Run all requests in parallel. **Always explicitly pass `sortType`** — the server default is `recent`, but this skill defaults to `influence`.
+并行执行所有请求。**必须显式传递 `sortType`** — 服务端默认值为 `recent`，本 skill 默认覆盖为 `influence`。
 
-If `totalPage > currentPage`, fetch up to **4 pages total per queryType** (the plan already covers 2). If there are more pages, inform the user that results are truncated and suggest narrowing `timeRange` or raising `influenceScore` filter.
+若 `totalPage > currentPage`，每个 queryType 最多拉取 **4 页**（方案中已覆盖 2 页）。若还有更多页，告知用户结果已截断，建议缩小 `timeRange` 或提高 `influenceScore` 过滤阈值。
 
-**Note on client-side filter**: `recommendation` queryType already enforces `influenceScore >= 100` server-side. The `>= 50` client-side filter effectively applies only to `following` results.
+**客户端过滤说明**: `recommendation` 查询类型服务端已强制过滤 `influenceScore >= 100`，`>= 50` 的客户端过滤实际仅作用于 `following` 结果。
 
-### Fetch Plans by Scenario
+### 分场景拉取方案
 
-**Default (following + recommendation)**: Use the 3-request parallel plan above.
+**默认场景（关注 + 推荐）**: 使用上方 3 个并行请求的方案。
 
-**User's own tweets** (`queryType: "user"`):
+**用户自己的推文**（`queryType: "user"`）:
 ```bash
 curl -s -X POST https://api.xgo.ing/openapi/v1/tweet/list \
   -H "Content-Type: application/json" \
   -H "X-API-KEY: $XGO_API_KEY" \
   -d '{"queryType":"user","sortType":"recent","currentPage":1,"pageSize":100}'
 ```
-No `influenceScore` filter needed for own tweets.
+自己的推文无需 `influenceScore` 过滤。
 
-**Bookmark tweets** (`queryType: "bookmark"`):
+**收藏推文**（`queryType: "bookmark"`）:
 ```bash
 curl -s -X POST https://api.xgo.ing/openapi/v1/tweet/list \
   -H "Content-Type: application/json" \
   -H "X-API-KEY: $XGO_API_KEY" \
   -d '{"queryType":"bookmark","sortType":"recent","currentPage":1,"pageSize":100}'
 ```
-No `influenceScore` filter — bookmarks are intentional saves. Use `folderId` to narrow to a specific folder.
+收藏推文无需 `influenceScore` 过滤 — 收藏是用户主动保存的内容。可用 `folderId` 限定特定收藏夹。
 
-### Adjusting Parameters
+### 参数调整
 
-Adjust based on user input:
+根据用户输入调整参数:
 - "今天的推文" → `timeRange: "TODAY"`
 - "本周推文" → `timeRange: "WEEK"`
 - "本月推文" → `timeRange: "MONTH"`
@@ -97,35 +97,35 @@ Adjust based on user input:
 - "只看原创" → `tweetType: "ORIGINAL"`
 - "包括回复" → `tweetType: "ALL"`
 - "搜索 AI" → `keyword: "AI"`
-- "某个 List" → `listId: "xxx"` (需要用户提供 List ID，目前无列表发现端点)
+- "某个 List" → `listId: "xxx"`（需要用户提供 List ID，目前无列表发现端点）
 - "标签 xxx" → `tags: ["xxx"]`
 - "推荐推文" → `queryType: "recommendation"`
-- "我的推文" → `queryType: "user"` (使用 user 场景 fetch plan)
-- "收藏推文" → `queryType: "bookmark"` (使用 bookmark 场景 fetch plan)
-- "给我 50 条" → output 50 items instead of default 20
-- "影响力 80 以上" → client-side filter influenceScore >= 80
+- "我的推文" → `queryType: "user"`（使用"用户自己的推文"拉取方案）
+- "收藏推文" → `queryType: "bookmark"`（使用"收藏推文"拉取方案）
+- "给我 50 条" → 输出 50 条而非默认 20 条
+- "影响力 80 以上" → 客户端过滤 influenceScore >= 80
 
-## Helper Endpoints
+## 辅助端点
 
-### Get User Languages
+### 获取用户语言列表
 
 ```bash
 curl -s "https://api.xgo.ing/openapi/v1/tweet/languages" \
   -H "X-API-KEY: $XGO_API_KEY"
 ```
 
-Returns available tweet languages. Can be used to set `lang` filter.
+返回可用的推文语言列表，可用于设置 `lang` 筛选。
 
-### Get Following Tags
+### 获取关注者标签
 
 ```bash
 curl -s "https://api.xgo.ing/openapi/v1/tweet/tags" \
   -H "X-API-KEY: $XGO_API_KEY"
 ```
 
-Returns following tags sorted by frequency. Can be used to set `tags` filter.
+返回关注者标签（按频率排序），可用于设置 `tags` 筛选。
 
-### Batch Query Tweets
+### 按 ID 批量查询推文
 
 ```bash
 curl -s -X POST https://api.xgo.ing/openapi/v1/tweet/batch \
@@ -134,36 +134,36 @@ curl -s -X POST https://api.xgo.ing/openapi/v1/tweet/batch \
   -d '{"tweetIds":["1234567890","9876543210"]}'
 ```
 
-Query specific tweets by ID from DB cache. Useful for re-checking bookmarked or saved tweet IDs.
+从 DB 缓存中按推文 ID 批量查询。适用于重新检查已收藏或已保存的推文。
 
-## Available Endpoints
+## 可用端点
 
-| Endpoint | Method | Use Case |
-|----------|--------|----------|
+| 端点 | 方法 | 用途 |
+|------|------|------|
 | `/openapi/v1/tweet/list` | POST | 查询推文列表（最常用） |
 | `/openapi/v1/tweet/batch` | POST | 按 ID 批量查询推文 |
 | `/openapi/v1/tweet/languages` | GET | 获取用户推文语言 |
 | `/openapi/v1/tweet/tags` | GET | 获取关注者标签 |
 
-For complete request/response field details, see `references/api_reference.md`.
+完整请求/响应字段详情见 `references/api_reference.md`。
 
-## Core Workflow
+## 核心工作流
 
-### Step 1: Fetch Pages (with cap)
+### 第一步: 拉取数据（有页数上限）
 
-Make parallel requests per the appropriate Fetch Plan. Check `totalPage` and fetch up to **4 pages total per queryType**. If more pages exist, note the truncation to the user.
+按对应拉取方案并行请求。检查 `totalPage`，每个 queryType 最多拉取 **4 页**。若还有更多页，向用户说明结果已截断。
 
-### Step 2: Client-side Filter & Deduplicate
+### 第二步: 客户端过滤与去重
 
-1. **Influence filter**: For `following` results, keep items with `influenceScore >= 50` (or user-specified threshold). Skip this filter for `bookmark` and `user` queryTypes.
-2. **Deduplicate**: Match by tweet `id` field (guaranteed unique). If same tweet appears in both `following` and `recommendation`, keep one copy.
-3. **Sort**: By `influenceScore` descending, then by `createdAt` descending
+1. **影响力过滤**: 对 `following` 结果，保留 `influenceScore >= 50`（或用户指定阈值）。`bookmark` 和 `user` 查询类型跳过此过滤。
+2. **去重**: 按推文 `id` 字段匹配（保证唯一）。若同一推文同时出现在 `following` 和 `recommendation` 中，仅保留一条。
+3. **排序**: 按 `influenceScore` 降序，其次按 `createdAt` 降序。
 
-### Step 3: Output Full Details
+### 第三步: 输出完整详情
 
-Output all API detail fields for each tweet. Do NOT summarize or compress — downstream skills need full data for quality assessment.
+输出每条推文的所有 API 字段。**不要概括或压缩** — 下游 skill 需要完整数据进行质量评估。
 
-## Output Format
+## 输出格式
 
 ```markdown
 ## XGo 推文列表 (YYYY-MM-DD, 近 X 时, 共 N 条)
@@ -187,7 +187,7 @@ Output all API detail fields for each tweet. Do NOT summarize or compress — do
 ...
 ```
 
-### Output Field Mapping
+### 输出字段映射
 
 | 输出字段 | API 字段 | 说明 |
 |---------|---------|------|
@@ -209,34 +209,34 @@ Output all API detail fields for each tweet. Do NOT summarize or compress — do
 | 媒体 | `mediaList` | 统计图片/视频数量 |
 | 引用推文 | `quotedTweet` | 摘要引用推文内容 |
 
-### Output Completeness Rules
+### 输出完整性规则
 
-- `text`: Output in full, never truncate
-- `hashTags`: Output ALL tags
-- `userMentions`: Output ALL mentions
-- `mediaList`: Count and describe all media items
-- `quotedTweet`: Include author and text excerpt
-- The `**互动**` line is always included; individual emoji-metric pairs within it are omitted only if their value is null or zero
-- If `hashTags`, `userMentions`, or `mediaList` is empty/null, omit that line
-- If `quotedTweet` is null, omit that line
+- `text`: 完整输出，不得截断
+- `hashTags`: 输出全部标签
+- `userMentions`: 输出全部提及
+- `mediaList`: 统计并描述所有媒体
+- `quotedTweet`: 包含作者和文本摘要
+- `**互动**` 行始终保留；其中单个指标为 null 或 0 时省略该指标
+- `hashTags`、`userMentions`、`mediaList` 为空/null 时省略该行
+- `quotedTweet` 为 null 时省略该行
 
-## Error Handling
+## 错误处理
 
-**Important**: Always check `response.success` before processing `response.data`. Some errors return HTTP 200 with `success: false` — do not rely on HTTP status alone.
+**重要**: 始终先检查 `response.success` 再处理 `response.data`。部分错误返回 HTTP 200 但 `success: false` — 不要仅依赖 HTTP 状态码。
 
-- `401`: Check if `XGO_API_KEY` is set and valid
-- `403`: OpenAPI access requires Plus or Pro membership
-- `429`: Rate limit exceeded — wait 10 seconds, retry once. If still 429, report to user: "频率限制，请稍后重试。" (PLUS 200 req/min, PRO 600 req/min)
-- `success: false` with non-zero `code`: Read `code` and `message` from response body, match against error codes in api_reference
-- Empty `data`: User may have no followings, or time range too narrow — try widening `timeRange`
-- `totalSize: 0`: No tweets match the query, suggest adjusting filters
+- `401`: 检查 `XGO_API_KEY` 是否已设置且有效
+- `403`: 开放接口需要 Plus 或 Pro 会员
+- `429`: 频率限制 — 等待 10 秒后重试一次。若仍为 429，告知用户: "频率限制，请稍后重试。"（PLUS 200次/分, PRO 600次/分）
+- `success: false` 且 `code` 非零: 读取响应体中的 `code` 和 `message`，对照 api_reference 中的错误码处理
+- `data` 为空: 用户可能没有关注者，或时间范围太窄 — 建议扩大 `timeRange`
+- `totalSize: 0`: 无推文匹配查询条件，建议调整筛选参数
 
-## Common Filters Quick Reference
+## 常用筛选参数速查
 
-| Filter | Values |
-|--------|--------|
+| 参数 | 可选值 |
+|------|--------|
 | queryType | `following`, `recommendation`, `user`, `bookmark` |
 | tweetType | `ALL`, `NO_REPLY`, `NO_RETWEET`, `ORIGINAL`, `NO_QUOTE` |
 | timeRange | `TODAY`, `LAST_24H`, `WEEK`, `MONTH` |
 | sortType | `recent`, `influence`, `replyCount`, `quoteCount`, `likeCount`, `viewCount` |
-| lang | `en`, `zh`, `ja`, `ko`, etc. / `ALL` for no filter |
+| lang | `en`, `zh`, `ja`, `ko` 等 / `ALL` 不过滤 |

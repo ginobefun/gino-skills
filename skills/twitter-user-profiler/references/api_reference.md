@@ -1,31 +1,31 @@
-# XGo Twitter User Profiler API Reference
+# XGo 用户画像查看器 API 参考
 
-Base URL: `https://api.xgo.ing`
-Auth: Header `X-API-KEY` (env var `XGO_API_KEY`)
+接口地址: `https://api.xgo.ing`
+认证方式: 请求头 `X-API-KEY`（环境变量 `XGO_API_KEY`）
 
-## Table of Contents
+## 目录
 
-1. [User Info](#user-info) - 实时获取用户资料
-2. [User Details](#user-details) - 从 DB 查询用户详情
-3. [Tweet Latest](#tweet-latest) - 获取用户最新推文
-4. [Data Types](#data-types) - UserDTO, TweetDTO 等
-5. [Error Codes](#error-codes)
+1. [实时用户资料](#实时用户资料) - 实时获取用户资料
+2. [缓存用户详情](#缓存用户详情) - 从 DB 查询用户详情
+3. [用户最新推文](#用户最新推文) - 获取用户最新推文
+4. [数据类型](#数据类型) - UserDTO, TweetDTO 等
+5. [错误码](#错误码)
 
 ---
 
-## User Info
+## 实时用户资料
 
 `GET /openapi/v1/user/info`
 
 实时从 Twitter API 获取用户信息并刷新 DB 缓存。
 
-### Parameters
+### 请求参数
 
-| Param | Type | Required | Default | Description |
-|-------|------|----------|---------|-------------|
-| userName | String | No | (from API Key) | Twitter 用户名，不填则为 API Key 对应用户 |
+| 参数 | 类型 | 必填 | 默认值 | 说明 |
+|------|------|------|--------|------|
+| userName | String | 否 | (从 API Key 推断) | Twitter 用户名，不填则为 API Key 对应用户 |
 
-### Response
+### 响应
 
 ```json
 {
@@ -37,7 +37,7 @@ Auth: Header `X-API-KEY` (env var `XGO_API_KEY`)
 }
 ```
 
-### Example
+### 示例
 
 ```bash
 curl "https://api.xgo.ing/openapi/v1/user/info?userName=elonmusk" \
@@ -46,22 +46,22 @@ curl "https://api.xgo.ing/openapi/v1/user/info?userName=elonmusk" \
 
 ---
 
-## User Details
+## 缓存用户详情
 
 `GET /openapi/v1/user/details`
 
-从 DB 缓存查询用户详情。`userId` 和 `feedId` 二选一。
+从 DB 缓存查询用户详情。`userId` 和 `feedId` 二选一，至少提供一个。
 
-### Parameters
+### 请求参数
 
-| Param | Type | Required | Description |
-|-------|------|----------|-------------|
-| userId | String | No | 用户 ID |
-| feedId | String | No | RSS Feed ID |
+| 参数 | 类型 | 必填 | 说明 |
+|------|------|------|------|
+| userId | String | 否 | 用户 ID |
+| feedId | String | 否 | RSS Feed ID（XGo 内部分配的 Feed 标识，来自之前 API 响应中 UserDTO 的 `feedId` 字段） |
 
-At least one of `userId` or `feedId` must be provided.
+`userId` 和 `feedId` 必须至少提供一个。若两者都没有但有 `userName`，应改用 `user/info` 端点。
 
-### Response
+### 响应
 
 ```json
 {
@@ -73,7 +73,7 @@ At least one of `userId` or `feedId` must be provided.
 }
 ```
 
-### Example
+### 示例
 
 ```bash
 curl "https://api.xgo.ing/openapi/v1/user/details?userId=44196397" \
@@ -82,20 +82,20 @@ curl "https://api.xgo.ing/openapi/v1/user/details?userId=44196397" \
 
 ---
 
-## Tweet Latest
+## 用户最新推文
 
 `GET /openapi/v1/tweet/latest`
 
 实时获取用户的最新推文（直接从 Twitter API 拉取）。
 
-### Parameters
+### 请求参数
 
-| Param | Type | Required | Default | Description |
-|-------|------|----------|---------|-------------|
-| userName | String | No | (from API Key) | 目标用户名 |
-| maxPages | Integer | No | 3 | 拉取页数（最大 5），每页约 20 条推文 |
+| 参数 | 类型 | 必填 | 默认值 | 说明 |
+|------|------|------|--------|------|
+| userName | String | 否 | (从 API Key 推断) | 目标用户名 |
+| maxPages | Integer | 否 | 3 | 拉取页数（最大 5），每页约 20 条推文 |
 
-### Response
+### 响应
 
 ```json
 {
@@ -107,7 +107,7 @@ curl "https://api.xgo.ing/openapi/v1/user/details?userId=44196397" \
 }
 ```
 
-### Example
+### 示例
 
 ```bash
 curl "https://api.xgo.ing/openapi/v1/tweet/latest?userName=elonmusk&maxPages=3" \
@@ -116,15 +116,15 @@ curl "https://api.xgo.ing/openapi/v1/tweet/latest?userName=elonmusk&maxPages=3" 
 
 ---
 
-## Data Types
+## 数据类型
 
 ### UserDTO
 
-| Field | Type | Description |
-|-------|------|-------------|
+| 字段 | 类型 | 说明 |
+|------|------|------|
 | id | String | Twitter 用户 ID |
 | name | String | 显示名称 |
-| userName | String | Twitter handle (@用户名) |
+| userName | String | Twitter handle（@用户名） |
 | profileImageUrl | String | 头像 URL |
 | url | String | 用户网站 URL |
 | location | String | 位置 |
@@ -136,9 +136,9 @@ curl "https://api.xgo.ing/openapi/v1/tweet/latest?userName=elonmusk&maxPages=3" 
 | mediaCount | Integer | 媒体数 |
 | createdAt | Date | 账号创建日期 |
 | coverPicture | String | 封面图片 URL |
-| profileBio | ProfileBioDTO | 结构化 bio（含 URL 链接） |
+| profileBio | ProfileBioDTO | 结构化简介（含 URL 链接） |
 | tags | List\<String\> | 用户标签 |
-| feedId | String | RSS Feed ID |
+| feedId | String | RSS Feed ID（XGo 内部标识） |
 | latestTweetTime | Date | 最近推文时间 |
 | latestFetchTime | Date | 最近数据拉取时间 |
 
@@ -146,8 +146,8 @@ curl "https://api.xgo.ing/openapi/v1/tweet/latest?userName=elonmusk&maxPages=3" 
 
 结构化的用户简介，包含 URL 和实体信息。
 
-| Field | Type | Description |
-|-------|------|-------------|
+| 字段 | 类型 | 说明 |
+|------|------|------|
 | description | String | 简介文本（与 UserDTO.description 相同） |
 | descriptionUrls | List\<UrlEntity\> | 简介中的 URL 实体列表，每项含 `url`, `expandedUrl`, `displayUrl` |
 | website | UrlEntity | 用户网站 URL 实体，含 `url`, `expandedUrl`, `displayUrl` |
@@ -165,8 +165,8 @@ curl "https://api.xgo.ing/openapi/v1/tweet/latest?userName=elonmusk&maxPages=3" 
 
 ### TweetDTO
 
-| Field | Type | Description |
-|-------|------|-------------|
+| 字段 | 类型 | 说明 |
+|------|------|------|
 | id | String | 推文唯一 ID |
 | url | String | 推文链接 |
 | text | String | 推文文本内容 |
@@ -191,14 +191,14 @@ curl "https://api.xgo.ing/openapi/v1/tweet/latest?userName=elonmusk&maxPages=3" 
 | retweetedTweet | TweetDTO | 转推原文完整信息 |
 | mediaList | List\<MediaDTO\> | 媒体列表 |
 | urlInfos | List\<UrlInfoDTO\> | URL 信息列表 |
-| hashTags | List\<HashTagDTO\> | Hashtag 列表 |
+| hashTags | List\<HashTagDTO\> | 话题标签列表 |
 | userMentions | List\<UserMentionDTO\> | @提及列表 |
 | tags | List\<String\> | 推文标签 |
 
 ### UserBrief
 
-| Field | Type | Description |
-|-------|------|-------------|
+| 字段 | 类型 | 说明 |
+|------|------|------|
 | id | String | 用户 ID |
 | name | String | 显示名称 |
 | userName | String | 用户名（@handle） |
@@ -206,8 +206,8 @@ curl "https://api.xgo.ing/openapi/v1/tweet/latest?userName=elonmusk&maxPages=3" 
 
 ### MediaDTO
 
-| Field | Type | Description |
-|-------|------|-------------|
+| 字段 | 类型 | 说明 |
+|------|------|------|
 | idStr | String | 媒体 ID |
 | type | String | `photo`, `video`, `animated_gif` |
 | mediaUrlHttps | String | 媒体 URL |
@@ -220,8 +220,8 @@ curl "https://api.xgo.ing/openapi/v1/tweet/latest?userName=elonmusk&maxPages=3" 
 
 ### UrlInfoDTO
 
-| Field | Type | Description |
-|-------|------|-------------|
+| 字段 | 类型 | 说明 |
+|------|------|------|
 | url | String | 短链接 |
 | expandedUrl | String | 展开后的完整 URL |
 | displayUrl | String | 显示 URL |
@@ -229,37 +229,37 @@ curl "https://api.xgo.ing/openapi/v1/tweet/latest?userName=elonmusk&maxPages=3" 
 
 ### HashTagDTO
 
-| Field | Type | Description |
-|-------|------|-------------|
+| 字段 | 类型 | 说明 |
+|------|------|------|
 | text | String | 标签文本（不含 #） |
 | indices | List\<Integer\> | 在文本中的位置 [start, end] |
 
 ### UserMentionDTO
 
-| Field | Type | Description |
-|-------|------|-------------|
+| 字段 | 类型 | 说明 |
+|------|------|------|
 | userId | String | 用户 ID |
 | name | String | 显示名称 |
 | userName | String | 用户名（@handle） |
 
 ---
 
-## Error Codes
+## 错误码
 
-**Important**: Some errors return HTTP 200 with `success: false` in the response body. Always check `response.success` or `response.code` — do not rely on HTTP status alone.
+**重要**: 部分错误返回 HTTP 200 但响应体中 `success: false`。始终检查 `response.success` 或 `response.code` — 不要仅依赖 HTTP 状态码。
 
-| Code | HTTP Status | Description |
-|------|-------------|-------------|
+| 错误码 | HTTP 状态码 | 说明 |
+|--------|------------|------|
 | AUTH_001 | 401 | API Key 缺失 |
 | AUTH_002 | 401 | API Key 无效 |
 | AUTH_003 | 401 | 用户设置无效 |
 | AUTH_004 | 403 | 需要 Plus 或 Pro 会员 |
 | xgo-0001 | **200** | 用户不存在（注意: HTTP 状态码为 200，需检查 `success` 字段） |
-| xgo-0010 | 429 | 频率限制（PLUS 200/min, PRO 600/min） |
+| xgo-0010 | 429 | 频率限制（PLUS 200次/分, PRO 600次/分） |
 | xgo-1001 | 400 | 参数错误 |
 | xgo-9999 | 500 | 系统错误 |
 
-## Common Response Format
+## 统一响应格式
 
 ```json
 {

@@ -1,45 +1,45 @@
-# XGo Twitter Fetcher API Reference
+# XGo 推文拉取器 API 参考
 
-Base URL: `https://api.xgo.ing`
-Auth: Header `X-API-KEY` (env var `XGO_API_KEY`)
+接口地址: `https://api.xgo.ing`
+认证方式: 请求头 `X-API-KEY`（环境变量 `XGO_API_KEY`）
 
-The API Key is per-user. The server resolves `userName` from the API Key automatically.
+API Key 按用户绑定。服务端自动从 API Key 推断 `userName`。
 
-## Table of Contents
+## 目录
 
-1. [Tweet List](#tweet-list) - 查询推文列表（分页）
-2. [Tweet Batch](#tweet-batch) - 按 ID 批量查询推文
-3. [Tweet Languages](#tweet-languages) - 获取用户推文语言
-4. [Tweet Tags](#tweet-tags) - 获取关注者标签
-5. [Data Types](#data-types) - TweetDTO, UserBrief, MediaDTO 等
-6. [Enums](#enums) - 枚举值速查
+1. [推文列表](#推文列表) - 查询推文列表（分页）
+2. [批量查询推文](#批量查询推文) - 按 ID 批量查询推文
+3. [推文语言](#推文语言) - 获取用户推文语言
+4. [关注者标签](#关注者标签) - 获取关注者标签
+5. [数据类型](#数据类型) - TweetDTO, UserBrief, MediaDTO 等
+6. [枚举值](#枚举值) - 枚举值速查
 
 ---
 
-## Tweet List
+## 推文列表
 
 `POST /openapi/v1/tweet/list`
 
 查询推文列表，支持多种查询类型、时间范围、排序方式。**最常用的端点。**
 
-### Request Body
+### 请求体
 
-| Field | Type | Required | Default | Description |
-|-------|------|----------|---------|-------------|
-| currentPage | Integer | Yes | | 页码（1-based） |
-| pageSize | Integer | Yes | | 每页数量（最大 100） |
-| userName | String | No | (from API Key) | `queryType=user` 时可指定目标用户；其他场景自动使用 API Key 用户 |
-| queryType | String | No | | 查询类型，见 [QueryType](#querytype) |
-| tweetType | String | No | | 推文类型过滤，见 [TweetType](#tweettype) |
-| lang | String | No | | 语言过滤（如 `en`, `zh`），`ALL` 不过滤 |
-| timeRange | String | No | | 时间范围，见 [TimeRange](#timerange) |
-| keyword | String | No | | 搜索关键词 |
-| listId | String | No | | List ID（查询特定 List 中成员的推文） |
-| folderId | String | No | | 收藏夹 ID（`bookmark` 查询类型时使用） |
-| tags | List\<String\> | No | | 标签过滤 |
-| sortType | String | No | recent (服务端默认; skill 覆盖为 `influence`) | 排序方式，见 [SortType](#sorttype)。**必须显式传递**，不要依赖默认值 |
+| 字段 | 类型 | 必填 | 默认值 | 说明 |
+|------|------|------|--------|------|
+| currentPage | Integer | 是 | | 页码（从 1 开始） |
+| pageSize | Integer | 是 | | 每页数量（最大 100） |
+| userName | String | 否 | (从 API Key 推断) | `queryType=user` 时可指定目标用户；其他场景自动使用 API Key 用户 |
+| queryType | String | 否 | | 查询类型，见 [QueryType](#querytype) |
+| tweetType | String | 否 | | 推文类型过滤，见 [TweetType](#tweettype) |
+| lang | String | 否 | | 语言过滤（如 `en`, `zh`），`ALL` 不过滤 |
+| timeRange | String | 否 | | 时间范围，见 [TimeRange](#timerange) |
+| keyword | String | 否 | | 搜索关键词 |
+| listId | String | 否 | | 列表 ID（查询特定列表中成员的推文） |
+| folderId | String | 否 | | 收藏夹 ID（`bookmark` 查询类型时使用） |
+| tags | List\<String\> | 否 | | 标签过滤 |
+| sortType | String | 否 | `recent`（服务端默认; skill 覆盖为 `influence`） | 排序方式，见 [SortType](#sorttype)。**必须显式传递**，不要依赖默认值 |
 
-### Response
+### 响应
 
 ```json
 {
@@ -57,7 +57,7 @@ The API Key is per-user. The server resolves `userName` from the API Key automat
 }
 ```
 
-### Example
+### 示例
 
 ```bash
 curl -X POST https://api.xgo.ing/openapi/v1/tweet/list \
@@ -75,19 +75,19 @@ curl -X POST https://api.xgo.ing/openapi/v1/tweet/list \
 
 ---
 
-## Tweet Batch
+## 批量查询推文
 
 `POST /openapi/v1/tweet/batch`
 
 按推文 ID 列表批量查询推文（从 DB 缓存）。
 
-### Request Body
+### 请求体
 
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
-| tweetIds | List\<String\> | Yes | 推文 ID 列表 |
+| 字段 | 类型 | 必填 | 说明 |
+|------|------|------|------|
+| tweetIds | List\<String\> | 是 | 推文 ID 列表 |
 
-### Response
+### 响应
 
 ```json
 {
@@ -97,7 +97,7 @@ curl -X POST https://api.xgo.ing/openapi/v1/tweet/list \
 }
 ```
 
-### Example
+### 示例
 
 ```bash
 curl -X POST https://api.xgo.ing/openapi/v1/tweet/batch \
@@ -108,19 +108,19 @@ curl -X POST https://api.xgo.ing/openapi/v1/tweet/batch \
 
 ---
 
-## Tweet Languages
+## 推文语言
 
 `GET /openapi/v1/tweet/languages`
 
 获取用户的推文语言列表。
 
-### Parameters
+### 请求参数
 
-| Param | Type | Required | Description |
-|-------|------|----------|-------------|
-| userName | String | No | 自动从 API Key 推断 |
+| 参数 | 类型 | 必填 | 说明 |
+|------|------|------|------|
+| userName | String | 否 | 自动从 API Key 推断 |
 
-### Response
+### 响应
 
 ```json
 {
@@ -130,7 +130,7 @@ curl -X POST https://api.xgo.ing/openapi/v1/tweet/batch \
 }
 ```
 
-### Example
+### 示例
 
 ```bash
 curl "https://api.xgo.ing/openapi/v1/tweet/languages" \
@@ -139,19 +139,19 @@ curl "https://api.xgo.ing/openapi/v1/tweet/languages" \
 
 ---
 
-## Tweet Tags
+## 关注者标签
 
 `GET /openapi/v1/tweet/tags`
 
 获取用户关注者的标签列表，按出现频率排序。
 
-### Parameters
+### 请求参数
 
-| Param | Type | Required | Description |
-|-------|------|----------|-------------|
-| userName | String | No | 自动从 API Key 推断 |
+| 参数 | 类型 | 必填 | 说明 |
+|------|------|------|------|
+| userName | String | 否 | 自动从 API Key 推断 |
 
-### Response
+### 响应
 
 ```json
 {
@@ -161,7 +161,7 @@ curl "https://api.xgo.ing/openapi/v1/tweet/languages" \
 }
 ```
 
-### Example
+### 示例
 
 ```bash
 curl "https://api.xgo.ing/openapi/v1/tweet/tags" \
@@ -170,12 +170,12 @@ curl "https://api.xgo.ing/openapi/v1/tweet/tags" \
 
 ---
 
-## Data Types
+## 数据类型
 
 ### TweetDTO
 
-| Field | Type | Description |
-|-------|------|-------------|
+| 字段 | 类型 | 说明 |
+|------|------|------|
 | id | String | 推文唯一 ID |
 | url | String | 推文链接 `https://x.com/username/status/id` |
 | text | String | 推文文本内容 |
@@ -200,14 +200,14 @@ curl "https://api.xgo.ing/openapi/v1/tweet/tags" \
 | retweetedTweet | TweetDTO | 转推原文完整信息 |
 | mediaList | List\<MediaDTO\> | 媒体列表 |
 | urlInfos | List\<UrlInfoDTO\> | URL 信息列表 |
-| hashTags | List\<HashTagDTO\> | Hashtag 列表 |
+| hashTags | List\<HashTagDTO\> | 话题标签列表 |
 | userMentions | List\<UserMentionDTO\> | @提及列表 |
 | tags | List\<String\> | 推文标签 |
 
 ### UserBrief
 
-| Field | Type | Description |
-|-------|------|-------------|
+| 字段 | 类型 | 说明 |
+|------|------|------|
 | id | String | 用户 ID |
 | name | String | 显示名称 |
 | userName | String | 用户名（@handle） |
@@ -215,8 +215,8 @@ curl "https://api.xgo.ing/openapi/v1/tweet/tags" \
 
 ### MediaDTO
 
-| Field | Type | Description |
-|-------|------|-------------|
+| 字段 | 类型 | 说明 |
+|------|------|------|
 | idStr | String | 媒体 ID |
 | type | String | `photo`, `video`, `animated_gif` |
 | mediaUrlHttps | String | 媒体 URL |
@@ -229,8 +229,8 @@ curl "https://api.xgo.ing/openapi/v1/tweet/tags" \
 
 ### UrlInfoDTO
 
-| Field | Type | Description |
-|-------|------|-------------|
+| 字段 | 类型 | 说明 |
+|------|------|------|
 | url | String | 短链接 |
 | expandedUrl | String | 展开后的完整 URL |
 | displayUrl | String | 显示 URL |
@@ -238,27 +238,27 @@ curl "https://api.xgo.ing/openapi/v1/tweet/tags" \
 
 ### HashTagDTO
 
-| Field | Type | Description |
-|-------|------|-------------|
+| 字段 | 类型 | 说明 |
+|------|------|------|
 | text | String | 标签文本（不含 #） |
 | indices | List\<Integer\> | 在文本中的位置 [start, end] |
 
 ### UserMentionDTO
 
-| Field | Type | Description |
-|-------|------|-------------|
+| 字段 | 类型 | 说明 |
+|------|------|------|
 | userId | String | 用户 ID |
 | name | String | 显示名称 |
 | userName | String | 用户名（@handle） |
 
 ---
 
-## Enums
+## 枚举值
 
 ### QueryType
 
-| Value | Description |
-|-------|-------------|
+| 值 | 说明 |
+|----|------|
 | `following` | 关注者的推文 |
 | `recommendation` | 推荐推文（服务端已过滤 influenceScore >= 100，客户端无需再过滤） |
 | `user` | 指定用户的推文 |
@@ -266,8 +266,8 @@ curl "https://api.xgo.ing/openapi/v1/tweet/tags" \
 
 ### TweetType
 
-| Value | Description |
-|-------|-------------|
+| 值 | 说明 |
+|----|------|
 | `ALL` | 全部推文 |
 | `NO_REPLY` | 排除回复 |
 | `NO_RETWEET` | 排除纯转推 |
@@ -276,8 +276,8 @@ curl "https://api.xgo.ing/openapi/v1/tweet/tags" \
 
 ### TimeRange
 
-| Value | Description |
-|-------|-------------|
+| 值 | 说明 |
+|----|------|
 | `TODAY` | 今天（从当天 00:00 开始） |
 | `LAST_24H` | 最近 24 小时 |
 | `WEEK` | 本周 |
@@ -285,8 +285,8 @@ curl "https://api.xgo.ing/openapi/v1/tweet/tags" \
 
 ### SortType
 
-| Value | Description |
-|-------|-------------|
+| 值 | 说明 |
+|----|------|
 | `recent` | 最新（按 createdAt 倒序） |
 | `influence` | 影响力（按 influenceScore 倒序） |
 | `replyCount` | 按回复数倒序 |
@@ -294,14 +294,14 @@ curl "https://api.xgo.ing/openapi/v1/tweet/tags" \
 | `likeCount` | 按点赞数倒序 |
 | `viewCount` | 按浏览数倒序 |
 
-### Language (lang)
+### 语言 (lang)
 
 常见值: `en`, `zh`, `ja`, `ko`, `fr`, `de`, `es`, `pt`
 特殊值: `ALL` — 不过滤语言
 
 ---
 
-## Common Response Format
+## 统一响应格式
 
 ```json
 {
@@ -313,14 +313,14 @@ curl "https://api.xgo.ing/openapi/v1/tweet/tags" \
 }
 ```
 
-## Error Codes
+## 错误码
 
-| Code | HTTP Status | Description |
-|------|-------------|-------------|
+| 错误码 | HTTP 状态码 | 说明 |
+|--------|------------|------|
 | AUTH_001 | 401 | API Key 缺失 |
 | AUTH_002 | 401 | API Key 无效 |
 | AUTH_003 | 401 | 用户设置无效 |
 | AUTH_004 | 403 | 需要 Plus 或 Pro 会员 |
-| xgo-0010 | 429 | 频率限制（PLUS 200/min, PRO 600/min） |
+| xgo-0010 | 429 | 频率限制（PLUS 200次/分, PRO 600次/分） |
 | xgo-1001 | 400 | 参数错误 |
 | xgo-9999 | 500 | 系统错误 |

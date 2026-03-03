@@ -10,8 +10,12 @@
 3. [关注状态](#关注状态)
 4. [关注统计](#关注统计)
 5. [关注标签](#关注标签)
-6. [数据类型](#数据类型)
-7. [错误码](#错误码)
+6. [推荐关注](#推荐关注)
+7. [推荐取消关注](#推荐取消关注)
+8. [关注用户](#关注用户)
+9. [取消关注用户](#取消关注用户)
+10. [数据类型](#数据类型)
+11. [错误码](#错误码)
 
 ---
 
@@ -235,7 +239,167 @@ curl "https://api.xgo.ing/openapi/v1/following/tags" \
 
 ---
 
+## 推荐关注
+
+`GET /openapi/v1/following/suggest-follow`
+
+获取推荐关注的用户。返回近期活跃、尚未关注的热门用户，按粉丝数升序排列，最多 20 人。
+
+### 请求参数
+
+无（使用 API Key 对应用户）
+
+### 响应
+
+```json
+{
+  "success": true,
+  "code": "0",
+  "message": "success",
+  "traceId": "xxx",
+  "data": [ UserDTO, ... ]
+}
+```
+
+返回完整的 UserDTO 列表（最多 20 人），包含 id, name, userName, description, followers, following, tags 等全部字段。
+
+### 示例
+
+```bash
+curl "https://api.xgo.ing/openapi/v1/following/suggest-follow" \
+  -H "X-API-KEY: $XGO_API_KEY"
+```
+
+---
+
+## 推荐取消关注
+
+`GET /openapi/v1/following/suggest-unfollow`
+
+获取推荐取消关注的用户。返回粉丝 ≤100 或 60 天内无推文的不活跃用户，按粉丝数升序排列，最多 50 人。
+
+### 请求参数
+
+无（使用 API Key 对应用户）
+
+### 响应
+
+```json
+{
+  "success": true,
+  "code": "0",
+  "message": "success",
+  "traceId": "xxx",
+  "data": [ UserDTO, ... ]
+}
+```
+
+返回完整的 UserDTO 列表（最多 50 人），包含 id, name, userName, description, followers, following, tags 等全部字段。
+
+### 示例
+
+```bash
+curl "https://api.xgo.ing/openapi/v1/following/suggest-unfollow" \
+  -H "X-API-KEY: $XGO_API_KEY"
+```
+
+---
+
+## 关注用户
+
+`POST /openapi/v1/following/follow`
+
+关注目标用户。**写操作 — 必须在用户明确确认后才能调用。**
+
+### 请求参数
+
+| 参数 | 类型 | 必填 | 说明 |
+|------|------|------|------|
+| targetUserName | String (query) | 是 | 要关注的用户名（不含 @） |
+
+### 响应
+
+```json
+{
+  "success": true,
+  "code": "0",
+  "message": "success",
+  "traceId": "xxx",
+  "data": true
+}
+```
+
+返回 `true` 表示关注成功。若 `success: false`，检查 `code` 和 `message` 确定失败原因。
+
+### 示例
+
+```bash
+curl -X POST "https://api.xgo.ing/openapi/v1/following/follow?targetUserName=elonmusk" \
+  -H "X-API-KEY: $XGO_API_KEY"
+```
+
+---
+
+## 取消关注用户
+
+`POST /openapi/v1/following/unfollow`
+
+取消关注目标用户。**写操作 — 必须在用户明确确认后才能调用。**
+
+### 请求参数
+
+| 参数 | 类型 | 必填 | 说明 |
+|------|------|------|------|
+| targetUserName | String (query) | 是 | 要取消关注的用户名（不含 @） |
+
+### 响应
+
+```json
+{
+  "success": true,
+  "code": "0",
+  "message": "success",
+  "traceId": "xxx",
+  "data": true
+}
+```
+
+返回 `true` 表示取关成功。若 `success: false`，检查 `code` 和 `message` 确定失败原因。
+
+### 示例
+
+```bash
+curl -X POST "https://api.xgo.ing/openapi/v1/following/unfollow?targetUserName=elonmusk" \
+  -H "X-API-KEY: $XGO_API_KEY"
+```
+
+---
+
 ## 数据类型
+
+### UserDTO（完整版 — suggest-follow/suggest-unfollow 返回）
+
+| 字段 | 类型 | 说明 |
+|------|------|------|
+| id | String | Twitter 用户 ID |
+| name | String | 显示名称 |
+| userName | String | Twitter handle（@用户名） |
+| profileImageUrl | String | 头像 URL |
+| url | String | 用户网站 URL |
+| location | String | 位置 |
+| description | String | 个人简介 |
+| followers | Integer | 粉丝数 |
+| following | Integer | 关注数 |
+| favouritesCount | Integer | 点赞数 |
+| statusesCount | Integer | 推文数 |
+| mediaCount | Integer | 媒体数 |
+| createdAt | Date | 账号创建日期 |
+| coverPicture | String | 封面图片 URL |
+| profileBio | ProfileBioDTO | 结构化简介（含 URL 链接） |
+| tags | List\<String\> | 用户标签 |
+| feedId | String | RSS Feed ID |
+| latestTweetTime | Date | 最近推文时间 |
+| latestFetchTime | Date | 最近数据拉取时间 |
 
 ### UserDTO（关注列表版本）
 

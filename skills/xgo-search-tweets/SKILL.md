@@ -1,6 +1,6 @@
 ---
-name: twitter-searcher
-description: "通过 XGo (xgo.ing) 开放接口实时搜索推文、获取特定用户最新推文。适用场景: (1) 按关键词/话题搜索推文, (2) 查找热门讨论, (3) 实时获取某用户最新推文, (4) 刷新指定推文获取最新互动数据, (5) 了解推特上对某话题的讨论。触发短语: '搜索推文', '搜推特', 'search tweets', 'search twitter', '找推文', '关于XX的推文', 'tweets about', '某人的最新推文', 'latest tweets from @user', '刷新推文', 'refresh tweets', '推特上怎么说', '看看大家怎么讨论', 或任何与推文搜索或实时推文获取相关的表述。注意: 拉取时间线/Feed（如 '拉取推文', '今天的推文', '推文列表'）请使用 twitter-fetcher。"
+name: xgo-search-tweets
+description: "通过 XGo (xgo.ing) 开放接口实时搜索推文、获取特定用户最新推文。适用场景: (1) 按关键词/话题搜索推文, (2) 查找热门讨论, (3) 实时获取某用户最新推文, (4) 刷新指定推文获取最新互动数据, (5) 了解推特上对某话题的讨论。触发短语: '搜索推文', '搜推特', 'search tweets', 'search twitter', '找推文', '关于XX的推文', 'tweets about', '某人的最新推文', 'latest tweets from @user', '刷新推文', 'refresh tweets', '推特上怎么说', '看看大家怎么讨论', 或任何与推文搜索或实时推文获取相关的表述。注意: 拉取时间线/Feed（如 '拉取推文', '今天的推文', '推文列表'）请使用 xgo-fetch-tweets。"
 ---
 
 # 推文搜索器 (Twitter Searcher)
@@ -167,7 +167,7 @@ curl -s -X POST https://api.xgo.ing/openapi/v1/tweet/refresh \
 ---
 ```
 
-**重要**: `tweet/search` 和 `tweet/latest` 的 `data` 字段返回的是**扁平数组**（如 `"data": [TweetDTO, ...]`），不是分页对象。没有 `totalPage` 或 `currentPage` — 所有结果在单次响应中返回。**不要**对这些端点使用 twitter-fetcher 的分页逻辑。
+**重要**: `tweet/search` 和 `tweet/latest` 的 `data` 字段返回的是**扁平数组**（如 `"data": [TweetDTO, ...]`），不是分页对象。没有 `totalPage` 或 `currentPage` — 所有结果在单次响应中返回。**不要**对这些端点使用 xgo-fetch-tweets 的分页逻辑。
 
 ### 输出字段映射
 
@@ -186,6 +186,11 @@ curl -s -X POST https://api.xgo.ing/openapi/v1/tweet/refresh \
 | 时间 | `createdAt` | 格式化为本地时间 |
 | 内容 | `text` | 完整推文文本 |
 | 链接 | `url` | 推文原文链接 |
+| 标签 | `hashTags[].text` | 以 # 前缀输出 |
+| 提及 | `userMentions[].userName` | 以 @ 前缀输出 |
+| 媒体 | `mediaList` | 统计图片/视频数量 |
+| 引用推文 | `quotedTweet` | 摘要引用推文内容 |
+| 转推原文 | `retweetedTweet` | 若为转推，摘要原始推文内容 |
 
 ### 输出完整性规则
 
@@ -194,6 +199,7 @@ curl -s -X POST https://api.xgo.ing/openapi/v1/tweet/refresh \
 - `userMentions`: 输出全部提及
 - `mediaList`: 统计并描述所有媒体
 - `quotedTweet`: 包含作者和文本摘要
+- `retweetedTweet`: 若为转推，包含原始推文作者和内容摘要
 - 任何字段为空/null 时省略该行
 - 搜索失败时返回空列表（优雅降级）— 向用户报告"无结果"
 

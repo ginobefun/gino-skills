@@ -37,7 +37,7 @@ API Key 按用户绑定。服务端自动从 API Key 推断 `userName`。
 | listId | String | 否 | | 列表 ID（查询特定列表中成员的推文） |
 | folderId | String | 否 | | 收藏夹 ID（`bookmark` 查询类型时使用） |
 | tags | List\<String\> | 否 | | 标签过滤 |
-| sortType | String | 否 | `recent`（服务端默认; skill 覆盖为 `influence`） | 排序方式，见 [SortType](#sorttype)。**必须显式传递**，不要依赖默认值 |
+| sortType | String | 否 | `recent`（服务端默认） | 排序方式，见 [SortType](#sorttype)。此 skill 始终显式传递 `influence`，**必须显式传递**，不要依赖服务端默认值 |
 
 ### 响应
 
@@ -321,6 +321,7 @@ curl "https://api.xgo.ing/openapi/v1/tweet/tags" \
 | AUTH_002 | 401 | API Key 无效 |
 | AUTH_003 | 401 | 用户设置无效 |
 | AUTH_004 | 403 | 需要 Plus 或 Pro 会员 |
+| xgo-0001 | **200** | 用户不存在（注意: HTTP 状态码为 200，需检查 `success` 字段） |
 | xgo-0010 | 429 | 频率限制（PLUS 200次/分, PRO 600次/分） |
 | xgo-1001 | 400 | 参数错误 |
 | xgo-9999 | 500 | 系统错误 |

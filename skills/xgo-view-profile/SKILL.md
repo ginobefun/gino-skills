@@ -1,5 +1,5 @@
 ---
-name: twitter-user-profiler
+name: xgo-view-profile
 description: "通过 XGo (xgo.ing) 开放接口查看 Twitter/X 用户资料及近期动态。适用场景: (1) 查看某用户的资料或简介, (2) 查看粉丝/关注数, (3) 实时获取用户信息, (4) 查看用户最新推文和动态, (5) 调研 KOL 或博主, (6) 通过 userId 或 feedId 查找用户。触发短语: '查看用户', '用户资料', 'user profile', 'who is @xxx', '看看这个人', 'KOL信息', '查一下xxx', 'profile of', '用户详情', '这个博主', 'twitter user', '推特用户', 或任何与查看 Twitter 用户信息相关的表述。"
 ---
 
@@ -105,7 +105,7 @@ AI, Tech, Space, Startup
 ### 最新推文 (近 N 条)
 
 #### 1. 2026-02-28 14:30
-- **互动**: 👍 446 🔁 134 💬 36 🔄 12 📑 28 👁 45K
+- **影响力**: 85 | **互动**: 👍 446 🔁 134 💬 36 🔄 12 📑 28 👁 45K
 - **内容**:
   推文完整文本内容...
 - **链接**: [查看原文](https://x.com/username/status/id)

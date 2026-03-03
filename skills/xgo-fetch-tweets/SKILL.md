@@ -1,5 +1,5 @@
 ---
-name: twitter-fetcher
+name: xgo-fetch-tweets
 description: "通过 XGo (xgo.ing) 开放接口拉取推文 — 关注者时间线、推荐、列表、标签、收藏。适用场景: (1) 拉取 Twitter/X 时间线最新推文, (2) 获取高影响力/热门推文, (3) 浏览特定列表或标签的推文, (4) 获取推荐推文, (5) 按语言/时间/类型筛选推文。触发短语: '拉取推文', '获取推特', 'fetch tweets', 'get twitter', 'xgo推文', '我的推特Timeline', '今天的推文', 'twitter timeline', '看看推特', '推文列表', '推荐推文', 或任何与 XGo 推文拉取相关的表述。"
 ---
 
@@ -97,7 +97,7 @@ curl -s -X POST https://api.xgo.ing/openapi/v1/tweet/list \
 - "只看原创" → `tweetType: "ORIGINAL"`
 - "包括回复" → `tweetType: "ALL"`
 - "搜索 AI" → `keyword: "AI"`
-- "某个 List" → `listId: "xxx"`（需要用户提供 List ID，目前无列表发现端点）
+- "某个 List" → `listId: "xxx"`（需要用户提供 List ID，或通过 xgo-manage-lists 的 `list/all` 端点查询可用列表）
 - "标签 xxx" → `tags: ["xxx"]`
 - "推荐推文" → `queryType: "recommendation"`
 - "我的推文" → `queryType: "user"`（使用"用户自己的推文"拉取方案）
@@ -208,6 +208,7 @@ curl -s -X POST https://api.xgo.ing/openapi/v1/tweet/batch \
 | 提及 | `userMentions[].userName` | 以 @ 前缀输出 |
 | 媒体 | `mediaList` | 统计图片/视频数量 |
 | 引用推文 | `quotedTweet` | 摘要引用推文内容 |
+| 转推原文 | `retweetedTweet` | 若为转推，摘要原始推文内容 |
 
 ### 输出完整性规则
 
@@ -227,6 +228,7 @@ curl -s -X POST https://api.xgo.ing/openapi/v1/tweet/batch \
 - `401`: 检查 `XGO_API_KEY` 是否已设置且有效
 - `403`: 开放接口需要 Plus 或 Pro 会员
 - `429`: 频率限制 — 等待 10 秒后重试一次。若仍为 429，告知用户: "频率限制，请稍后重试。"（PLUS 200次/分, PRO 600次/分）
+- `xgo-0001`（用户不存在, HTTP 200）: `queryType=user` 时若 `userName` 不存在触发。务必检查 `success` 字段
 - `success: false` 且 `code` 非零: 读取响应体中的 `code` 和 `message`，对照 api_reference 中的错误码处理
 - `data` 为空: 用户可能没有关注者，或时间范围太窄 — 建议扩大 `timeRange`
 - `totalSize: 0`: 无推文匹配查询条件，建议调整筛选参数

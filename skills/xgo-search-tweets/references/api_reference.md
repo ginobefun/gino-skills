@@ -176,6 +176,18 @@ curl -X POST https://api.xgo.ing/openapi/v1/tweet/refresh \
 | url | String | 短链接 |
 | displayUrl | String | 显示 URL |
 | expandedUrl | String | 展开 URL |
+| videoAspectRatio | List\<Integer\> | 视频宽高比 |
+| videoDurationMillis | Integer | 视频时长(ms) |
+| videoVariants | List\<VideoVariantDTO\> | 视频格式列表 |
+
+### UrlInfoDTO
+
+| 字段 | 类型 | 说明 |
+|------|------|------|
+| url | String | 短链接 |
+| expandedUrl | String | 展开后的完整 URL |
+| displayUrl | String | 显示 URL |
+| indices | List\<Integer\> | 在文本中的位置 [start, end] |
 
 ### HashTagDTO
 

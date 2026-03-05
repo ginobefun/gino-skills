@@ -6,9 +6,10 @@
 
 ### BestBlogs
 
-| Skill | 功能 | 状态 |
-|-------|------|------|
-| [bestblogs-fetcher](skills/bestblogs-fetcher/) | 从 BestBlogs.dev OpenAPI 拉取文章、播客、视频、推文和期刊内容 | ✅ 已完成 |
+| Skill | 功能 | 技术 | 状态 |
+|-------|------|------|------|
+| [bestblogs-fetcher](skills/bestblogs-fetcher/) | 从 BestBlogs.dev OpenAPI 拉取文章、播客、视频、推文和期刊内容 | REST API | ✅ 已完成 |
+| [bestblogs-transcribe-youtube](skills/bestblogs-transcribe-youtube/) | 通过 Gemini Gem 转写 YouTube 视频为 Markdown 文字稿 | Chrome AppleScript + Gemini Web API | ✅ 已完成 |
 
 ### Twitter/X — 数据读取
 

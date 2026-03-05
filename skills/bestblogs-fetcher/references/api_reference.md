@@ -29,16 +29,16 @@ Auth: Header `X-API-KEY` (env var `BESTBLOGS_API_KEY`)
 |-------|------|---------|-------------|
 | currentPage | Integer | 1 | 页码 |
 | pageSize | Integer | 10 | 每页数量 |
-| userLanguage | String | | 用户语言偏好: `zh_CN`, `en_US` |
+| userLanguage | String | | 用户语言偏好：`zh_CN`, `en_US` |
 | keyword | String | | 搜索关键词 |
 | sourceId | String | | 订阅源 ID 过滤 |
 | category | String | | 分类过滤 |
-| language | String | | 内容语言过滤: `zh_CN`, `en_US` |
-| type | String | | 资源类型: `ARTICLE`, `PODCAST`, `VIDEO`, `TWITTER` |
-| priority | String | | 优先级: `HIGHEST`, `HIGH`, `MEDIUM`, `LOW`, `LOWEST` |
-| qualifiedFilter | String | | 精选过滤: `true`, `false`, `ALL` |
-| timeFilter | String | | 时间范围: `1d`, `3d`, `1w`, `1m`, `3m`, `1y` |
-| sortType | String | | 排序: `default`, `time_desc`, `score_desc`, `read_desc` |
+| language | String | | 内容语言过滤：`zh_CN`, `en_US` |
+| type | String | | 资源类型：`ARTICLE`, `PODCAST`, `VIDEO`, `TWITTER` |
+| priority | String | | 优先级：`HIGHEST`, `HIGH`, `MEDIUM`, `LOW`, `LOWEST` |
+| qualifiedFilter | String | | 精选过滤：`true`, `false`, `ALL` |
+| timeFilter | String | | 时间范围：`1d`, `3d`, `1w`, `1m`, `3m`, `1y` |
+| sortType | String | | 排序：`default`, `time_desc`, `score_desc`, `read_desc` |
 
 ### Response Fields (dataList items)
 
@@ -53,7 +53,7 @@ Auth: Header `X-API-KEY` (env var `BESTBLOGS_API_KEY`)
 | mainPoints | 主要观点 [{point, explanation}] |
 | keyQuotes | 关键引用列表 |
 | url | 原文链接 |
-| readUrl | BestBlogs 站内阅读链接(**输出时优先使用此字段**) |
+| readUrl | BestBlogs 站内阅读链接 (**输出时优先使用此字段**) |
 | domain | 域名 |
 | cover | 封面图片 URL |
 | language / languageDesc | 语言 |
@@ -65,10 +65,10 @@ Auth: Header `X-API-KEY` (env var `BESTBLOGS_API_KEY`)
 | score | 质量评分 (0-100) |
 | readCount | 阅读次数 |
 | wordCount | 字数 |
-| readTime | 预估阅读时间(分钟) |
-| mediaDuration | 媒体时长(秒, 视频/播客) |
+| readTime | 预估阅读时间 (分钟) |
+| mediaDuration | 媒体时长 (秒，视频/播客) |
 | authors | 作者列表 |
-| publishTimeStamp | 发布时间戳(ms) |
+| publishTimeStamp | 发布时间戳 (ms) |
 | publishDateStr | 发布日期 (MM-dd) |
 | publishDateTimeStr | 完整发布时间 |
 | qualified | 是否精选 |
@@ -95,9 +95,9 @@ curl -X POST https://api.bestblogs.dev/openapi/v1/resource/list \
 
 `GET /openapi/v1/resource/meta?id={id}&language={language}`
 
-获取单个资源的完整元数据。字段与 Resource List 相同，额外包含:
-- `notExist`: 资源不存在标识(正常为 null)
-- `enclosureUrl`: 附件链接(音频/视频文件)
+获取单个资源的完整元数据。字段与 Resource List 相同，额外包含：
+- `notExist`: 资源不存在标识 (正常为 null)
+- `enclosureUrl`: 附件链接 (音频/视频文件)
 
 注意：列表接口已返回 summary、mainPoints、keyQuotes 等详情字段，通常无需额外调用 meta。仅在需要单条资源详情时使用此端点。
 
@@ -183,7 +183,7 @@ curl "https://api.bestblogs.dev/openapi/v1/resource/podcast/content?id=PODCAST_a
 | keyword | String | | 搜索关键词 |
 | sourceId | String | | 推文来源账号 ID |
 | category | String | | 分类过滤 |
-| language | String | | 语言过滤: `zh_CN`, `en_US`, `all` |
+| language | String | | 语言过滤：`zh_CN`, `en_US`, `all` |
 | qualifiedFilter | String | | 精选过滤 |
 | timeFilter | String | | 时间范围 |
 | sortType | String | | 排序方式 |
@@ -193,17 +193,17 @@ curl "https://api.bestblogs.dev/openapi/v1/resource/podcast/content?id=PODCAST_a
 
 ### Response Structure
 
-每个 dataList item 包含两层:
-- `resourceMeta`: 资源元数据(同 Resource List 字段，额外含 `translateContent`)
+每个 dataList item 包含两层：
+- `resourceMeta`: 资源元数据 (同 Resource List 字段，额外含 `translateContent`)
 - `tweet`: 推文原始数据
 
-**tweet 字段:**
+**tweet 字段：**
 
 | Field | Description |
 |-------|-------------|
 | id | 推文 ID |
 | url | 推文链接 |
-| text | 推文文本(可能经翻译) |
+| text | 推文文本 (可能经翻译) |
 | retweetCount / replyCount / likeCount / quoteCount / bookmarkCount / viewCount | 互动数据 |
 | influenceScore | 影响力评分 |
 | createdAt | 创建时间 (ISO 8601) |
@@ -211,7 +211,7 @@ curl "https://api.bestblogs.dev/openapi/v1/resource/podcast/content?id=PODCAST_a
 | isReply | 是否为回复 |
 | conversationId | 会话 ID |
 | author | {id, name, userName, profileImageUrl} |
-| quotedTweet / retweetedTweet | 引用/转推(如有) |
+| quotedTweet / retweetedTweet | 引用/转推 (如有) |
 | mediaList | [{type, mediaUrlHttps, url}] |
 | urlInfos | [{url, expandedUrl, displayUrl}] |
 | userMentions | [{userId, name, userName}] |
@@ -258,7 +258,7 @@ curl -X POST https://api.bestblogs.dev/openapi/v1/tweet/list \
 | articleCount | 收录文章数 |
 | published | 是否已发布 |
 | createdTimeStr | 创建时间 |
-| createdTimestamp | 创建时间戳(ms) |
+| createdTimestamp | 创建时间戳 (ms) |
 | updatedTimeStr | 更新时间 |
 
 ---
@@ -274,8 +274,8 @@ curl -X POST https://api.bestblogs.dev/openapi/v1/tweet/list \
 | Field | Description |
 |-------|-------------|
 | id | 期刊 ID |
-| title / enTitle / zhTitle | 标题(多语言) |
-| summary / enSummary / zhSummary | 摘要(多语言) |
+| title / enTitle / zhTitle | 标题 (多语言) |
+| summary / enSummary / zhSummary | 摘要 (多语言) |
 | articles | 文章列表 [{id, title, cover, summary, sourceId, sourceName, url, domain, score, wordCount, readTime, publishDateStr, category, aiCategory, resourceType, originLanguage, language, sort}] |
 | published | 是否已发布 |
 | createdTimeStr / updatedTimeStr | 时间 |
@@ -318,9 +318,9 @@ curl -X POST https://api.bestblogs.dev/openapi/v1/tweet/list \
 | sourceType / sourceTypeDesc | 来源类型 |
 | resourceType / resourceTypeDesc | 资源类型 |
 | rssUrl | RSS 订阅地址 |
-| countInPast3Months | 近3月内容总数 |
-| qualifiedCountInPast3Months | 近3月精选数 |
-| readCountInPast3Months | 近3月阅读量 |
+| countInPast3Months | 近 3 月内容总数 |
+| qualifiedCountInPast3Months | 近 3 月精选数 |
+| readCountInPast3Months | 近 3 月阅读量 |
 
 ---
 
@@ -352,7 +352,7 @@ curl -X POST https://api.bestblogs.dev/openapi/v1/tweet/list \
 - `en_US` - 英文
 
 ### Time Filter (时间范围)
-- `1d` (1天), `3d` (3天), `1w` (1周), `1m` (1月), `3m` (3月), `1y` (1年)
+- `1d` (1 天), `3d` (3 天), `1w` (1 周), `1m` (1 月), `3m` (3 月), `1y` (1 年)
 
 ### Sort Type (排序)
 - `default` - 默认

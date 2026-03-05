@@ -1,6 +1,6 @@
 ---
 name: bestblogs-fetcher
-description: "Fetch and browse content from BestBlogs.dev OpenAPI - articles, podcasts, videos, tweets, and newsletters. Use when user wants to: (1) get latest articles or trending content, (2) search BestBlogs for specific topics or keywords, (3) fetch today's or recent high-quality content, (4) browse newsletters/issues, (5) get article details or full content, (6) explore podcast transcripts, (7) list content sources. Triggered by phrases like '拉取BestBlogs内容', '获取最新文章', '今天有什么好文章', 'fetch bestblogs', 'get latest posts', '查看精选', '拉取推文', '获取播客', '查看期刊', or any mention of BestBlogs content retrieval."
+description: "Fetch and browse content from BestBlogs.dev OpenAPI - articles, podcasts, videos, tweets, and newsletters. Use when user wants to: (1) get latest articles or trending content, (2) search BestBlogs for specific topics or keywords, (3) fetch today's or recent high-quality content, (4) browse newsletters/issues, (5) get article details or full content, (6) explore podcast transcripts, (7) list content sources. Triggered by phrases like '拉取 BestBlogs 内容', '获取最新文章', '今天有什么好文章', 'fetch bestblogs', 'get latest posts', '查看精选', '拉取推文', '获取播客', '查看期刊', or any mention of BestBlogs content retrieval."
 ---
 
 # BestBlogs Fetcher
@@ -72,8 +72,8 @@ Adjust based on user input:
 - "今天的文章" → `timeFilter: "1d"`
 - "本周 AI 文章" → `timeFilter: "1w"`, only fetch AI category
 - "精选文章" → add `qualifiedFilter: "true"`
-- "评分90以上" → client-side filter score >= 90
-- "给我50条" → output 50 items instead of default 20
+- "评分 90 以上" → client-side filter score >= 90
+- "给我 50 条" → output 50 items instead of default 20
 - "只看播客" → only fetch PODCAST type
 
 ## Other Operations
@@ -107,13 +107,13 @@ curl -s "https://api.bestblogs.dev/openapi/v1/newsletter/get?id={NEWSLETTER_ID}&
 
 | Endpoint | Method | Use Case |
 |----------|--------|----------|
-| `/openapi/v1/resource/list` | POST | 查询文章/播客/视频列表(最常用) |
+| `/openapi/v1/resource/list` | POST | 查询文章/播客/视频列表 (最常用) |
 | `/openapi/v1/resource/meta` | GET | 获取单个资源的完整元数据 |
 | `/openapi/v1/resource/markdown` | GET | 获取文章的 Markdown 正文内容 |
 | `/openapi/v1/resource/podcast/content` | GET | 获取播客转录、章节、问答 |
-| `/openapi/v1/tweet/list` | POST | 查询推文列表(含互动数据) |
+| `/openapi/v1/tweet/list` | POST | 查询推文列表 (含互动数据) |
 | `/openapi/v1/newsletter/list` | POST | 查询期刊列表 |
-| `/openapi/v1/newsletter/get` | GET | 获取期刊详情(含文章列表) |
+| `/openapi/v1/newsletter/get` | GET | 获取期刊详情 (含文章列表) |
 | `/openapi/v1/source/list` | POST | 查询订阅源列表 |
 
 For complete request/response field details, see `references/api_reference.md`.
@@ -141,12 +141,12 @@ Use `readUrl` (BestBlogs 站内链接) for all links. Use `url` only as fallback
 ### Articles / Podcasts / Videos
 
 ```markdown
-## BestBlogs 内容列表 (YYYY-MM-DD, 近 X 天, 共 N 篇)
+## BestBlogs 内容列表 (YYYY-MM-DD, 近 X 天，共 N 篇)
 
 ---
 
 ### 1. [文章标题](readUrl)
-- **来源**: 来源名称 | **作者**: 作者1, 作者2 | **评分**: 96 | **字数**: 6835 | **阅读时间**: 28 分钟
+- **来源**: 来源名称 | **作者**: 作者 1, 作者 2 | **评分**: 96 | **字数**: 6835 | **阅读时间**: 28 分钟
 - **分类**: 人工智能 > AI 模型
 - **一句话摘要**: oneSentenceSummary 内容
 - **详细摘要**: summary 完整内容（不截断）
@@ -155,10 +155,10 @@ Use `readUrl` (BestBlogs 站内链接) for all links. Use `url` only as fallback
   2. **观点标题**: 详细解释说明
   3. **观点标题**: 详细解释说明
 - **文章金句**:
-  - "金句原文1"
-  - "金句原文2"
-  - "金句原文3"
-- **标签**: 标签1, 标签2, 标签3
+  - "金句原文 1"
+  - "金句原文 2"
+  - "金句原文 3"
+- **标签**: 标签 1, 标签 2, 标签 3
 - **发布时间**: publishDateTimeStr
 
 ---
@@ -179,7 +179,7 @@ Use `readUrl` (BestBlogs 站内链接) for all links. Use `url` only as fallback
   1. **观点标题**: 详细解释
 - **金句**:
   - "金句原文"
-- **标签**: 标签1, 标签2
+- **标签**: 标签 1, 标签 2
 - **发布时间**: publishDateTimeStr
 ```
 

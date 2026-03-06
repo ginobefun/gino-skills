@@ -62,6 +62,15 @@
 | [cover-image](skills/cover-image/) | 文章封面图生成（5 维度定制） | image-gen + 提示词模板 | ✅ 已完成 |
 | [article-illustrator](skills/article-illustrator/) | 文章配图生成（类型 x 风格） | image-gen + 内容分析 | ✅ 已完成 |
 
+### 内容发布
+
+基于 [baoyu-skills](https://github.com/JimLiu/baoyu-skills) 的发布技能，fork 到本项目以便定制。
+
+| Skill | 功能 | 技术 | 状态 |
+|-------|------|------|------|
+| [post-to-x](skills/post-to-x/) | 发布内容到 Twitter/X（推文、长文 Article） | Chrome CDP + 真实键盘粘贴 | ✅ 已完成 |
+| [post-to-wechat](skills/post-to-wechat/) | 发布内容到微信公众号（文章、图文） | WeChat API / Chrome CDP | ✅ 已完成 |
+
 ### Content OS（计划中）
 
 | Skill | 功能 | 状态 |
@@ -154,6 +163,8 @@ done
 | `R2_SECRET_ACCESS_KEY` | R2 访问密钥 | bestblogs-weekly-blogger (R2 上传) |
 | `R2_BUCKET_NAME` | R2 存储桶名称 | bestblogs-weekly-blogger (R2 上传) |
 | `R2_PUBLIC_URL` | R2 公开访问 URL | bestblogs-weekly-blogger (R2 上传) |
+| `WECHAT_APP_ID` | 微信公众号 App ID | post-to-wechat |
+| `WECHAT_APP_SECRET` | 微信公众号 App Secret | post-to-wechat |
 
 ## 相关项目
 

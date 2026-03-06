@@ -13,6 +13,7 @@
 | [bestblogs-process-videos](skills/bestblogs-process-videos/) | 批量转录等待预处理的视频并更新内容到 BestBlogs | 复合工作流 (Admin API + Gemini 转录) | ✅ 已完成 |
 | [bestblogs-weekly-curator](skills/bestblogs-weekly-curator/) | 从本周内容中精选 20 篇文章生成周刊 | REST API + AI 筛选 | ✅ 已完成 |
 | [bestblogs-weekly-blogger](skills/bestblogs-weekly-blogger/) | 从周刊生成图文并茂的博客文章 | REST API + 图片生成 + R2 上传 | ✅ 已完成 |
+| [bestblogs-article-recommender](skills/bestblogs-article-recommender/) | 为内容生成中英文推荐语并可更新到系统 | OpenAPI + Admin API + AI 写作 | ✅ 已完成 |
 
 ### Twitter/X — 数据读取
 
@@ -196,10 +197,10 @@ done
 
 | 变量 | 用途 | 所需 Skill |
 |------|------|-----------|
-| `BESTBLOGS_API_KEY` | BestBlogs OpenAPI 鉴权 | bestblogs-fetcher |
+| `BESTBLOGS_API_KEY` | BestBlogs OpenAPI 鉴权 | bestblogs-fetcher, bestblogs-article-recommender |
 | `XGO_API_KEY` | XGo (xgo.ing) 开放接口鉴权 | 所有 xgo-* skills |
-| `BESTBLOGS_ADMIN_USER_ID` | BestBlogs 管理员用户 ID | bestblogs-process-videos |
-| `BESTBLOGS_ADMIN_JWT_TOKEN` | BestBlogs 管理员 JWT Token | bestblogs-process-videos |
+| `BESTBLOGS_ADMIN_USER_ID` | BestBlogs 管理员用户 ID | bestblogs-process-videos, bestblogs-article-recommender |
+| `BESTBLOGS_ADMIN_JWT_TOKEN` | BestBlogs 管理员 JWT Token | bestblogs-process-videos, bestblogs-article-recommender |
 | `X_CHROME_PATH` | Chrome 可执行文件路径（可选，自动检测） | x-actions |
 | `GOOGLE_API_KEY` | Google Gemini API Key | image-gen, cover-image, article-illustrator |
 | `OPENAI_API_KEY` | OpenAI API Key（可选） | image-gen |

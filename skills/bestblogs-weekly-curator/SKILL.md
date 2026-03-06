@@ -1,11 +1,11 @@
 ---
 name: bestblogs-weekly-curator
-description: "BestBlogs.dev 每周精选内容策展工作流。适用场景: (1) 从本周内容中精选 20 篇文章生成周刊, (2) 按模型/开发/产品/资讯分类策展, (3) 生成周刊主题和推荐语, (4) 参考往期周刊风格生成新一期, (5) 筛选高分内容制作精选合集。触发短语: '每周精选', '周刊策展', 'weekly curation', '生成周刊', 'curate weekly', '精选文章', '本周精选', 'weekly newsletter', '制作周刊', '选文章', 'pick articles for newsletter', '策展'"
+description: "BestBlogs.dev 每周精选内容策展工作流。适用场景: (1) 从本周内容中精选 20 篇文章生成周刊, (2) 按模型/开发/产品/资讯分类策展, (3) 生成周刊中英文标题和推荐语, (4) 参考往期周刊风格生成新一期, (5) 筛选高分内容制作精选合集, (6) 基于文章原文生成高质量 newsletter。触发短语: '每周精选', '周刊策展', 'weekly curation', '生成周刊', 'curate weekly', '精选文章', '本周精选', 'weekly newsletter', '制作周刊', '选文章', 'pick articles for newsletter', '策展', '生成推荐语', 'newsletter summary', '周刊推荐语', 'write newsletter'"
 ---
 
 # BestBlogs 每周精选策展 (Weekly Curator)
 
-从 BestBlogs.dev 本周内容中精选约 20 篇高质量文章，按 AI 细分类别（模型/开发/产品/资讯）组织，生成周刊草稿。
+从 BestBlogs.dev 本周内容中精选约 20 篇高质量文章，按 AI 细分类别（模型/开发/产品/资讯）组织，并基于文章原文生成高质量的中英文周刊标题和推荐语。
 
 完整 API 参数详情见 `references/api_reference.md`。
 
@@ -28,7 +28,11 @@ description: "BestBlogs.dev 每周精选内容策展工作流。适用场景: (1
 - [ ] 阶段二: 拉取本周候选内容
 - [ ] 阶段三: 深度分析候选内容（调用详情接口）
 - [ ] 阶段四: AI 筛选与推荐（输出 30-40 篇候选清单）⚠️ 需用户确认选文
-- [ ] 阶段五: 生成周刊草稿（主题 + 推荐语 + 文章列表）
+- [ ] 阶段五: 生成周刊推荐语
+  - [ ] 5.1 获取入选文章原文（补充阶段三未获取的）
+  - [ ] 5.2 提取主题候选 + 收集用户输入 ⚠️ 一次性确认主题/动态/重点/想法
+  - [ ] 5.3 生成中英文标题和推荐语（参考往期风格）
+  - [ ] 5.4 输出周刊草稿 + 结构化 JSON
 ```
 
 ---
@@ -46,20 +50,30 @@ curl -s -X POST https://api.bestblogs.dev/openapi/v1/newsletter/list \
   -d '{"currentPage":1,"pageSize":3,"userLanguage":"zh_CN"}'
 ```
 
-### 1.2 获取每期详情（并行 3 个请求）
+### 1.2 获取每期详情（并行 6 个请求）
+
+分别获取中文和英文版本，供阶段五参考双语写作风格:
 
 ```bash
+# 中文版
 curl -s "https://api.bestblogs.dev/openapi/v1/newsletter/get?id={ISSUE_ID}&language=zh_CN" \
   -H "X-API-KEY: $BESTBLOGS_API_KEY"
+
+# 英文版
+curl -s "https://api.bestblogs.dev/openapi/v1/newsletter/get?id={ISSUE_ID}&language=en_US" \
+  -H "X-API-KEY: $BESTBLOGS_API_KEY"
 ```
+
+从响应中保存 `zhTitle`、`enTitle`、`zhSummary`、`enSummary` 字段，供阶段五生成推荐语时参考。
 
 ### 1.3 分析往期模式
 
 从 3 期详情中提取:
 - 每期文章总数（通常 20-24 篇）
 - `aiCategory` 分布比例（MODELS / DEV / PRODUCT / NEWS 各约 5 篇，DEV 有时会多 2-3 篇）
-- 推荐语风格：开头问候 → 本周亮点概述 → 分类要点串联
-- 文章 `sort` 字段的排序规则
+- 中文推荐语风格：开篇引题 → 个人动态 → 10 个亮点（emoji 标识）→ 结尾
+- 英文推荐语风格：对应中文内容的地道英文表达（非逐字翻译）
+- 标题命名模式和文章 `sort` 字段的排序规则
 
 ---
 
@@ -244,31 +258,104 @@ curl -s "https://api.bestblogs.dev/openapi/v1/resource/markdown?id={RESOURCE_ID}
 
 ---
 
-## 阶段五: 生成周刊草稿
+## 阶段五: 生成周刊推荐语
 
-用户确认选文后，生成完整周刊草稿。
+用户确认选文后，深度阅读入选文章原文，结合用户输入和往期风格，生成高质量的中英文标题和推荐语。
 
-### 5.1 确定周刊期数
+详细的写作风格规范、emoji 速查和完整示例见 `references/newsletter_writing_guide.md`。
+
+### 5.1 获取入选文章原文
+
+对用户确认的 20 篇文章，获取 markdown 原文内容。阶段三可能已获取了部分文章的原文，只需补充未获取的:
+
+```bash
+curl -s "https://api.bestblogs.dev/openapi/v1/resource/markdown?id={RESOURCE_ID}" \
+  -H "X-API-KEY: $BESTBLOGS_API_KEY"
+```
+
+每批 5 个并行请求。markdown 返回 `null` 的文章，依赖列表接口的 `summary` 和 `mainPoints`。
+
+阅读每篇原文时重点关注:
+- 核心论点和关键数据
+- 独到见解或判断
+- 作者身份（区分实际作者与发布平台）
+- 文章之间的关联性和共同趋势
+
+### 5.2 提取主题候选 + 收集用户输入
+
+基于 20 篇文章的原文内容提炼主题候选，同时收集用户上下文。**合并为一次交互**，避免多轮追问:
+
+```
+阅读完本期 20 篇文章后，我提炼了以下主题候选:
+
+1. **关键词A（英文）**: 理由 — 哪些文章支撑这个主题
+2. **关键词B（英文）**: 理由
+3. **关键词C（英文）**: 理由
+4. ...
+
+我推荐: **关键词X** — 因为它能串联本期多数内容，同时提出了引人思考的问题。
+
+在生成推荐语之前，还想了解:
+1. 你倾向哪个主题？或者有自己的想法？
+2. BestBlogs.dev 最近有什么更新或动态想提到吗？
+3. 有没有特别想重点强调的文章？
+4. 本周有什么个人观察或思考想融入推荐语？
+```
+
+主题提取思路:
+- 跨多篇文章出现的共同模式
+- 本周最重磅文章的核心概念
+- 文章集体讲述的行业叙事
+- 能用一个词或短语概括本周精华的思考性概念
+
+如果用户没有特别想法，可以基于文章内容自行提炼，但主题必须等用户确认后再继续。
+
+**等待用户确认后再进入 5.3。**
+
+### 5.3 生成中英文标题和推荐语
+
+参考阶段一获取的最近 3 期周刊的 `zhTitle`/`enTitle` 和 `zhSummary`/`enSummary`，学习:
+- 标题的命名模式（通常: "BestBlogs 周刊第 N 期: {关键词}"）
+- 推荐语的叙事节奏（开篇引题 → 个人动态 → 10 个亮点 → 结尾）
+- 语言风格（口语化程度、句式习惯、数据引用方式）
+
+#### 标题格式
+
+- 中文: `BestBlogs 周刊第 N 期: {主题关键词}`
+- 英文: `BestBlogs Weekly Issue #N: {Theme Keyword}`
+
+#### 推荐语生成要求
+
+基于文章原文（而非仅摘要）撰写，确保信息准确、有深度:
+
+1. **开篇段落**（2-3 句）: 用主题关键词串联本周最重要的趋势，提出引发思考的问题
+2. **个人更新段落**: 融入用户提供的 BestBlogs 动态或个人实验（没有则跳过）
+3. **10 个亮点**: 从 20 篇文章中提炼，每个亮点 2-3 句，带 emoji 标识
+   - 覆盖 4 个分类的核心内容
+   - 用户指定的重点文章优先展开
+   - 相关文章可合并为一个亮点
+   - 包含具体数据、关键洞察
+   - 句式多样，避免千篇一律
+4. **结尾**: 固定格式
+
+#### 语言质量要求
+
+- 中英文和数字之间加空格: `Claude Opus 4.5 发布`
+- 减少不必要的引号、破折号和复杂句式
+- 中文版用全角标点，英文版语感地道不像翻译
+- 信息必须准确: 作者归属、数据引用、核心论点与原文一致
+- 加粗仅用于产品/模型名称
+
+### 5.4 确定期数并输出
 
 从阶段一获取的最新一期 id（如 `issue55`）推算新期数: `issue56`。
 
-### 5.2 生成主题和推荐语
-
-参考往期推荐语风格，基于本期选文内容生成:
-
-**推荐语结构**:
-1. **开头问候**: "大家好，欢迎阅读 BestBlogs.dev 第 N 期 AI 精选。"
-2. **本周亮点**: 2-3 句概括本周最重要的趋势或事件
-3. **分类串联**: 简要提及各栏目的亮点内容，引导读者阅读
-
-推荐语控制在 150-250 字，语气专业但亲切，突出"本周最值得关注的内容"。
-
-### 5.3 输出周刊草稿
+#### 输出周刊草稿
 
 ```markdown
 # BestBlogs.dev 精选文章 第 N 期
 
-> {推荐语}
+> {中文推荐语全文}
 
 ---
 
@@ -286,45 +373,35 @@ curl -s "https://api.bestblogs.dev/openapi/v1/resource/markdown?id={RESOURCE_ID}
 ---
 
 ## 开发与工具
-
-### 1. {文章标题}
 ...
-
----
 
 ## 产品与设计
-
-### 1. {文章标题}
 ...
 
----
-
 ## 资讯与报告
-
-### 1. {文章标题}
 ...
 ```
 
-### 5.4 输出结构化数据
-
-同时输出一份 JSON 格式的文章列表，方便后续通过 API 或手动录入系统:
+#### 输出结构化数据
 
 ```json
 {
-  "title": "BestBlogs.dev 精选文章 第 N 期",
-  "summary": "推荐语全文",
+  "zhTitle": "BestBlogs 周刊第 N 期: {关键词}",
+  "enTitle": "BestBlogs Weekly Issue #N: {Keyword}",
+  "zhSummary": "中文推荐语全文",
+  "enSummary": "English summary full text",
   "articles": [
     {
       "id": "RAW_xxx",
       "title": "文章标题",
       "aiCategory": "MODELS",
-      "sort": 10
+      "sort": 1
     }
   ]
 }
 ```
 
-`sort` 值规则: 按 MODELS → DEV → PRODUCT → NEWS 顺序，从 1 开始连续编号（1, 2, 3...）。
+`sort` 值规则: 按 MODELS → DEV → PRODUCT → NEWS 顺序，从 1 开始连续编号。
 
 ---
 

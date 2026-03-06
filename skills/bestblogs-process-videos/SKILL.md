@@ -100,10 +100,10 @@ curl -s -X POST https://api.bestblogs.dev/api/admin/article/list \
 ```markdown
 ## 等待预处理的视频（共 N 个）
 
-| # | ID | 标题 | 来源 | 优先级 | 发布日期 |
-|---|-----|------|------|--------|---------|
-| 1 | RR_xxx | 视频标题 1 | 来源 A | HIGH | 2025-03-01 |
-| 2 | RR_yyy | 视频标题 2 | 来源 B | MEDIUM | 2025-02-28 |
+| # | ID | 标题 | 链接 | 来源 | 优先级 | 发布日期 |
+|---|-----|------|------|------|--------|---------|
+| 1 | RR_xxx | 视频标题 1 | [YouTube](https://www.youtube.com/watch?v=xxx) | 来源 A | HIGH | 2025-03-01 |
+| 2 | RR_yyy | 视频标题 2 | [YouTube](https://www.youtube.com/watch?v=yyy) | 来源 B | MEDIUM | 2025-02-28 |
 
 请选择要处理的视频：
 - "全部" — 处理所有视频
@@ -205,11 +205,11 @@ curl -s -X POST "https://api.bestblogs.dev/api/admin/article/runAnalysisFlow?id=
 ```markdown
 ## 处理结果
 
-| # | ID | 标题 | 转录 | 更新 | 分析 | 文件 |
-|---|-----|------|------|------|------|------|
-| 1 | RR_xxx | 标题 1 | ✅ 12345 字 | ✅ | ✅ | ./contents/transcribe-RR_xxx-20250305143022.md |
-| 2 | RR_yyy | 标题 2 | ✅ 8901 字 | ✅ | ✅ | ./contents/transcribe-RR_yyy-20250305143522.md |
-| 3 | RR_zzz | 标题 3 | ❌ 转录失败 | - | - | - |
+| # | ID | 标题 | 链接 | 转录 | 更新 | 分析 | 文件 |
+|---|-----|------|------|------|------|------|------|
+| 1 | RR_xxx | 标题 1 | [YouTube](https://www.youtube.com/watch?v=xxx) | ✅ 12345 字 | ✅ | ✅ | ./contents/transcribe-RR_xxx-20250305143022.md |
+| 2 | RR_yyy | 标题 2 | [YouTube](https://www.youtube.com/watch?v=yyy) | ✅ 8901 字 | ✅ | ✅ | ./contents/transcribe-RR_yyy-20250305143522.md |
+| 3 | RR_zzz | 标题 3 | [YouTube](https://www.youtube.com/watch?v=zzz) | ❌ 转录失败 | - | - | - |
 
 ### 统计
 - 成功：2

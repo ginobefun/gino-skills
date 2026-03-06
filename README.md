@@ -9,11 +9,11 @@
 | Skill | 功能 | 技术 | 状态 |
 |-------|------|------|------|
 | [bestblogs-fetcher](skills/bestblogs-fetcher/) | 从 BestBlogs.dev OpenAPI 拉取文章、播客、视频、推文和期刊内容 | REST API | ✅ 已完成 |
+| [bestblogs-article-recommender](skills/bestblogs-article-recommender/) | 为内容生成中英文推荐语并可更新到系统 | OpenAPI + Admin API + AI 写作 | ✅ 已完成 |
 | [bestblogs-transcribe-youtube](skills/bestblogs-transcribe-youtube/) | 通过 Gemini Gem 转写 YouTube 视频为 Markdown 文字稿 | Chrome AppleScript + Gemini Web API | ✅ 已完成 |
 | [bestblogs-process-videos](skills/bestblogs-process-videos/) | 批量转录等待预处理的视频并更新内容到 BestBlogs | 复合工作流 (Admin API + Gemini 转录) | ✅ 已完成 |
 | [bestblogs-weekly-curator](skills/bestblogs-weekly-curator/) | 从本周内容中精选 20 篇文章，基于原文生成中英文周刊推荐语 | REST API + AI 筛选 + 原文分析 | ✅ 已完成 |
 | [bestblogs-weekly-blogger](skills/bestblogs-weekly-blogger/) | 从周刊生成图文并茂的博客文章 | REST API + 图片生成 + R2 上传 | ✅ 已完成 |
-| [bestblogs-article-recommender](skills/bestblogs-article-recommender/) | 为内容生成中英文推荐语并可更新到系统 | OpenAPI + Admin API + AI 写作 | ✅ 已完成 |
 
 ### Twitter/X — 数据读取
 
@@ -98,7 +98,7 @@
 |------|------|--------------|
 | 周刊博客全流程 | 策展周刊 → 生成博客 → 配图 → 上传 R2 → 发布推特/公众号 | bestblogs-weekly-curator → bestblogs-weekly-blogger → image-gen → post-to-x / post-to-wechat |
 | 文章配图后发布 | 生成配图 → 发布到公众号 | article-illustrator → post-to-wechat |
-| 封面+发布 | 生成封面 → 发布长文到 X | cover-image → post-to-x |
+| 封面 + 发布 | 生成封面 → 发布长文到 X | cover-image → post-to-x |
 
 ### 深度阅读
 
@@ -170,7 +170,7 @@
 
 ### 组合场景
 
-以下是跨 skill 协作的高级用法:
+以下是跨 skill 协作的高级用法：
 
 | 场景 | 流程 | 涉及的 Skills |
 |------|------|--------------|

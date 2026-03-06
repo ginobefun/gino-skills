@@ -201,8 +201,8 @@ if ((Test-Path "$HOME/.gino-skills/.env") -and (Select-String -Quiet -Pattern "W
 WeChat API credentials not found.
 
 To obtain credentials:
-1. Visit https://mp.weixin.qq.com
-2. Go to: 开发 → 基本配置
+1. Visit https://developers.weixin.qq.com/platform
+2. Apply for AppID and AppSecret
 3. Copy AppID and AppSecret
 
 Where to save?

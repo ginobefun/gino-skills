@@ -71,6 +71,34 @@
 | [post-to-x](skills/post-to-x/) | 发布内容到 Twitter/X（推文、长文 Article） | Chrome CDP + 真实键盘粘贴 | ✅ 已完成 |
 | [post-to-wechat](skills/post-to-wechat/) | 发布内容到微信公众号（文章、图文） | WeChat API / Chrome CDP | ✅ 已完成 |
 
+### 图片生成典型使用场景
+
+| 场景 | 说法示例 | 触发的 Skill |
+|------|----------|-------------|
+| 生成文章封面 | "生成一张封面图"、"create a cover image" | cover-image |
+| 为文章配图 | "给文章配插图"、"illustrate this article" | article-illustrator |
+| 通用图片生成 | "生成一张图片"、"generate an image" | image-gen |
+| 指定风格生成 | "用水彩风格画一张图" | image-gen |
+| 批量文章配图 | "给这篇文章的每个章节配图" | article-illustrator |
+
+### 内容发布典型使用场景
+
+| 场景 | 说法示例 | 触发的 Skill |
+|------|----------|-------------|
+| 发布长文到 X | "把这篇文章发到推特"、"publish to X" | post-to-x |
+| 发推文带图片 | "发推并附上截图" | post-to-x |
+| 引用转发 | "引用这条推文并评论" | post-to-x |
+| 发布到微信公众号 | "发布到公众号"、"post to wechat" | post-to-wechat |
+| 微信图文消息 | "发布图文到公众号" | post-to-wechat |
+
+### 组合发布场景
+
+| 场景 | 流程 | 涉及的 Skills |
+|------|------|--------------|
+| 周刊博客全流程 | 策展周刊 → 生成博客 → 配图 → 上传 R2 → 发布推特/公众号 | bestblogs-weekly-curator → bestblogs-weekly-blogger → image-gen → post-to-x / post-to-wechat |
+| 文章配图后发布 | 生成配图 → 发布到公众号 | article-illustrator → post-to-wechat |
+| 封面+发布 | 生成封面 → 发布长文到 X | cover-image → post-to-x |
+
 ### Content OS（计划中）
 
 | Skill | 功能 | 状态 |

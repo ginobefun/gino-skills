@@ -11,6 +11,8 @@
 | [bestblogs-fetcher](skills/bestblogs-fetcher/) | 从 BestBlogs.dev OpenAPI 拉取文章、播客、视频、推文和期刊内容 | REST API | ✅ 已完成 |
 | [bestblogs-transcribe-youtube](skills/bestblogs-transcribe-youtube/) | 通过 Gemini Gem 转写 YouTube 视频为 Markdown 文字稿 | Chrome AppleScript + Gemini Web API | ✅ 已完成 |
 | [bestblogs-process-videos](skills/bestblogs-process-videos/) | 批量转录等待预处理的视频并更新内容到 BestBlogs | 复合工作流 (Admin API + Gemini 转录) | ✅ 已完成 |
+| [bestblogs-weekly-curator](skills/bestblogs-weekly-curator/) | 从本周内容中精选 20 篇文章生成周刊 | REST API + AI 筛选 | ✅ 已完成 |
+| [bestblogs-weekly-blogger](skills/bestblogs-weekly-blogger/) | 从周刊生成图文并茂的博客文章 | REST API + 图片生成 + R2 上传 | ✅ 已完成 |
 
 ### Twitter/X — 数据读取
 
@@ -49,6 +51,16 @@
 | Skill | 功能 | 技术 | 状态 |
 |-------|------|------|------|
 | [x-actions](skills/x-actions/) | 发推、回复、引用、转推、点赞 | Chrome CDP + TypeScript | ✅ 已完成 |
+
+### 图片生成
+
+基于 [baoyu-skills](https://github.com/JimLiu/baoyu-skills) 的图片生成技能，fork 到本项目以便定制水印、风格等。
+
+| Skill | 功能 | 技术 | 状态 |
+|-------|------|------|------|
+| [image-gen](skills/image-gen/) | AI 图片生成引擎，支持多 provider | Google Gemini / OpenAI / DashScope / Replicate API | ✅ 已完成 |
+| [cover-image](skills/cover-image/) | 文章封面图生成（5 维度定制） | image-gen + 提示词模板 | ✅ 已完成 |
+| [article-illustrator](skills/article-illustrator/) | 文章配图生成（类型 x 风格） | image-gen + 内容分析 | ✅ 已完成 |
 
 ### Content OS（计划中）
 
@@ -135,9 +147,16 @@ done
 | `BESTBLOGS_ADMIN_USER_ID` | BestBlogs 管理员用户 ID | bestblogs-process-videos |
 | `BESTBLOGS_ADMIN_JWT_TOKEN` | BestBlogs 管理员 JWT Token | bestblogs-process-videos |
 | `X_CHROME_PATH` | Chrome 可执行文件路径（可选，自动检测） | x-actions |
+| `GOOGLE_API_KEY` | Google Gemini API Key | image-gen, cover-image, article-illustrator |
+| `OPENAI_API_KEY` | OpenAI API Key（可选） | image-gen |
+| `CLOUDFLARE_ACCOUNT_ID` | Cloudflare 账号 ID | bestblogs-weekly-blogger (R2 上传) |
+| `R2_ACCESS_KEY_ID` | R2 访问密钥 | bestblogs-weekly-blogger (R2 上传) |
+| `R2_SECRET_ACCESS_KEY` | R2 访问密钥 | bestblogs-weekly-blogger (R2 上传) |
+| `R2_BUCKET_NAME` | R2 存储桶名称 | bestblogs-weekly-blogger (R2 上传) |
+| `R2_PUBLIC_URL` | R2 公开访问 URL | bestblogs-weekly-blogger (R2 上传) |
 
 ## 相关项目
 
 - [XGo](https://xgo.ing) - Twitter/X 数据管理平台
 - [BestBlogs.dev](https://bestblogs.dev) - AI 驱动的技术内容精选平台
-- [baoyu-skills](https://github.com/jimliu/baoyu-skills) - 内容创作与分发 Skills（复用）
+- [baoyu-skills](https://github.com/JimLiu/baoyu-skills) - 内容创作与分发 Skills（复用）

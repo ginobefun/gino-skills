@@ -143,10 +143,10 @@ Boris Cherny 分享了 Claude Code 的设计哲学。
 
 ### 图片规范
 
-每个主要章节前插入一张配图，使用占位路径：
+每个主要章节前插入一张配图。写作阶段使用裸文件名作为占位符，阶段六生成图片后会替换为实际 URL：
 
 ```markdown
-![章节描述](https://image.jido.dev/Banana/bestblogs-issue-{N}-{seq}.png)
+![章节描述](bestblogs-issue-{N}-{seq}.png)
 ```
 
 ### 图片数量与位置

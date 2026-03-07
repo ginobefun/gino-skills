@@ -33,8 +33,8 @@ Visual direction:
 Layout (vertical 9:16 ratio):
 
 TOP BANNER:
-- Dateline in tiny uppercase tracking: "{YYYY-MM-DD} · TWITTER DAILY DIGEST"
-- Main title in elegant serif, slightly tilted
+- Dateline in tiny uppercase tracking: "{YYYY-MM-DD} · XGo 推特日报"
+- Main title in elegant serif, slightly tilted, in Chinese
 
 MAIN BODY - 10 numbered entries on clean grid:
 - Rank numbers in copper-gold, serif font, aligned left
@@ -45,7 +45,7 @@ MAIN BODY - 10 numbered entries on clean grid:
 
 BOTTOM:
 - Keyword tags in rounded pills: copper-tinted background for AI/tech keywords, light warm gray for others
-- Minimal footer line
+- Footer: "由 XGo (xgo.ing) 提供数据支持" in small muted text
 
 Content:
 01. {Author1} (@{handle1}): "{summary1}" — Influence: {score1}
@@ -70,7 +70,7 @@ bun run ${SKILL_DIR}/scripts/main.ts \
   --prompt "{填充后的提示词}" \
   --image contents/twitter-digest/digest-YYYY-MM-DD.png \
   --provider google \
-  --model gemini-2.0-flash-preview-image-generation \
+  --model gemini-3-pro-image-preview \
   --ar 9:16 \
   --quality 2k
 ```

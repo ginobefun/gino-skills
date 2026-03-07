@@ -31,7 +31,7 @@ description: "通过 XGo (xgo.ing) 开放接口生成每日推文简报。适用
 第五步: 生成 4 种输出
   5.1 可读简报 Markdown（Top 20）
   5.2 完整版 Markdown（全部数据）
-  5.3 杂志风 HTML（Top 10）
+  5.3 杂志风 HTML（Top 20）
   5.4 信息图 PNG（Top 10）
 ```
 
@@ -42,7 +42,7 @@ description: "通过 XGo (xgo.ing) 开放接口生成每日推文简报。适用
 |------|------|------|
 | `digest-YYYY-MM-DD.md` | 可读简报，叙事式快速概览 | Top 20 |
 | `digest-YYYY-MM-DD-full.md` | 完整版，所有分类全部推文详细数据 | 全部 |
-| `digest-YYYY-MM-DD.html` | 杂志风 HTML，可浏览器打开/截图 | Top 10 |
+| `digest-YYYY-MM-DD.html` | 杂志风 HTML，可浏览器打开/截图 | Top 20 |
 | `digest-YYYY-MM-DD.png` | 信息图，关键词 + 核心推文 | Top 10 |
 
 **速率说明**: 5 请求/次，远低于 PLUS 200次/分限制。
@@ -182,8 +182,8 @@ curl -s -X POST https://api.xgo.ing/openapi/v1/tweet/list \
 ### 输出
 
 排序后取:
-- **Top 20**: 用于可读简报
-- **Top 10**: 用于杂志风 HTML 和信息图（从 Top 20 中取前 10）
+- **Top 20**: 用于可读简报和杂志风 HTML
+- **Top 10**: 用于信息图（从 Top 20 中取前 10）
 - **全部**: 用于完整版（按原分类组织）
 
 ---
@@ -269,14 +269,16 @@ mkdir -p contents/twitter-digest
 
 ### 5.3 杂志风 HTML（digest-YYYY-MM-DD.html）
 
-生成一个自包含的 HTML 文件，可直接在浏览器中打开查看或截图分享。展示 Top 10 推文，采用 BestBlogs 品牌设计风格。
+生成一个自包含的 HTML 文件，可直接在浏览器中打开查看或截图分享。展示 Top 20 推文（Top 1-3 头条大卡片 + Top 4-20 紧凑列表）。
 
 详细模板和设计规范见 `references/html_template.md`。
 
 **核心设计要素**（详见 `references/html_template.md` 中的完整色彩和排版定义）:
 - **风格**: 现代主义杂志美学（Monocle / Kinfolk），克制精准、大量留白、纸质噪点质感
-- **布局**: 头条区域（Top 1-3 大卡片）+ 列表区域（Top 4-10 紧凑卡片）+ 关键词标签
+- **品牌**: 页头和页脚体现 XGo (xgo.ing) 品牌，作为数据来源标识
+- **布局**: 头条区域（Top 1-3 大卡片）+ 列表区域（Top 4-20 紧凑卡片）+ 关键词标签
 - **内容**: 每条推文显示作者、一句话概括、影响力分数、关键互动指标、原文链接
+- **语言**: 标题、section label、页脚等界面文字使用中文，符合用户阅读习惯
 
 ### 5.4 信息图（digest-YYYY-MM-DD.png）
 
@@ -297,7 +299,7 @@ bun run ${SKILL_DIR}/scripts/main.ts \
   --prompt "{根据 Top 10 内容生成的提示词}" \
   --image contents/twitter-digest/digest-YYYY-MM-DD.png \
   --provider google \
-  --model gemini-2.0-flash-preview-image-generation \
+  --model gemini-3-pro-image-preview \
   --ar 9:16 \
   --quality 2k
 ```

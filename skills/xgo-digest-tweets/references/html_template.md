@@ -372,14 +372,14 @@
   <div class="container">
 
     <div class="header">
-      <div class="dateline">YYYY-MM-DD · TWITTER DAILY DIGEST</div>
-      <h1>今日推特圈最值得关注的 10 件事</h1>
+      <div class="dateline">YYYY-MM-DD · XGo 推特日报</div>
+      <h1>根据 Top 20 内容提炼的概括性标题</h1>
       <div class="lede">一句话总结今日整体动态，点出最核心的 1-2 个主题。</div>
     </div>
 
     <!-- 头条 Top 1-3 -->
     <div class="headline-section">
-      <div class="section-label">Headlines</div>
+      <div class="section-label">头条</div>
 
       <div class="headline-card">
         <div class="rank-author">
@@ -408,9 +408,9 @@
 
     <hr class="divider">
 
-    <!-- 列表 Top 4-10 -->
+    <!-- 列表 Top 4-20 -->
     <div class="list-section">
-      <div class="section-label">Also Noteworthy</div>
+      <div class="section-label">值得关注</div>
 
       <div class="list-item">
         <span class="rank">04</span>
@@ -427,12 +427,12 @@
         </div>
       </div>
 
-      <!-- 重复 Top 5-10 -->
+      <!-- 重复 Top 5-20 -->
     </div>
 
     <!-- 关键词 -->
     <div class="tags-section">
-      <div class="section-label">Today's Keywords</div>
+      <div class="section-label">今日关键词</div>
       <div class="tags-wrap">
         <span class="tag accent">Claude Code</span>
         <span class="tag accent">Codex Security</span>
@@ -443,8 +443,8 @@
     </div>
 
     <div class="footer">
-      Data via <a href="https://xgo.ing">XGo</a> ·
-      <a href="digest-YYYY-MM-DD-full.md">Full version</a>
+      由 <a href="https://xgo.ing">XGo</a> 提供数据支持 ·
+      <a href="digest-YYYY-MM-DD-full.md">查看完整版</a>
     </div>
 
   </div>
@@ -454,10 +454,13 @@
 
 ## 内容填充规则
 
-1. **标题 h1**: 根据 Top 10 内容提炼一个概括性标题，如「Anthropic 安全研究突破与 AI Coding 工具竞赛」，使用用户习惯的语言。不要用泛泛的「每日简报」。
-2. **Lede**: 一句话点出今日最核心的趋势或事件。
-3. **头条 (Top 1-3)**: 2-3 句自然语言概括，传递核心信息和 why it matters。排名数字用两位数格式（01, 02, 03）。
-4. **列表 (Top 4-10)**: 一句话概括。只保留影响力 + 2 个最高的互动指标。
-5. **关键词**: 8-12 个，AI Coding 和头部厂商相关的标记为 `accent`。从推文内容中提取，不要编造。
-6. **互动指标**: 为 0 或 null 时省略，大数字用 K/M 格式化。
-7. **链接**: `查看原文 →` 统一格式，`target="_blank"` 新窗口打开。
+1. **Dateline**: 格式为 `YYYY-MM-DD · XGo 推特日报`，体现 XGo 品牌。
+2. **标题 h1**: 根据 Top 20 内容提炼一个概括性标题，如「Anthropic 安全研究突破与 AI Coding 工具竞赛」，使用中文。不要用泛泛的「每日简报」。
+3. **Lede**: 一句话点出今日最核心的趋势或事件。
+4. **Section label**: 使用中文（「头条」「值得关注」「今日关键词」）。
+5. **头条 (Top 1-3)**: 2-3 句自然语言概括，传递核心信息和 why it matters。排名数字用两位数格式（01, 02, 03）。
+6. **列表 (Top 4-20)**: 一句话概括。只保留影响力 + 2 个最高的互动指标。
+7. **关键词**: 8-12 个，AI Coding 和头部厂商相关的标记为 `accent`。从推文内容中提取，不要编造。
+8. **互动指标**: 为 0 或 null 时省略，大数字用 K/M 格式化。
+9. **链接**: `查看原文 →` 统一格式，`target="_blank"` 新窗口打开。
+10. **页脚**: 注明「由 XGo 提供数据支持」，链接到 xgo.ing。

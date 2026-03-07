@@ -151,21 +151,21 @@ BestBlogs 早报 | YYYY-MM-DD
 [1] 标题
 2-3 句摘要，概括核心信息和为什么值得关注。
 来源: sourceName | 评分: 96
-https://bestblogs.dev/...
+readUrl（BestBlogs 站内链接）
 
 [2] 标题
 一两句话摘要。
 来源: sourceName | 评分: 93
-https://bestblogs.dev/...
+readUrl（BestBlogs 站内链接）
 
 ...（共 10 条）
 
 ---
-BestBlogs.dev - AI 时代的信息筛选器
+BestBlogs.dev - 遇见更好的技术阅读
 ```
 
 **格式规则**:
-- 标题和 URL 分行显示，URL 使用 BestBlogs 站内链接 `readUrl`，确保在 IM 中可直接点击
+- 每条内容必须包含 `readUrl` 链接（BestBlogs 站内链接），URL 独立成行确保在 IM 中可直接点击
 - Top 1 的内容适当增加篇幅（2-3 句摘要 + 为什么值得关注）
 - 其余每条 1-2 句摘要
 - 同话题有多个来源时: `另见: 来源2, 来源3`
@@ -235,7 +235,7 @@ BestBlogs.dev - AI 时代的信息筛选器
   <!-- 底部 -->
   <!--   细分隔线 -->
   <!--   "BestBlogs.dev" 品牌标识（墨蓝，letter-spacing） -->
-  <!--   "AI 时代的信息筛选器"（中灰，font-size 12px） -->
+  <!--   "遇见更好的技术阅读"（中灰，font-size 12px） -->
 </body>
 </html>
 ```

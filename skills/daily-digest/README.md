@@ -89,3 +89,4 @@ daily-digest/
 ## License
 
 MIT
+# Daily Digest

@@ -14,6 +14,7 @@
 | [bestblogs-process-videos](skills/bestblogs-process-videos/) | 批量转录等待预处理的视频并更新内容到 BestBlogs | 复合工作流 (Admin API + Gemini 转录) | ✅ 已完成 |
 | [bestblogs-weekly-curator](skills/bestblogs-weekly-curator/) | 从本周内容中精选 20 篇文章，基于原文生成中英文周刊推荐语 | REST API + AI 筛选 + 原文分析 | ✅ 已完成 |
 | [bestblogs-weekly-blogger](skills/bestblogs-weekly-blogger/) | 从周刊生成图文并茂的博客文章 | REST API + 图片生成 + R2 上传 | ✅ 已完成 |
+| [bestblogs-daily-digest](skills/bestblogs-daily-digest/) | 每日早报：智能筛选 Top 10 内容，生成纯文本/杂志风 HTML/信息图海报 | REST API + AI 筛选 + image-gen | ✅ 已完成 |
 
 ### Twitter/X — 数据读取
 
@@ -42,7 +43,7 @@
 | Skill | 功能 | 复杂度 | 状态 |
 |-------|------|--------|------|
 | [xgo-track-kol](skills/xgo-track-kol/) | KOL 深度分析（6 维度 AI 报告 + 双用户对比） | 4 请求 → AI 分析 | ✅ 已完成 |
-| [xgo-digest-tweets](skills/xgo-digest-tweets/) | 每日推文简报（按列表分类 + AI 摘要） | 5 请求 → 分类去重 → AI 摘要 | ✅ 已完成 |
+| [xgo-digest-tweets](skills/xgo-digest-tweets/) | 每日推文简报（智能筛选 + 4 种输出：可读简报/杂志风 HTML/信息图/完整版） | 5 请求 → 分类去重 → 智能筛选 Top 20 → 多格式输出 | ✅ 已完成 |
 | [xgo-organize-follows](skills/xgo-organize-follows/) | 关注整理助手（6 阶段交互式工作流） | 多阶段 → AI 匹配 → 批量执行 | ✅ 已完成 |
 
 ### Twitter/X — 浏览器操作
@@ -97,6 +98,7 @@
 | 场景 | 流程 | 涉及的 Skills |
 |------|------|--------------|
 | 周刊博客全流程 | 策展周刊 → 生成博客 → 配图 → 上传 R2 → 发布推特/公众号 | bestblogs-weekly-curator → bestblogs-weekly-blogger → image-gen → post-to-x / post-to-wechat |
+| 每日早报 + 分发 | 生成早报 → 发布到群聊/公众号/X | bestblogs-daily-digest → post-to-wechat / post-to-x |
 | 文章配图后发布 | 生成配图 → 发布到公众号 | article-illustrator → post-to-wechat |
 | 封面 + 发布 | 生成封面 → 发布长文到 X | cover-image → post-to-x |
 
@@ -121,7 +123,6 @@
 
 | Skill | 功能 | 状态 |
 |-------|------|------|
-| daily-content-curator | 每日智能筛选 & 排序生成阅读清单 | 📋 计划中 |
 | reading-workflow | 每日阅读 + 思考引导工作流 | 📋 计划中 |
 | content-analytics | 数据回收与分析 | 📋 计划中 |
 
@@ -133,7 +134,7 @@
 
 | 场景 | 说法示例 | 触发的 Skill |
 |------|----------|-------------|
-| 看今天的推文精华 | "今日简报"、"每日推文摘要" | xgo-digest-tweets |
+| 看今天的推文精华 | "今日简报"、"每日推文摘要"、"推文日报" | xgo-digest-tweets |
 | 看关注者时间线最新推文 | "拉取最新推文"、"我的时间线" | xgo-fetch-tweets |
 | 搜索特定话题的推文 | "搜一下关于 AI Agent 的推文" | xgo-search-tweets |
 | 查看某列表的推文 | "看一下 AI 列表的推文" | xgo-fetch-tweets |
@@ -176,6 +177,7 @@
 |------|------|--------------|
 | 发现并关注优质博主 | 搜索话题 → 分析 KOL → 确认关注 | xgo-search-tweets → xgo-track-kol → xgo-manage-follows |
 | 每日简报 + 互动 | 看今日精华 → 点赞/回复有价值的推文 | xgo-digest-tweets → x-actions |
+| 每日简报 + 分发 | 生成推文日报 → 发布到 X/公众号 | xgo-digest-tweets → post-to-x / post-to-wechat |
 | 整理关注 + 列表归类 | 推荐取关 → 整理分类 → 归入列表 | xgo-manage-follows → xgo-organize-follows |
 | 调研后引用转发 | 查看用户资料 → 看最新推文 → 引用评论 | xgo-view-profile → xgo-search-tweets → x-actions |
 
@@ -197,7 +199,7 @@ done
 
 | 变量 | 用途 | 所需 Skill |
 |------|------|-----------|
-| `BESTBLOGS_API_KEY` | BestBlogs OpenAPI 鉴权 | bestblogs-fetcher, bestblogs-article-recommender |
+| `BESTBLOGS_API_KEY` | BestBlogs OpenAPI 鉴权 | bestblogs-fetcher, bestblogs-article-recommender, bestblogs-daily-digest |
 | `XGO_API_KEY` | XGo (xgo.ing) 开放接口鉴权 | 所有 xgo-* skills |
 | `BESTBLOGS_ADMIN_USER_ID` | BestBlogs 管理员用户 ID | bestblogs-process-videos, bestblogs-article-recommender |
 | `BESTBLOGS_ADMIN_JWT_TOKEN` | BestBlogs 管理员 JWT Token | bestblogs-process-videos, bestblogs-article-recommender |

@@ -26,7 +26,8 @@
  *   }
  */
 
-import { readFileSync, writeFileSync, existsSync } from "fs";
+import { readFileSync, writeFileSync, existsSync, realpathSync } from "fs";
+import { join } from "path";
 
 interface EpisodeMetadata {
   date: string;
@@ -233,26 +234,19 @@ Options:
     const r2Key = "podcast/podcast.xml";
     console.log(`Uploading feed to R2: ${r2Key}`);
 
-    // Use the upload-r2.ts from image-gen skill
-    const imageGenDir =
-      process.env.IMAGE_GEN_SKILL_DIR ||
-      (await findSkillDir("image-gen"));
+    // Use our own upload-r2.ts
+    const scriptDir = new URL(".", import.meta.url).pathname;
+    const uploadScript = join(scriptDir, "upload-r2.ts");
 
-    if (imageGenDir) {
-      const proc = Bun.spawn(
-        ["bun", "run", `${imageGenDir}/scripts/upload-r2.ts`, args.feed, r2Key],
-        { stdout: "inherit", stderr: "inherit" }
-      );
-      await proc.exited;
-    } else {
-      console.error(
-        "Cannot upload: image-gen skill not found. Upload manually."
-      );
-    }
+    const proc = Bun.spawn(
+      ["bun", "run", uploadScript, "--overwrite", args.feed, r2Key],
+      { stdout: "inherit", stderr: "inherit" }
+    );
+    await proc.exited;
   }
 }
 
-async function findSkillDir(skillName: string): Promise<string | null> {
+function findSkillDir(skillName: string): string | null {
   const paths = [
     `${process.env.HOME}/.claude/skills/${skillName}`,
     `${process.env.HOME}/.claude/skills/baoyu-${skillName}`,
@@ -260,11 +254,11 @@ async function findSkillDir(skillName: string): Promise<string | null> {
 
   for (const p of paths) {
     if (existsSync(p)) {
-      // Resolve symlink
-      const resolved = await Bun.file(p)
-        .text()
-        .catch(() => null);
-      return existsSync(p) ? p : null;
+      try {
+        return realpathSync(p);
+      } catch {
+        return p;
+      }
     }
   }
   return null;

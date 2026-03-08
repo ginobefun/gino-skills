@@ -25,7 +25,7 @@
  */
 
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from "fs";
-import { join, basename } from "path";
+import { join, basename, resolve } from "path";
 
 const API_URL = "https://api.fish.audio/v1/tts";
 
@@ -248,6 +248,9 @@ async function mergeSegments(
   );
   writeFileSync(fileListPath, lines.join("\n"));
 
+  // Resolve merge path to absolute so it works with cwd=outputDir
+  const absoluteMergePath = resolve(mergePath);
+
   const proc = Bun.spawn(
     [
       "ffmpeg",
@@ -257,14 +260,14 @@ async function mergeSegments(
       "-safe",
       "0",
       "-i",
-      fileListPath,
+      "filelist.txt",
       "-af",
       "loudnorm=I=-16:TP=-1.5:LRA=11",
       "-ar",
       "44100",
       "-b:a",
       "192k",
-      mergePath,
+      absoluteMergePath,
     ],
     {
       cwd: outputDir,

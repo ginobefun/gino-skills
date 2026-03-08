@@ -87,11 +87,13 @@ export const RemotionRoot: React.FC = () => {
       <Composition
         id="BestBlogsPodcast"
         component={BestBlogsPodcast}
-        durationInFrames={defaultProps.totalDuration * FPS}
         fps={FPS}
         width={1920}
         height={1080}
         defaultProps={defaultProps}
+        calculateMetadata={async ({ props }) => ({
+          durationInFrames: Math.ceil(props.totalDuration * FPS),
+        })}
       />
     </>
   );

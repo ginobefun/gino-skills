@@ -58,24 +58,31 @@ function getEnvOrExit(name: string): string {
   return val;
 }
 
-const ACCOUNT_ID = getEnvOrExit("CLOUDFLARE_ACCOUNT_ID");
-const BUCKET_NAME = getEnvOrExit("R2_BUCKET_NAME");
-const PUBLIC_URL = getEnvOrExit("R2_PUBLIC_URL").replace(/\/$/, "");
+let s3: S3Client;
+let BUCKET_NAME: string;
+let PUBLIC_URL: string;
 
-const s3 = new S3Client({
-  region: "auto",
-  endpoint: `https://${ACCOUNT_ID}.r2.cloudflarestorage.com`,
-  credentials: {
-    accessKeyId: getEnvOrExit("R2_ACCESS_KEY_ID"),
-    secretAccessKey: getEnvOrExit("R2_SECRET_ACCESS_KEY"),
-  },
-});
+function initS3() {
+  if (s3) return;
+  const accountId = getEnvOrExit("CLOUDFLARE_ACCOUNT_ID");
+  BUCKET_NAME = getEnvOrExit("R2_BUCKET_NAME");
+  PUBLIC_URL = getEnvOrExit("R2_PUBLIC_URL").replace(/\/$/, "");
+  s3 = new S3Client({
+    region: "auto",
+    endpoint: `https://${accountId}.r2.cloudflarestorage.com`,
+    credentials: {
+      accessKeyId: getEnvOrExit("R2_ACCESS_KEY_ID"),
+      secretAccessKey: getEnvOrExit("R2_SECRET_ACCESS_KEY"),
+    },
+  });
+}
 
 async function upload(
   localPath: string,
   key: string,
   overwrite: boolean = false
 ): Promise<string> {
+  initS3();
   if (!overwrite) {
     try {
       await s3.send(new HeadObjectCommand({ Bucket: BUCKET_NAME, Key: key }));

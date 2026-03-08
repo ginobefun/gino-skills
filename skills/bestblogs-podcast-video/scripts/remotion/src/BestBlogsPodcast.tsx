@@ -270,7 +270,7 @@ const DeepDiveScene: React.FC<{ item: VideoItem }> = ({ item }) => {
   );
 };
 
-const QuickReviewIntro: React.FC = () => {
+const QuickReviewIntro: React.FC<{ count?: number }> = ({ count = 7 }) => {
   return (
     <AbsoluteFill
       style={{
@@ -301,7 +301,7 @@ const QuickReviewIntro: React.FC = () => {
             marginTop: 16,
           }}
         >
-          7 条值得关注
+          {count} 条值得关注
         </div>
       </FadeIn>
     </AbsoluteFill>
@@ -436,57 +436,65 @@ export const BestBlogsPodcast: React.FC<VideoData> = (props) => {
   const deepItems = props.items.filter((i) => i.type === "deep");
   const quickItems = props.items.filter((i) => i.type === "quick");
 
-  // Build timeline from audio timings
-  const introStart = 0;
-  const introDuration = 5 * fps; // 5s brand intro
+  // Audio starts from frame 0 and contains the intro speech.
+  // Visual scenes are aligned to audioStart timestamps so video matches audio.
+  // Brand intro & keywords overlay the audio intro segment (first ~8s of audio).
 
-  const keywordsStart = introDuration;
-  const keywordsDuration = 4 * fps;
+  const brandIntroDuration = 5 * fps;
+  const keywordsDuration = 3 * fps;
 
-  // Deep dive scenes - use audio timing
-  let currentFrame = keywordsStart + keywordsDuration;
+  // Deep dive scenes - aligned to audio timestamps
   const deepScenes = deepItems.map((item) => {
-    const start = currentFrame;
-    const duration = item.audioDuration * fps;
-    currentFrame = start + duration;
+    const start = Math.round(item.audioStart * fps);
+    const duration = Math.round(item.audioDuration * fps);
     return { item, start, duration };
   });
 
-  // Quick review intro
-  const quickIntroStart = currentFrame;
+  // Quick review intro - appears just before the first quick item
+  const firstQuickItem = quickItems[0];
+  const quickIntroStart = firstQuickItem
+    ? Math.round(firstQuickItem.audioStart * fps) - 3 * fps
+    : deepScenes.length > 0
+      ? deepScenes[deepScenes.length - 1].start + deepScenes[deepScenes.length - 1].duration
+      : brandIntroDuration + keywordsDuration;
   const quickIntroDuration = 3 * fps;
-  currentFrame = quickIntroStart + quickIntroDuration;
 
-  // Quick cards
+  // Quick cards - aligned to audio timestamps
   const quickScenes = quickItems.map((item) => {
-    const start = currentFrame;
-    const duration = item.audioDuration * fps;
-    currentFrame = start + duration;
+    const start = Math.round(item.audioStart * fps);
+    const duration = Math.round(item.audioDuration * fps);
     return { item, start, duration };
   });
 
-  // Outro
-  const outroStart = currentFrame;
-  const outroDuration = 5 * fps;
+  // Outro - starts after last quick card ends
+  const lastScene = quickScenes.length > 0
+    ? quickScenes[quickScenes.length - 1]
+    : deepScenes.length > 0
+      ? deepScenes[deepScenes.length - 1]
+      : null;
+  const outroStart = lastScene
+    ? lastScene.start + lastScene.duration
+    : Math.round(props.totalDuration * fps) - 5 * fps;
+  const outroDuration = Math.round(props.totalDuration * fps) - outroStart;
 
   return (
     <AbsoluteFill style={{ backgroundColor: COLORS.cream }}>
-      {/* Audio track */}
+      {/* Audio track - starts from frame 0, synced with video */}
       {props.audioFile && (
         <Audio src={staticFile(props.audioFile)} />
       )}
 
-      {/* Scene 1: Brand Intro */}
-      <Sequence from={introStart} durationInFrames={introDuration}>
+      {/* Scene 1: Brand Intro - overlays the audio intro */}
+      <Sequence from={0} durationInFrames={brandIntroDuration}>
         <BrandIntro brandName={props.brandName} date={props.date} />
       </Sequence>
 
-      {/* Scene 2: Keywords */}
-      <Sequence from={keywordsStart} durationInFrames={keywordsDuration}>
+      {/* Scene 2: Keywords - follows brand intro, still during audio intro */}
+      <Sequence from={brandIntroDuration} durationInFrames={keywordsDuration}>
         <KeywordsScene keywords={props.keywords} />
       </Sequence>
 
-      {/* Scene 3-5: Deep Dives */}
+      {/* Scene 3-5: Deep Dives - synced to audio timestamps */}
       {deepScenes.map(({ item, start, duration }) => (
         <Sequence
           key={item.rank}
@@ -499,10 +507,10 @@ export const BestBlogsPodcast: React.FC<VideoData> = (props) => {
 
       {/* Scene 6: Quick Review Intro */}
       <Sequence from={quickIntroStart} durationInFrames={quickIntroDuration}>
-        <QuickReviewIntro />
+        <QuickReviewIntro count={quickItems.length} />
       </Sequence>
 
-      {/* Scene 7: Quick Cards */}
+      {/* Scene 7: Quick Cards - synced to audio timestamps */}
       {quickScenes.map(({ item, start, duration }) => (
         <Sequence
           key={item.rank}
@@ -514,7 +522,7 @@ export const BestBlogsPodcast: React.FC<VideoData> = (props) => {
       ))}
 
       {/* Scene 8: Brand Outro */}
-      <Sequence from={outroStart} durationInFrames={outroDuration}>
+      <Sequence from={outroStart} durationInFrames={Math.max(outroDuration, fps)}>
         <BrandOutro brandSlogan={props.brandSlogan} />
       </Sequence>
     </AbsoluteFill>

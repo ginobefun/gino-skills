@@ -28,8 +28,20 @@ Skill 内容按需分层加载，避免占用上下文窗口：
 
 ## Skill 分类
 
-- **基础 CRUD Skills** (`xgo-fetch-tweets`, `xgo-manage-lists` 等): 封装单组 API 端点的增删改查
-- **组合型工作流 Skills** (`xgo-track-kol`, `xgo-digest-tweets`, `xgo-organize-follows`): 编排多个 API 调用 + AI 分析
+- **BestBlogs 工作流 Skills** (`bestblogs-fetcher`, `bestblogs-daily-digest` 等): BestBlogs.dev 内容获取、策展、生成、分发
+- **XGo 基础 CRUD Skills** (`xgo-fetch-tweets`, `xgo-manage-lists` 等): 封装单组 API 端点的增删改查
+- **XGo 组合型工作流 Skills** (`xgo-track-kol`, `xgo-digest-tweets`, `xgo-organize-follows`): 编排多个 API 调用 + AI 分析
+- **内容创作与分发 Skills** (`image-gen`, `post-to-x`, `deep-reading` 等): 图像生成、内容发布、深度阅读
+
+## 个人上下文
+
+Skills 可能需要个人信息（如写作风格、项目背景、沟通偏好）。个人资料维护在 gino-bot 项目中：
+
+- **个人画像**: `/Users/gino/Documents/Github/gino-bot/USER.md` — 基本信息、职业、项目、技术栈、性格、目标
+- **核心价值观**: `/Users/gino/Documents/Github/gino-bot/SOUL.md` — 信念、框架（道法术器势）、工作哲学
+- **Twitter 画像**: USER.md 中的 Twitter 部分 — 主题分布、社交网络、代表性观点
+
+按需读取，不要预加载到 SKILL.md 中。
 
 ---
 

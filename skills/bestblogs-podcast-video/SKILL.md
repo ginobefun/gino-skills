@@ -98,46 +98,128 @@ contents/bestblogs-digest/YYYY-MM-DD/digest.txt
 - 关键词标签
 - 日期
 
-### 1.2 获取 Top 3 文章全文
+### 1.2 获取 Top 3 深度内容
 
-对排名前 3 的内容，获取完整信息用于深度解读:
+对排名前 3 的内容，根据 `resourceType` 获取完整信息用于深度解读:
+
+**通用请求**（所有类型都需要）:
 
 ```bash
 # 获取资源元数据（mainPoints, keyQuotes, summary 等）
 curl -s "https://api.bestblogs.dev/openapi/v1/resource/meta?id={RESOURCE_ID}" \
   -H "X-API-KEY: $BESTBLOGS_API_KEY"
+```
 
-# 获取文章 Markdown 全文（仅文章类型）
+**按内容类型获取详情**:
+
+| resourceType | 详情接口 | 获取内容 |
+|-------------|---------|---------|
+| `ARTICLE` | `resource/markdown` | Markdown 全文 |
+| `PODCAST` | `resource/podcast/content` | 转录分段、章节、发言人摘要、问答、关键句 |
+| `VIDEO` | `resource/markdown` | 视频描述/笔记（如有） |
+| `TWITTER` | 无需额外调用 | 推文数据已在 digest 中（文本、媒体、互动数据） |
+
+```bash
+# ARTICLE — 获取 Markdown 全文
+curl -s "https://api.bestblogs.dev/openapi/v1/resource/markdown?id={RESOURCE_ID}" \
+  -H "X-API-KEY: $BESTBLOGS_API_KEY"
+
+# PODCAST — 获取播客完整内容（转录、章节、摘要）
+curl -s "https://api.bestblogs.dev/openapi/v1/resource/podcast/content?id={RESOURCE_ID}" \
+  -H "X-API-KEY: $BESTBLOGS_API_KEY"
+
+# VIDEO — 获取视频描述（如有 Markdown 内容）
 curl -s "https://api.bestblogs.dev/openapi/v1/resource/markdown?id={RESOURCE_ID}" \
   -H "X-API-KEY: $BESTBLOGS_API_KEY"
 ```
 
-3 个请求并行执行。从返回数据中提取:
+3 个资源的请求并行执行。从返回数据中提取:
 - `summary`: 详细摘要
 - `mainPoints`: 主要观点（{point, explanation}）
 - `keyQuotes`: 关键金句
 - `authors`: 作者信息
 - `sourceName`: 来源
 - `tags`: 标签
-- Markdown 全文（用于理解上下文，不直接输出）
 
-### 1.3 抓取原文图片
+**ARTICLE 额外**: Markdown 全文（用于理解上下文，不直接输出）
 
-为视频准备图片素材。按优先级获取:
+**PODCAST 额外**:
+- `autoChapters`: 章节列表（{headLine, summary, beginTime, endTime}）— 用于脚本结构
+- `podCastSummary`: 全文摘要 — 作为精讲核心素材
+- `speakerSummaries`: 发言人总结 — 介绍嘉宾/主播
+- `questionsAnswers`: 问答对 — 可引用为精讲亮点
+- `keySentences`: 关键句子 — 可作为金句引用
 
-1. **OG 图片**: 从资源元数据中的图片字段获取（如有）
-2. **文内图片**: 从 Markdown 全文中提取图片 URL（正则 `!\[.*?\]\((.*?)\)`）
+**TWITTER 额外**: 推文互动数据（点赞/转推/引用数）、`mediaList`（图片/视频）、`author`
+
+### 1.3 抓取配图素材
+
+为视频准备图片素材。**按 `resourceType` 采用不同策略**:
+
+```bash
+mkdir -p contents/bestblogs-podcast-video/YYYY-MM-DD/assets
+```
+
+#### ARTICLE — 文章配图
+
+按优先级获取:
+1. **封面图**: 元数据 `cover` 字段
+2. **文内图片**: 从 Markdown 全文提取（正则 `!\[.*?\]\((.*?)\)`）
+3. **来源图标**: `sourceImage` 字段
+
+#### VIDEO — 视频配图
+
+1. **视频封面**: 元数据 `cover` 字段（即 YouTube 缩略图，直接使用）
+2. **关键帧截图**（仅 Top 3 精讲项）: 若 `url` 为 YouTube 链接，使用 `yt-dlp` + `ffmpeg` 截取关键画面
+
+```bash
+# 下载视频封面
+curl -s -o assets/article-{rank}-cover.jpg "COVER_URL"
+
+# 精讲项: 截取关键帧（需要 yt-dlp 已安装）
+# 先下载视频到临时文件，再按时间点截帧
+yt-dlp -f "bestvideo[height<=720]" --no-audio -o assets/temp-video.mp4 "YOUTUBE_URL"
+
+# 在章节关键时间点截帧（如 30s, 120s, 300s）
+ffmpeg -ss 30 -i assets/temp-video.mp4 -frames:v 1 -q:v 2 assets/article-{rank}-frame1.jpg
+ffmpeg -ss 120 -i assets/temp-video.mp4 -frames:v 1 -q:v 2 assets/article-{rank}-frame2.jpg
+
+# 截帧完成后删除临时视频
+rm -f assets/temp-video.mp4
+```
+
+**注意**: 截帧时间点优先从 `resource/markdown` 返回的视频描述中推断关键章节位置；若无章节信息，均匀分布在视频时长内（通过 `mediaDuration` 字段计算）。
+
+#### PODCAST — 播客配图
+
+1. **封面图**: 元数据 `cover` 字段（播客节目封面）
+2. **showNotes 图片**: 从 `resource/markdown` 返回的 showNotes 中提取图片 URL
 3. **来源图标**: `sourceImage` 字段
 
 ```bash
-# 下载图片到本地
-mkdir -p contents/bestblogs-podcast-video/YYYY-MM-DD/assets
-curl -s -o assets/article-1-og.jpg "IMAGE_URL"
+# 获取 showNotes（播客的 markdown 内容即 showNotes）
+curl -s "https://api.bestblogs.dev/openapi/v1/resource/markdown?id={RESOURCE_ID}" \
+  -H "X-API-KEY: $BESTBLOGS_API_KEY"
+# 从返回的 Markdown 中提取图片 URL
 ```
 
-**每篇文章保留 2-3 张关键图片**，用于视频中的配图轮播。
+#### TWITTER — 推文配图
 
-若某篇文章无可用图片，在阶段四使用 `image-gen` 生成补充图。
+1. **推文媒体**: `mediaList[].mediaUrlHttps`（推文中的图片/视频截图）
+2. **作者头像**: `author.profileImageUrl`
+3. **封面图**: 元数据 `cover` 字段（如有）
+
+```bash
+# 下载推文图片
+curl -s -o assets/article-{rank}-media1.jpg "MEDIA_URL_HTTPS"
+```
+
+#### 通用规则
+
+- **每条内容保留 2-3 张关键图片**，用于视频配图轮播
+- 精讲项（Top 3）优先保证图片丰富度，速览项仅需 1 张封面
+- 若某条内容无可用图片，在阶段四使用 `image-gen` 生成补充图
+- 图片命名规范: `article-{rank}-{type}.{ext}`（type: `cover`, `fig1`, `frame1`, `media1`）
 
 ---
 

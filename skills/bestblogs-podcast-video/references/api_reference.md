@@ -128,8 +128,53 @@ curl -s -X POST https://api.fish.audio/v1/tts \
 | `tags` | 标签，用于开场关键词 |
 | `score` | 评分 |
 | `readUrl` | BestBlogs 站内链接 |
+| `resourceType` | 资源类型: `ARTICLE`, `PODCAST`, `VIDEO`, `TWITTER` |
+| `cover` | 封面图片 URL（视频为 YouTube 缩略图） |
+| `mediaDuration` | 媒体时长（秒），视频/播客类型 |
+| `enclosureUrl` | 附件链接（音频/视频文件 URL） |
+| `url` | 原文链接（视频为 YouTube 链接） |
 
 完整 BestBlogs API 参数详见 `bestblogs-daily-digest/references/api_reference.md`。
+
+### 播客内容详情
+
+`GET /openapi/v1/resource/podcast/content?id={RESOURCE_ID}`
+
+用于获取播客类型资源的完整分析结果，**仅当 `resourceType` 为 `PODCAST` 时调用**。
+
+```bash
+curl -s "https://api.bestblogs.dev/openapi/v1/resource/podcast/content?id={RESOURCE_ID}" \
+  -H "X-API-KEY: $BESTBLOGS_API_KEY"
+```
+
+| 字段 | 类型 | 说明 |
+|------|------|------|
+| `transcriptionSegments` | Array | 转录分段 [{id, speakerId, beginTime, endTime, text}] |
+| `autoChapters` | Array | 章节 [{id, headLine, summary, beginTime, endTime}] |
+| `podCastSummary` | String | 播客全文摘要 |
+| `speakerSummaries` | Array | 发言人总结 [{speakerId, speakerName, summary}] |
+| `questionsAnswers` | Array | 问答 [{question, answer}] |
+| `keywords` | Array | 关键词列表 |
+| `keySentences` | Array | 关键句子 [{sentence, beginTime, endTime}] |
+
+**脚本撰写用途**:
+- `autoChapters` → 精讲结构骨架（按章节组织内容）
+- `podCastSummary` → 精讲核心素材
+- `speakerSummaries` → 介绍嘉宾/主播背景
+- `questionsAnswers` → 精讲亮点（可引用问答对）
+- `keySentences` → 金句引用
+
+### 推文媒体字段
+
+推文类型资源的媒体数据已包含在 digest 中（来自 `tweet/list` 接口的 `tweet` 字段）:
+
+| 字段 | 说明 |
+|------|------|
+| `mediaList` | 推文媒体 [{type, mediaUrlHttps, url}]，type 为 `photo`/`video`/`animated_gif` |
+| `author.profileImageUrl` | 作者头像 URL |
+| `author.userName` | 作者用户名（@handle） |
+| `text` | 推文文本（可能经翻译） |
+| `likeCount` / `retweetCount` / `viewCount` | 互动数据 |
 
 ---
 
@@ -199,6 +244,7 @@ interface VideoData {
 interface VideoItem {
   rank: number;                    // 排名 1-10
   type: "deep" | "quick";         // deep=精讲, quick=速览
+  resourceType?: "ARTICLE" | "PODCAST" | "VIDEO" | "TWITTER"; // 原始内容类型
   title: string;
   source: string;
   author?: string;                 // 仅精讲项

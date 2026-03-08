@@ -1,6 +1,7 @@
 export interface VideoItem {
   rank: number;
   type: "deep" | "quick";
+  resourceType?: "ARTICLE" | "PODCAST" | "VIDEO" | "TWITTER";
   title: string;
   source: string;
   author?: string;

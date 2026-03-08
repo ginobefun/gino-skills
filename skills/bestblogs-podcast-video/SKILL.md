@@ -218,8 +218,40 @@ curl -s -o assets/article-{rank}-media1.jpg "MEDIA_URL_HTTPS"
 
 - **每条内容保留 2-3 张关键图片**，用于视频配图轮播
 - 精讲项（Top 3）优先保证图片丰富度，速览项仅需 1 张封面
-- 若某条内容无可用图片，在阶段四使用 `image-gen` 生成补充图
 - 图片命名规范: `article-{rank}-{type}.{ext}`（type: `cover`, `fig1`, `frame1`, `media1`）
+
+#### ⚠️ 配图质量审核（必须执行）
+
+抓取到的图片**必须逐张审核**，确保与当前内容上下文匹配:
+
+1. **内容相关性检查**: 图片是否与该条内容的主题、观点相关？
+   - ✅ 文章讲 AI 编程 → 代码编辑器截图、架构图
+   - ❌ 文章讲 AI 编程 → 网站通用 banner、广告图、无关装饰图
+2. **信息价值判断**: 图片是否能辅助讲解？
+   - ✅ 产品演示截图、数据可视化、流程图、对比图
+   - ❌ 纯 logo、stock photo、低分辨率模糊图、文字截图（看不清）
+3. **淘汰条件**（符合任一则丢弃）:
+   - 分辨率低于 800px 宽
+   - 纯文字截图且文字无法辨认
+   - 通用性图片（网站 header、社交媒体模板、广告）
+   - 与当前讨论内容无关的图片
+
+**不匹配时的处理**: 若原文图片不符合要求或数量不足，使用 `image-gen` 生成补充图:
+
+```bash
+IMAGE_GEN_SKILL_DIR=$(readlink -f ~/.claude/skills/image-gen 2>/dev/null)
+
+npx -y bun ${IMAGE_GEN_SKILL_DIR}/scripts/main.ts \
+  --promptfiles assets/gen-prompt-{rank}.md \
+  --image assets/article-{rank}-gen1.png \
+  --ar 16:9 \
+  --quality 2k
+```
+
+**生图风格统一规则**:
+- 所有生成图片使用统一的 prompt 风格前缀: `"Minimalist tech illustration, flat design, muted color palette (ink blue #1a365d, cream #fefdfb, gray tones), clean lines, no text overlays, 16:9 aspect ratio. "`
+- 内容描述紧跟风格前缀，描述该内容的核心概念（如 "AI agent autonomously writing code in a modern IDE"）
+- **禁止**: 生成图片风格不一致（如有的写实有的卡通）、包含文字、使用鲜艳配色
 
 ---
 
@@ -335,20 +367,14 @@ ffmpeg -f concat -safe 0 -i segments/filelist.txt \
 
 ## 阶段四: 视频制作
 
-### 4.1 素材准备
+### 4.1 素材确认
 
-确认可用的图片素材。若 Top 3 某篇文章图片不足 2 张，用 `image-gen` 补充:
+确认阶段一抓取和生成的图片素材完整性:
 
-```bash
-IMAGE_GEN_SKILL_DIR=$(readlink -f ~/.claude/skills/image-gen 2>/dev/null)
-
-# 生成补充图片（BestBlogs 品牌风格）
-npx -y bun ${IMAGE_GEN_SKILL_DIR}/scripts/main.ts \
-  --promptfiles assets/supplementary-prompt.md \
-  --image assets/article-X-gen.png \
-  --ar 16:9 \
-  --quality 2k
-```
+- 精讲项（Top 3）: 每条至少 2 张图片（已在阶段 1.3 完成审核和补充）
+- 速览项: 每条至少 1 张封面图
+- 所有 `image-gen` 生成的图片风格是否一致（极简科技插画、BestBlogs 品牌配色）
+- 图片分辨率均 ≥ 800px 宽
 
 ### 4.2 准备视频数据
 
@@ -364,6 +390,7 @@ npx -y bun ${IMAGE_GEN_SKILL_DIR}/scripts/main.ts \
     {
       "rank": 1,
       "type": "deep",
+      "resourceType": "VIDEO",
       "title": "文章标题",
       "source": "来源名称",
       "author": "作者",
@@ -371,7 +398,7 @@ npx -y bun ${IMAGE_GEN_SKILL_DIR}/scripts/main.ts \
       "summary": "详细摘要...",
       "points": ["观点1", "观点2"],
       "quote": "关键金句",
-      "images": ["assets/article-1-og.jpg", "assets/article-1-fig1.jpg"],
+      "images": ["assets/article-1-cover.jpg", "assets/article-1-frame1.jpg"],
       "audioStart": 30,
       "audioDuration": 150
     },

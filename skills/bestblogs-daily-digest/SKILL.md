@@ -390,3 +390,13 @@ mkdir -p contents/bestblogs-digest/YYYY-MM-DD
 - `500`: 重试一次，仍失败则告知用户
 - `data` 为空或 `totalCount: 0`: 该时间范围内无内容。若 3d 仍无结果，建议用户尝试 `1w`
 - 单个分类请求失败不影响整体: 记录失败分类，用其他分类数据继续生成早报
+
+---
+
+## 职责边界
+
+本 skill 与 `daily-content-curator` 功能相近但定位不同:
+- **bestblogs-daily-digest**: 面向 BestBlogs 订阅者的每日简报产品，输出标准化日报格式
+- **daily-content-curator**: 跨源（BestBlogs + XGo）个人阅读清单，基于个人兴趣打分筛选
+
+如需个人阅读推荐（含 Twitter 推文），使用 `daily-content-curator`。

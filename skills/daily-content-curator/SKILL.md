@@ -34,17 +34,19 @@ XGo 接口: `https://api.xgo.ing`
 ## 工作流概览
 
 ```
-- [ ] 阶段一: 并行拉取数据（BestBlogs 5 请求 + XGo 3 请求）
-- [ ] 阶段二: 统一格式 + 去重合并
+- [ ] 阶段零: 读取历史筛选记录（用于去重）
+- [ ] 阶段一: 并行拉取数据（BestBlogs 7 请求 + XGo 3 请求）
+- [ ] 阶段二: 统一格式 + 去重合并（含历史去重）
 - [ ] 阶段三: 个人偏好多维度评分
 - [ ] 阶段四: 分层输出阅读清单
+- [ ] 阶段五: 保存筛选记录
 ```
 
 ---
 
 ## 阶段一: 并行拉取数据
 
-### BestBlogs 数据源（5 个请求）
+### BestBlogs 数据源（7 个请求）
 
 时间范围默认 `12h`（早间）或 `8h`（晚间），用户可调整。因 BestBlogs 无 `12h` 参数，使用 `1d` 并客户端按 `publishTimeStamp` 过滤。
 
@@ -61,19 +63,31 @@ curl -s -X POST https://api.bestblogs.dev/openapi/v1/resource/list \
   -H "X-API-KEY: $BESTBLOGS_API_KEY" \
   -d '{"currentPage":1,"timeFilter":"1d","sortType":"score_desc","userLanguage":"zh_CN","pageSize":100,"type":"ARTICLE","category":"Programming_Technology"}'
 
-# 3. 商业科技 + 产品设计文章
+# 3. 商业科技文章
 curl -s -X POST https://api.bestblogs.dev/openapi/v1/resource/list \
   -H "Content-Type: application/json" \
   -H "X-API-KEY: $BESTBLOGS_API_KEY" \
   -d '{"currentPage":1,"timeFilter":"1d","sortType":"score_desc","userLanguage":"zh_CN","pageSize":100,"type":"ARTICLE","category":"Business_Tech"}'
 
-# 4. 播客 + 视频
+# 4. 产品设计文章
+curl -s -X POST https://api.bestblogs.dev/openapi/v1/resource/list \
+  -H "Content-Type: application/json" \
+  -H "X-API-KEY: $BESTBLOGS_API_KEY" \
+  -d '{"currentPage":1,"timeFilter":"1d","sortType":"score_desc","userLanguage":"zh_CN","pageSize":100,"type":"ARTICLE","category":"Product_Development"}'
+
+# 5. 播客
 curl -s -X POST https://api.bestblogs.dev/openapi/v1/resource/list \
   -H "Content-Type: application/json" \
   -H "X-API-KEY: $BESTBLOGS_API_KEY" \
   -d '{"currentPage":1,"timeFilter":"1d","sortType":"score_desc","userLanguage":"zh_CN","pageSize":50,"type":"PODCAST"}'
 
-# 5. BestBlogs 推文
+# 6. 视频
+curl -s -X POST https://api.bestblogs.dev/openapi/v1/resource/list \
+  -H "Content-Type: application/json" \
+  -H "X-API-KEY: $BESTBLOGS_API_KEY" \
+  -d '{"currentPage":1,"timeFilter":"1d","sortType":"score_desc","userLanguage":"zh_CN","pageSize":50,"type":"VIDEO"}'
+
+# 7. BestBlogs 推文
 curl -s -X POST https://api.bestblogs.dev/openapi/v1/tweet/list \
   -H "Content-Type: application/json" \
   -H "X-API-KEY: $BESTBLOGS_API_KEY" \
@@ -102,7 +116,27 @@ curl -s -X POST https://api.xgo.ing/openapi/v1/tweet/list \
   -d '{"queryType":"recommendation","timeRange":"LAST_24H","sortType":"influence","tweetType":"NO_RETWEET","currentPage":1,"pageSize":50}'
 ```
 
-**所有 8 个请求并行执行。** 必须显式传递 `sortType`。
+**所有 10 个请求并行执行。** 必须显式传递 `sortType`。
+
+客户端过滤: BestBlogs 内容保留 `score >= 75`，XGo 推文保留 `influenceScore >= 40`。
+
+---
+
+## 阶段零: 读取历史筛选记录
+
+读取最近 3 天的历史筛选记录，构建「已推荐内容」列表用于去重:
+
+```bash
+# 历史记录存放在 contents/daily-curation/ 下
+# 例如今天 2026-03-10，依次尝试读取:
+#   contents/daily-curation/2026-03-09/curation.md
+#   contents/daily-curation/2026-03-08/curation.md
+#   contents/daily-curation/2026-03-07/curation.md
+# 目录或文件不存在则跳过
+```
+
+从每份历史记录中提取已推荐内容的**标题**和 **URL**，构建去重集合。
+首次运行或无历史文件时跳过此步骤。
 
 ---
 
@@ -147,15 +181,16 @@ curl -s -X POST https://api.xgo.ing/openapi/v1/tweet/list \
 - `text`（前 100 字）→ title
 - `text` → summary
 - `url` → url
-- `influenceScore` → score（需归一化到 0-100 范围，XGo 的 influenceScore 可能超过 100）
+- `influenceScore` → score（需按 3.1 节的对数公式归一化到 0-100）
 - `author.userName` → author
 - `createdAt` → publishTime
 
 ### 2.2 去重
 
 1. **URL 去重**: 同一 URL 出现在多个查询中，保留评分较高的一条
-2. **BestBlogs 推文 vs XGo 推文去重**: 若同一推文同时出现在两个数据源（通过推文 URL 或作者+内容匹配），保留信息更丰富的一条（BestBlogs 有 AI 摘要和标签，通常更完整）
-3. **同话题去重**: 多篇内容讨论同一话题时，保留评分最高的一条，记录补充来源
+2. **跨数据源推文去重**: 若同一推文同时出现在 BestBlogs 和 XGo（通过推文 URL 或作者+内容匹配），保留 BestBlogs 版本（有 AI 摘要和标签，信息更完整）
+3. **历史去重**: 与阶段零构建的「已推荐内容」集合比对，排除最近 3 天已推荐过的**相同内容**（按 URL 匹配）。注意：同一话题的不同角度文章不排除
+4. **同话题去重**: 多篇内容讨论同一话题时，保留评分最高的一条，记录补充来源
 
 ---
 
@@ -167,11 +202,14 @@ curl -s -X POST https://api.xgo.ing/openapi/v1/tweet/list \
 
 直接使用数据源评分:
 - BestBlogs 文章: `score` 字段（已是 0-100）
-- XGo 推文: `influenceScore` 归一化到 0-100（cap 在 100）
+- XGo 推文: `influenceScore` 按对数归一化到 0-100:
+  - `normalizedScore = min(100, 20 * log2(influenceScore + 1))`
+  - 参考: influenceScore 50 → ~57, 100 → ~67, 500 → ~80, 2000 → ~91
+  - 这保证了高 influenceScore 推文有区分度，而不是简单截断
 
 ### 3.2 个人兴趣匹配度（30%）
 
-根据内容标题、摘要、标签匹配个人兴趣主题:
+根据内容标题、摘要、标签匹配个人兴趣主题。兴趣主题从用户画像（`gino-bot/USER.md`）加载，以下为默认配置:
 
 **高兴趣（匹配 +25-30 分）**:
 - AI Agent, AI Coding, Claude Code, MCP 协议
@@ -191,6 +229,8 @@ curl -s -X POST https://api.xgo.ing/openapi/v1/tweet/list \
 - 纯资讯聚合
 
 **不匹配（+0 分）**: 未命中任何兴趣主题
+
+若能访问 USER.md，使用其中的技术栈和关注领域覆盖以上默认配置。
 
 ### 3.3 时效性（15%）
 
@@ -293,6 +333,27 @@ curl -s -X POST https://api.xgo.ing/openapi/v1/tweet/list \
 - 数据源标识: 文章标题后无需标注来源类型，通过"类型"字段区分
 - 推文类型内容标注 `@作者名`
 - 播客/视频标注时长
+
+---
+
+## 阶段五: 保存筛选记录
+
+将本次筛选结果保存到项目根目录:
+
+```
+contents/daily-curation/
+  YYYY-MM-DD/
+    curation.md          # 完整阅读清单（阶段四输出）
+    curation-am.md       # 早间版本（如果一天生成两次）
+    curation-pm.md       # 晚间版本
+```
+
+创建目录（如不存在）:
+```bash
+mkdir -p contents/daily-curation/YYYY-MM-DD
+```
+
+保存完成后，输出阅读清单内容到对话中，并告知用户文件路径。
 
 ---
 

@@ -7,7 +7,7 @@ description: "将阅读笔记、文章洞察或个人思考转化为多平台适
 
 将阅读笔记、文章洞察或个人思考转化为多种平台适配的内容格式。核心能力是理解素材本质，结合个人视角，生成适合不同平台的高质量原创内容。
 
-个人写作风格和背景见 `/Users/gino/Documents/Github/gino-bot/USER.md`，按需加载。
+个人写作风格和背景见用户画像文件（`gino-bot/USER.md`），按需从 auto memory 或用户指定路径加载。若无法访问，使用对话中已知的用户信息，或提示用户提供写作偏好。
 
 ## 工作流概览
 
@@ -269,8 +269,9 @@ tags: [tag1, tag2, tag3]
    - 如需封面图，先调用 `cover-image` 生成
    - 如需文内配图，先调用 `article-illustrator` 生成
 
-3. **博客保存**: 将 Markdown 文件保存到用户指定目录
-   - 默认路径: 用户确认或从项目配置读取
+3. **博客保存**: 将 Markdown 文件保存到博客项目目录
+   - 默认路径: `contents/blog-posts/YYYY-MM-DD-{slug}.md`（本项目下）
+   - 用户可指定其他目录（如博客 repo 的 `_posts/` 目录）
 
 4. **其他平台**: 输出格式化好的内容，提示用户手动发布
 
@@ -290,7 +291,7 @@ tags: [tag1, tag2, tag3]
 
 ### 个人风格
 
-每次生成前，按需读取 `/Users/gino/Documents/Github/gino-bot/USER.md` 获取:
+每次生成前，按需读取用户画像文件（`gino-bot/USER.md`，通过 auto memory 或用户指定路径）获取:
 - 写作风格偏好
 - 常用表达方式
 - 关注领域和专业背景
@@ -319,7 +320,7 @@ tags: [tag1, tag2, tag3]
 | 上游 Skill | 输入 | 说明 |
 |-----------|------|------|
 | deep-reading | 分析结果 + 核心洞察 | 最常见的输入来源 |
-| reading-workflow | 素材清单 + 个人思考 | 批量素材输入 |
+| reading-workflow | 素材清单 + 个人思考 | 批量素材输入（待开发） |
 | bestblogs-fetcher | 文章元数据 | 提供基础素材 |
 | xgo-fetch-tweets | 推文内容 | 推文内容再创作 |
 

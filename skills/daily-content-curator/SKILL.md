@@ -97,19 +97,19 @@ curl -s -X POST https://api.bestblogs.dev/openapi/v1/tweet/list \
 ### XGo 数据源（3 个请求）
 
 ```bash
-# 6. 关注者推文 - 第1页
+# 8. 关注者推文 - 第1页
 curl -s -X POST https://api.xgo.ing/openapi/v1/tweet/list \
   -H "Content-Type: application/json" \
   -H "X-API-KEY: $XGO_API_KEY" \
   -d '{"queryType":"following","timeRange":"LAST_24H","sortType":"influence","tweetType":"NO_RETWEET","currentPage":1,"pageSize":50}'
 
-# 7. 关注者推文 - 第2页
+# 9. 关注者推文 - 第2页
 curl -s -X POST https://api.xgo.ing/openapi/v1/tweet/list \
   -H "Content-Type: application/json" \
   -H "X-API-KEY: $XGO_API_KEY" \
   -d '{"queryType":"following","timeRange":"LAST_24H","sortType":"influence","tweetType":"NO_RETWEET","currentPage":2,"pageSize":50}'
 
-# 8. 推荐推文
+# 10. 推荐推文
 curl -s -X POST https://api.xgo.ing/openapi/v1/tweet/list \
   -H "Content-Type: application/json" \
   -H "X-API-KEY: $XGO_API_KEY" \
@@ -375,12 +375,26 @@ mkdir -p contents/daily-curation/YYYY-MM-DD
 
 ## 与其他 Skill 的协作
 
+### 职责边界
+
+本 skill 与以下 skills 有相似功能但**定位不同**:
+
+| 对比 Skill | 本 skill | 对比 skill | 关键区别 |
+|-----------|---------|-----------|---------|
+| bestblogs-daily-digest | 个人阅读清单 | BestBlogs 订阅者简报 | 受众不同: 个人 vs 产品用户 |
+| xgo-digest-tweets | 跨源筛选含推文 | 推文专属摘要日报 | 范围不同: 跨源打分 vs Twitter 详细摘要 |
+| bestblogs-content-reviewer | 筛选阅读 | 审核评分 | 目的不同: 个人阅读 vs 产品运营 |
+
+如需推文详细摘要（含翻译、分类、关键词提取），使用 `xgo-digest-tweets`。
+如需面向 BestBlogs 读者的每日简报，使用 `bestblogs-daily-digest`。
+
+### 下游衔接
+
 | 下游 Skill | 衔接方式 |
 |-----------|---------|
-| deep-reading | 用户选择必读文章后，调用 deep-reading 进行深度分析 |
-| reading-workflow (P1) | 将阅读清单作为输入，引导逐篇阅读 |
+| reading-workflow | 输出 `curation.md` → reading-workflow 阶段一加载 |
+| deep-reading | 用户选择必读文章后，直接调用 deep-reading 进行深度分析 |
 | content-synthesizer | 阅读后的素材传递给 content-synthesizer 生成内容 |
-| bestblogs-content-reviewer | 两者独立: reviewer 审核评分，curator 筛选阅读 |
 
 ---
 
@@ -397,9 +411,11 @@ mkdir -p contents/daily-curation/YYYY-MM-DD
 
 ### XGo API 错误
 
-- `401`: 检查 `XGO_API_KEY` 是否已设置且有效
-- `403`: 开放接口需要 Plus 或 Pro 会员
-- `429`: 频率限制 — 等待 10 秒后重试一次（PLUS 200次/分, PRO 600次/分）
+- `401` (AUTH_001/002/003): 检查 `XGO_API_KEY` 是否已设置且有效
+- `403` (AUTH_004): 开放接口需要 Plus 或 Pro 会员
+- `429` (xgo-0010): 频率限制 — 等待 10 秒后重试一次（PLUS 200次/分, PRO 600次/分）
+- **HTTP 200** `xgo-0012`: 功能级会员限制 — 提示升级
+- **HTTP 200** `xgo-9005`: 操作不允许 — 展示 message
 - `data` 为空: 无推文匹配，建议扩大 `timeRange`
 
 ### 单数据源失败处理

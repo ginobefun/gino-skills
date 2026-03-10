@@ -331,3 +331,13 @@ bun run ${SKILL_DIR}/scripts/main.ts \
 - `list/all` 返回空列表: 所有推文归入 "其他" / "其他 (推荐)"
 - `image-gen` 失败: 重试一次，仍失败则跳过信息图并告知用户
 - `GOOGLE_API_KEY` 未设置: 跳过信息图生成，提示用户配置
+
+---
+
+## 职责边界
+
+本 skill 与 `daily-content-curator` 功能相近但定位不同:
+- **xgo-digest-tweets**: 专注 Twitter 推文，生成详细摘要（含翻译、分类、关键词），适合了解 Twitter 动态全貌
+- **daily-content-curator**: 跨源（BestBlogs + XGo）个人阅读清单，基于兴趣打分筛选，适合决定"今天读什么"
+
+如需跨源个性化阅读推荐，使用 `daily-content-curator`。

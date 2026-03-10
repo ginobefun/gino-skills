@@ -60,6 +60,17 @@
 | retweetedTweet | TweetDTO | 转推的原始推文 |
 | author | UserBrief | 作者信息 |
 
+### UserBrief
+
+| 字段 | 类型 | 说明 |
+|------|------|------|
+| id | String | 用户 ID |
+| userName | String | 用户名（@后面的部分） |
+| name | String | 显示名称 |
+| avatar | String | 头像 URL |
+| followers | Integer | 粉丝数 |
+| following | Integer | 关注数 |
+
 ---
 
 ## 用户信息

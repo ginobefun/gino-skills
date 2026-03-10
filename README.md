@@ -15,6 +15,7 @@
 | [bestblogs-weekly-curator](skills/bestblogs-weekly-curator/) | 从本周内容中精选 20 篇文章，基于原文生成中英文周刊推荐语 | REST API + AI 筛选 + 原文分析 | ✅ 已完成 |
 | [bestblogs-weekly-blogger](skills/bestblogs-weekly-blogger/) | 从周刊生成图文并茂的博客文章 | REST API + 图片生成 + R2 上传 | ✅ 已完成 |
 | [bestblogs-daily-digest](skills/bestblogs-daily-digest/) | 每日早报：智能筛选 Top 10 内容，生成纯文本/杂志风 HTML/信息图海报 | REST API + AI 筛选 + image-gen | ✅ 已完成 |
+| [bestblogs-add-source](skills/bestblogs-add-source/) | 从文本或 OPML 提取 RSS 地址，批量添加订阅源到 BestBlogs | Admin API | ✅ 已完成 |
 
 ### Twitter/X — 数据读取
 
@@ -203,8 +204,8 @@ done
 |------|------|-----------|
 | `BESTBLOGS_API_KEY` | BestBlogs OpenAPI 鉴权 | bestblogs-fetcher, bestblogs-article-recommender, bestblogs-daily-digest |
 | `XGO_API_KEY` | XGo (xgo.ing) 开放接口鉴权 | 所有 xgo-* skills |
-| `BESTBLOGS_ADMIN_USER_ID` | BestBlogs 管理员用户 ID | bestblogs-process-videos, bestblogs-article-recommender |
-| `BESTBLOGS_ADMIN_JWT_TOKEN` | BestBlogs 管理员 JWT Token | bestblogs-process-videos, bestblogs-article-recommender |
+| `BESTBLOGS_ADMIN_USER_ID` | BestBlogs 管理员用户 ID | bestblogs-process-videos, bestblogs-article-recommender, bestblogs-add-source |
+| `BESTBLOGS_ADMIN_JWT_TOKEN` | BestBlogs 管理员 JWT Token | bestblogs-process-videos, bestblogs-article-recommender, bestblogs-add-source |
 | `X_CHROME_PATH` | Chrome 可执行文件路径（可选，自动检测） | x-actions |
 | `GOOGLE_API_KEY` | Google Gemini API Key | image-gen, cover-image, article-illustrator |
 | `OPENAI_API_KEY` | OpenAI API Key（可选） | image-gen |

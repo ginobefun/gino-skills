@@ -244,7 +244,7 @@ interface VideoData {
 interface VideoItem {
   rank: number;                    // 排名 1-10
   type: "deep" | "quick";         // deep=精讲, quick=速览
-  resourceType?: "ARTICLE" | "PODCAST" | "VIDEO" | "TWITTER"; // 原始内容类型
+  resourceType?: "ARTICLE" | "PODCAST" | "VIDEO" | "TWITTER";
   title: string;
   source: string;
   author?: string;                 // 仅精讲项
@@ -254,10 +254,29 @@ interface VideoItem {
   quote?: string;                  // 仅精讲项，关键金句
   oneLiner?: string;               // 仅速览项
   images: string[];                // 图片路径列表
+  slides?: DeepSlide[];            // 精讲项的 slides 数组（8-12 张，每张 8-15 秒）
   audioStart: number;              // 在音频中的起始时间（秒）
   audioDuration: number;           // 该段音频时长（秒）
 }
+
+interface DeepSlide {
+  type: "cover" | "problem" | "point" | "quote" | "takeaway" | "source-card";
+  text: string;                    // 主文本
+  subText?: string;                // 副文本（来源、作者等）
+  image?: string;                  // 图片路径（相对 Remotion public/）
+  durationRatio: number;           // 占 item audioDuration 的比例（0-1，所有 slides 之和 = 1.0）
+}
 ```
+
+**Slide 类型说明**:
+| type | 布局 | 说明 |
+|------|------|------|
+| `cover` | 全幅图片 + 底部暗色渐变 + 标题 | 引入文章 |
+| `source-card` | 白色卡片 UI + 评分徽章 | 来源预览 |
+| `problem` | 居中大字 | 核心问题 |
+| `point` | 左图(60%) + 右文(40%) | 观点 + 配图 |
+| `quote` | 斜体居中 + 装饰引号 | 金句引用 |
+| `takeaway` | 暗色图片叠加 + 白字 | 思考/总结 |
 
 ### 品牌配色（BestBlogs）
 

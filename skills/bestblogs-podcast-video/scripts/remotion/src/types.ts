@@ -1,3 +1,11 @@
+export interface DeepSlide {
+  type: "cover" | "problem" | "point" | "quote" | "takeaway" | "source-card";
+  text: string;
+  subText?: string; // secondary text (source, author, etc.)
+  image?: string; // image path relative to Remotion public/
+  durationRatio: number; // fraction of total item audioDuration (0-1, all slides sum to 1.0)
+}
+
 export interface VideoItem {
   rank: number;
   type: "deep" | "quick";
@@ -11,6 +19,7 @@ export interface VideoItem {
   quote?: string;
   oneLiner?: string;
   images: string[];
+  slides?: DeepSlide[]; // sub-scenes for deep items, each 8-15s
   audioStart: number;
   audioDuration: number;
 }

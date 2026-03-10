@@ -73,10 +73,10 @@ podcast_intro_name: Gino   # 开场白中使用的名字
 ## 工作流概览
 
 ```
-- [ ] 阶段一: 内容准备（读取早报 + 获取 Top 3 全文 + 抓取图片）
-- [ ] 阶段二: 播客脚本生成 ⚠️ 需用户确认脚本
-- [ ] 阶段三: 音频合成（Fish.audio TTS 分段生成 + FFmpeg 合并）
-- [ ] 阶段四: 视频制作（Remotion 渲染）
+- [ ] 阶段一: 内容准备（早报 + Top 3 全文 + 抓取 5+ 张配图/项）
+- [ ] 阶段二: 脚本生成（10-12 分钟，≥3800 字） ⚠️ 需用户确认
+- [ ] 阶段三: 音频合成（Fish.audio TTS 分段 + FFmpeg 合并）
+- [ ] 阶段四: 视频制作（生成 slides 数据 + Remotion 渲染）
 - [ ] 阶段五: 上传 & 分发 ⛔ 分发需用户确认
 ```
 
@@ -143,36 +143,27 @@ curl -s "https://api.bestblogs.dev/openapi/v1/resource/markdown?id={RESOURCE_ID}
 - `sourceName`: 来源
 - `tags`: 标签
 
-**ARTICLE 额外**: Markdown 全文（用于理解上下文，不直接输出）
+**ARTICLE**: Markdown 全文用于深度理解。**PODCAST**: `autoChapters`(章节)、`podCastSummary`(摘要)、`speakerSummaries`(发言人)、`questionsAnswers`(问答)、`keySentences`(金句)。**TWITTER**: 互动数据 + `mediaList` + `author`。详见 `references/api_reference.md`。
 
-**PODCAST 额外**:
-- `autoChapters`: 章节列表（{headLine, summary, beginTime, endTime}）— 用于脚本结构
-- `podCastSummary`: 全文摘要 — 作为精讲核心素材
-- `speakerSummaries`: 发言人总结 — 介绍嘉宾/主播
-- `questionsAnswers`: 问答对 — 可引用为精讲亮点
-- `keySentences`: 关键句子 — 可作为金句引用
+### 1.3 抓取配图素材（丰富视觉）
 
-**TWITTER 额外**: 推文互动数据（点赞/转推/引用数）、`mediaList`（图片/视频）、`author`
-
-### 1.3 抓取配图素材
-
-为视频准备图片素材。按 `resourceType` 采用不同策略：
+为视频准备**大量**图片素材。精讲项需要 5-8 张图用于 slides 切换（每 8-15 秒换一张），避免长时间停留在同一画面。
 
 ```bash
 mkdir -p contents/bestblogs-podcast-video/YYYY-MM-DD/assets
 ```
 
-**各类型配图来源**:
+**各类型配图来源**（按优先级逐级获取，尽量多收集）:
 
-| resourceType | 优先级 1 | 优先级 2 | 优先级 3 |
-|-------------|---------|---------|---------|
-| ARTICLE | 元数据 `cover` | Markdown 文内图片 | `sourceImage` |
-| VIDEO | 元数据 `cover`（缩略图） | yt-dlp + ffmpeg 截帧（仅 Top 3） | — |
-| PODCAST | 元数据 `cover` | showNotes 图片 | `sourceImage` |
-| TWITTER | `mediaList[].mediaUrlHttps` | 元数据 `cover` | — |
+| resourceType | 优先级 1 | 优先级 2 | 优先级 3 | 优先级 4 |
+|-------------|---------|---------|---------|---------|
+| ARTICLE | 元数据 `cover` | Markdown 文内**所有**图片 | `sourceImage` | `image-gen` 生成补充 |
+| VIDEO | 元数据 `cover`（缩略图） | yt-dlp + ffmpeg 截帧（每 30 秒一帧，Top 3） | 视频描述内图片 | `image-gen` 生成 |
+| PODCAST | 元数据 `cover` | showNotes 图片 | `sourceImage` | `image-gen` 生成 |
+| TWITTER | `mediaList[].mediaUrlHttps`（**全部**下载） | 元数据 `cover` | 引用推文的 OG 图 | `image-gen` 生成 |
 
-**命名规范**: `article-{rank}-{type}.{ext}`（type: `cover`, `fig1`, `frame1`, `media1`, `gen1`）
-**数量要求**: 精讲项（Top 3）至少 2 张，速览项至少 1 张封面
+**命名规范**: `article-{rank}-{type}-{n}.{ext}`（type: `cover`, `fig`, `frame`, `media`, `gen`）
+**数量要求**: 精讲项（Top 3）**至少 5 张**，速览项至少 1 张封面
 
 #### ⚠️ 配图质量审核（必须执行）
 
@@ -182,7 +173,7 @@ mkdir -p contents/bestblogs-podcast-video/YYYY-MM-DD/assets
 - 与当前内容无关（通用 banner、广告、stock photo）
 - 纯文字截图且文字无法辨认
 
-**生成替换图**:
+**生成替换图**（图片不足 5 张或质量不合格时）:
 
 ```bash
 IMAGE_GEN_SKILL_DIR=$(readlink -f ~/.claude/skills/image-gen 2>/dev/null)
@@ -209,26 +200,28 @@ Minimalist tech illustration, flat design, muted color palette (ink blue #1a365d
 ### 脚本整体结构
 
 ```
-[开场白] ～30秒
-  品牌问候 + 日期 + 今日关键词概览
+[开场白] ～40秒
+  品牌问候 + 日期 + 今日关键词概览 + 悬念预告
 
-[精讲区: Top 1] ～2-3分钟
-  背景/作者介绍 → 核心问题 → 关键观点 → 个人思考/启发
+[精讲区: Top 1] ～3分钟
+  背景/作者介绍 → 核心问题 → 关键观点（3 个） → 金句引用 → 个人思考/启发
 
-[精讲区: Top 2] ～2-3分钟
+[精讲区: Top 2] ～2.5-3分钟
   同上结构
 
-[精讲区: Top 3] ～2-3分钟
+[精讲区: Top 3] ～2.5-3分钟
   同上结构
 
 [速览区: 第 4-10 条] ～3-4分钟
-  每条 15-20 秒，标题+一句话核心要点
+  每条 20-30 秒，标题+核心要点+为什么值得关注
 
-[结尾] ～20秒
-  总结 + BestBlogs 品牌引导
+[结尾] ～30秒
+  今日精华回顾 + 总结 + BestBlogs 品牌引导
 ```
 
-预计总时长：**10-12 分钟**
+预计总时长：**10-12 分钟**（约 4000-5000 字脚本，**不低于 3800 字**）
+
+⚠️ 脚本常偏短，必须**主动扩充**: 精讲每条 3 个观点 + 速览每条 2 句话 + 精讲间过渡桥接
 
 ### 脚本生成规则
 
@@ -258,13 +251,13 @@ contents/bestblogs-podcast-video/YYYY-MM-DD/script.md
 
 | 段落标记 | 内容 | 预估字数 |
 |---------|------|---------|
-| `<!-- SEGMENT: intro -->` | 开场白 | 100-150 |
-| `<!-- SEGMENT: deep-1 -->` | Top 1 精讲 | 500-800 |
-| `<!-- SEGMENT: deep-2 -->` | Top 2 精讲 | 500-800 |
-| `<!-- SEGMENT: deep-3 -->` | Top 3 精讲 | 500-800 |
-| `<!-- SEGMENT: quick -->` | 速览第 4-7 条 | 300-500 |
-| `<!-- SEGMENT: quick-2 -->` | 速览第 8-10 条 | 200-400 |
-| `<!-- SEGMENT: outro -->` | 结尾 | 60-80 |
+| `<!-- SEGMENT: intro -->` | 开场白 | 120-180 |
+| `<!-- SEGMENT: deep-1 -->` | Top 1 精讲 | 650-1000 |
+| `<!-- SEGMENT: deep-2 -->` | Top 2 精讲 | 650-1000 |
+| `<!-- SEGMENT: deep-3 -->` | Top 3 精讲 | 650-1000 |
+| `<!-- SEGMENT: quick -->` | 速览第 4-7 条 | 400-600 |
+| `<!-- SEGMENT: quick-2 -->` | 速览第 8-10 条 | 300-500 |
+| `<!-- SEGMENT: outro -->` | 结尾 | 80-120 |
 
 ### 3.2 调用 Fish.audio TTS
 
@@ -307,21 +300,32 @@ bun ${SKILL_DIR}/scripts/fish-tts.ts \
 
 确认阶段一抓取和生成的图片素材完整性：
 
-- 检查精讲项（Top 3）每条至少 2 张图片（已在阶段 1.3 完成审核和补充）
+- 检查精讲项（Top 3）每条**至少 5 张**图片（确保 slides 有足够素材切换）
 - 检查速览项每条至少 1 张封面图
 - 确认所有 `image-gen` 生成的图片风格统一（极简科技插画、BestBlogs 品牌配色）
 - 确认图片分辨率均 ≥ 800px 宽
+- 图片不足时立即用 `image-gen` 补充（参见 1.3 补充策略）
 
-### 4.2 准备视频数据
+### 4.2 准备视频数据（含 Slides）
 
-生成 Remotion 所需的 JSON 数据文件。完整 schema 见 `scripts/remotion/src/types.ts`（`VideoData` + `VideoItem`）。
+生成 Remotion 所需的 JSON 数据文件。完整 schema 见 `scripts/remotion/src/types.ts`（`VideoData` + `VideoItem` + `DeepSlide`）。
 
 **关键字段**:
-- `items[].type`: `"deep"` (精讲，含 points/quote) 或 `"quick"` (速览，含 oneLiner)
-- `items[].images`: 相对于 Remotion `public/` 目录的路径（如 `"assets/article-1-cover.jpg"`）
+- `items[].type`: `"deep"` (精讲) 或 `"quick"` (速览)
+- `items[].images`: 所有可用图片路径列表（相对 Remotion `public/`）
+- `items[].slides`: **精讲项必须提供** slides 数组，每个 slide 8-15 秒
 - `items[].audioStart` / `audioDuration`: 秒数，从 ffprobe 段时长累加计算（见 4.3）
 - `audioFile`: `"podcast.mp3"`（Remotion public/ 目录下）
 - `totalDuration`: podcast.mp3 总时长（秒）
+
+**Slides 结构**（仅 deep 项需要），完整 schema 见 `scripts/remotion/src/types.ts`（`DeepSlide`），slides 编排和布局详见 `references/video_design_guide.md`。
+
+⚠️ **关键原则**:
+- 每张 slide **8-15 秒**，避免任何画面停留超过 20 秒
+- `durationRatio` 之和必须 = 1.0
+- 图片分配：每个 `point` slide 尽量配不同图片
+- 无图片的 slide（problem/quote）用纯色背景 + 大字排版
+- slides 内容和顺序必须与音频播讲顺序一致
 
 保存到：`contents/bestblogs-podcast-video/YYYY-MM-DD/video-data.json`
 
@@ -344,7 +348,13 @@ done
 - **quick items 8-10**: 均分 `quick-2` 段时长（quick-2 时长 / 3）
 - **totalDuration**: 合并后 podcast.mp3 的总时长
 
-### 4.4 Remotion 渲染
+### 4.4 生成 Slides 数据
+
+根据脚本 BCPT 结构和收集的图片，为每个精讲 item 生成 `slides` 数组。按段落字数比例计算 `durationRatio`，校验每 slide 在 8-15 秒范围内。
+
+**音视频同步原则**: slides 顺序和内容必须与音频播讲顺序一致。
+
+### 4.5 Remotion 渲染
 
 **重要**: Remotion 的 `staticFile()` 从 `public/` 目录加载文件。渲染前必须将音频和图片**复制**（不能用 symlink）到 Remotion 项目的 `public/` 目录，渲染后清理：
 
@@ -382,29 +392,7 @@ rm -rf ${REMOTION_DIR}/public/assets ${REMOTION_DIR}/public/podcast.mp3
 
 ### 5.1 生成 metadata.json
 
-上传和 RSS 更新需要的元数据文件，**必须在上传前创建**:
-
-```json
-{
-  "date": "YYYY-MM-DD",
-  "title": "BestBlogs 早报 | YYYY-MM-DD | 关键词 1 / 关键词 2 / 关键词 3",
-  "description": "今天精讲三条：...... 速览七条涵盖......",
-  "duration": 533,
-  "durationFormatted": "08:53",
-  "audioFile": "YYYY-MM-DD/podcast.mp3",
-  "audioSize": 12788967,
-  "keywords": ["关键词 1", "关键词 2"],
-  "items": [
-    { "rank": 1, "title": "文章标题", "source": "来源" },
-    { "rank": 2, "title": "文章标题", "source": "来源" }
-  ]
-}
-```
-
-- `duration`: 秒数（整数）
-- `audioFile`: 相对于 base-url 的路径（不含 `podcast/` 前缀）
-- `audioSize`: podcast.mp3 文件大小（字节），用 `stat -f%z` 获取
-- `items`: 10 条内容的 rank + title + source，用于 RSS 描述
+上传和 RSS 更新需要的元数据文件，**必须在上传前创建**。包含: `date`, `title`, `description`, `duration`(秒), `durationFormatted`, `audioFile`(相对路径), `audioSize`(字节, `stat -f%z`), `keywords`, `items`(10 条的 rank+title+source)。
 
 ### 5.2 上传 R2
 
@@ -463,22 +451,7 @@ contents/bestblogs-podcast-video/
   podcast.xml          # RSS Feed（累积更新）
 ```
 
-完成后输出摘要：
-
-```
-🎙️ BestBlogs 播客视频 | YYYY-MM-DD
-
-📝 脚本: contents/bestblogs-podcast-video/YYYY-MM-DD/script.md
-🎧 播客: contents/bestblogs-podcast-video/YYYY-MM-DD/podcast.mp3 (XX:XX)
-🎬 视频: contents/bestblogs-podcast-video/YYYY-MM-DD/video.mp4 (XX:XX)
-
-精讲内容:
-1. [Top 1 标题] - 来源
-2. [Top 2 标题] - 来源
-3. [Top 3 标题] - 来源
-
-速览内容: 第 4-10 条共 7 篇
-```
+完成后输出摘要（脚本/播客/视频路径 + 精讲 3 条标题 + 速览 7 条）。
 
 ---
 

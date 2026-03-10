@@ -226,6 +226,7 @@ contents/
   content-analytics/           # content-analytics 输出
     weekly-YYYY-MM-DD.md       # 周报
     monthly-YYYY-MM.md         # 月报
+  content-strategy.md          # 内容策略画像（analytics→curator 反馈闭环）
   daily-digest/                # bestblogs-daily-digest 输出（已有）
     YYYY-MM-DD/
       digest.md

@@ -196,6 +196,13 @@ curl -s -X POST https://api.xgo.ing/openapi/v1/tweet/list \
 
 ## 阶段三: 个人偏好多维度评分
 
+### 加载内容策略画像（反馈闭环）
+
+评分前，尝试读取 `contents/content-strategy.md`（由 `content-analytics` 生成）。
+
+- **文件存在**: 提取话题权重调整、高价值来源、内容类型建议，应用到 3.2/3.4/3.5 评分中
+- **文件不存在**: 使用下方默认配置（首次运行或未执行过 analytics 时）
+
 对每条内容计算**综合推荐分**（0-100），权重如下:
 
 ### 3.1 基础质量分（40%）
@@ -232,6 +239,8 @@ curl -s -X POST https://api.xgo.ing/openapi/v1/tweet/list \
 
 若能访问 USER.md，使用其中的技术栈和关注领域覆盖以上默认配置。
 
+**策略画像叠加**: 若 `content-strategy.md` 存在，将其中的 `推荐权重调整` 叠加到匹配分数上。例如策略画像中"AI Coding +5"，则匹配到 AI Coding 的内容在上述基础分上再 +5。
+
 ### 3.3 时效性（15%）
 
 - 发布 < 6 小时: +15
@@ -254,6 +263,8 @@ curl -s -X POST https://api.xgo.ing/openapi/v1/tweet/list \
 
 **中可信度来源（+4-6 分）**: 知名技术博客、行业媒体
 **未知来源（+2 分）**: 首次出现的来源
+
+**策略画像叠加**: 若 `content-strategy.md` 中有 `高价值来源` 列表，列表中的来源额外 +3 分。
 
 ### 3.5 内容类型多样性（5%）
 

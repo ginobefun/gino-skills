@@ -72,6 +72,7 @@
 |-------|------|------|------|
 | [post-to-x](skills/post-to-x/) | 发布内容到 Twitter/X（推文、长文 Article） | Chrome CDP + 真实键盘粘贴 | ✅ 已完成 |
 | [post-to-wechat](skills/post-to-wechat/) | 发布内容到微信公众号（文章、图文） | WeChat API / Chrome CDP | ✅ 已完成 |
+| [send-wechat-group-message](skills/send-wechat-group-message/) | 发送消息到微信群（文本、图片，支持多群） | REST API | ✅ 已完成 |
 
 ### 图片生成典型使用场景
 
@@ -92,13 +93,14 @@
 | 引用转发 | "引用这条推文并评论" | post-to-x |
 | 发布到微信公众号 | "发布到公众号"、"post to wechat" | post-to-wechat |
 | 微信图文消息 | "发布图文到公众号" | post-to-wechat |
+| 推送消息到微信群 | "发到微信群"、"推送到群"、"群发消息" | send-wechat-group-message |
 
 ### 组合发布场景
 
 | 场景 | 流程 | 涉及的 Skills |
 |------|------|--------------|
 | 周刊博客全流程 | 策展周刊 → 生成博客 → 配图 → 上传 R2 → 发布推特/公众号 | bestblogs-weekly-curator → bestblogs-weekly-blogger → image-gen → post-to-x / post-to-wechat |
-| 每日早报 + 分发 | 生成早报 → 发布到群聊/公众号/X | bestblogs-daily-digest → post-to-wechat / post-to-x |
+| 每日早报 + 分发 | 生成早报 → 发布到群聊/公众号/X | bestblogs-daily-digest → send-wechat-group-message / post-to-wechat / post-to-x |
 | 文章配图后发布 | 生成配图 → 发布到公众号 | article-illustrator → post-to-wechat |
 | 封面 + 发布 | 生成封面 → 发布长文到 X | cover-image → post-to-x |
 
@@ -213,6 +215,8 @@ done
 | `R2_PUBLIC_URL` | R2 公开访问 URL | bestblogs-weekly-blogger (R2 上传) |
 | `WECHAT_APP_ID` | 微信公众号 App ID | post-to-wechat |
 | `WECHAT_APP_SECRET` | 微信公众号 App Secret | post-to-wechat |
+| `WECHAT_BOT_HOST` | 微信群消息代理接口地址 | send-wechat-group-message |
+| `WECHAT_BOT_API_KEY` | 微信群消息代理 API 密钥 | send-wechat-group-message |
 
 ## 相关项目
 

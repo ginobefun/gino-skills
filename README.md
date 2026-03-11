@@ -15,6 +15,7 @@
 | [bestblogs-weekly-curator](skills/bestblogs-weekly-curator/) | 从本周内容中精选 20 篇文章，基于原文生成中英文周刊推荐语 | REST API + AI 筛选 + 原文分析 | ✅ 已完成 |
 | [bestblogs-weekly-blogger](skills/bestblogs-weekly-blogger/) | 从周刊生成图文并茂的博客文章 | REST API + 图片生成 + R2 上传 | ✅ 已完成 |
 | [bestblogs-daily-digest](skills/bestblogs-daily-digest/) | 每日早报：智能筛选 Top 10 内容，生成纯文本/杂志风 HTML/信息图海报 | REST API + AI 筛选 + image-gen | ✅ 已完成 |
+| [bestblogs-content-reviewer](skills/bestblogs-content-reviewer/) | 内容评分 Review + 推荐阅读清单（200 条筛选，分层推荐 20-30 条） | Admin API + AI 评审 | ✅ 已完成 |
 | [bestblogs-add-source](skills/bestblogs-add-source/) | 从文本或 OPML 提取 RSS 地址，批量添加订阅源到 BestBlogs | Admin API | ✅ 已完成 |
 
 ### Twitter/X — 数据读取
@@ -122,12 +123,14 @@
 | 指定框架分析 | "用第一性原理分析"、"用六顶帽分析"、"MECE 检查一下" | 按需 |
 | 粘贴内容直接分析 | 直接粘贴文章内容 + "深度阅读" | Level 3（默认） |
 
-### Content OS（计划中）
+### Content OS
 
 | Skill | 功能 | 状态 |
 |-------|------|------|
-| reading-workflow | 每日阅读 + 思考引导工作流 | 📋 计划中 |
-| content-analytics | 数据回收与分析 | 📋 计划中 |
+| [daily-content-curator](skills/daily-content-curator/) | 个人多维度评分，输出分层阅读清单（必读/推荐/备选） | ✅ 已完成 |
+| [reading-workflow](skills/reading-workflow/) | 每日阅读引导 + 思考反馈 + 创作素材收集 | ✅ 已完成 |
+| [content-synthesizer](skills/content-synthesizer/) | 多平台内容生成（博客/推文/公众号/小红书/即刻/知乎） | ✅ 已完成 |
+| [content-analytics](skills/content-analytics/) | 阅读数据分析 → 内容策略反馈闭环 | ✅ 已完成 |
 
 ## Twitter/X 典型使用场景
 
@@ -183,6 +186,93 @@
 | 每日简报 + 分发 | 生成推文日报 → 发布到 X/公众号 | xgo-digest-tweets → post-to-x / post-to-wechat |
 | 整理关注 + 列表归类 | 推荐取关 → 整理分类 → 归入列表 | xgo-manage-follows → xgo-organize-follows |
 | 调研后引用转发 | 查看用户资料 → 看最新推文 → 引用评论 | xgo-view-profile → xgo-search-tweets → x-actions |
+
+## 每日内容工作流（Content OS）
+
+> 以下是围绕 BestBlogs + Content OS skills 的完整每日工作流，从内容预处理到阅读、创作、分发的全链路。
+
+### 工作流全景
+
+```
+7:00  process-videos ──→ 视频转录入库 ──→ 触发 AI 分析
+                                              ↓
+8:00  content-reviewer ──→ 评分 review ──→ 推荐阅读清单（20-30 条）
+         ↓                                    ↓
+8:30  人工调分                          deep-reading（逐篇深度分析）
+                                              ↓
+                                     content-synthesizer（多平台内容生成）
+                                        ↓        ↓        ↓
+                                    post-to-x  post-to-wechat  blog
+
+9:30  daily-digest ──→ 早报生成 ──→ send-wechat-group + post-to-x + post-to-wechat
+```
+
+### Step 1: 视频预处理（7:00）
+
+批量转录等待预处理的 YouTube 视频，更新内容到 BestBlogs 并触发 AI 分析。
+
+| 说法示例 | 行为 | 涉及的 Skill |
+|----------|------|--------------|
+| "处理全部视频" | 查询待处理视频 → 全部转录（跳过确认） | bestblogs-process-videos |
+| "处理前 10 个视频" | 查询待处理视频 → 取前 10 个转录 | bestblogs-process-videos |
+| "处理视频" | 查询并展示列表 → 等待选择 | bestblogs-process-videos |
+
+### Step 2: 内容评审 + 推荐阅读（8:00）
+
+评审 200 条待 review 内容的 AI 评分，纠正偏差，并从中筛选 20-30 条值得阅读的内容。
+
+| 说法示例 | 行为 | 涉及的 Skill |
+|----------|------|--------------|
+| "每日 review" / "review 并推荐阅读" | 拉取待审内容 → AI 评审分类 → 输出评分统计 + review 表格 + 推荐阅读清单（分必读/推荐/可选三层） | bestblogs-content-reviewer |
+| "第3条评分调到85" / "把第5条标记为不合格" | 调整分类或评分 → 批量执行 markNotQualified | bestblogs-content-reviewer |
+| "学习偏好" / "分析评分规律" | 分析历史精选/非精选特征 → 输出偏好模型 | bestblogs-content-reviewer |
+
+**输出内容**:
+- 评分统计概览（分数分布、领域分布、偏差占比）
+- Review 表格（按 🌟推荐阅读 / ⬇️偏高 / ⬆️偏低 / ✅合理 分组）
+- 推荐阅读清单（🔥必读 3-5 篇 / ⭐推荐 8-12 篇 / 📌可选 5-8 篇 / 🐦推特 5-10 条）
+
+### Step 3: 深度阅读 + 内容创作（8:30）
+
+对推荐阅读清单中的内容进行深度分析，提取洞察，生成多平台分享内容。
+
+| 说法示例 | 行为 | 涉及的 Skill |
+|----------|------|--------------|
+| "深度阅读 https://..." | 15+ 思维框架深度分析单篇文章 | deep-reading |
+| "开始阅读" / "继续阅读" | 加载推荐清单 → 逐篇引导阅读 → 收集创作素材 | reading-workflow |
+| "基于刚才的分析写推文和博客" | 多平台内容生成 → 审阅修改 → 发布 | content-synthesizer |
+| "发布到推特" / "发到公众号" | 调用对应平台发布 | post-to-x / post-to-wechat |
+
+**深度阅读 → 创作 → 发布的典型串联**:
+```
+深度阅读一篇文章 → 获得分析洞察
+    → "基于这篇文章写推文" → content-synthesizer 生成推文
+    → "发布到推特" → post-to-x 发布
+    → "也写一篇公众号文章" → content-synthesizer 生成
+    → "发到公众号" → post-to-wechat 发布
+```
+
+### Step 4: 生成早报 + 分发（9:30）
+
+基于当日已更新评分的内容，生成 BestBlogs 每日早报，分发到多个渠道。
+
+| 说法示例 | 行为 | 涉及的 Skill |
+|----------|------|--------------|
+| "生成今日早报" / "每日早报" | 智能筛选 Top 10 → 生成纯文本 + 杂志风 HTML + 海报 | bestblogs-daily-digest |
+| "把早报发到微信群" | 推送早报到指定微信群 | send-wechat-group-message |
+| "早报发到推特" | 发布早报精华推文 | post-to-x |
+| "早报发到公众号" | 发布早报到微信公众号 | post-to-wechat |
+
+### Skills 依赖关系
+
+| Skill | 上游输入 | 下游输出 |
+|-------|----------|----------|
+| bestblogs-process-videos | BestBlogs 待处理视频 | 转录内容入库 → 触发 AI 分析 |
+| bestblogs-content-reviewer | BestBlogs 待审内容 | 评分调整 + 推荐阅读清单 |
+| deep-reading | 文章 URL 或推荐清单 | 深度分析结果 |
+| reading-workflow | 推荐阅读清单 / URL 列表 | 阅读笔记 + 创作素材 (materials.md) |
+| content-synthesizer | deep-reading 分析 / 素材清单 | 多平台内容 → post-to-x / post-to-wechat |
+| bestblogs-daily-digest | BestBlogs 高分内容 | 早报 → send-wechat-group / post-to-x / post-to-wechat |
 
 ## 安装
 

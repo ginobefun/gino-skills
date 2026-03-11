@@ -13,14 +13,18 @@ description: "发送消息到微信群（非公众号）。适用场景: (1) 推
 
 所有请求需要 `X-API-Key` 请求头。从环境变量读取配置:
 
-- **接口地址**: 环境变量 `WECHAT_BOT_HOST`（如 `http://x.x.x.x`）
+- **接口地址**: 环境变量 `WECHAT_BOT_HOST`（必须包含 `http://` 协议前缀，如 `http://x.x.x.x`）
 - **API 密钥**: 环境变量 `WECHAT_BOT_API_KEY`
 
 ```bash
 -H "X-API-Key: $WECHAT_BOT_API_KEY"
 ```
 
-若任一环境变量未设置，提示用户配置后再继续。**禁止在任何输出中暴露接口地址或 API 密钥的实际值。**
+**启动检查**:
+1. 若任一环境变量未设置，提示用户配置后再继续
+2. 若 `WECHAT_BOT_HOST` 不以 `http://` 或 `https://` 开头，自动补全 `http://` 前缀再使用
+
+**禁止在任何输出中暴露接口地址或 API 密钥的实际值。**
 
 ## 接口
 
@@ -51,28 +55,21 @@ curl -s -X POST "$WECHAT_BOT_HOST/noc/message/info" \
 
 `content` 和 `picBase64` 至少填一个。
 
-### 文本换行
+### 构造 JSON 请求体（重要 — 中文编码）
 
-消息文本中的换行使用 JSON 转义字符 `\n`，在 JSON 字符串内书写即可，不要在 JSON 中使用实际换行。
+**必须使用 Python 构造包含中文的 JSON 请求体。** 禁止使用 `jq --arg` + shell 变量拼接中文内容，否则中文会被 Unicode 双重转义变成乱码（`\\uXXXX`）。
 
-**示例 — 多行消息:**
-```json
-{
-  "content": "今日早报 \n\n1. 第一条内容 \n2. 第二条内容 \n3. 第三条内容",
-  "groupName": "BestBlogs 读者交流群",
-  "picBase64": ""
-}
-```
-
-### 发送图片
-
-将图片文件转为 base64 字符串，通过临时文件构造请求体（避免 shell 参数长度限制）:
-
+**发送文本消息:**
 ```bash
-# 将图片转为 base64 并用 jq 构造请求体
-PIC_B64=$(base64 -i /path/to/image.png | tr -d '\n')
-jq -n --arg content "配图说明" --arg group "群名" --arg pic "$PIC_B64" \
-  '{content: $content, groupName: $group, picBase64: $pic}' > /tmp/wechat_msg.json
+# 从文件读取内容
+python3 -c "
+import json
+with open('/path/to/content.txt', 'r') as f:
+    content = f.read()
+payload = {'content': content, 'groupName': '群名称', 'picBase64': ''}
+with open('/tmp/wechat_msg.json', 'w', encoding='utf-8') as f:
+    json.dump(payload, f, ensure_ascii=False)
+"
 
 curl -s -X POST "$WECHAT_BOT_HOST/noc/message/info" \
   -H "Content-Type: application/json" \
@@ -81,6 +78,41 @@ curl -s -X POST "$WECHAT_BOT_HOST/noc/message/info" \
 
 rm -f /tmp/wechat_msg.json
 ```
+
+**关键**: `json.dump` 必须指定 `ensure_ascii=False`，否则中文会被转为 `\uXXXX` 转义序列，经 curl 发送后显示为乱码。
+
+### 发送图片（含压缩）
+
+图片发送前**必须先压缩**，确保 base64 编码后 JSON 请求体不超过 200KB。超过此限制接口可能无响应（HTTP 000）。
+
+```bash
+# 1. 压缩图片: 长边缩至 1200px，JPEG 质量 60%
+sips -Z 1200 -s format jpeg -s formatOptions 60 /path/to/image.png --out /tmp/wechat_pic.jpg
+
+# 2. 用 Python 构造包含 base64 图片的 JSON（避免 shell 参数长度限制）
+python3 -c "
+import base64, json
+with open('/tmp/wechat_pic.jpg', 'rb') as f:
+    pic_b64 = base64.b64encode(f.read()).decode()
+payload = {'content': '配图说明（可为空字符串）', 'groupName': '群名称', 'picBase64': pic_b64}
+with open('/tmp/wechat_msg.json', 'w', encoding='utf-8') as f:
+    json.dump(payload, f, ensure_ascii=False)
+"
+
+# 3. 发送
+curl -s -X POST "$WECHAT_BOT_HOST/noc/message/info" \
+  -H "Content-Type: application/json" \
+  -H "X-API-Key: $WECHAT_BOT_API_KEY" \
+  -d @/tmp/wechat_msg.json
+
+# 4. 清理临时文件
+rm -f /tmp/wechat_msg.json /tmp/wechat_pic.jpg
+```
+
+**图片压缩规则**:
+- 原图 > 500KB 时必须压缩
+- 使用 `sips`（macOS 内置）: `-Z 1200`（长边 1200px）+ `-s formatOptions 60`（JPEG 质量 60%）
+- 压缩后仍 > 500KB 时，进一步降低质量到 40% 或缩至 800px
 
 可以同时发送文本 + 图片，也可以只发图片（`content` 传空字符串）。
 
@@ -97,21 +129,10 @@ rm -f /tmp/wechat_msg.json
 
 ### 场景一: 发送文本消息到单个群
 
-1. 检查环境变量 `WECHAT_BOT_HOST` 和 `WECHAT_BOT_API_KEY` 是否已设置
-2. 构造消息文本，确保换行使用 `\n`
+1. 检查环境变量 `WECHAT_BOT_HOST` 和 `WECHAT_BOT_API_KEY` 是否已设置（HOST 需含 `http://` 前缀）
+2. 用 Python 构造 JSON 请求体（`ensure_ascii=False`）
 3. 向用户展示消息预览，等待确认
-4. 调用接口发送
-
-```bash
-curl -s -X POST "$WECHAT_BOT_HOST/noc/message/info" \
-  -H "Content-Type: application/json" \
-  -H "X-API-Key: $WECHAT_BOT_API_KEY" \
-  -d '{
-    "content": "Hello World \n这是第二行",
-    "groupName": "目标群名",
-    "picBase64": ""
-  }'
-```
+4. 用 `curl -d @/tmp/wechat_msg.json` 发送
 
 ### 场景二: 发送消息到多个群
 
@@ -127,18 +148,12 @@ curl -s -X POST "$WECHAT_BOT_HOST/noc/message/info" \
 
 ### 场景三: 发送图片消息
 
-```bash
-PIC_B64=$(base64 -i /path/to/image.png | tr -d '\n')
-jq -n --arg content "配图说明文字" --arg group "目标群名" --arg pic "$PIC_B64" \
-  '{content: $content, groupName: $group, picBase64: $pic}' > /tmp/wechat_msg.json
+1. 先压缩图片（`sips -Z 1200 -s format jpeg -s formatOptions 60`）
+2. 用 Python 构造含 base64 图片的 JSON（避免 shell 参数长度限制 + 确保编码正确）
+3. 用 `curl -d @/tmp/wechat_msg.json` 发送
+4. 清理临时文件
 
-curl -s -X POST "$WECHAT_BOT_HOST/noc/message/info" \
-  -H "Content-Type: application/json" \
-  -H "X-API-Key: $WECHAT_BOT_API_KEY" \
-  -d @/tmp/wechat_msg.json
-
-rm -f /tmp/wechat_msg.json
-```
+详见上方「发送图片（含压缩）」的完整代码示例。
 
 ## 输出格式
 

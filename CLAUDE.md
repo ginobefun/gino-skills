@@ -32,6 +32,7 @@ Skill 内容按需分层加载，避免占用上下文窗口：
 - **XGo 基础 CRUD Skills** (`xgo-fetch-tweets`, `xgo-manage-lists` 等): 封装单组 API 端点的增删改查
 - **XGo 组合型工作流 Skills** (`xgo-track-kol`, `xgo-digest-tweets`, `xgo-organize-follows`): 编排多个 API 调用 + AI 分析
 - **内容创作与分发 Skills** (`image-gen`, `post-to-x`, `deep-reading` 等): 图像生成、内容发布、深度阅读
+- **Content OS 编排 Skills** (`daily-content-management`, `daily-content-curator`, `reading-workflow`, `content-synthesizer`, `content-analytics`): 每日内容全流程编排，通过 Daily Workspace 共享中间数据
 
 ## 个人上下文
 
@@ -212,6 +213,18 @@ Content OS 相关 skills 将数据持久化到项目根目录的 `contents/` 下
 
 ```
 contents/
+  daily-workspace/             # 每日共享工作区（各 skill 中间数据枢纽）
+    YYYY-MM-DD/
+      raw-articles.md          # BestBlogs 原始文章列表（基础信息）
+      raw-tweets.md            # XGo 原始推文列表（基础信息）
+      article-details/         # 文章详情缓存（按需获取，skill 间共享）
+        {article-id}.md        # 单篇文章全文 + AI 分析
+      tweet-details/           # 推文详情缓存
+        {tweet-id}.md          # 推文完整内容 + 上下文
+      topic-clusters.md        # 同主题聚合结果
+      plan.md                  # 选题计划和执行状态
+      outputs/                 # 创作产出（多渠道版本）
+        {序号}-{slug}.md
   daily-curation/              # daily-content-curator 输出
     YYYY-MM-DD/
       curation.md              # 阅读清单（默认）
@@ -226,11 +239,17 @@ contents/
   content-analytics/           # content-analytics 输出
     weekly-YYYY-MM-DD.md       # 周报
     monthly-YYYY-MM.md         # 月报
+  style-profile.md             # 个人写作风格画像（每周更新，各 skill 共享）
   content-strategy.md          # 内容策略画像（analytics→curator 反馈闭环）
   daily-digest/                # bestblogs-daily-digest 输出（已有）
     YYYY-MM-DD/
       digest.md
 ```
+
+**Daily Workspace 共享协议**: Content OS 相关 skills 通过 `daily-workspace/` 共享中间数据，避免重复 API 调用。详细格式规范见 `skills/daily-content-management/references/workspace-spec.md`。核心规则：
+- 获取内容详情前先查 `article-details/` 或 `tweet-details/` 缓存
+- 风格参考统一从 `contents/style-profile.md` 读取
+- 选题和创作状态通过 `plan.md` 追踪
 
 **命名约定**:
 - 目录按日期: `YYYY-MM-DD` 格式

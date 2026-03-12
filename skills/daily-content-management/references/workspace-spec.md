@@ -18,7 +18,6 @@ contents/daily-workspace/
     │   ├── {tweet-id}.md
     │   └── ...
     ├── topic-clusters.md        # 同主题聚合结果
-    ├── style-profile.md         # 个人风格画像（软链或副本）
     ├── plan.md                  # 选题计划 + 执行状态
     └── outputs/                 # 创作产出
         ├── 01-blog-title.md
@@ -305,7 +304,7 @@ contents/daily-workspace/
 | 需要文章列表 | 先读 `raw-articles.md` → 不存在则调 API 并写入 |
 | 需要文章全文 | 先查 `article-details/{id}.md` → 不存在则通过 Jina Reader 获取并缓存 |
 | 需要推文详情 | 先查 `tweet-details/{id}.md` → 不存在则调 XGo API 并缓存 |
-| 需要风格参考 | 读 `style-profile.md` → 不存在则触发风格画像生成 |
+| 需要风格参考 | 读 `contents/style-profile.md`（根级别） → 不存在则触发风格画像生成 |
 | 需要选题状态 | 读 `plan.md` |
 
 ### 写入规则
@@ -322,7 +321,7 @@ contents/daily-workspace/
 
 - **当日数据**: 始终有效，不过期
 - **历史工作区**: 保留 3 天供去重和参考
-- **style-profile.md**: 每周更新一次（存放在 `contents/style-profile.md` 根级别，工作区中放软链）
+- **style-profile.md**: 每周更新一次，存放在 `contents/style-profile.md`（根级别，不在工作区内）
 - **article-details/**: 永不过期（内容不变）
 
 ---

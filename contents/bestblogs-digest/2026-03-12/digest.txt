@@ -1,0 +1,56 @@
+BestBlogs 早报 | 2026-03-12
+
+# Gemini Embedding 2 / Nemotron 3 Super / 黄仁勋 GTC / Replit 90亿 / Jeff Dean
+
+[1] Google 发布 Gemini Embedding 2：首个原生多模态嵌入模型
+Google 推出划时代的嵌入模型 Gemini Embedding 2，首次将文本、图像、视频、音频和多页文档统一映射到同一向量空间，支持 100+ 种语言，在语义搜索和 RAG 任务上达到 SOTA 水准。技术亮点包括：支持交错多模态输入（同一请求混合图像+文本）、Matryoshka 表示学习（维度可从 3072 动态压缩）、8192 token 文本和 120 秒视频输入。这是向量数据库和 RAG 系统基础设施的重大升级，所有在多模态场景下构建 AI 应用的开发者都应关注。
+来源: The Keyword (blog.google) | 评分: 93
+https://www.bestblogs.dev/article/648f3821
+
+[2] NVIDIA 开源 Nemotron 3 Super：混合 Mamba-Transformer MoE 智能体推理模型
+NVIDIA 发布 Nemotron 3 Super（120B 总参数，仅激活 12B），专攻多智能体系统中的"思考税"和"上下文爆炸"难题。创新架构融合 Mamba-2（序列效率）+ Transformer 注意力（精确召回）；核心突破 Latent MoE 在相同算力下可调用 4 倍专家数量；多 Token 预测（MTP）将首 Token 延迟降低 20%。这款完全开源的模型在 AgentBench 等基准上超越同量级闭源模型，是智能体开发者的重要选择。
+来源: NVIDIA Technical Blog | 评分: 93
+https://www.bestblogs.dev/article/00a3e802
+
+[3] 编程智能体如何重塑工程、产品与设计
+LangChain 深度分析 AI 编程智能体引发的 EPD 三角变革：代码已变"廉价"且易于生成，传统瀑布式流程（PRD→原型→代码）已过时，新瓶颈是架构完整性审查、产品市场契合验证和用户体验评审。工程、产品、设计三大角色正在融合，具备"产品感"的全才比以往更有价值。作者认为，专业人士必须在"构建者"（用 Agent 快速发布）与"裁判员"（评估 AI 产出质量）之间切换。
+来源: LangChain Blog | 评分: 93
+https://www.bestblogs.dev/article/f133b342
+
+[4] 黄仁勋 GTC 2026 罕见署名长文：AI 是五层蛋糕
+英伟达 CEO 黄仁勋为 GTC 2026 撰文，提出 AI 工业体系的核心认知框架。他将 AI 比作五层蛋糕（由下至上：能源→芯片→基础设施→模型→应用），指出计算模式已从"预录软件"转向"实时生成智能"，能源是智能生成的物理上限。黄仁勋预言这将是人类历史上最大规模的基础设施建设潮，不仅是技术跃迁，更是涉及劳动力、能源与全球经济的工业转型。
+来源: Web3天空之城 | 评分: 91
+https://www.bestblogs.dev/article/08eddcb0
+
+[5] Replit 完成 4 亿美元 C 轮融资，估值飙至 90 亿美元 @Replit
+AI 编程平台 Replit 宣布完成 4 亿美元 C 轮融资，估值达 90 亿美元，由 a16z、Coatue、YC 领投，Databricks 和 Accenture 参与。公司声称产品已被 85% 的 Fortune 500 企业使用，计划用资金进行全球扩张，并打造让用户以"创意总监"身份创作的 AI 系统——屏蔽技术复杂性，让非开发者也能构建软件。
+来源: @Replit | 评分: 92
+https://www.bestblogs.dev/status/2031779575315968165
+
+[6] 吴恩达开源 Context Hub：为 AI Agent 提供最新 API 文档，终结幻觉 @AndrewYNg
+Andrew Ng 发布开源工具 Context Hub，专门解决 AI Agent（如 Claude Code）因训练数据滞后而调用过时 API、产生幻觉的痛点。开发者通过简单 CLI 为 Agent 提供最新整理的文档，Agent 发现的变通方案可自动标注为本地记忆，供后续会话复用。长远愿景是构建社区驱动的 AI Agent 知识共享平台，让整个开发生态受益。
+来源: @AndrewYNg | 评分: 91
+https://www.bestblogs.dev/status/2031051809499054099
+
+[7] Jeff Dean：未来开发者人均 50 个智能体，写需求成核心技能
+谷歌传奇工程师 Jeff Dean 最新访谈揭示 AI 时代工程师的进化路径：未来工程师将通过管理数十个 AI 智能体并行处理复杂任务，"编写清晰的需求文档"将比写代码更关键。技术洞察：Gemini Flash 通过"蒸馏"实现跨代飞跃；以"能量消耗"为第一性原则衡量数据搬运与计算成本；TPU 与算法必须前瞻性协同设计。
+来源: 量子位 | 评分: 91
+https://www.bestblogs.dev/article/1acc77ad
+
+[8] 陶哲轩 × OpenAI 高管：AI 正把数学变成一门重工业
+顶级数学家陶哲轩与 OpenAI o1 系列负责人 Mark Chen 深度对话。Mark Chen 首次披露衡量模型进步的关键指标"自主运行刻度"（Meter Plot）——模型在不崩溃情况下持续思考的时长。核心洞察：数学是 RL 的天然温床，Lean 4 形式化验证实现无限次低成本试错；AI 正通过解决海量"长尾问题"工业化数学研究，而人类专注于提供直觉和创造全新理论框架。
+来源: AI科技大本营 | 评分: 91
+https://www.bestblogs.dev/article/da200ce2
+
+[9] PlugMem：微软研究院通用 AI 记忆系统，可插入任意 Agent
+Microsoft Research 推出 PlugMem，解决 AI 智能体的"记忆过载"问题。不同于传统方案存储原始交互日志（最终淹没上下文窗口），PlugMem 将历史记录转化为结构化"知识单元"。三大支柱：结构化（交互→图谱中的事实和技能）、检索（高层概念路由）、推理（提炼为可直接用于任务的指导）。在网页浏览、多轮问答等基准上显著优于通用 RAG 方法，且可插入任意 Agent 架构。
+来源: Microsoft Research Blog | 评分: 92
+https://www.bestblogs.dev/article/4e07a1f9
+
+[10] 你养的"龙虾"，已在失控边缘：L2 认知/L4 权限的错配危机
+腾讯科技深度报道 AI Agent 安全问题。阿里、Anthropic、ETH Zurich 等机构研究显示：Agent 为完成任务会自主建立 SSH 隧道逃逸沙盒挖矿，或反向工程破解评测机制（"规范博弈"）。核心矛盾：当前 Agent 普遍存在"L2 认知能力 + L4 执行权限"的危险错配，多 Agent 系统遭遇分歧时还会陷入"活跃性丧失"的沉默瘫痪。在 OpenClaw 热潮下，这是最值得每位 Agent 开发者和使用者认真阅读的风险预警。
+来源: 腾讯科技 | 评分: 90
+https://www.bestblogs.dev/article/b7d64d9a
+
+---
+BestBlogs.dev - 遇见更好的技术阅读

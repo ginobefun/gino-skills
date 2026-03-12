@@ -1,6 +1,6 @@
 ---
 name: bestblogs-content-reviewer
-description: "BestBlogs 内容评分 Review 工作流。适用场景: (1) 每日内容 review, (2) 审核待评审文章, (3) 审核待评审推特, (4) 评估 AI 评分准确性, (5) 纠正内容评分, (6) 推荐重点阅读内容, (7) 内容质量审核, (8) 早晚 review, (9) 推荐今日阅读清单, (10) 从待审内容中筛选值得阅读的。触发短语: 'review 内容', '内容审核', '评分 review', 'content review', '审核文章', '审核推特', '每日 review', 'daily review', '评分纠正', 'score review', '内容评审', '评分审核', 'review articles', 'review tweets', '开始 review', 'start review', '看看待审内容', '检查评分', '今天有什么要 review 的', '推荐阅读', '有什么值得读的', 'recommend reading', 'review并推荐阅读', '今日推荐'"
+description: "BestBlogs 内容评分 Review 工作流。适用场景：(1) 每日内容 review, (2) 审核待评审文章，(3) 审核待评审推特，(4) 评估 AI 评分准确性，(5) 纠正内容评分，(6) 推荐重点阅读内容，(7) 内容质量审核，(8) 早晚 review, (9) 推荐今日阅读清单，(10) 从待审内容中筛选值得阅读的。触发短语：'review 内容', '内容审核', '评分 review', 'content review', '审核文章', '审核推特', '每日 review', 'daily review', '评分纠正', 'score review', '内容评审', '评分审核', 'review articles', 'review tweets', '开始 review', 'start review', '看看待审内容', '检查评分', '今天有什么要 review 的', '推荐阅读', '有什么值得读的', 'recommend reading', 'review 并推荐阅读', '今日推荐'"
 ---
 
 # BestBlogs 内容评分 Review (Content Score Reviewer)
@@ -11,7 +11,7 @@ description: "BestBlogs 内容评分 Review 工作流。适用场景: (1) 每日
 
 ## 认证
 
-所有请求使用 Admin API 认证:
+所有请求使用 Admin API 认证：
 
 | 变量 | 用途 |
 |------|------|
@@ -26,7 +26,7 @@ description: "BestBlogs 内容评分 Review 工作流。适用场景: (1) 每日
 
 若环境变量未设置，提示用户配置。
 
-接口地址: `https://api.bestblogs.dev`
+接口地址：`https://api.bestblogs.dev`
 
 ## 可用端点
 
@@ -78,7 +78,7 @@ curl -s -X POST https://api.bestblogs.dev/api/admin/article/list \
 - 来源质量分布（哪些源的内容更容易被精选）
 - 内容类型和深度偏好（字数、阅读时间分布）
 
-**输出偏好摘要**给用户确认，例如:
+**输出偏好摘要**给用户确认，例如：
 ```
 📊 评分偏好分析:
 - 精选文章分数范围: 85-98，中位数 90
@@ -89,7 +89,7 @@ curl -s -X POST https://api.bestblogs.dev/api/admin/article/list \
 
 ---
 
-## 阶段一: 拉取待 review 内容
+## 阶段一：拉取待 review 内容
 
 **并行发起两个请求**（`qualifiedFilter: "unknown"` = 待 review）:
 
@@ -112,12 +112,12 @@ curl -s -X POST https://api.bestblogs.dev/api/admin/article/list \
 **数据预处理**:
 - 过滤掉 `processFlowStatus == "CANCELLED"` 的内容（已取消，跳过并计数）
 - 按 `totalScore` 从高到低排序
-- 统计: 总数、已过滤数、分数分布、领域分布
+- 统计：总数、已过滤数、分数分布、领域分布
 - 每次最多 review 200 条（取 `totalScore` 最高的前 200 条），超出部分下次 review
 
 ---
 
-## 阶段二: AI 评审与分类
+## 阶段二：AI 评审与分类
 
 **读取用户画像**（按需）: 从 `/Users/gino/Documents/Github/gino-bot/USER.md` 获取用户关注领域和偏好，辅助判断"推荐阅读"的相关性。
 
@@ -142,19 +142,19 @@ curl -s -X POST https://api.bestblogs.dev/api/admin/article/list \
 | ⬇️ 评分偏高 | 内容差于分数，建议下调 | `markNotQualified` + `adjustScore=负数` |
 
 **分类指导原则**:
-- 🌟 推荐阅读: 分数 ≥ 80 的内容都应纳入候选池，从中筛选 20-30 条值得阅读的内容。筛选维度: 内容深度、与用户关注领域的相关性、来源可信度、时效性、独特视角。文章推荐 15-20 篇，推特推荐 5-10 条
-- ⬆️ 评分偏低: 优质来源的深度文章被低估，或热门话题的独特视角
-- ⬇️ 评分偏高: 标题党、水文、纯资讯聚合、低深度营销内容
-- ✅ 评分合理: 大多数内容应属于此类，分数与质量基本匹配
+- 🌟 推荐阅读：分数 ≥ 80 的内容都应纳入候选池，从中筛选 20-30 条值得阅读的内容。筛选维度：内容深度、与用户关注领域的相关性、来源可信度、时效性、独特视角。文章推荐 15-20 篇，推特推荐 5-10 条
+- ⬆️ 评分偏低：优质来源的深度文章被低估，或热门话题的独特视角
+- ⬇️ 评分偏高：标题党、水文、纯资讯聚合、低深度营销内容
+- ✅ 评分合理：大多数内容应属于此类，分数与质量基本匹配
 
 **评分调整幅度参考**:
-- 微调: ±1~2（小偏差）
-- 中等调整: ±3~5（明显偏差）
-- 大幅调整: ±6~10（严重偏差，罕见）
+- 微调：±1~2（小偏差）
+- 中等调整：±3~5（明显偏差）
+- 大幅调整：±6~10（严重偏差，罕见）
 
 ---
 
-## 阶段三: 输出 review 表格
+## 阶段三：输出 review 表格
 
 分别输出文章和推特的 review 结果，按分类分组展示。
 
@@ -191,26 +191,26 @@ curl -s -X POST https://api.bestblogs.dev/api/admin/article/list \
 ```markdown
 ## 📋 推特 Review（共 X 条，跳过 Y 条已取消）
 
-（同上表格结构，标题格式: [@作者](https://admin.bestblogs.dev/article/review/RAW_xxx): 标题）
+（同上表格结构，标题格式：[@作者](https://admin.bestblogs.dev/article/review/RAW_xxx): 标题）
 ```
 
 ```markdown
 ## 📚 推荐阅读清单（共 N 篇文章 + M 条推特）
 
-以下内容建议进入 deep-reading 工作流，按推荐优先级排序:
+以下内容建议进入 deep-reading 工作流，按推荐优先级排序：
 
 ### 🔥 必读（N 篇）— 强烈推荐深度阅读
 
 | # | 标题 | 来源 | 评分 | 领域 | 字数/时长 | 推荐理由 |
 |---|------|------|------|------|-----------|----------|
-| 1 | [标题](原文URL) | 来源名 | 92 | AI | 5.2K 字 ~15min | 深度技术分析，提出独特框架... |
-| 2 | [标题](原文URL) | 来源名 | 89 | 编程 | 3.8K 字 ~10min | 实战经验总结，可直接应用... |
+| 1 | [标题](https://admin.bestblogs.dev/article/review/RAW_xxx) | 来源名 | 92 | AI | 5.2K 字 ~15min | 深度技术分析，提出独特框架... |
+| 2 | [标题](https://admin.bestblogs.dev/article/review/RAW_xxx) | 来源名 | 89 | 编程 | 3.8K 字 ~10min | 实战经验总结，可直接应用... |
 
 ### ⭐ 推荐（N 篇）— 值得阅读
 
 | # | 标题 | 来源 | 评分 | 领域 | 字数/时长 | 推荐理由 |
 |---|------|------|------|------|-----------|----------|
-| 1 | [标题](原文URL) | 来源名 | 86 | 产品 | 2.1K 字 ~6min | 产品思维方法论，有借鉴价值... |
+| 1 | [标题](https://admin.bestblogs.dev/article/review/RAW_xxx) | 来源名 | 86 | 产品 | 2.1K 字 ~6min | 产品思维方法论，有借鉴价值... |
 
 ### 📌 可选（N 篇）— 时间充裕时阅读
 
@@ -221,7 +221,7 @@ curl -s -X POST https://api.bestblogs.dev/api/admin/article/list \
 
 | # | 作者 | 内容摘要 | 评分 | 互动 | 推荐理由 |
 |---|------|----------|------|------|----------|
-| 1 | [@作者](原文URL) | 推文内容前80字... | 94 | 💬120 🔁85 | 行业洞察，引发深度讨论 |
+| 1 | [@作者](https://admin.bestblogs.dev/article/review/RAW_xxx) | 推文内容前 80 字... | 94 | 💬120 🔁85 | 行业洞察，引发深度讨论 |
 ```
 
 **推荐阅读分层标准**:
@@ -234,6 +234,7 @@ curl -s -X POST https://api.bestblogs.dev/api/admin/article/list \
 
 ### 输出完整性规则
 
+- **所有链接统一使用 admin review 格式**: `https://admin.bestblogs.dev/article/review/{id}`，包括 review 表格和推荐阅读清单。**禁止**使用原文 URL（如 mp.weixin.qq.com、x.com 等）作为链接地址
 - `authors` 为 null/空时省略来源中的作者信息
 - `description` 为 null/空时，理由中仅基于标题和元数据判断
 - `tags` 为 null/空时不展示标签
@@ -242,7 +243,7 @@ curl -s -X POST https://api.bestblogs.dev/api/admin/article/list \
 
 ### 📊 评分统计概览
 
-Review 表格和推荐阅读清单之间，输出评分统计:
+Review 表格和推荐阅读清单之间，输出评分统计：
 
 ```markdown
 ## 📊 评分统计
@@ -257,22 +258,22 @@ Review 表格和推荐阅读清单之间，输出评分统计:
 | 80-89 分 | X 篇 | Y 条 |
 | <80 分 | X 篇 | Y 条 |
 
-**领域分布**: AI X篇 | 编程 X篇 | 商业 X篇 | 产品 X篇 | 其他 X篇
-**评分偏差发现**: ⬇️偏高 X篇（占比 X%） | ⬆️偏低 X篇（占比 X%）
+**领域分布**: AI X 篇 | 编程 X 篇 | 商业 X 篇 | 产品 X 篇 | 其他 X 篇
+**评分偏差发现**: ⬇️偏高 X 篇（占比 X%） | ⬆️偏低 X 篇（占比 X%）
 ```
 
-⚠️ 输出后等待用户确认。用户可能会:
+⚠️ 输出后等待用户确认。用户可能会：
 - 调整某些内容的分类（如把"评分合理"改为"推荐阅读"）
 - 修改建议的调整分数
 - 确认执行或取消
 
 ---
 
-## 阶段四: 批量执行标记
+## 阶段四：批量执行标记
 
 ⛔ **写操作 — 必须在用户明确确认后才能调用**
 
-用户确认后，对所有非"推荐阅读"的内容调用 `markNotQualified` 接口:
+用户确认后，对所有非"推荐阅读"的内容调用 `markNotQualified` 接口：
 
 ```bash
 # 标记为非精选并调整分数（adjustScore 为相对值）
@@ -286,7 +287,7 @@ curl -s -X POST "https://api.bestblogs.dev/api/admin/article/markNotQualified?id
 
 **执行规则**:
 - 每批最多 5 个请求，并行执行
-- 逐批输出进度: `✅ [1/30] RAW_xxx — 标题 — adjustScore: -3 → 新分数: 82`
+- 逐批输出进度：`✅ [1/30] RAW_xxx — 标题 — adjustScore: -3 → 新分数: 82`
 - 单个失败记录 ❌ 并继续，不中断整批
 - 连续 3 次失败暂停，提示用户可能是系统性问题（Token 过期等）
 - `adjustScore` 为 0 时也要调用（仅标记为已 review，不调整分数）

@@ -1,0 +1,1 @@
+Minimalist tech illustration, flat design, muted color palette (ink blue #1a365d, cream #fefdfb, gray tones), clean lines, no text overlays, 16:9 aspect ratio. A single GPU card with neural network connections flowing into a research paper, symbolizing autonomous AI research iteration. Abstract representation of self-improving machine learning on minimal hardware.

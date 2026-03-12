@@ -1,0 +1,7 @@
+file 'intro.mp3'
+file 'deep-1.mp3'
+file 'deep-2.mp3'
+file 'deep-3.mp3'
+file 'quick.mp3'
+file 'quick-2.mp3'
+file 'outro.mp3'

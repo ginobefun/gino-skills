@@ -1,0 +1,24 @@
+{
+  "date": "2026-03-08",
+  "title": "BestBlogs 早报 | 2026-03-08 | Cursor Automations / Claude Code /loop / AI 创业者的生存法则",
+  "description": "今天精讲三条：Cursor 推出 Automations 从 IDE 进化为全天候智能体平台；Claude Code 新增 /loop 支持最长 3 天循环任务调度；加元写给 AI 创业者的慷慨、残酷与迷雾。速览七条涵盖 Karpathy autoresearch、Cursor 技术架构拆解、AI 安全审计等。",
+  "duration": 395,
+  "durationFormatted": "06:34",
+  "audioFile": "2026-03-08/podcast.mp3",
+  "audioSize": 9468699,
+  "keywords": ["Cursor Automations", "Claude Code", "/loop", "AI 创业", "Karpathy", "autoresearch", "AI 安全审计"],
+  "items": [
+    { "rank": 1, "title": "Cursor 推出 Automations：从 IDE 进化为全天候智能体平台", "source": "Cursor Blog" },
+    { "rank": 2, "title": "Claude Code 新增 /loop：支持最长 3 天的循环任务调度", "source": "Boris Cherny(@bcherny)" },
+    { "rank": 3, "title": "2026，写给 AI 创业者的慷慨、残酷与迷雾", "source": "十字路口Crossing" },
+    { "rank": 4, "title": "Karpathy 开源 autoresearch：630 行代码实现 AI 自主迭代训练", "source": "Andrej Karpathy" },
+    { "rank": 5, "title": "构建 Cursor 的经验教训 [视频]", "source": "ByteByteGo" },
+    { "rank": 6, "title": "Anthropic 与 Mozilla 合作：Claude 两周发现 Firefox 22 个漏洞", "source": "Anthropic News" },
+    { "rank": 7, "title": "深度解析 Google Workspace CLI：从 HCI 到 ACI 的范式转移", "source": "浮之静" },
+    { "rank": 8, "title": "The Batch：Context Hub 防幻觉、Nano Banana 2、Anthropic 伦理冲突", "source": "deeplearning.ai" },
+    { "rank": 9, "title": "科技爱好者周刊（第 387 期）：你是领先的", "source": "阮一峰的网络日志" },
+    { "rank": 10, "title": "GitHub Security Lab 开源 AI 驱动漏洞扫描框架", "source": "The GitHub Blog" }
+  ],
+  "podcastFile": "podcast.mp3",
+  "videoFile": "video.mp4"
+}

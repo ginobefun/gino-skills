@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BestBlogs 早报 | 2026-03-10</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #fefdfb;
+      color: #374151;
+      font-family: -apple-system, 'PingFang SC', 'Helvetica Neue', sans-serif;
+      font-size: 14px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      opacity: 0.03;
+      pointer-events: none;
+      z-index: 9999;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-size: 256px 256px;
+    }
+
+    .container {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 48px 24px 64px;
+    }
+
+    /* Header */
+    .header {
+      margin-bottom: 40px;
+    }
+
+    .brand {
+      font-family: Georgia, 'Noto Serif SC', serif;
+      font-size: 26px;
+      font-weight: 700;
+      color: #1a365d;
+      letter-spacing: 0.05em;
+      margin-bottom: 6px;
+    }
+
+    .date {
+      font-size: 13px;
+      color: #6b7280;
+      margin-bottom: 16px;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .tag {
+      font-size: 12px;
+      color: #1a365d;
+      border: 1px solid #1a365d;
+      border-radius: 100px;
+      padding: 3px 12px;
+      background: transparent;
+      white-space: nowrap;
+    }
+
+    /* Cards */
+    .card {
+      padding: 24px 0;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .card:last-child {
+      border-bottom: none;
+    }
+
+    .card-top {
+      padding: 28px 0 28px 0;
+      border-bottom: 1px solid #e5e7eb;
+      border-left: 3px solid #d97706;
+      padding-left: 20px;
+      background: rgba(217, 119, 6, 0.06);
+      margin-left: -24px;
+      margin-right: -24px;
+      padding-right: 24px;
+      padding-left: 44px;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .card-number {
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: #1a365d;
+      flex-shrink: 0;
+    }
+
+    .card-title {
+      font-family: Georgia, 'Noto Serif SC', serif;
+      font-size: 17px;
+      font-weight: 600;
+      color: #1a365d;
+      text-decoration: none;
+      line-height: 1.4;
+    }
+
+    .card-title:hover {
+      text-decoration: underline;
+    }
+
+    .card-top .card-title {
+      font-size: 20px;
+    }
+
+    .card-meta {
+      font-size: 12px;
+      color: #6b7280;
+      margin-bottom: 10px;
+    }
+
+    .card-meta .score {
+      font-family: 'Inter', sans-serif;
+    }
+
+    .card-summary {
+      font-size: 14px;
+      color: #374151;
+      line-height: 1.7;
+    }
+
+    .card-also {
+      font-size: 12px;
+      color: #6b7280;
+      margin-top: 8px;
+      font-style: italic;
+    }
+
+    .type-tag {
+      display: inline-block;
+      font-size: 11px;
+      color: #6b7280;
+      border: 1px solid #d1d5db;
+      border-radius: 4px;
+      padding: 1px 6px;
+      margin-left: 4px;
+    }
+
+    /* Footer */
+    .footer {
+      margin-top: 48px;
+      padding-top: 24px;
+      border-top: 1px solid #e5e7eb;
+      text-align: center;
+    }
+
+    .footer-brand {
+      font-family: Georgia, 'Noto Serif SC', serif;
+      font-size: 15px;
+      color: #1a365d;
+      letter-spacing: 0.08em;
+      margin-bottom: 4px;
+    }
+
+    .footer-tagline {
+      font-size: 12px;
+      color: #6b7280;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <div class="brand">BestBlogs 早报</div>
+      <div class="date">2026-03-10 Monday</div>
+      <div class="tags">
+        <span class="tag">AI 代码审查</span>
+        <span class="tag">a16z AI Top 100</span>
+        <span class="tag">Copilot Cowork</span>
+        <span class="tag">WebMCP</span>
+        <span class="tag">Vibe Coding 反思</span>
+      </div>
+    </div>
+
+    <!-- Top 1 -->
+    <div class="card-top">
+      <div class="card-header">
+        <span class="card-number">01</span>
+        <a class="card-title" href="https://www.bestblogs.dev/status/2031088171262554195" target="_blank">Claude Code 推出 AI 代码审查：多智能体团队自动 PR Review</a>
+      </div>
+      <div class="card-meta">@claudeai / @bcherny <span class="type-tag">推文</span> &middot; 评分 <span class="score">93</span></div>
+      <div class="card-summary">Anthropic 为 Claude Code 引入重磅功能——AI 驱动的代码审查。系统部署多个 AI 智能体组成审查团队，自动对 GitHub PR 进行深度审查并排查潜在 Bug。这是继 /loop 定时任务后，Claude Code 从编程助手向全流程开发平台迈进的又一关键步骤。同日，Cognition 也发布了免费的 Devin Review 工具，AI 代码审查正成为开发工具标配。</div>
+      <div class="card-also">另见: Devin Review (Cognition)</div>
+    </div>
+
+    <!-- 2 -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-number">02</span>
+        <a class="card-title" href="https://www.bestblogs.dev/status/2031105607303049541" target="_blank">a16z 第六版消费级 AI Top 100：三大阵营分化</a>
+      </div>
+      <div class="card-meta">@a16z <span class="type-tag">推文</span> &middot; 评分 <span class="score">92</span></div>
+      <div class="card-summary">a16z 最新报告揭示全球 AI 使用正分化为三大阵营。ChatGPT 付费用户数是 Gemini 和 Claude 总和的 2.5 倍以上；视频、音乐和语音类 AI 正蚕食图像生成市场；OpenClaw 注册页面日访问量接近百万。</div>
+    </div>
+
+    <!-- 3 -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-number">03</span>
+        <a class="card-title" href="https://www.bestblogs.dev/status/2030992877665583440" target="_blank">微软 Copilot Cowork：M365 跨应用 AI 智能体</a>
+      </div>
+      <div class="card-meta">@satyanadella <span class="type-tag">推文</span> &middot; 评分 <span class="score">92</span></div>
+      <div class="card-summary">纳德拉宣布 Microsoft 365 推出 Copilot Cowork，AI 智能体可跨 Word、Excel、Teams 等多个应用规划并自主执行复杂任务。办公自动化进入智能体驱动新阶段。</div>
+    </div>
+
+    <!-- 4 -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-number">04</span>
+        <a class="card-title" href="https://www.bestblogs.dev/status/2031028120971571687" target="_blank">Runway Characters：可定制实时智能数字人</a>
+      </div>
+      <div class="card-meta">@runwayml <span class="type-tag">推文</span> &middot; 评分 <span class="score">92</span></div>
+      <div class="card-summary">Runway 推出可定制的实时交互智能数字人，集成自定义知识库和语音，支持 API 部署。从视频生成到数字人，Runway 正将 AI 创意工具从"生成内容"拓展到"生成角色"。</div>
+    </div>
+
+    <!-- 5 -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-number">05</span>
+        <a class="card-title" href="https://www.bestblogs.dev/article/1e9d9524" target="_blank">WebMCP：让网站直接与 AI 智能代理交互的 W3C 新标准</a>
+      </div>
+      <div class="card-meta">前端早读课 &middot; 评分 <span class="score">92</span></div>
+      <div class="card-summary">W3C 新标准 WebMCP 允许网站通过结构化工具直接与 AI 代理交互，替代低效的截图识别和 DOM 解析。网站可以主动声明"我能提供什么服务给 AI Agent"。</div>
+    </div>
+
+    <!-- 6 -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-number">06</span>
+        <a class="card-title" href="https://www.bestblogs.dev/article/054383ef" target="_blank">Jeremy Howard 批判 Vibe Coding：AI 正剥夺人类建立"直觉"的权利</a>
+      </div>
+      <div class="card-meta">AI科技大本营 &middot; 评分 <span class="score">90</span></div>
+      <div class="card-summary">深度学习先驱 Jeremy Howard 犀利批判 Vibe Coding 热潮——就像拉老虎机，看似高效实则跳过了真正的学习过程。AI 真正的风险不在于机器觉醒，而在于权力垄断。</div>
+    </div>
+
+    <!-- 7 -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-number">07</span>
+        <a class="card-title" href="https://www.bestblogs.dev/article/288cbab6" target="_blank">快手智能 Code Review 三阶进化：采纳率从 7.9% 到 54%</a>
+      </div>
+      <div class="card-meta">快手技术 &middot; 评分 <span class="score">93</span></div>
+      <div class="card-summary">从纯 LLM 启发式到知识引擎 + 1200 条规则，再到 Agentic 自主决策双路并行。已覆盖 74% 的 MR，是 AI 代码审查大规模落地的最佳实践。</div>
+      <div class="card-also">另见: 阿里 AI 代码评审实践 + AACR-Bench 开源</div>
+    </div>
+
+    <!-- 8 -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-number">08</span>
+        <a class="card-title" href="https://www.bestblogs.dev/article/4569669b" target="_blank">88 岁图灵奖得主高德纳用 Claude 一小时破解 30 年数学悬案</a>
+      </div>
+      <div class="card-meta">量子位 &middot; 评分 <span class="score">88</span></div>
+      <div class="card-summary">Donald Knuth 记录了 Claude Opus 4.6 仅用一小时，通过结构化推理攻克困扰他 30 年的三维图论难题。顶级数学家如何将 AI 作为研究伙伴的真实案例。</div>
+    </div>
+
+    <!-- 9 -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-number">09</span>
+        <a class="card-title" href="https://www.bestblogs.dev/article/876f3ad3" target="_blank">LangChain 内部 GTM 智能体：销售转化率提升 250%</a>
+      </div>
+      <div class="card-meta">LangChain Blog &middot; 评分 <span class="score">92</span></div>
+      <div class="card-summary">LangChain 分享内部 GTM 智能体的架构设计——实现销售调研和触达全流程自动化，转化率提升 250%。AI 智能体在 B2B 销售场景中最有说服力的落地案例之一。</div>
+    </div>
+
+    <!-- 10 -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-number">10</span>
+        <a class="card-title" href="https://www.bestblogs.dev/article/7089a43f" target="_blank">Jina AI 研究：从向量中逆向还原原始文本和模型来源</a>
+      </div>
+      <div class="card-meta">Jina AI &middot; 评分 <span class="score">91</span></div>
+      <div class="card-summary">向量嵌入并非不可逆。通过位级别分词和掩码扩散模型，可高准确率识别模型来源并还原原始文本。对所有依赖向量数据库存储敏感信息的 RAG 系统敲响安全警钟。</div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <div class="footer-brand">BestBlogs.dev</div>
+      <div class="footer-tagline">遇见更好的技术阅读</div>
+    </div>
+  </div>
+</body>
+</html>

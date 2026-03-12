@@ -1,0 +1,57 @@
+BestBlogs 早报 | 2026-03-08
+
+# Cursor Automations / Claude Code /loop / Karpathy autoresearch / AI 安全审计
+
+[1] Cursor 推出 Automations：从 IDE 进化为全天候智能体平台
+Cursor 正式发布 Automations 功能，允许开发者部署由 GitHub PR、Slack 消息、PagerDuty 事件等外部事件触发的持久化 AI 智能体。这些智能体在云端沙箱中运行，利用 MCP 和记忆工具自主执行代码审查、安全审计和事件分级。这意味着 Cursor 从代码编辑器升级为事件驱动的全天候开发运维平台，是 AI Coding 赛道的里程碑级产品更新。
+来源: Cursor Blog | 评分: 93
+https://www.bestblogs.dev/article/110938d0
+
+[2] Claude Code 新增 /loop：支持最长 3 天的循环任务调度 @bcherny
+Claude Code 之父 Boris Cherny 宣布新增 /loop 功能，支持调度运行最长 3 天的循环任务——持续监控 PR、自动修复构建问题、每日总结 Slack 消息。Claude Code 正从交互式编程助手向自主 Agent 平台迈进。
+来源: Boris Cherny(@bcherny) | 评分: 92
+https://www.bestblogs.dev/status/2030193932404150413
+
+[3] 2026，写给 AI 创业者的慷慨、残酷、与迷雾
+从技术史视角（印刷术、电力、云计算）剖析编程商品化带来的创业范式转移。当 AI Agent 使编程成为零边际成本的商品化资源，创业者的核心竞争力已从代码实现转向对用户需求的深层理解和产品判断力。
+来源: 十字路口Crossing | 评分: 93
+https://www.bestblogs.dev/article/eb5bf321
+
+[4] Karpathy 开源 autoresearch：630 行代码实现 AI 自主迭代训练 @karpathy
+Andrej Karpathy 发布 autoresearch 开源项目，仅 630 行代码的单文件极简仓库，让 AI 智能体在单 GPU 上自主迭代 LLM 训练代码。人类负责迭代 prompt，智能体负责迭代训练代码，探索无需人工干预的持续研究加速。
+来源: Andrej Karpathy(@karpathy) | 评分: 92
+https://www.bestblogs.dev/status/2030371219518931079
+
+[5] 构建 Cursor 的经验教训 [视频]
+ByteByteGo 深度拆解 Cursor 技术架构：利用大规模强化学习训练 Composer 1.5 模型、编排数百万 CPU 沙箱进行训练、以及克服上下文窗口限制的"自我总结"机制。为 AI Coding 领域提供第一手工程实践参考。
+来源: ByteByteGo | 评分: 93
+https://www.bestblogs.dev/video/1fcd0e1
+
+[6] Anthropic 与 Mozilla 合作：Claude 两周发现 Firefox 22 个漏洞
+Anthropic 官方详述 Claude Opus 4.6 在两周内识别出 Firefox 代码库 22 个漏洞（14 个高危），占 Firefox 全年高危修复量的近 20%。AI 安全研究从合成基准测试走向真实世界复杂软件审计的标志性案例。
+来源: Anthropic News | 评分: 91
+https://www.bestblogs.dev/article/138d8a61
+另见: 机器之心
+
+[7] 深度解析 Google Workspace CLI：从 HCI 到 ACI 的范式转移
+以 Google 新发布的 Rust 编写的 Workspace CLI 为切入点，深入探讨软件交互从人机交互（HCI）向代理机交互（ACI）的范式转移。CLI 在任务委托、上下文管理和状态确定性方面相较于 IDE 插件具有结构性优势。
+来源: 浮之静 | 评分: 93
+https://www.bestblogs.dev/article/5db40510
+
+[8] The Batch：Context Hub 防幻觉、Nano Banana 2、Anthropic 伦理冲突
+吴恩达推出开源工具 Context Hub (chub)，为编程智能体提供最新 API 文档以防止幻觉；Google Nano Banana 2 在图像生成性价比上实现飞跃；Anthropic 与美国国防部在 AI 军事应用上的伦理分歧持续发酵。
+来源: deeplearning.ai | 评分: 93
+https://www.bestblogs.dev/article/08c8a4c7
+
+[9] 科技爱好者周刊（第 387 期）：你是领先的
+阮一峰通过数据揭示反直觉事实：尽管 AI 浪潮汹涌，深度使用 AI 生成代码的人群仅占全球 0.04%。同时分析 GitHub 现象级项目 OpenClaw 在 25 万星后面临的 AI 生成代码缺乏审查、权限过度授权等安全风险。
+来源: 阮一峰的网络日志 | 评分: 92
+https://www.bestblogs.dev/article/31d261bc
+
+[10] GitHub Security Lab 开源 AI 驱动漏洞扫描框架
+GitHub Security Lab 开源 AI 安全审计框架，采用多阶段 taskflow 方法：先威胁建模定义安全边界，再通过 AI 头脑风暴潜在风险，最后严格审计验证。结构化方法有效克服 LLM 在安全审计中的幻觉和误报问题。
+来源: The GitHub Blog | 评分: 89
+https://www.bestblogs.dev/article/cc1aeca3
+
+---
+BestBlogs.dev - 遇见更好的技术阅读

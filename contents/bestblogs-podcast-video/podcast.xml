@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+  xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd"
+  xmlns:content="http://purl.org/rss/1.0/modules/content/"
+  xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>BestBlogs 每日早报</title>
+    <link>https://bestblogs.dev</link>
+    <language>zh-cn</language>
+    <description>每天 10 分钟，了解 AI 和技术领域最值得关注的内容。由 BestBlogs.dev 智能筛选，用声音为你讲述。</description>
+    <itunes:author>BestBlogs</itunes:author>
+    <itunes:owner>
+      <itunes:name>BestBlogs</itunes:name>
+    </itunes:owner>
+    <itunes:category text="Technology"/>
+    <itunes:explicit>false</itunes:explicit>
+    <itunes:type>episodic</itunes:type>
+    <item>
+      <title>BestBlogs 早报 | 2026-03-09 | OpenClaw 生态 / Mobile-Agent 开源 / Agent Infra</title>
+      <description><![CDATA[今天精讲三条：屠龙之术播客 70 页 PPT 全景拆解中美 AI 变局，通义实验室开源多平台 GUI Agent 基座模型 Mobile-Agent-v3.5，十字路口播客 20 个问题搞懂 OpenClaw 的爆红机制与创业机会。速览七条涵盖 OpenClaw 生态 PH 拆解、Applied Intuition 150 亿独角兽、Ramp AI 产品实战、Paul Graham 品牌时代、Agent Infra 瓶颈分析、Claude Code 之父访谈、2 月 AI 产品数据全景。
+
+今日内容:
+
+1. AI 行业年度总结：70 页 PPT 全景拆解中美 AI 变局 — 屠龙之术
+2. 通义实验室开源 Mobile-Agent-v3.5：多平台 GUI Agent 基座模型 — 魔搭ModelScope社区
+3. 20 个问题搞懂 OpenClaw：爆红机制、本质变化、创业机会 — 十字路口Crossing
+4. OpenClaw 生态疯长：PH 上 40+ 相关产品拆解 — Founder Park
+5. Applied Intuition：150 亿估值的隐形 AI 独角兽 — Lenny's Podcast
+6. Ramp 构建 AI 产品的经验教训 — The Pragmatic Engineer
+7. 品牌时代 — 宝玉的分享
+8. 为什么现有的 Agent Infra 无法支撑生产级应用？ — InfoQ 中文
+9. Claude Code 之父访谈：Anthropic 如何推出 AI 爆款？ — InfoQ 中文
+10. 豆包破 3 亿，千问狂涨 552%｜2 月 AI 产品榜 — 硅星人Pro
+
+
+BestBlogs.dev - 遇见更好的技术阅读]]></description>
+      <pubDate>Mon, 09 Mar 2026 01:00:00 GMT</pubDate>
+      <enclosure url="https://media.ginonotes.com/podcast/2026-03-09/podcast.mp3" length="9957932" type="audio/mpeg"/>
+      <itunes:duration>00:06:55</itunes:duration>
+      <itunes:episode>68</itunes:episode>
+      <itunes:keywords>OpenClaw 生态, Mobile-Agent 开源, Agent Infra, AI 产品格局</itunes:keywords>
+      <guid isPermaLink="false">bestblogs-daily-2026-03-09</guid>
+    </item>
+    <item>
+      <title>BestBlogs 早报 | 2026-03-08 | Cursor Automations / Claude Code /loop / AI 创业者的生存法则</title>
+      <description><![CDATA[今天精讲三条：Cursor 推出 Automations 从 IDE 进化为全天候智能体平台；Claude Code 新增 /loop 支持最长 3 天循环任务调度；加元写给 AI 创业者的慷慨、残酷与迷雾。速览七条涵盖 Karpathy autoresearch、Cursor 技术架构拆解、AI 安全审计等。
+
+今日内容:
+
+1. Cursor 推出 Automations：从 IDE 进化为全天候智能体平台 — Cursor Blog
+2. Claude Code 新增 /loop：支持最长 3 天的循环任务调度 — Boris Cherny(@bcherny)
+3. 2026，写给 AI 创业者的慷慨、残酷与迷雾 — 十字路口Crossing
+4. Karpathy 开源 autoresearch：630 行代码实现 AI 自主迭代训练 — Andrej Karpathy
+5. 构建 Cursor 的经验教训 [视频] — ByteByteGo
+6. Anthropic 与 Mozilla 合作：Claude 两周发现 Firefox 22 个漏洞 — Anthropic News
+7. 深度解析 Google Workspace CLI：从 HCI 到 ACI 的范式转移 — 浮之静
+8. The Batch：Context Hub 防幻觉、Nano Banana 2、Anthropic 伦理冲突 — deeplearning.ai
+9. 科技爱好者周刊（第 387 期）：你是领先的 — 阮一峰的网络日志
+10. GitHub Security Lab 开源 AI 驱动漏洞扫描框架 — The GitHub Blog
+
+
+BestBlogs.dev - 遇见更好的技术阅读]]></description>
+      <pubDate>Sun, 08 Mar 2026 01:00:00 GMT</pubDate>
+      <enclosure url="https://media.ginonotes.com/podcast/2026-03-08/podcast.mp3" length="9468699" type="audio/mpeg"/>
+      <itunes:duration>00:06:35</itunes:duration>
+      <itunes:episode>67</itunes:episode>
+      <itunes:keywords>Cursor Automations, Claude Code, /loop, AI 创业, Karpathy, autoresearch, AI 安全审计</itunes:keywords>
+      <guid isPermaLink="false">bestblogs-daily-2026-03-08</guid>
+    </item>
+  </channel>
+</rss>

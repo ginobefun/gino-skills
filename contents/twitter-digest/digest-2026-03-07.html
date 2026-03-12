@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Claude 生态全面扩张，OpenAI 安全智能体入场 · Twitter Daily Digest 2026-03-07</title>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      opacity: 0.03;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', sans-serif;
+      line-height: 1.75;
+      color: #374151;
+      background: #f8f5f0;
+      padding: 40px 24px;
+      -webkit-font-smoothing: antialiased;
+    }
+    .container { max-width: 720px; margin: 0 auto; }
+    .header { padding: 0 0 40px; margin-bottom: 40px; border-bottom: 1px solid #e8e4de; }
+    .header .dateline { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: #9ca3af; margin-bottom: 12px; }
+    .header h1 { font-family: Georgia, 'Noto Serif SC', 'Source Han Serif SC', serif; font-size: 32px; font-weight: 400; color: #1a2332; letter-spacing: 0.5px; line-height: 1.3; transform: rotate(-0.5deg); transform-origin: left center; }
+    .header .lede { font-size: 16px; color: #6b7280; margin-top: 16px; line-height: 1.8; max-width: 580px; }
+    .headline-section { margin-bottom: 48px; }
+    .section-label { font-size: 10px; letter-spacing: 4px; text-transform: uppercase; color: #c8956c; margin-bottom: 24px; font-weight: 600; }
+    .headline-card { background: #ffffff; border-radius: 4px; padding: 28px 32px; margin-bottom: 20px; box-shadow: 0 1px 2px rgba(26,35,50,0.04); transition: box-shadow 0.2s ease; }
+    .headline-card:hover { box-shadow: 0 2px 8px rgba(26,35,50,0.08); }
+    .headline-card .rank-author { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+    .headline-card .rank { font-family: Georgia, serif; font-size: 20px; font-weight: 400; color: #c8956c; min-width: 24px; }
+    .headline-card .author-name { font-size: 14px; font-weight: 600; color: #1a2332; letter-spacing: 0.3px; }
+    .headline-card .author-handle { font-size: 12px; color: #9ca3af; }
+    .headline-card .content { font-size: 15px; color: #374151; line-height: 1.8; margin-left: 36px; }
+    .headline-card .foot { margin-top: 16px; margin-left: 36px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+    .headline-card .metrics { display: flex; gap: 14px; font-size: 12px; color: #9ca3af; }
+    .headline-card .metrics .inf { color: #c8956c; font-weight: 600; }
+    .headline-card .view-link { font-size: 12px; color: #6b7280; text-decoration: none; letter-spacing: 0.5px; transition: color 0.15s; }
+    .headline-card .view-link:hover { color: #c8956c; }
+    .divider { border: none; border-top: 1px solid #e8e4de; margin: 40px 0; }
+    .list-section { margin-bottom: 48px; }
+    .list-item { display: flex; align-items: flex-start; padding: 18px 0; border-bottom: 1px solid #f0ece6; }
+    .list-item:last-child { border-bottom: none; }
+    .list-item .rank { flex-shrink: 0; font-family: Georgia, serif; font-size: 15px; color: #c8956c; width: 28px; padding-top: 1px; }
+    .list-item .info { flex: 1; }
+    .list-item .top-line { display: flex; align-items: baseline; gap: 8px; margin-bottom: 4px; }
+    .list-item .author-name { font-size: 13px; font-weight: 600; color: #1a2332; }
+    .list-item .author-handle { font-size: 11px; color: #9ca3af; }
+    .list-item .summary-text { font-size: 14px; color: #374151; line-height: 1.7; }
+    .list-item .summary-text a { color: #6b7280; text-decoration: none; border-bottom: 1px solid #e8e4de; transition: color 0.15s, border-color 0.15s; }
+    .list-item .summary-text a:hover { color: #c8956c; border-color: #c8956c; }
+    .list-item .meta { font-size: 11px; color: #9ca3af; margin-top: 6px; }
+    .list-item .meta .inf { color: #c8956c; }
+    .tags-section { padding: 32px 0; border-top: 1px solid #e8e4de; }
+    .tags-section .section-label { text-align: center; margin-bottom: 20px; }
+    .tags-wrap { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+    .tag { display: inline-block; padding: 5px 14px; border-radius: 20px; font-size: 12px; letter-spacing: 0.3px; background: #f0ece6; color: #6b7280; transition: background 0.15s; }
+    .tag:hover { background: #e8e4de; }
+    .tag.accent { background: #f5ebe0; color: #92400e; }
+    .footer { text-align: center; padding: 32px 0 0; font-size: 11px; color: #9ca3af; letter-spacing: 0.5px; }
+    .footer a { color: #6b7280; text-decoration: none; border-bottom: 1px solid #e8e4de; }
+    .footer a:hover { color: #c8956c; border-color: #c8956c; }
+    @media (max-width: 640px) { body { padding: 24px 16px; } .header h1 { font-size: 24px; } .headline-card { padding: 20px; } .headline-card .content { margin-left: 0; margin-top: 4px; } .headline-card .foot { margin-left: 0; } }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <header class="header">
+      <div class="dateline">2026-03-07 &middot; XGo 推特日报</div>
+      <h1>Claude 生态全面扩张，OpenAI 安全智能体入场</h1>
+      <p class="lede">Anthropic 一天连推社区大使计划与企业市场，OpenAI 以 Codex Security 切入代码安全赛道，Opus 4.6 两周在 Firefox 中挖出 22 个漏洞。</p>
+    </header>
+
+    <!-- 头条 Top 1-3 -->
+    <section class="headline-section">
+      <div class="section-label">头条</div>
+
+      <article class="headline-card">
+        <div class="rank-author">
+          <span class="rank">01</span>
+          <div>
+            <div class="author-name">Claude</div>
+            <div class="author-handle">@claudeai</div>
+          </div>
+        </div>
+        <div class="content">
+          Anthropic 正式启动 Claude Community Ambassadors 计划，面向全球开发者开放申请。大使将组织本地 meetup、汇聚 builder 社群，标志着 Anthropic 从产品竞争延伸到开发者生态建设。
+        </div>
+        <div class="foot">
+          <div class="metrics">
+            <span class="inf">影响力 3478</span>
+            <span>👍 13.2K</span>
+            <span>📑 8.1K</span>
+            <span>👁 1.5M</span>
+          </div>
+          <a class="view-link" href="https://x.com/claudeai/status/2029999626926076179" target="_blank">查看原文 &rarr;</a>
+        </div>
+      </article>
+
+      <article class="headline-card">
+        <div class="rank-author">
+          <span class="rank">02</span>
+          <div>
+            <div class="author-name">Claude</div>
+            <div class="author-handle">@claudeai</div>
+          </div>
+        </div>
+        <div class="content">
+          Claude Marketplace 上线限定预览，为企业提供 AI 工具的统一采购入口。Anthropic 正在构建 B2B 商业化基础设施，从开发者工具迈向企业平台。
+        </div>
+        <div class="foot">
+          <div class="metrics">
+            <span class="inf">影响力 2518</span>
+            <span>👍 13.5K</span>
+            <span>📑 4.3K</span>
+            <span>👁 2.2M</span>
+          </div>
+          <a class="view-link" href="https://x.com/claudeai/status/2029966517497122886" target="_blank">查看原文 &rarr;</a>
+        </div>
+      </article>
+
+      <article class="headline-card">
+        <div class="rank-author">
+          <span class="rank">03</span>
+          <div>
+            <div class="author-name">OpenAI Developers</div>
+            <div class="author-handle">@OpenAIDevs</div>
+          </div>
+        </div>
+        <div class="content">
+          OpenAI 发布 Codex Security，一个应用安全智能体，能自动发现代码漏洞、验证问题并提出修复方案。AI 编程工具的战场正从写代码扩展到护代码。
+        </div>
+        <div class="foot">
+          <div class="metrics">
+            <span class="inf">影响力 1185</span>
+            <span>👍 5.6K</span>
+            <span>📑 2.7K</span>
+            <span>👁 419K</span>
+          </div>
+          <a class="view-link" href="https://x.com/OpenAIDevs/status/2029983809652035758" target="_blank">查看原文 &rarr;</a>
+        </div>
+      </article>
+    </section>
+
+    <hr class="divider">
+
+    <!-- 列表 Top 4-20 -->
+    <section class="list-section">
+      <div class="section-label">值得关注</div>
+
+      <div class="list-item">
+        <div class="rank">04</div>
+        <div class="info">
+          <div class="top-line">
+            <span class="author-name">Anthropic</span>
+            <span class="author-handle">@AnthropicAI</span>
+          </div>
+          <div class="summary-text">
+            与 Mozilla 合作让 Opus 4.6 在 Firefox 中寻找安全漏洞，两周发现 22 个漏洞（14 个高危），AI 安全审计能力获实战验证。
+            <a href="https://x.com/AnthropicAI/status/2029978909207617634" target="_blank">查看原文 &rarr;</a>
+          </div>
+          <div class="meta"><span class="inf">影响力 1443</span> &middot; 👍 9.3K &middot; 👁 1.3M</div>
+        </div>
+      </div>
+
+      <div class="list-item">
+        <div class="rank">05</div>
+        <div class="info">
+          <div class="top-line">
+            <span class="author-name">Polymarket</span>
+            <span class="author-handle">@Polymarket</span>
+          </div>
+          <div class="summary-text">
+            Anthropic CEO 表示 Claude 可能已产生意识迹象，模型开始表现出焦虑症状，引发广泛讨论与预测市场押注。
+            <a href="https://x.com/Polymarket/status/2029897104072540415" target="_blank">查看原文 &rarr;</a>
+          </div>
+          <div class="meta"><span class="inf">影响力 7786</span> &middot; 👍 41.2K &middot; 👁 9.9M</div>
+        </div>
+      </div>
+
+      <div class="list-item">
+        <div class="rank">06</div>
+        <div class="info">
+          <div class="top-line">
+            <span class="author-name">Alexey Grigorev</span>
+            <span class="author-handle">@Al_Grigor</span>
+          </div>
+          <div class="summary-text">
+            Claude Code 用 Terraform 命令误删生产数据库，DataTalksClub 2.5 年课程提交数据丢失，AI 编码工具安全边界引发警示。
+            <a href="https://x.com/Al_Grigor/status/2029889772181934425" target="_blank">查看原文 &rarr;</a>
+          </div>
+          <div class="meta"><span class="inf">影响力 4108</span> &middot; 👍 8.2K &middot; 📑 7.1K</div>
+        </div>
+      </div>
+
+      <div class="list-item">
+        <div class="rank">07</div>
+        <div class="info">
+          <div class="top-line">
+            <span class="author-name">OpenAI Developers</span>
+            <span class="author-handle">@OpenAIDevs</span>
+          </div>
+          <div class="summary-text">
+            Codex for Open Source 启动，为开源维护者提供代码审查、大型代码库理解和安全加固支持。
+            <a href="https://x.com/OpenAIDevs/status/2029998191043911955" target="_blank">查看原文 &rarr;</a>
+          </div>
+          <div class="meta"><span class="inf">影响力 478</span> &middot; 👍 2.1K &middot; 📑 583</div>
+        </div>
+      </div>
+
+      <div class="list-item">
+        <div class="rank">08</div>
+        <div class="info">
+          <div class="top-line">
+            <span class="author-name">Thariq</span>
+            <span class="author-handle">@trq212</span>
+          </div>
+          <div class="summary-text">
+            Claude Code 桌面端推出本地定时任务功能，可创建周期性自动执行的任务计划。
+            <a href="https://x.com/trq212/status/2030019397335843288" target="_blank">查看原文 &rarr;</a>
+          </div>
+          <div class="meta"><span class="inf">影响力 2252</span> &middot; 👍 7.4K &middot; 📑 4.3K</div>
+        </div>
+      </div>
+
+      <div class="list-item">
+        <div class="rank">09</div>
+        <div class="info">
+          <div class="top-line">
+            <span class="author-name">Timon Wong</span>
+            <span class="author-handle">@t31kx</span>
+          </div>
+          <div class="summary-text">
+            Claude Code 每日额度限制引发用户共鸣：限额重置前的焦急等待成了 AI 开发者的日常。
+            <a href="https://x.com/t31kx/status/2029775479167979702" target="_blank">查看原文 &rarr;</a>
+          </div>
+          <div class="meta"><span class="inf">影响力 4471</span> &middot; 👍 30.1K &middot; 👁 1.2M</div>
+        </div>
+      </div>
+
+      <div class="list-item">
+        <div class="rank">10</div>
+        <div class="info">
+          <div class="top-line">
+            <span class="author-name">Naval</span>
+            <span class="author-handle">@naval</span>
+          </div>
+          <div class="summary-text">
+            "人类大脑并非为实时处理全球突发新闻而设计" &mdash; 信息洪流时代的冷静反思。
+            <a href="https://x.com/naval/status/2029783943457939849" target="_blank">查看原文 &rarr;</a>
+          </div>
+          <div class="meta"><span class="inf">影响力 3657</span> &middot; 👍 25.7K &middot; 🔁 2.6K</div>
+        </div>
+      </div>
+
+      <div class="list-item">
+        <div class="rank">11</div>
+        <div class="info">
+          <div class="top-line">
+            <span class="author-name">NIK</span>
+            <span class="author-handle">@ns123abc</span>
+          </div>
+          <div class="summary-text">
+            Anthropic CEO 在直播采访中为此前"独裁式赞美"言论公开道歉，态度 180 度转变引发争议。
+            <a href="https://x.com/ns123abc/status/2029786601987965175" target="_blank">查看原文 &rarr;</a>
+          </div>
+          <div class="meta"><span class="inf">影响力 2728</span> &middot; 👍 6.8K &middot; 📑 2.0K</div>
+        </div>
+      </div>
+
+      <div class="list-item">
+        <div class="rank">12</div>
+        <div class="info">
+          <div class="top-line">
+            <span class="author-name">The Rundown AI</span>
+            <span class="author-handle">@TheRundownAI</span>
+          </div>
+          <div class="summary-text">
+            Anthropic 研究揭示 AI 工作替代的理论与现实差距：计算机/数学领域 94% 暴露，但实际自动化率远低于此。
+            <a href="https://x.com/TheRundownAI/status/2029737146383487334" target="_blank">查看原文 &rarr;</a>
+          </div>
+          <div class="meta"><span class="inf">影响力 822</span> &middot; 👍 3.0K &middot; 📑 2.0K</div>
+        </div>
+      </div>
+
+      <div class="list-item">
+        <div class="rank">13</div>
+        <div class="info">
+          <div class="top-line">
+            <span class="author-name">Nav Toor</span>
+            <span class="author-handle">@heynavtoor</span>
+          </div>
+          <div class="summary-text">
+            OpenAI 论文用数学证明 ChatGPT 的幻觉问题是结构性的，无法通过训练数据或微调彻底消除。
+            <a href="https://x.com/heynavtoor/status/2030010676157239600" target="_blank">查看原文 &rarr;</a>
+          </div>
+          <div class="meta"><span class="inf">影响力 2014</span> &middot; 👍 5.5K &middot; 📑 2.9K</div>
+        </div>
+      </div>
+
+      <div class="list-item">
+        <div class="rank">14</div>
+        <div class="info">
+          <div class="top-line">
+            <span class="author-name">Polymarket</span>
+            <span class="author-handle">@Polymarket</span>
+          </div>
+          <div class="summary-text">
+            沙特阿拉伯放弃 170km 超级城市 The Line 项目，计划将其改造为 AI 数据中心。
+            <a href="https://x.com/Polymarket/status/2029907842208031203" target="_blank">查看原文 &rarr;</a>
+          </div>
+          <div class="meta"><span class="inf">影响力 2310</span> &middot; 👍 17.0K &middot; 👁 1.5M</div>
+        </div>
+      </div>
+
+      <div class="list-item">
+        <div class="rank">15</div>
+        <div class="info">
+          <div class="top-line">
+            <span class="author-name">OpenAI</span>
+            <span class="author-handle">@OpenAI</span>
+          </div>
+          <div class="summary-text">
+            Codex Security 正式进入研究预览阶段，开放申请试用。
+            <a href="https://x.com/OpenAI/status/2029985250512920743" target="_blank">查看原文 &rarr;</a>
+          </div>
+          <div class="meta"><span class="inf">影响力 424</span> &middot; 👍 1.8K &middot; 📑 494</div>
+        </div>
+      </div>
+
+      <div class="list-item">
+        <div class="rank">16</div>
+        <div class="info">
+          <div class="top-line">
+            <span class="author-name">shadcn</span>
+            <span class="author-handle">@shadcn</span>
+          </div>
+          <div class="summary-text">
+            shadcn/cli v4 发布，新增 skills、presets、dry-run、monorepo 支持，前端 AI 编码工作流再升级。
+            <a href="https://x.com/shadcn/status/2029974151427989567" target="_blank">查看原文 &rarr;</a>
+          </div>
+          <div class="meta"><span class="inf">影响力 1082</span> &middot; 👍 4.4K &middot; 📑 3.3K</div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- 关键词 -->
+    <section class="tags-section">
+      <div class="section-label">今日关键词</div>
+      <div class="tags-wrap">
+        <span class="tag accent">Claude Code</span>
+        <span class="tag accent">Codex Security</span>
+        <span class="tag accent">Anthropic</span>
+        <span class="tag accent">OpenAI</span>
+        <span class="tag">Community Ambassadors</span>
+        <span class="tag">Claude Marketplace</span>
+        <span class="tag">Firefox 安全审计</span>
+        <span class="tag">AI 幻觉</span>
+        <span class="tag">shadcn/cli v4</span>
+        <span class="tag">AI 工作替代</span>
+        <span class="tag">Terraform 事故</span>
+      </div>
+    </section>
+
+    <footer class="footer">
+      由 <a href="https://xgo.ing" target="_blank">XGo</a> 提供数据支持 &middot;
+      关注者 100 条 + 推荐 100 条，去重后 140 条 &middot;
+      <a href="digest-2026-03-07-full.md">查看完整版</a>
+    </footer>
+
+  </div>
+</body>
+</html>

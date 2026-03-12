@@ -1,6 +1,6 @@
 ---
 name: send-wechat-group-message
-description: "发送消息到微信群（非公众号）。适用场景: (1) 推送早报到微信群, (2) 发送热点内容到群聊, (3) 群发消息到多个微信群, (4) 发送图片到微信群, (5) 推送文章摘要到群, (6) 群聊通知, (7) 发送群聊总结, (8) 转发内容到微信群。触发短语: '发到微信群', '推送到群', 'send to wechat group', '微信群消息', '群发消息', 'post to group', '推送群聊', '发群消息', '通知微信群', '转发到群', '推到群里', '发到群里', '群里发一下', 'send group message', '微信群通知'"
+description: "发送消息到微信群（非公众号）。适用场景：(1) 推送早报到微信群，(2) 发送热点内容到群聊，(3) 群发消息到多个微信群，(4) 发送图片到微信群，(5) 推送文章摘要到群，(6) 群聊通知，(7) 发送群聊总结，(8) 转发内容到微信群。触发短语：'发到微信群', '推送到群', 'send to wechat group', '微信群消息', '群发消息', 'post to group', '推送群聊', '发群消息', '通知微信群', '转发到群', '推到群里', '发到群里', '群里发一下', 'send group message', '微信群通知'"
 ---
 
 # 微信群消息推送 (WeChat Group Messenger)
@@ -11,7 +11,7 @@ description: "发送消息到微信群（非公众号）。适用场景: (1) 推
 
 ## 认证
 
-所有请求需要 `X-API-Key` 请求头。从环境变量读取配置:
+所有请求需要 `X-API-Key` 请求头。从环境变量读取配置：
 
 - **接口地址**: 环境变量 `WECHAT_BOT_HOST`（必须包含 `http://` 协议前缀，如 `http://x.x.x.x`）
 - **API 密钥**: 环境变量 `WECHAT_BOT_API_KEY`
@@ -51,15 +51,19 @@ curl -s -X POST "$WECHAT_BOT_HOST/noc/message/info" \
 |------|------|------|------|
 | `content` | string | 否 | 消息文本，换行使用 `\n`（JSON 转义换行符）；不发文本时传空字符串 `""` |
 | `groupName` | string | 是 | 目标微信群名称（精确匹配） |
-| `picBase64` | string | 否 | 图片的 base64 编码字符串，不发图片时传空字符串 `""` |
+| `picBase64` | string | 否 | 图片的 base64 编码字符串，**必须包含 `data:image/<type>;base64,` 前缀**（如 `data:image/jpeg;base64,/9j/...`）；不发图片时传空字符串 `""` |
 
 `content` 和 `picBase64` 至少填一个。
+
+> **文本 vs 图片编码规则**
+> - **文本** (`content`): 保留换行符 `\n`，`json.dump` 会自动将其序列化为 JSON 的 `\n` 转义，服务端正确还原为换行
+> - **图片** (`picBase64`): 直接使用 `base64.b64encode(data).decode()`，**不做任何额外处理**（不去换行、不替换字符）；必须加 `data:image/<type>;base64,` 前缀
 
 ### 构造 JSON 请求体（重要 — 中文编码）
 
 **必须使用 Python 构造包含中文的 JSON 请求体。** 禁止使用 `jq --arg` + shell 变量拼接中文内容，否则中文会被 Unicode 双重转义变成乱码（`\\uXXXX`）。
 
-**发送文本消息:**
+**发送文本消息：**
 ```bash
 # 从文件读取内容
 python3 -c "
@@ -81,38 +85,43 @@ rm -f /tmp/wechat_msg.json
 
 **关键**: `json.dump` 必须指定 `ensure_ascii=False`，否则中文会被转为 `\uXXXX` 转义序列，经 curl 发送后显示为乱码。
 
-### 发送图片（含压缩）
+### 发送图片
 
-图片发送前**必须先压缩**，确保 base64 编码后 JSON 请求体不超过 200KB。超过此限制接口可能无响应（HTTP 000）。
+接口支持最大约 10MB 的原始图片，无需压缩。直接读取图片文件，加上 MIME 前缀后编码：
 
 ```bash
-# 1. 压缩图片: 长边缩至 1200px，JPEG 质量 60%
-sips -Z 1200 -s format jpeg -s formatOptions 60 /path/to/image.png --out /tmp/wechat_pic.jpg
-
-# 2. 用 Python 构造包含 base64 图片的 JSON（避免 shell 参数长度限制）
+# 用 Python 构造含 base64 图片的 JSON
 python3 -c "
 import base64, json
-with open('/tmp/wechat_pic.jpg', 'rb') as f:
-    pic_b64 = base64.b64encode(f.read()).decode()
+
+with open('/path/to/image.png', 'rb') as f:
+    raw = f.read()
+
+# 直接编码，不做任何额外处理；加 data URI 前缀
+# JPEG 文件用 data:image/jpeg;base64,，PNG 文件用 data:image/png;base64,
+pic_b64 = 'data:image/jpeg;base64,' + base64.b64encode(raw).decode()
+
 payload = {'content': '配图说明（可为空字符串）', 'groupName': '群名称', 'picBase64': pic_b64}
 with open('/tmp/wechat_msg.json', 'w', encoding='utf-8') as f:
     json.dump(payload, f, ensure_ascii=False)
 "
 
-# 3. 发送
 curl -s -X POST "$WECHAT_BOT_HOST/noc/message/info" \
   -H "Content-Type: application/json" \
   -H "X-API-Key: $WECHAT_BOT_API_KEY" \
   -d @/tmp/wechat_msg.json
 
-# 4. 清理临时文件
-rm -f /tmp/wechat_msg.json /tmp/wechat_pic.jpg
+rm -f /tmp/wechat_msg.json
 ```
 
-**图片压缩规则**:
-- 原图 > 500KB 时必须压缩
-- 使用 `sips`（macOS 内置）: `-Z 1200`（长边 1200px）+ `-s formatOptions 60`（JPEG 质量 60%）
-- 压缩后仍 > 500KB 时，进一步降低质量到 40% 或缩至 800px
+**图片编码规则（重要）**:
+- 使用 `base64.b64encode(raw).decode()`，**不做任何额外处理**（不去换行、不替换任何字符）
+- 必须加 `data:image/<type>;base64,` 前缀，根据实际文件格式选择 MIME 类型：
+  - JPEG 文件（含 `.jpg`、`.jpeg`，以及扩展名为 `.png` 但实际为 JPEG 的文件）→ `data:image/jpeg;base64,`
+  - 真正的 PNG 文件 → `data:image/png;base64,`
+  - 用 `file /path/to/image` 命令确认实际格式
+- 原图超过 10MB 时再考虑压缩：`sips -Z 1200 -s format jpeg -s formatOptions 60 input --out output.jpg`
+- 若图片数据已包含 `data:image/` 前缀，直接使用，**不重复添加**
 
 可以同时发送文本 + 图片，也可以只发图片（`content` 传空字符串）。
 
@@ -122,23 +131,23 @@ rm -f /tmp/wechat_msg.json /tmp/wechat_pic.jpg
 
 发送消息是**写操作** — 必须在用户明确确认后才能调用。
 
-执行前先向用户展示:
+执行前先向用户展示：
 - 目标群名（单个或列表）
 - 消息内容预览（文本 + 是否含图片）
 - 等待用户确认后再发送
 
-### 场景一: 发送文本消息到单个群
+### 场景一：发送文本消息到单个群
 
 1. 检查环境变量 `WECHAT_BOT_HOST` 和 `WECHAT_BOT_API_KEY` 是否已设置（HOST 需含 `http://` 前缀）
 2. 用 Python 构造 JSON 请求体（`ensure_ascii=False`）
 3. 向用户展示消息预览，等待确认
 4. 用 `curl -d @/tmp/wechat_msg.json` 发送
 
-### 场景二: 发送消息到多个群
+### 场景二：发送消息到多个群
 
 对每个群**逐个调用** Bash 工具发送（不要用 shell for 循环，避免 JSON 转义问题）。每次调用间隔 1 秒，避免触发频率限制。
 
-发送流程:
+发送流程：
 1. 向用户展示所有目标群名和消息内容，等待确认
 2. 逐个群调用 curl 发送
 3. 每批最多 5 个群，超过 5 个分批执行
@@ -146,25 +155,25 @@ rm -f /tmp/wechat_msg.json /tmp/wechat_pic.jpg
 5. 连续失败超过 3 次时暂停，告知用户可能是系统性问题
 6. 全部完成后汇总报告
 
-### 场景三: 发送图片消息
+### 场景三：发送图片消息
 
-1. 先压缩图片（`sips -Z 1200 -s format jpeg -s formatOptions 60`）
-2. 用 Python 构造含 base64 图片的 JSON（避免 shell 参数长度限制 + 确保编码正确）
+1. 用 `file` 命令确认图片实际格式（扩展名可能与格式不符）
+2. 用 Python 直接读取图片，`base64.b64encode(raw).decode()` 编码，加 `data:image/<type>;base64,` 前缀，**不做任何额外处理**
 3. 用 `curl -d @/tmp/wechat_msg.json` 发送
 4. 清理临时文件
 
-详见上方「发送图片（含压缩）」的完整代码示例。
+详见上方「发送图片」的完整代码示例。
 
 ## 输出格式
 
-发送完成后，向用户报告结果:
+发送完成后，向用户报告结果：
 
-单群:
+单群：
 ```
 ✅ 消息已发送到「群名」
 ```
 
-多群:
+多群：
 ```
 ✅ 消息已发送到 3 个群:
   ✅ 群名1

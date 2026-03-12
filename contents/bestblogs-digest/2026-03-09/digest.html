@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BestBlogs 早报 | 2026-03-09</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #fefdfb;
+      color: #374151;
+      font-family: -apple-system, 'PingFang SC', 'Helvetica Neue', sans-serif;
+      font-size: 14px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      opacity: 0.03;
+      pointer-events: none;
+      z-index: 9999;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-size: 256px 256px;
+    }
+
+    .container {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 48px 24px 64px;
+    }
+
+    /* Header */
+    .header {
+      margin-bottom: 40px;
+    }
+
+    .brand {
+      font-family: Georgia, 'Noto Serif SC', serif;
+      font-size: 28px;
+      color: #1a365d;
+      letter-spacing: 0.05em;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .date {
+      color: #6b7280;
+      font-size: 13px;
+      margin-bottom: 16px;
+    }
+
+    .keywords {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .keyword {
+      font-size: 12px;
+      color: #1a365d;
+      border: 1px solid #1a365d;
+      border-radius: 20px;
+      padding: 3px 12px;
+      background: transparent;
+      white-space: nowrap;
+    }
+
+    /* Top 1 Card */
+    .card-top {
+      border-left: 3px solid #d97706;
+      background: rgba(217, 119, 6, 0.06);
+      padding: 24px;
+      margin-bottom: 32px;
+      position: relative;
+    }
+
+    .card-top .card-number {
+      color: #d97706;
+    }
+
+    .card-top .card-title {
+      font-size: 20px;
+    }
+
+    /* Regular Cards */
+    .card {
+      padding: 24px 0;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .card:last-of-type {
+      border-bottom: none;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .card-number {
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      color: #1a365d;
+      flex-shrink: 0;
+      min-width: 20px;
+    }
+
+    .card-title {
+      font-family: Georgia, 'Noto Serif SC', serif;
+      font-size: 17px;
+      color: #1a365d;
+      text-decoration: none;
+      line-height: 1.4;
+    }
+
+    .card-title:hover {
+      color: #2c5282;
+    }
+
+    .card-meta {
+      color: #6b7280;
+      font-size: 12px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .card-meta .separator {
+      color: #d1d5db;
+    }
+
+    .type-tag {
+      font-size: 11px;
+      color: #6b7280;
+      border: 1px solid #e5e7eb;
+      border-radius: 3px;
+      padding: 1px 6px;
+      background: rgba(229, 231, 235, 0.3);
+    }
+
+    .card-summary {
+      color: #374151;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .card-highlight {
+      color: #374151;
+      font-size: 14px;
+      line-height: 1.7;
+      margin-top: 8px;
+    }
+
+    .score {
+      font-family: 'Inter', sans-serif;
+    }
+
+    /* Footer */
+    .footer {
+      margin-top: 48px;
+      padding-top: 24px;
+      border-top: 1px solid #e5e7eb;
+      text-align: center;
+    }
+
+    .footer-brand {
+      font-family: Georgia, 'Noto Serif SC', serif;
+      font-size: 16px;
+      color: #1a365d;
+      letter-spacing: 0.05em;
+      margin-bottom: 4px;
+    }
+
+    .footer-slogan {
+      color: #6b7280;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <div class="brand">BestBlogs 早报</div>
+      <div class="date">2026 年 3 月 9 日 · 星期一</div>
+      <div class="keywords">
+        <span class="keyword">OpenClaw 生态</span>
+        <span class="keyword">Mobile-Agent 开源</span>
+        <span class="keyword">Agent Infra</span>
+        <span class="keyword">AI 产品格局</span>
+      </div>
+    </div>
+
+    <!-- Top 1 -->
+    <div class="card-top">
+      <div class="card-header">
+        <span class="card-number">01</span>
+        <a href="https://www.bestblogs.dev/podcast/74aee00" class="card-title" target="_blank">AI 行业 2025 年度总结补充篇：70 页 PPT 全景拆解中美 AI 变局</a>
+      </div>
+      <div class="card-meta">
+        <span>屠龙之术</span>
+        <span class="separator">|</span>
+        <span class="type-tag">播客 100min</span>
+        <span class="separator">|</span>
+        <span class="score">评分 94</span>
+      </div>
+      <div class="card-summary">
+        庄明浩基于 70 页 PPT 深度复盘中美 AI 市场核心变局。美国篇聚焦科技巨头 Capex 指数级增长及英伟达股价滞涨逻辑，重点探讨 OpenClaw 引发的 Agent 热潮——标志着 AI 从"对话"向"执行"的跨越。"2028 末世论"预警 AI 正在吃掉软件和中介环节，重塑 SaaS 行业。
+      </div>
+      <div class="card-highlight">
+        中国篇盘点模型厂商密集发布、字节 Seedance 2.0 视频生成突破及林俊旸离职引发的技术路线反思。
+      </div>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-number">02</span>
+        <a href="https://www.bestblogs.dev/article/03667b92" class="card-title" target="_blank">通义实验室开源 Mobile-Agent-v3.5：多平台 GUI Agent 基座模型</a>
+      </div>
+      <div class="card-meta">
+        <span>魔搭ModelScope社区</span>
+        <span class="separator">|</span>
+        <span>人工智能</span>
+        <span class="separator">|</span>
+        <span class="score">评分 93</span>
+      </div>
+      <div class="card-summary">
+        从 2B 到 32B 多种尺寸，Instruct 和 Thinking 两种版本，20+ 基准 SOTA。混合数据飞轮、MRPO 强化学习算法等技术创新，标志 GUI Agent 从实验 Demo 迈向工程可用。
+      </div>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-number">03</span>
+        <a href="https://www.bestblogs.dev/podcast/69d4334" class="card-title" target="_blank">20 个问题，搞懂 OpenClaw：爆红机制、本质变化、创业机会</a>
+      </div>
+      <div class="card-meta">
+        <span>十字路口Crossing</span>
+        <span class="separator">|</span>
+        <span class="type-tag">播客 63min</span>
+        <span class="separator">|</span>
+        <span class="score">评分 93</span>
+      </div>
+      <div class="card-summary">
+        系统拆解 OpenClaw 的三层记忆机制（原始日志、中期记忆、长期偏好），以及 Agent 时代的创业机遇：IM 入口、Agent 专用基础设施、ToB 数字员工。
+      </div>
+    </div>
+
+    <!-- Card 4 -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-number">04</span>
+        <a href="https://www.bestblogs.dev/article/23e840fe" class="card-title" target="_blank">OpenClaw 生态疯长，拆解 PH 上 40 多款相关产品</a>
+      </div>
+      <div class="card-meta">
+        <span>Founder Park</span>
+        <span class="separator">|</span>
+        <span>商业科技</span>
+        <span class="separator">|</span>
+        <span class="score">评分 92</span>
+      </div>
+      <div class="card-summary">
+        五大维度梳理生态爆发：2A 社交（Agent-to-Agent）、记忆技能包、云托管部署、安全运维、硬件消费级应用。一套自下而上的完整商业产业链已成形。
+      </div>
+    </div>
+
+    <!-- Card 5 -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-number">05</span>
+        <a href="https://www.bestblogs.dev/video/ea4216b" class="card-title" target="_blank">你从未听说过的最成功 AI 公司：Applied Intuition</a>
+      </div>
+      <div class="card-meta">
+        <span>Lenny's Podcast</span>
+        <span class="separator">|</span>
+        <span class="type-tag">视频</span>
+        <span class="separator">|</span>
+        <span class="score">评分 92</span>
+      </div>
+      <div class="card-summary">
+        150 亿美元估值的"隐形"AI 独角兽 CEO Qasar Younis 认为，AI 最深远影响在物理世界——农业、采矿、建筑。倡导"激进务实主义"：隐形模式和工程纪律优于公开炒作。
+      </div>
+    </div>
+
+    <!-- Card 6 -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-number">06</span>
+        <a href="https://www.bestblogs.dev/video/19e210e" class="card-title" target="_blank">Ramp 构建 AI 产品的经验教训</a>
+      </div>
+      <div class="card-meta">
+        <span>The Pragmatic Engineer</span>
+        <span class="separator">|</span>
+        <span class="type-tag">视频</span>
+        <span class="separator">|</span>
+        <span class="score">评分 92</span>
+      </div>
+      <div class="card-summary">
+        从数千个单一智能体到统一对话界面"Omnihat"的范式转变。"Policy Agent"将自然语言费用政策转为可执行规则。内部编码智能体已处理超 50% 的 PR。
+      </div>
+    </div>
+
+    <!-- Card 7 -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-number">07</span>
+        <a href="https://www.bestblogs.dev/article/1aca936e" class="card-title" target="_blank">品牌时代</a>
+      </div>
+      <div class="card-meta">
+        <span>宝玉的分享</span>
+        <span class="separator">|</span>
+        <span>商业科技</span>
+        <span class="separator">|</span>
+        <span class="score">评分 92</span>
+      </div>
+      <div class="card-summary">
+        Paul Graham 最新文章。设计是追求最优解的"向心力"，品牌是追求差异化的"离心力"，两者本质相悖。由品牌定义的领域往往怪异且平庸，真正的卓越应"跟着问题走"。
+      </div>
+    </div>
+
+    <!-- Card 8 -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-number">08</span>
+        <a href="https://www.bestblogs.dev/article/6a3465b9" class="card-title" target="_blank">为什么现有的 Agent Infra 无法支撑生产级应用？</a>
+      </div>
+      <div class="card-meta">
+        <span>InfoQ 中文</span>
+        <span class="separator">|</span>
+        <span>编程技术</span>
+        <span class="separator">|</span>
+        <span class="score">评分 91</span>
+      </div>
+      <div class="card-summary">
+        Agent 落地瓶颈在基础设施而非模型。提出三条关键原语：Effect Log（副作用日志）、Capability Gateway（能力隔离）、Fork Recovery（分叉恢复）。Infra 使命从"保活"转向"可恢复性"。
+      </div>
+    </div>
+
+    <!-- Card 9 -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-number">09</span>
+        <a href="https://www.bestblogs.dev/article/a7a6ba50" class="card-title" target="_blank">Claude Code 之父访谈：Anthropic 如何推出 AI 爆款？</a>
+      </div>
+      <div class="card-meta">
+        <span>InfoQ 中文</span>
+        <span class="separator">|</span>
+        <span>编程技术</span>
+        <span class="separator">|</span>
+        <span class="score">评分 90</span>
+      </div>
+      <div class="card-summary">
+        Boris Cherny 详述 Claude Code 演进：放弃 RAG 转向 Agentic Search、并行 Agent 提升产出。Anthropic 独特文化：统一"技术参谋"职称、原型驱动取代 PRD、通才模式。
+      </div>
+    </div>
+
+    <!-- Card 10 -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-number">10</span>
+        <a href="https://www.bestblogs.dev/article/afee134d" class="card-title" target="_blank">豆包破 3 亿，千问狂涨 552%｜2 月 AI 产品榜</a>
+      </div>
+      <div class="card-meta">
+        <span>硅星人Pro</span>
+        <span class="separator">|</span>
+        <span>商业科技</span>
+        <span class="separator">|</span>
+        <span class="score">评分 91</span>
+      </div>
+      <div class="card-summary">
+        字节豆包凭春晚红包 MAU 突破 3.15 亿（全球第二），阿里千问 30 亿补贴月增速 552%（全球第三）。国内五强格局确立：豆包、千问、夸克、DeepSeek、腾讯元宝。
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <div class="footer-brand">BestBlogs.dev</div>
+      <div class="footer-slogan">遇见更好的技术阅读</div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BestBlogs 早报 | 2026-03-08</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #fefdfb;
+      color: #374151;
+      font-family: -apple-system, 'PingFang SC', 'Helvetica Neue', 'Noto Sans SC', sans-serif;
+      font-size: 15px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      opacity: 0.03;
+      pointer-events: none;
+      z-index: 9999;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-size: 256px 256px;
+    }
+
+    .container {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 48px 24px 64px;
+    }
+
+    /* Header */
+    .header {
+      margin-bottom: 40px;
+    }
+
+    .brand {
+      font-family: Georgia, 'Noto Serif SC', 'Source Serif Pro', serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: #1a365d;
+      letter-spacing: 0.05em;
+      margin-bottom: 4px;
+    }
+
+    .date {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      color: #6b7280;
+      margin-bottom: 16px;
+    }
+
+    .keywords {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .keyword {
+      font-size: 12px;
+      color: #1a365d;
+      border: 1px solid #1a365d;
+      border-radius: 20px;
+      padding: 3px 12px;
+      background: transparent;
+      letter-spacing: 0.02em;
+    }
+
+    /* Cards */
+    .item {
+      padding: 28px 0;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .item:last-child {
+      border-bottom: none;
+    }
+
+    /* Top 1 */
+    .item-top {
+      border-left: 3px solid #d97706;
+      padding-left: 20px;
+      margin-left: -20px;
+      background: rgba(217, 119, 6, 0.06);
+      border-radius: 0 4px 4px 0;
+      padding: 24px 20px;
+      margin-bottom: 4px;
+      border-bottom: none;
+    }
+
+    .item-top + .item {
+      border-top: none;
+    }
+
+    .item-header {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .item-rank {
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      color: #1a365d;
+      flex-shrink: 0;
+      min-width: 20px;
+    }
+
+    .item-title {
+      font-family: Georgia, 'Noto Serif SC', 'Source Serif Pro', serif;
+      font-size: 17px;
+      font-weight: 600;
+      color: #1a365d;
+      text-decoration: none;
+      line-height: 1.4;
+    }
+
+    .item-title:hover {
+      color: #2c5282;
+    }
+
+    .item-top .item-title {
+      font-size: 20px;
+    }
+
+    .item-meta {
+      font-size: 12px;
+      color: #6b7280;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .meta-sep {
+      color: #d1d5db;
+    }
+
+    .type-tag {
+      font-size: 11px;
+      background: #f3f4f6;
+      color: #6b7280;
+      padding: 1px 8px;
+      border-radius: 10px;
+    }
+
+    .score {
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+    }
+
+    .item-summary {
+      font-size: 14px;
+      color: #374151;
+      line-height: 1.7;
+    }
+
+    .item-top .item-summary {
+      font-size: 15px;
+    }
+
+    .also-see {
+      font-size: 12px;
+      color: #9ca3af;
+      margin-top: 8px;
+    }
+
+    /* Footer */
+    .footer {
+      margin-top: 48px;
+      padding-top: 24px;
+      border-top: 1px solid #e5e7eb;
+      text-align: center;
+    }
+
+    .footer-brand {
+      font-family: Georgia, 'Noto Serif SC', 'Source Serif Pro', serif;
+      font-size: 16px;
+      color: #1a365d;
+      letter-spacing: 0.08em;
+      margin-bottom: 4px;
+    }
+
+    .footer-tagline {
+      font-size: 12px;
+      color: #6b7280;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <div class="brand">BestBlogs 早报</div>
+      <div class="date">2026-03-08 · 星期日</div>
+      <div class="keywords">
+        <span class="keyword">Cursor Automations</span>
+        <span class="keyword">Claude Code /loop</span>
+        <span class="keyword">Karpathy autoresearch</span>
+        <span class="keyword">AI 安全审计</span>
+      </div>
+    </div>
+
+    <!-- Top 1 -->
+    <div class="item item-top">
+      <div class="item-header">
+        <span class="item-rank">01</span>
+        <a class="item-title" href="https://www.bestblogs.dev/article/110938d0" target="_blank">Cursor 推出 Automations：从 IDE 进化为全天候智能体平台</a>
+      </div>
+      <div class="item-meta">
+        <span>Cursor Blog</span>
+        <span class="meta-sep">·</span>
+        <span>编程技术</span>
+        <span class="meta-sep">·</span>
+        <span class="score">93</span>
+      </div>
+      <div class="item-summary">
+        Cursor 正式发布 Automations 功能，允许开发者部署由 GitHub PR、Slack 消息、PagerDuty 事件等触发的持久化 AI 智能体。这些智能体在云端沙箱中运行，利用 MCP 和记忆工具自主执行代码审查、安全审计和事件分级，标志着 Cursor 从编辑器升级为事件驱动的全天候开发运维平台。
+      </div>
+    </div>
+
+    <!-- 2 -->
+    <div class="item">
+      <div class="item-header">
+        <span class="item-rank">02</span>
+        <a class="item-title" href="https://www.bestblogs.dev/status/2030193932404150413" target="_blank">Claude Code 新增 /loop：支持最长 3 天的循环任务调度</a>
+      </div>
+      <div class="item-meta">
+        <span>@bcherny</span>
+        <span class="meta-sep">·</span>
+        <span class="type-tag">推文</span>
+        <span class="meta-sep">·</span>
+        <span>人工智能</span>
+        <span class="meta-sep">·</span>
+        <span class="score">92</span>
+      </div>
+      <div class="item-summary">
+        Claude Code 之父 Boris Cherny 宣布新增 /loop 功能，支持调度运行最长 3 天的循环任务——持续监控 PR、自动修复构建问题、每日总结 Slack 消息。Claude Code 正从交互式编程助手向自主 Agent 平台迈进。
+      </div>
+    </div>
+
+    <!-- 3 -->
+    <div class="item">
+      <div class="item-header">
+        <span class="item-rank">03</span>
+        <a class="item-title" href="https://www.bestblogs.dev/article/eb5bf321" target="_blank">2026，写给 AI 创业者的慷慨、残酷、与迷雾</a>
+      </div>
+      <div class="item-meta">
+        <span>十字路口Crossing</span>
+        <span class="meta-sep">·</span>
+        <span>人工智能</span>
+        <span class="meta-sep">·</span>
+        <span class="score">93</span>
+      </div>
+      <div class="item-summary">
+        从印刷术、电力、云计算等技术史视角剖析编程商品化带来的创业范式转移。当 AI Agent 使编程成为零边际成本的商品化资源，创业者的核心竞争力已从代码实现转向对用户需求的深层理解和产品判断力。
+      </div>
+    </div>
+
+    <!-- 4 -->
+    <div class="item">
+      <div class="item-header">
+        <span class="item-rank">04</span>
+        <a class="item-title" href="https://www.bestblogs.dev/status/2030371219518931079" target="_blank">Karpathy 开源 autoresearch：630 行代码实现 AI 自主迭代训练</a>
+      </div>
+      <div class="item-meta">
+        <span>@karpathy</span>
+        <span class="meta-sep">·</span>
+        <span class="type-tag">推文</span>
+        <span class="meta-sep">·</span>
+        <span>人工智能</span>
+        <span class="meta-sep">·</span>
+        <span class="score">92</span>
+      </div>
+      <div class="item-summary">
+        Andrej Karpathy 发布 autoresearch 开源项目，仅 630 行代码的单文件仓库，让 AI 智能体在单 GPU 上自主迭代 LLM 训练代码。人类负责迭代 prompt，智能体负责迭代训练代码，探索无需人工干预的持续研究加速。
+      </div>
+    </div>
+
+    <!-- 5 -->
+    <div class="item">
+      <div class="item-header">
+        <span class="item-rank">05</span>
+        <a class="item-title" href="https://www.bestblogs.dev/video/1fcd0e1" target="_blank">构建 Cursor 的经验教训</a>
+      </div>
+      <div class="item-meta">
+        <span>ByteByteGo</span>
+        <span class="meta-sep">·</span>
+        <span class="type-tag">视频</span>
+        <span class="meta-sep">·</span>
+        <span>编程技术</span>
+        <span class="meta-sep">·</span>
+        <span class="score">93</span>
+      </div>
+      <div class="item-summary">
+        ByteByteGo 深度拆解 Cursor 技术架构：利用大规模强化学习训练 Composer 1.5 模型、编排数百万 CPU 沙箱、以及克服上下文窗口限制的"自我总结"机制。
+      </div>
+    </div>
+
+    <!-- 6 -->
+    <div class="item">
+      <div class="item-header">
+        <span class="item-rank">06</span>
+        <a class="item-title" href="https://www.bestblogs.dev/article/138d8a61" target="_blank">Anthropic 与 Mozilla 合作：Claude 两周发现 Firefox 22 个漏洞</a>
+      </div>
+      <div class="item-meta">
+        <span>Anthropic News</span>
+        <span class="meta-sep">·</span>
+        <span>人工智能</span>
+        <span class="meta-sep">·</span>
+        <span class="score">91</span>
+      </div>
+      <div class="item-summary">
+        Claude Opus 4.6 在两周内识别出 Firefox 代码库 22 个漏洞（14 个高危），占 Firefox 全年高危修复量的近 20%。AI 安全研究从合成基准测试走向真实世界复杂软件审计的标志性案例。
+      </div>
+      <div class="also-see">另见: 机器之心</div>
+    </div>
+
+    <!-- 7 -->
+    <div class="item">
+      <div class="item-header">
+        <span class="item-rank">07</span>
+        <a class="item-title" href="https://www.bestblogs.dev/article/5db40510" target="_blank">深度解析 Google Workspace CLI：从 HCI 到 ACI 的范式转移</a>
+      </div>
+      <div class="item-meta">
+        <span>浮之静</span>
+        <span class="meta-sep">·</span>
+        <span>人工智能</span>
+        <span class="meta-sep">·</span>
+        <span class="score">93</span>
+      </div>
+      <div class="item-summary">
+        以 Google 新发布的 Rust 编写的 Workspace CLI 为切入点，探讨软件交互从人机交互（HCI）向代理机交互（ACI）的范式转移。CLI 在任务委托、上下文管理和状态确定性方面相较于 IDE 插件具有结构性优势。
+      </div>
+    </div>
+
+    <!-- 8 -->
+    <div class="item">
+      <div class="item-header">
+        <span class="item-rank">08</span>
+        <a class="item-title" href="https://www.bestblogs.dev/article/08c8a4c7" target="_blank">The Batch：Context Hub 防幻觉、Nano Banana 2、Anthropic 伦理冲突</a>
+      </div>
+      <div class="item-meta">
+        <span>deeplearning.ai</span>
+        <span class="meta-sep">·</span>
+        <span>人工智能</span>
+        <span class="meta-sep">·</span>
+        <span class="score">93</span>
+      </div>
+      <div class="item-summary">
+        吴恩达推出开源工具 Context Hub，为编程智能体提供最新 API 文档以防止幻觉；Google Nano Banana 2 图像生成性价比飞跃；Anthropic 与美国国防部在 AI 军事应用上的伦理分歧持续发酵。
+      </div>
+    </div>
+
+    <!-- 9 -->
+    <div class="item">
+      <div class="item-header">
+        <span class="item-rank">09</span>
+        <a class="item-title" href="https://www.bestblogs.dev/article/31d261bc" target="_blank">科技爱好者周刊（第 387 期）：你是领先的</a>
+      </div>
+      <div class="item-meta">
+        <span>阮一峰的网络日志</span>
+        <span class="meta-sep">·</span>
+        <span>商业科技</span>
+        <span class="meta-sep">·</span>
+        <span class="score">92</span>
+      </div>
+      <div class="item-summary">
+        通过数据揭示反直觉事实：尽管 AI 浪潮汹涌，深度使用 AI 生成代码的人群仅占全球 0.04%。同时分析 GitHub 现象级项目 OpenClaw 在 25 万星后面临的安全风险。
+      </div>
+    </div>
+
+    <!-- 10 -->
+    <div class="item">
+      <div class="item-header">
+        <span class="item-rank">10</span>
+        <a class="item-title" href="https://www.bestblogs.dev/article/cc1aeca3" target="_blank">GitHub Security Lab 开源 AI 驱动漏洞扫描框架</a>
+      </div>
+      <div class="item-meta">
+        <span>The GitHub Blog</span>
+        <span class="meta-sep">·</span>
+        <span>编程技术</span>
+        <span class="meta-sep">·</span>
+        <span class="score">89</span>
+      </div>
+      <div class="item-summary">
+        采用多阶段 taskflow 方法：先威胁建模定义安全边界，再通过 AI 头脑风暴潜在风险，最后严格审计验证。结构化方法有效克服 LLM 在安全审计中的幻觉和误报问题。
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <div class="footer-brand">BestBlogs.dev</div>
+      <div class="footer-tagline">遇见更好的技术阅读</div>
+    </div>
+  </div>
+</body>
+</html>

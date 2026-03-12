@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BestBlogs 早报 | 2026-03-07</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #fefdfb;
+      color: #374151;
+      font-family: -apple-system, 'PingFang SC', 'Helvetica Neue', Arial, sans-serif;
+      font-size: 14px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      opacity: 0.03;
+      pointer-events: none;
+      z-index: 9999;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-size: 256px 256px;
+    }
+
+    .container {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 60px 24px 80px;
+    }
+
+    /* Header */
+    .header {
+      margin-bottom: 48px;
+    }
+
+    .brand {
+      font-family: Georgia, 'Noto Serif SC', serif;
+      font-size: 28px;
+      color: #1a365d;
+      letter-spacing: 0.05em;
+      font-weight: 400;
+      margin-bottom: 8px;
+    }
+
+    .date {
+      font-size: 13px;
+      color: #6b7280;
+      margin-bottom: 20px;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .tag {
+      font-size: 12px;
+      color: #1a365d;
+      border: 1px solid #1a365d;
+      border-radius: 20px;
+      padding: 3px 12px;
+      background: transparent;
+      letter-spacing: 0.02em;
+    }
+
+    /* Cards */
+    .card {
+      padding: 28px 0;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .card:last-child {
+      border-bottom: none;
+    }
+
+    /* Top 1 special */
+    .card-top {
+      border-left: 3px solid #d97706;
+      padding-left: 24px;
+      background: rgba(217, 119, 6, 0.06);
+      margin-left: -24px;
+      margin-right: -24px;
+      padding: 28px 24px;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .card-number {
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: #1a365d;
+      flex-shrink: 0;
+      min-width: 22px;
+    }
+
+    .card-top .card-number {
+      color: #d97706;
+    }
+
+    .card-title {
+      font-family: Georgia, 'Noto Serif SC', serif;
+      font-size: 17px;
+      color: #1a365d;
+      text-decoration: none;
+      line-height: 1.4;
+    }
+
+    .card-top .card-title {
+      font-size: 20px;
+    }
+
+    .card-title:hover {
+      color: #2c5282;
+    }
+
+    .card-meta {
+      font-size: 12px;
+      color: #6b7280;
+      margin-bottom: 10px;
+      padding-left: 34px;
+    }
+
+    .card-top .card-meta {
+      padding-left: 34px;
+    }
+
+    .card-summary {
+      font-size: 14px;
+      color: #374151;
+      line-height: 1.7;
+      padding-left: 34px;
+    }
+
+    .card-top .card-summary {
+      padding-left: 34px;
+    }
+
+    .card-also {
+      font-size: 12px;
+      color: #6b7280;
+      margin-top: 8px;
+      padding-left: 34px;
+      font-style: italic;
+    }
+
+    .type-badge {
+      display: inline-block;
+      font-size: 11px;
+      color: #6b7280;
+      border: 1px solid #d1d5db;
+      border-radius: 3px;
+      padding: 1px 6px;
+      margin-left: 4px;
+      vertical-align: middle;
+    }
+
+    .score {
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+    }
+
+    /* Footer */
+    .footer {
+      margin-top: 48px;
+      padding-top: 24px;
+      border-top: 1px solid #e5e7eb;
+      text-align: center;
+    }
+
+    .footer-brand {
+      font-family: Georgia, 'Noto Serif SC', serif;
+      font-size: 16px;
+      color: #1a365d;
+      letter-spacing: 0.05em;
+      margin-bottom: 4px;
+    }
+
+    .footer-tagline {
+      font-size: 12px;
+      color: #6b7280;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <!-- Header -->
+    <div class="header">
+      <div class="brand">BestBlogs 早报</div>
+      <div class="date">2026 年 3 月 7 日 · 星期六</div>
+      <div class="tags">
+        <span class="tag">GPT-5.4</span>
+        <span class="tag">Cursor 云端智能体</span>
+        <span class="tag">AI Coding</span>
+        <span class="tag">比亚迪刀片电池</span>
+      </div>
+    </div>
+
+    <!-- Top 1 -->
+    <div class="card-top">
+      <div class="card-header">
+        <span class="card-number">01</span>
+        <a href="https://www.bestblogs.dev/article/bfed7323" class="card-title" target="_blank">GPT-5.4：专业工作流进入"可执行时代"</a>
+      </div>
+      <div class="card-meta">浮之静 · 人工智能 · <span class="score">评分 93</span></div>
+      <div class="card-summary">
+        OpenAI 发布 GPT-5.4，标志着 AI 从对话助手向自主执行代理的关键跨越。核心突破包括 105 万超长上下文、原生计算机使用能力（GUI 交互）、Tool Search 机制（降低 47% token 消耗）以及交互式思考（支持中途纠偏）。对开发者而言，长程 Agent 构建变得可行，但正如文中所言——"凡是能被写进 SOP 的能力都将贬值"。
+      </div>
+      <div class="card-also">另见: 赛博禅心, 爱范儿, Latent Space AINews</div>
+    </div>
+
+    <!-- 2 -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-number">02</span>
+        <a href="https://www.bestblogs.dev/article/862a3021" class="card-title" target="_blank">Cursor 的第三个时代：云端智能体</a>
+      </div>
+      <div class="card-meta">Latent Space · 商业科技 · <span class="score">评分 93</span></div>
+      <div class="card-summary">
+        Cursor 正从 IDE 内的代码补全进化为云端自主智能体。新架构为 Agent 提供独立虚拟机，Agent 自动生成视频演示以简化 PR 审查，开发协作正从本地 IDE 迁移到 Slack。
+      </div>
+      <div class="card-also">另见: ByteByteGo 构建 Cursor 经验</div>
+    </div>
+
+    <!-- 3 -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-number">03</span>
+        <a href="https://www.bestblogs.dev/video/14400be" class="card-title" target="_blank">打造 Vercel v0 和 d0 智能体的经验教训</a>
+      </div>
+      <div class="card-meta">The Pragmatic Engineer · 软件编程 <span class="type-badge">视频</span> · <span class="score">评分 93</span></div>
+      <div class="card-summary">
+        Vercel CTO 分享实战经验：D0 智能体将数据任务视为编程问题，从复杂工具链简化为 50 行代码。代码生成正变得免费，但维护是"免费小狗"问题。
+      </div>
+    </div>
+
+    <!-- 4 -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-number">04</span>
+        <a href="https://www.bestblogs.dev/status/2029983809652035758" class="card-title" target="_blank">OpenAI 推出 Codex Security</a>
+      </div>
+      <div class="card-meta">@OpenAIDevs · 人工智能 <span class="type-badge">推文</span> · <span class="score">评分 92</span></div>
+      <div class="card-summary">
+        OpenAI 正式发布应用安全智能体 Codex Security，能自动发现代码库漏洞、验证影响并提供修复代码。AI 驱动的 DevSecOps 迈出重要一步。
+      </div>
+    </div>
+
+    <!-- 5 -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-number">05</span>
+        <a href="https://www.bestblogs.dev/article/3069e75c" class="card-title" target="_blank">智能体时代的人月神话</a>
+      </div>
+      <div class="card-meta">InfoQ 中文 · 软件编程 · <span class="score">评分 89</span></div>
+      <div class="card-summary">
+        pandas 创始人 Wes McKinney 警告：AI 并未解决"本质复杂性"，技术债以机器速度累积。当编码成本趋零，架构设计、范围克制和审美品味将成为最终约束。
+      </div>
+    </div>
+
+    <!-- 6 -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-number">06</span>
+        <a href="https://www.bestblogs.dev/article/a5e6b529" class="card-title" target="_blank">大模型之后：人类与机器的分工重写</a>
+      </div>
+      <div class="card-meta">腾讯研究院 · 商业科技 · <span class="score">评分 92</span></div>
+      <div class="card-summary">
+        万字圆桌实录。AI 革命消除了学习的时间障碍，社会分工根本逆转——AI 负责"技法"，人类稀缺性转向"想法"与"品味"。
+      </div>
+    </div>
+
+    <!-- 7 -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-number">07</span>
+        <a href="https://www.bestblogs.dev/article/ffe71bbd" class="card-title" target="_blank">GPT-5.4 回一个 hi 要花 80 刀，谷歌这篇论文有解</a>
+      </div>
+      <div class="card-meta">腾讯科技 · 商业科技 · <span class="score">评分 90</span></div>
+      <div class="card-summary">
+        推理长度与准确率呈倒 U 型曲线。谷歌提出"深度思考率（DTR）"指标，区分有效思考与无效冗余。AI 正从追求推理长度向追求计算密度转型。
+      </div>
+    </div>
+
+    <!-- 8 -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-number">08</span>
+        <a href="https://www.bestblogs.dev/article/f425bd68" class="card-title" target="_blank">智能体手动测试 — 智能体工程模式</a>
+      </div>
+      <div class="card-meta">Simon Willison's Weblog · 人工智能 · <span class="score">评分 88</span></div>
+      <div class="card-summary">
+        Agent 工程中被忽视的关键实践：在自动化测试难以覆盖 Agent 行为不确定性的现实下，系统化的手动测试成为质量保障的关键防线。
+      </div>
+    </div>
+
+    <!-- 9 -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-number">09</span>
+        <a href="https://www.bestblogs.dev/article/cf23cc8a" class="card-title" target="_blank">比亚迪第二代刀片电池：9 分钟满电</a>
+      </div>
+      <div class="card-meta">爱范儿 · 商业科技 · <span class="score">评分 89</span></div>
+      <div class="card-summary">
+        常温 9 分钟充至 97%，-30°C 极寒仅需 12 分钟。配套 1500kW 闪充桩，首批 10 款新车搭载。纯电车正式进入与燃油车硬指标对决阶段。
+      </div>
+    </div>
+
+    <!-- 10 -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-number">10</span>
+        <a href="https://www.bestblogs.dev/article/7b55fd09" class="card-title" target="_blank">林俊旸离职风波：Qwen 负责人与阿里的分歧</a>
+      </div>
+      <div class="card-meta">晚点LatePost · 商业科技 · <span class="score">评分 85</span></div>
+      <div class="card-summary">
+        Qwen 团队追求技术领先和开源影响力，与阿里集团追求商业化增长之间产生目标错位。折射出 AI 时代大公司管理"超级个体"的核心挑战。
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <div class="footer-brand">BestBlogs.dev</div>
+      <div class="footer-tagline">遇见更好的技术阅读</div>
+    </div>
+
+  </div>
+</body>
+</html>

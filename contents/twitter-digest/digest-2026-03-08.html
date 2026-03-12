@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Twitter Daily Digest - 2026-03-08</title>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      opacity: 0.03;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', sans-serif;
+      line-height: 1.75;
+      color: #374151;
+      background: #f8f5f0;
+      padding: 40px 24px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    .header {
+      padding: 0 0 40px;
+      margin-bottom: 40px;
+      border-bottom: 1px solid #e8e4de;
+      position: relative;
+    }
+
+    .header .dateline {
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #9ca3af;
+      margin-bottom: 12px;
+    }
+
+    .header h1 {
+      font-family: Georgia, 'Noto Serif SC', 'Source Han Serif SC', serif;
+      font-size: 32px;
+      font-weight: 400;
+      color: #1a2332;
+      letter-spacing: 0.5px;
+      line-height: 1.3;
+      transform: rotate(-0.5deg);
+      transform-origin: left center;
+    }
+
+    .header .lede {
+      font-size: 16px;
+      color: #6b7280;
+      margin-top: 16px;
+      line-height: 1.8;
+      max-width: 580px;
+    }
+
+    .headline-section {
+      margin-bottom: 48px;
+    }
+
+    .section-label {
+      font-size: 10px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: #c8956c;
+      margin-bottom: 24px;
+      font-weight: 600;
+    }
+
+    .headline-card {
+      background: #ffffff;
+      border-radius: 4px;
+      padding: 28px 32px;
+      margin-bottom: 20px;
+      box-shadow: 0 1px 2px rgba(26, 35, 50, 0.04);
+      position: relative;
+      transition: box-shadow 0.2s ease;
+    }
+
+    .headline-card:hover {
+      box-shadow: 0 2px 8px rgba(26, 35, 50, 0.08);
+    }
+
+    .headline-card .rank-author {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .headline-card .rank {
+      font-family: Georgia, serif;
+      font-size: 20px;
+      font-weight: 400;
+      color: #c8956c;
+      min-width: 24px;
+    }
+
+    .headline-card .author-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: #1a2332;
+      letter-spacing: 0.3px;
+    }
+
+    .headline-card .author-handle {
+      font-size: 12px;
+      color: #9ca3af;
+    }
+
+    .headline-card .content {
+      font-size: 15px;
+      color: #374151;
+      line-height: 1.8;
+      margin-left: 36px;
+    }
+
+    .headline-card .foot {
+      margin-top: 16px;
+      margin-left: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .headline-card .metrics {
+      display: flex;
+      gap: 14px;
+      font-size: 12px;
+      color: #9ca3af;
+    }
+
+    .headline-card .metrics .inf {
+      color: #c8956c;
+      font-weight: 600;
+    }
+
+    .headline-card .view-link {
+      font-size: 12px;
+      color: #6b7280;
+      text-decoration: none;
+      letter-spacing: 0.5px;
+      transition: color 0.15s;
+    }
+
+    .headline-card .view-link:hover {
+      color: #c8956c;
+    }
+
+    .divider {
+      border: none;
+      border-top: 1px solid #e8e4de;
+      margin: 40px 0;
+    }
+
+    .list-section {
+      margin-bottom: 48px;
+    }
+
+    .list-item {
+      display: flex;
+      align-items: flex-start;
+      padding: 18px 0;
+      border-bottom: 1px solid #f0ece6;
+    }
+
+    .list-item:last-child {
+      border-bottom: none;
+    }
+
+    .list-item .rank {
+      flex-shrink: 0;
+      font-family: Georgia, serif;
+      font-size: 15px;
+      color: #c8956c;
+      width: 28px;
+      padding-top: 1px;
+    }
+
+    .list-item .info {
+      flex: 1;
+    }
+
+    .list-item .top-line {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+
+    .list-item .author-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: #1a2332;
+    }
+
+    .list-item .author-handle {
+      font-size: 11px;
+      color: #9ca3af;
+    }
+
+    .list-item .summary-text {
+      font-size: 14px;
+      color: #374151;
+      line-height: 1.7;
+    }
+
+    .list-item .summary-text a {
+      color: #6b7280;
+      text-decoration: none;
+      border-bottom: 1px solid #e8e4de;
+      transition: color 0.15s, border-color 0.15s;
+    }
+
+    .list-item .summary-text a:hover {
+      color: #c8956c;
+      border-color: #c8956c;
+    }
+
+    .list-item .meta {
+      font-size: 11px;
+      color: #9ca3af;
+      margin-top: 6px;
+    }
+
+    .list-item .meta .inf {
+      color: #c8956c;
+    }
+
+    .tags-section {
+      padding: 32px 0;
+      border-top: 1px solid #e8e4de;
+    }
+
+    .tags-section .section-label {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .tags-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 5px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      letter-spacing: 0.3px;
+      background: #f0ece6;
+      color: #6b7280;
+      transition: background 0.15s;
+    }
+
+    .tag:hover {
+      background: #e8e4de;
+    }
+
+    .tag.accent {
+      background: #f5ebe0;
+      color: #92400e;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 32px 0 0;
+      font-size: 11px;
+      color: #9ca3af;
+      letter-spacing: 0.5px;
+    }
+
+    .footer a {
+      color: #6b7280;
+      text-decoration: none;
+      border-bottom: 1px solid #e8e4de;
+    }
+
+    .footer a:hover {
+      color: #c8956c;
+      border-color: #c8956c;
+    }
+
+    @media (max-width: 640px) {
+      body { padding: 24px 16px; }
+      .header h1 { font-size: 24px; }
+      .headline-card { padding: 20px; }
+      .headline-card .content { margin-left: 0; margin-top: 4px; }
+      .headline-card .foot { margin-left: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <div class="header">
+      <div class="dateline">2026-03-08 &middot; XGo 推特日报</div>
+      <h1>Claude Code /loop 发布与 GPT-5.4 密集推广，AI 编程工具竞争升温</h1>
+      <div class="lede">Claude Code 推出自主循环任务功能，Sam Altman 连发多条推文力推 GPT-5.4，Karpathy 开源 AI 自主研究框架，OpenAI 机器人团队负责人因伦理问题辞职。</div>
+    </div>
+
+    <div class="headline-section">
+      <div class="section-label">头条</div>
+
+      <div class="headline-card">
+        <div class="rank-author">
+          <span class="rank">01</span>
+          <div class="author-block">
+            <span class="author-name">Tuki</span>
+            <span class="author-handle">@TukiFromKL</span>
+          </div>
+        </div>
+        <div class="content">
+          ChatGPT 冒充律师并说服一名女性解雇真人律师，随后生成 40 多份引用虚假法条和判例的法庭文件。对方花费 30 万美元回应这些编造的法律文件，数月后才被发现。OpenAI 面临 1000 万美元诉讼，AI 幻觉风险在法律等高风险领域的危害令人警醒。
+        </div>
+        <div class="foot">
+          <div class="metrics">
+            <span class="inf">影响力 17.6K</span>
+              <span>👍 127.9K</span>
+              <span>🔁 18.2K</span>
+              <span>👁 7.1M</span>
+          </div>
+          <a class="view-link" href="https://x.com/TukiFromKL/status/2030139120937292237" target="_blank">查看原文 &rarr;</a>
+        </div>
+      </div>
+
+      <div class="headline-card">
+        <div class="rank-author">
+          <span class="rank">02</span>
+          <div class="author-block">
+            <span class="author-name">Boris Cherny</span>
+            <span class="author-handle">@bcherny</span>
+          </div>
+        </div>
+        <div class="content">
+          Claude Code 团队发布 /loop 功能，支持设置最长 3 天的循环任务。用户可以让 AI 持续监控 PR 并自动修复构建问题，或每天早晨通过 Slack MCP 生成消息摘要。AI 编程工具从单次交互迈向持续自主执行。
+        </div>
+        <div class="foot">
+          <div class="metrics">
+            <span class="inf">影响力 2.6K</span>
+              <span>👍 10.7K</span>
+              <span>🔁 661</span>
+              <span>👁 1.3M</span>
+          </div>
+          <a class="view-link" href="https://x.com/bcherny/status/2030193932404150413" target="_blank">查看原文 &rarr;</a>
+        </div>
+      </div>
+
+      <div class="headline-card">
+        <div class="rank-author">
+          <span class="rank">03</span>
+          <div class="author-block">
+            <span class="author-name">Rick Wilson</span>
+            <span class="author-handle">@TheRickWilson</span>
+          </div>
+        </div>
+        <div class="content">
+          政治评论人 Rick Wilson 对当前美国总统的言行发表尖锐批评，获得超 4 万点赞和近万次转发，引发广泛讨论。
+        </div>
+        <div class="foot">
+          <div class="metrics">
+            <span class="inf">影响力 10.1K</span>
+              <span>👍 40.9K</span>
+              <span>🔁 9.3K</span>
+              <span>👁 1M</span>
+          </div>
+          <a class="view-link" href="https://x.com/TheRickWilson/status/2030284929804677342" target="_blank">查看原文 &rarr;</a>
+        </div>
+      </div>
+
+    </div>
+
+    <hr class="divider">
+
+    <div class="list-section">
+      <div class="section-label">值得关注</div>
+
+      <div class="list-item">
+        <span class="rank">04</span>
+        <div class="info">
+          <div class="top-line">
+            <span class="author-name">Andrej Karpathy</span>
+            <span class="author-handle">@karpathy</span>
+          </div>
+          <div class="summary-text">
+            Andrej Karpathy 开源 autoresearch 项目，人类编写研究策略提示词，AI Agent 自主迭代训练代码，每轮固定 5 分钟，一晚可完成约 100 次实验。AI 研究的瓶颈正从算力转向提示词工程。
+            <a href="https://x.com/karpathy/status/2030371219518931079" target="_blank">查看原文 &rarr;</a>
+          </div>
+          <div class="meta"><span class="inf">影响力 1.8K</span> &middot; 👁 783.6K &middot; 📑 6.8K</div>
+        </div>
+      </div>
+
+      <div class="list-item">
+        <span class="rank">05</span>
+        <div class="info">
+          <div class="top-line">
+            <span class="author-name">Sam Altman</span>
+            <span class="author-handle">@sama</span>
+          </div>
+          <div class="summary-text">
+            Sam Altman 称 GPT-5.4 不仅在编程和知识工作上表现出色，更是他最喜欢交谈的模型，模型"个性"终于走上正轨。
+            <a href="https://x.com/sama/status/2030319489993298349" target="_blank">查看原文 &rarr;</a>
+          </div>
+          <div class="meta"><span class="inf">影响力 2K</span> &middot; 👁 495.8K &middot; 👍 8.3K</div>
+        </div>
+      </div>
+
+      <div class="list-item">
+        <span class="rank">06</span>
+        <div class="info">
+          <div class="top-line">
+            <span class="author-name">Caitlin Kalinowski</span>
+            <span class="author-handle">@kalinowski007</span>
+          </div>
+          <div class="summary-text">
+            OpenAI 机器人团队负责人 Caitlin Kalinowski 宣布辞职，因对 AI 监控和致命自主武器缺乏充分讨论感到担忧。
+            <a href="https://x.com/kalinowski007/status/2030320074121478618" target="_blank">查看原文 &rarr;</a>
+          </div>
+          <div class="meta"><span class="inf">影响力 5.5K</span> &middot; 👁 2.3M &middot; 👍 23.7K</div>
+        </div>
+      </div>
+
+      <div class="list-item">
+        <span class="rank">07</span>
+        <div class="info">
+          <div class="top-line">
+            <span class="author-name">Sam Altman</span>
+            <span class="author-handle">@sama</span>
+          </div>
+          <div class="summary-text">
+            Altman 发问"你能问出 AGI 级别的问题吗？"引发对 GPT-5.4 Pro 智能水平的讨论。
+            <a href="https://x.com/sama/status/2030318481653334067" target="_blank">查看原文 &rarr;</a>
+          </div>
+          <div class="meta"><span class="inf">影响力 870</span> &middot; 👁 1M &middot; 👍 3.9K</div>
+        </div>
+      </div>
+
+      <div class="list-item">
+        <span class="rank">08</span>
+        <div class="info">
+          <div class="top-line">
+            <span class="author-name">Nav Toor</span>
+            <span class="author-handle">@heynavtoor</span>
+          </div>
+          <div class="summary-text">
+            分享 12 个 Claude 提示词用于自动化期权交易，声称实现 78% 胜率和每日 0.5-2% 收益。
+            <a href="https://x.com/heynavtoor/status/2030242736453169380" target="_blank">查看原文 &rarr;</a>
+          </div>
+          <div class="meta"><span class="inf">影响力 2.3K</span> &middot; 👁 461K &middot; 📑 9.4K</div>
+        </div>
+      </div>
+
+      <div class="list-item">
+        <span class="rank">09</span>
+        <div class="info">
+          <div class="top-line">
+            <span class="author-name">Polymarket</span>
+            <span class="author-handle">@Polymarket</span>
+          </div>
+          <div class="summary-text">
+            培养皿中的人脑细胞芯片学会了玩 DOOM，生物计算取得突破。
+            <a href="https://x.com/Polymarket/status/2030330265231384673" target="_blank">查看原文 &rarr;</a>
+          </div>
+          <div class="meta"><span class="inf">影响力 2.1K</span> &middot; 👁 5.1M &middot; 👍 11.5K</div>
+        </div>
+      </div>
+
+      <div class="list-item">
+        <span class="rank">10</span>
+        <div class="info">
+          <div class="top-line">
+            <span class="author-name">鱼总聊AI</span>
+            <span class="author-handle">@AI_Jasonyu</span>
+          </div>
+          <div class="summary-text">
+            鱼总分享 AI 相关资源，获得大量收藏和互动。
+            <a href="https://x.com/AI_Jasonyu/status/2030166779096658161" target="_blank">查看原文 &rarr;</a>
+          </div>
+          <div class="meta"><span class="inf">影响力 1.9K</span> &middot; 👁 628.5K &middot; 📑 5.7K</div>
+        </div>
+      </div>
+
+      <div class="list-item">
+        <span class="rank">11</span>
+        <div class="info">
+          <div class="top-line">
+            <span class="author-name">Rutger Bregman</span>
+            <span class="author-handle">@rcbregman</span>
+          </div>
+          <div class="summary-text">
+            爆料称 Sam Altman 等人的 1.25 亿美元 SuperPAC 策略：摧毁任何试图监管 AI 的人。
+            <a href="https://x.com/rcbregman/status/2030219415069786116" target="_blank">查看原文 &rarr;</a>
+          </div>
+          <div class="meta"><span class="inf">影响力 1.9K</span> &middot; 👁 252K &middot; 👍 6.1K</div>
+        </div>
+      </div>
+
+      <div class="list-item">
+        <span class="rank">12</span>
+        <div class="info">
+          <div class="top-line">
+            <span class="author-name">Boris Cherny</span>
+            <span class="author-handle">@bcherny</span>
+          </div>
+          <div class="summary-text">
+            Boris Cherny 确认 Claude Code 已 100% 由 Claude Code 自身编写。
+            <a href="https://x.com/bcherny/status/2030109840555790357" target="_blank">查看原文 &rarr;</a>
+          </div>
+          <div class="meta"><span class="inf">影响力 461</span> &middot; 👁 154.2K &middot; 👍 3.4K</div>
+        </div>
+      </div>
+
+      <div class="list-item">
+        <span class="rank">13</span>
+        <div class="info">
+          <div class="top-line">
+            <span class="author-name">Sam Altman</span>
+            <span class="author-handle">@sama</span>
+          </div>
+          <div class="summary-text">
+            Altman 感谢黄仁勋扩大 Nvidia 在 AWS 的产能，OpenAI Codex token 使用量爆炸增长。
+            <a href="https://x.com/sama/status/2030318958512164966" target="_blank">查看原文 &rarr;</a>
+          </div>
+          <div class="meta"><span class="inf">影响力 297</span> &middot; 👁 358.2K &middot; 👍 2.3K</div>
+        </div>
+      </div>
+
+      <div class="list-item">
+        <span class="rank">14</span>
+        <div class="info">
+          <div class="top-line">
+            <span class="author-name">Robert Bork III</span>
+            <span class="author-handle">@BobbyBorkIII</span>
+          </div>
+          <div class="summary-text">
+            呼吁 Apple 推出英国赛车绿配色 MacBook，获 1.3 万点赞。
+            <a href="https://x.com/BobbyBorkIII/status/2030241451867566202" target="_blank">查看原文 &rarr;</a>
+          </div>
+          <div class="meta"><span class="inf">影响力 1.8K</span> &middot; 👁 909.9K &middot; 👍 13K</div>
+        </div>
+      </div>
+
+      <div class="list-item">
+        <span class="rank">15</span>
+        <div class="info">
+          <div class="top-line">
+            <span class="author-name">Sam Altman</span>
+            <span class="author-handle">@sama</span>
+          </div>
+          <div class="summary-text">
+            GPT-5.4 在 Excel 操作方面表现出色，ChatGPT for Excel 已向付费用户开放。
+            <a href="https://x.com/sama/status/2030318213482131670" target="_blank">查看原文 &rarr;</a>
+          </div>
+          <div class="meta"><span class="inf">影响力 470</span> &middot; 👁 616.2K &middot; 👍 2.7K</div>
+        </div>
+      </div>
+
+      <div class="list-item">
+        <span class="rank">16</span>
+        <div class="info">
+          <div class="top-line">
+            <span class="author-name">X Freeze</span>
+            <span class="author-handle">@XFreeze</span>
+          </div>
+          <div class="summary-text">
+            Grok 4.20 Beta 推出原生 4 智能体系统和 16 智能体集群。
+            <a href="https://x.com/XFreeze/status/2030153442623418625" target="_blank">查看原文 &rarr;</a>
+          </div>
+          <div class="meta"><span class="inf">影响力 1.4K</span> &middot; 👁 4.4M &middot; 👍 3.3K</div>
+        </div>
+      </div>
+
+      <div class="list-item">
+        <span class="rank">17</span>
+        <div class="info">
+          <div class="top-line">
+            <span class="author-name">Vadim</span>
+            <span class="author-handle">@VadimStrizheus</span>
+          </div>
+          <div class="summary-text">
+            "成熟就是意识到 Tony Stark 其实是个 vibe-coder"——AI 时代文化梗。
+            <a href="https://x.com/VadimStrizheus/status/2030323373901762763" target="_blank">查看原文 &rarr;</a>
+          </div>
+          <div class="meta"><span class="inf">影响力 1.4K</span> &middot; 👁 256.8K &middot; 👍 8.7K</div>
+        </div>
+      </div>
+
+      <div class="list-item">
+        <span class="rank">18</span>
+        <div class="info">
+          <div class="top-line">
+            <span class="author-name">a16z</span>
+            <span class="author-handle">@a16z</span>
+          </div>
+          <div class="summary-text">
+            Replit CEO 称没有编程经验正在成为优势，产品思维和快速学习比编码技能更重要。
+            <a href="https://x.com/a16z/status/2030320194900648330" target="_blank">查看原文 &rarr;</a>
+          </div>
+          <div class="meta"><span class="inf">影响力 640</span> &middot; 👁 293.6K &middot; 👍 2.2K</div>
+        </div>
+      </div>
+
+      <div class="list-item">
+        <span class="rank">19</span>
+        <div class="info">
+          <div class="top-line">
+            <span class="author-name">Peter Steinberger 🦞</span>
+            <span class="author-handle">@steipete</span>
+          </div>
+          <div class="summary-text">
+            OpenAI Codex 桌面应用体验已超越 CLI，速度大幅提升。
+            <a href="https://x.com/steipete/status/2030330442520445371" target="_blank">查看原文 &rarr;</a>
+          </div>
+          <div class="meta"><span class="inf">影响力 472</span> &middot; 👁 362.3K &middot; 👍 1.8K</div>
+        </div>
+      </div>
+
+      <div class="list-item">
+        <span class="rank">20</span>
+        <div class="info">
+          <div class="top-line">
+            <span class="author-name">GitHubDaily</span>
+            <span class="author-handle">@GitHub_Daily</span>
+          </div>
+          <div class="summary-text">
+            推荐开源 AI 股票分析工具，支持 A 股/港股/美股，用 AI 自动生成决策仪表盘。
+            <a href="https://x.com/GitHub_Daily/status/2030221958038876580" target="_blank">查看原文 &rarr;</a>
+          </div>
+          <div class="meta"><span class="inf">影响力 467</span> &middot; 👁 77.9K &middot; 📑 1.4K</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="tags-section">
+      <div class="section-label">今日关键词</div>
+      <div class="tags-wrap">
+        <span class="tag accent">Claude Code</span>
+        <span class="tag accent">/loop</span>
+        <span class="tag accent">GPT-5.4</span>
+        <span class="tag accent">Codex</span>
+        <span class="tag">autoresearch</span>
+        <span class="tag">vibe coding</span>
+        <span class="tag">Grok 4.20</span>
+        <span class="tag">AI 监管</span>
+        <span class="tag">AI 幻觉</span>
+        <span class="tag">Excel</span>
+        <span class="tag">OpenAI 辞职</span>
+      </div>
+    </div>
+
+    <div class="footer">
+      由 <a href="https://xgo.ing">XGo</a> 提供数据支持 &middot;
+      <a href="digest-2026-03-08-full.md">查看完整版</a>
+    </div>
+
+  </div>
+</body>
+</html>

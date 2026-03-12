@@ -1,0 +1,56 @@
+BestBlogs 早报 | 2026-03-11
+
+# Harness Engineering / AMI Labs / autoresearch / Uber Agent / Gemini 3
+
+[1] OpenAI Build Hour: Harness Engineering — 让智能体自主交付高质量代码 [视频]
+OpenAI 提出 "Harness Engineering" 方法论，核心理念是通过严格的架构边界、自动化验证桩和代码库级指令（如 agents.md），提升代码库对 AI 智能体的"可读性"，使其能自主生成、测试并提交可合并代码。这标志着软件开发正式从"AI 结对编程"迈入"智能体委派"时代。同时发布了 GPT-5.4 计算机使用能力、Codex 桌面端 Windows 支持和 Worktrees 并行工作流。
+来源: OpenAI | 评分: 94
+https://www.bestblogs.dev/video/77d5e14
+
+[2] Yann LeCun 创立 AMI Labs，完成 $10.3 亿种子轮融资 @ylecun
+Meta 首席 AI 科学家 Yann LeCun 揭秘新创公司 Advanced Machine Intelligence (AMI Labs)，完成 10.3 亿美元种子轮融资——史上最大规模种子轮之一，也是欧洲公司中最大的。这位图灵奖得主的创业动向将对全球 AI 格局产生深远影响。
+来源: @ylecun | 评分: 93
+https://www.bestblogs.dev/status/2031268686984527936
+
+[3] Karpathy autoresearch 实测：AI 自动发现 20 项改进，训练效率提升 11% @karpathy
+Karpathy 分享 autoresearch 框架的首次实测结果：在 nanochat 模型上自动运行 2 天，发现约 20 处可叠加的改进（修复 QKnorm 缩放、优化 AdamW beta、权重衰减计划等），将 "Time to GPT-2" 从 2.02 小时降至 1.80 小时。他预言这种 AI 自主迭代优化将成为所有前沿实验室的标准实践。
+来源: @karpathy | 评分: 93
+https://www.bestblogs.dev/status/2031135152349524125
+
+[4] Uber 智能体工程转型：从代码补全到自主任务执行 [视频]
+Uber 工程团队详述其向"智能体 AI"转型的战略——不再止步于代码补全，而是部署自主智能体处理库迁移、错误修复、单元测试生成等异步任务。内部生态包括 AIFX（统一访问）、Minion（后台执行）、Shephard（大规模代码重构）。开发者角色从手动编码者转变为监督 AI 工作流的"技术主管"。
+来源: The Pragmatic Engineer | 评分: 93
+https://www.bestblogs.dev/video/fac7677
+
+[5] Google AI 最新更新全汇总：NotebookLM 电影级视频 + Gemini 3 + AI 智能体 [视频]
+Google 多线出击：NotebookLM 利用 Gemini 3 Pro 生成代码驱动的动画，确保地图和算法等复杂可视化的准确性；Gemini 3 DeepThink 聚焦高级推理；Producer 支持自然语言音乐编辑；Chrome 和 Google Labs 集成 AI 智能体实现自主浏览和自动化营销。
+来源: Futurepedia | 评分: 92
+https://www.bestblogs.dev/video/954bb75
+
+[6] AlphaGo 十年回顾：从第 37 手到科学突破 [视频]
+Google DeepMind 与 AlphaGo 核心架构师深度对话，回顾 2016 年与李世石对弈这一 AI 里程碑。解析"快思考"（深度学习）与"慢思考"（蒙特卡洛树搜索）的混合架构，以及从棋类游戏向蛋白质折叠、材料科学等复杂科学挑战的转型路径。
+来源: Google DeepMind | 评分: 92
+https://www.bestblogs.dev/video/8afa36a
+
+[7] Claude Code vs Codex：智能体编程迎来拐点
+LessWrong 深度综述 AI 辅助软件工程的"拐点"。Claude Code 和 OpenAI Codex 等工具正从实验原型转向主流生产工具，Claude Code 在 GitHub 提交中的份额持续增长。重点分析 Opus 4.6 的"快速模式"如何优先执行速度，以及 Anthropic 与 OpenAI 在 AI Coding 赛道的竞争格局。
+来源: LessWrong | 评分: 92
+https://www.bestblogs.dev/article/4b14d95b
+
+[8] 当"小龙虾"接管日常：OpenClaw 引发的 Agent 范式转移 [播客]
+硬地骇客深度拆解 OpenClaw 引发的 Agent 热潮。AI 应作为"钢铁侠战衣"增强人类而非取代——面向 Agent 的软件标准应提供 Markdown 文档、优先 CLI/API 替代 GUI。详细对比 MCP 协议与传统 CLI，探讨 Agent 时代的商业模式变革：从卖软件到卖自动化服务。
+来源: 硬地骇客 | 评分: 92
+https://www.bestblogs.dev/podcast/6df0d8a
+
+[9] LlamaIndex 战略转型：从 RAG 框架到文档基础设施 @jerryjliu0
+Jerry Liu 宣布 LlamaIndex 的重大战略转变——从"广而浅"的 RAG 框架转向专注于为 AI 智能体提供高质量上下文的"文档基础设施"。核心重点是打造全球最强的 OCR 和解析引擎 LlamaParse，确保非结构化数据的高精度提取，作为智能体自动化时代的长久基石。
+来源: @jerryjliu0 | 评分: 92
+https://www.bestblogs.dev/status/2031171466574889344
+
+[10] GitHub 智能体工作流的安全架构：零密钥 + 深度防御
+GitHub 详述将 AI 智能体集成到 CI/CD 流水线的安全优先方法。架构四大支柱：深度防御、零密钥访问、分阶段写入、全面日志记录。智能体被隔离在容器和 chroot 监狱中，永不直接接触敏感 Token，从架构层面防御提示词注入攻击。
+来源: The GitHub Blog | 评分: 92
+https://www.bestblogs.dev/article/3727eb85
+
+---
+BestBlogs.dev - 遇见更好的技术阅读

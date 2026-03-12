@@ -1,0 +1,50 @@
+{
+  "segments": [
+    {
+      "name": "intro",
+      "chars": 139,
+      "size": 326635,
+      "status": "ok"
+    },
+    {
+      "name": "deep-1",
+      "chars": 780,
+      "size": 2278922,
+      "status": "ok"
+    },
+    {
+      "name": "deep-2",
+      "chars": 547,
+      "size": 1610605,
+      "status": "ok"
+    },
+    {
+      "name": "deep-3",
+      "chars": 646,
+      "size": 2114037,
+      "status": "ok"
+    },
+    {
+      "name": "quick",
+      "chars": 519,
+      "size": 1564839,
+      "status": "ok"
+    },
+    {
+      "name": "quick-2",
+      "chars": 375,
+      "size": 1123474,
+      "status": "ok"
+    },
+    {
+      "name": "outro",
+      "chars": 164,
+      "size": 448888,
+      "status": "ok"
+    }
+  ],
+  "totalChars": 3170,
+  "totalSize": 9467400,
+  "successCount": 7,
+  "totalCount": 7
+}

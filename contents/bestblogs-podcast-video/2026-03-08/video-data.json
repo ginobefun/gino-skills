@@ -1,0 +1,151 @@
+{
+  "date": "2026-03-08",
+  "keywords": ["Cursor Automations", "Claude Code /loop", "AI 创业", "Karpathy autoresearch", "AI 安全审计"],
+  "brandName": "BestBlogs 早报",
+  "brandSlogan": "遇见更好的技术阅读",
+  "items": [
+    {
+      "rank": 1,
+      "type": "deep",
+      "resourceType": "ARTICLE",
+      "title": "Cursor 推出 Automations：从 IDE 进化为全天候智能体平台",
+      "source": "Cursor Blog",
+      "author": "Jack Pertschuk",
+      "score": 93,
+      "summary": "Cursor 正式发布 Automations 功能，允许开发者部署由 GitHub PR、Slack 消息等外部事件触发的持久化 AI 智能体。",
+      "points": [
+        "事件驱动的 AI 智能体，支持 GitHub PR、Slack、PagerDuty 等触发",
+        "Bugbot 每天被触发数千次，已捕获数百万个 bug",
+        "安全审计智能体在每次推送到主分支时自动触发深度扫描",
+        "从编辑器升级为自动化的软件工厂平台"
+      ],
+      "quote": "现在你可以构建一个生产软件的工厂，通过配置智能体来持续监控和改进代码库。",
+      "images": ["assets/article-1-cover.jpg", "assets/article-1-fig1.jpg"],
+      "audioStart": 13.6,
+      "audioDuration": 95.0
+    },
+    {
+      "rank": 2,
+      "type": "deep",
+      "resourceType": "TWITTER",
+      "title": "Claude Code 新增 /loop：支持最长 3 天的循环任务调度",
+      "source": "Boris Cherny(@bcherny)",
+      "author": "Boris Cherny",
+      "score": 92,
+      "summary": "Claude Code 之父宣布新增 /loop 功能，支持调度运行最长 3 天的循环任务——持续监控 PR、自动修复构建问题。",
+      "points": [
+        "支持调度循环任务，单次最长运行 3 天",
+        "自动照看 PR、修复构建问题、处理评论",
+        "AI 编程助手从交互式进化为自主代理模式"
+      ],
+      "images": ["assets/article-2-gen.png"],
+      "audioStart": 108.6,
+      "audioDuration": 67.1
+    },
+    {
+      "rank": 3,
+      "type": "deep",
+      "resourceType": "ARTICLE",
+      "title": "2026，写给 AI 创业者的慷慨、残酷与迷雾",
+      "source": "十字路口Crossing",
+      "author": "加元",
+      "score": 93,
+      "summary": "从技术史视角剖析编程商品化带来的创业范式转移。光会做已不再是优势，判断力和产品感成为核心竞争力。",
+      "points": [
+        "Karpathy 的编程比例从 80% 手写倒转为 80% AI",
+        "AI 让编程从稀缺能力变为零边际成本的商品化资源",
+        "Block 裁员 40%，股价暴涨 20%，市场为 AI 效率革命定价"
+      ],
+      "quote": "光会做已经不再是优势。真正重要的，是判断力、产品感和对用户需求的深层理解。",
+      "images": ["assets/article-3-cover.jpg", "assets/article-3-fig1.png", "assets/article-3-fig2.png"],
+      "audioStart": 175.7,
+      "audioDuration": 88.1
+    },
+    {
+      "rank": 4,
+      "type": "quick",
+      "resourceType": "TWITTER",
+      "title": "Karpathy 开源 autoresearch：630 行代码实现 AI 自主迭代训练",
+      "source": "Andrej Karpathy",
+      "score": 92,
+      "oneLiner": "仅 630 行代码的单文件仓库，让 AI 智能体在单 GPU 上自主迭代 LLM 训练代码",
+      "images": ["assets/article-4-gen.png"],
+      "audioStart": 263.8,
+      "audioDuration": 16.3
+    },
+    {
+      "rank": 5,
+      "type": "quick",
+      "resourceType": "VIDEO",
+      "title": "构建 Cursor 的经验教训 [视频]",
+      "source": "ByteByteGo",
+      "score": 93,
+      "oneLiner": "深度拆解 Cursor 技术架构：强化学习训练、百万级 CPU 沙箱编排、自我总结机制",
+      "images": ["assets/article-5-cover.jpg"],
+      "audioStart": 280.1,
+      "audioDuration": 16.3
+    },
+    {
+      "rank": 6,
+      "type": "quick",
+      "resourceType": "ARTICLE",
+      "title": "Anthropic 与 Mozilla 合作：Claude 两周发现 Firefox 22 个漏洞",
+      "source": "Anthropic News",
+      "score": 91,
+      "oneLiner": "Claude Opus 4.6 两周内识别出 22 个漏洞（14 个高危），占全年高危修复量近 20%",
+      "images": ["assets/article-6-cover.jpg"],
+      "audioStart": 296.4,
+      "audioDuration": 16.3
+    },
+    {
+      "rank": 7,
+      "type": "quick",
+      "resourceType": "ARTICLE",
+      "title": "深度解析 Google Workspace CLI：从 HCI 到 ACI 的范式转移",
+      "source": "浮之静",
+      "score": 93,
+      "oneLiner": "以 Google Workspace CLI 为切入点，探讨软件交互从人机交互向代理机交互的范式转移",
+      "images": ["assets/article-7-gen.png"],
+      "audioStart": 312.7,
+      "audioDuration": 16.3
+    },
+    {
+      "rank": 8,
+      "type": "quick",
+      "resourceType": "ARTICLE",
+      "title": "The Batch：Context Hub 防幻觉、Nano Banana 2、Anthropic 伦理冲突",
+      "source": "deeplearning.ai",
+      "score": 93,
+      "oneLiner": "吴恩达推出开源工具 Context Hub，为编程智能体提供最新 API 文档以防止幻觉",
+      "images": ["assets/article-8-cover.jpg"],
+      "audioStart": 329.0,
+      "audioDuration": 15.6
+    },
+    {
+      "rank": 9,
+      "type": "quick",
+      "resourceType": "ARTICLE",
+      "title": "科技爱好者周刊（第 387 期）：你是领先的",
+      "source": "阮一峰的网络日志",
+      "score": 92,
+      "oneLiner": "深度使用 AI 生成代码的人群仅占全球 0.04%，OpenClaw 面临安全风险",
+      "images": ["assets/article-9-cover.jpg"],
+      "audioStart": 344.6,
+      "audioDuration": 15.6
+    },
+    {
+      "rank": 10,
+      "type": "quick",
+      "resourceType": "ARTICLE",
+      "title": "GitHub Security Lab 开源 AI 驱动漏洞扫描框架",
+      "source": "The GitHub Blog",
+      "score": 89,
+      "oneLiner": "多阶段 taskflow 方法：威胁建模 → AI 头脑风暴 → 严格审计验证",
+      "images": ["assets/article-10-cover.jpg"],
+      "audioStart": 360.2,
+      "audioDuration": 15.6
+    }
+  ],
+  "audioFile": "podcast.mp3",
+  "totalDuration": 394.5
+}

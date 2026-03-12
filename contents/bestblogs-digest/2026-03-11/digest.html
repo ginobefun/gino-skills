@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BestBlogs 早报 | 2026-03-11</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #fefdfb;
+      color: #374151;
+      font-family: -apple-system, 'PingFang SC', 'Helvetica Neue', sans-serif;
+      font-size: 14px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      opacity: 0.03;
+      pointer-events: none;
+      z-index: 9999;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-size: 256px 256px;
+    }
+
+    .container {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 48px 24px 64px;
+    }
+
+    /* Header */
+    .header {
+      margin-bottom: 40px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .brand {
+      font-family: Georgia, 'Noto Serif SC', serif;
+      font-size: 26px;
+      color: #1a365d;
+      letter-spacing: 0.05em;
+      margin-bottom: 6px;
+    }
+
+    .date {
+      font-size: 13px;
+      color: #6b7280;
+      margin-bottom: 16px;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .tag {
+      font-size: 12px;
+      color: #1a365d;
+      border: 1px solid #1a365d;
+      border-radius: 20px;
+      padding: 3px 12px;
+      background: transparent;
+    }
+
+    /* Cards */
+    .card {
+      padding: 24px 0;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .card:last-child {
+      border-bottom: none;
+    }
+
+    .card-top1 {
+      border-left: 3px solid #d97706;
+      padding-left: 20px;
+      margin-left: -20px;
+      background: rgba(217, 119, 6, 0.06);
+      padding: 24px 20px;
+      margin-bottom: 8px;
+      border-bottom: none;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .card-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: #1a365d;
+      flex-shrink: 0;
+      min-width: 20px;
+    }
+
+    .card-title {
+      font-family: Georgia, 'Noto Serif SC', serif;
+      font-size: 17px;
+      color: #1a365d;
+      text-decoration: none;
+      line-height: 1.4;
+    }
+
+    .card-top1 .card-title {
+      font-size: 20px;
+    }
+
+    .card-title:hover {
+      color: #2c5282;
+    }
+
+    .card-meta {
+      font-size: 12px;
+      color: #6b7280;
+      margin-bottom: 10px;
+      padding-left: 30px;
+    }
+
+    .card-top1 .card-meta {
+      padding-left: 30px;
+    }
+
+    .type-badge {
+      font-size: 11px;
+      color: #6b7280;
+      border: 1px solid #d1d5db;
+      border-radius: 3px;
+      padding: 1px 6px;
+      margin-left: 4px;
+    }
+
+    .card-summary {
+      font-size: 14px;
+      color: #374151;
+      line-height: 1.7;
+      padding-left: 30px;
+    }
+
+    .card-top1 .card-summary {
+      padding-left: 30px;
+      font-size: 14.5px;
+    }
+
+    .score {
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+    }
+
+    /* Footer */
+    .footer {
+      margin-top: 48px;
+      padding-top: 24px;
+      border-top: 1px solid #e5e7eb;
+      text-align: center;
+    }
+
+    .footer-brand {
+      font-family: Georgia, 'Noto Serif SC', serif;
+      font-size: 14px;
+      color: #1a365d;
+      letter-spacing: 0.08em;
+      margin-bottom: 4px;
+    }
+
+    .footer-tagline {
+      font-size: 12px;
+      color: #6b7280;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <div class="header">
+      <div class="brand">BestBlogs 早报</div>
+      <div class="date">2026 年 3 月 11 日 · 星期三</div>
+      <div class="tags">
+        <span class="tag">Harness Engineering</span>
+        <span class="tag">AMI Labs</span>
+        <span class="tag">autoresearch</span>
+        <span class="tag">Uber Agent</span>
+        <span class="tag">Gemini 3</span>
+      </div>
+    </div>
+
+    <!-- Top 1 -->
+    <div class="card card-top1">
+      <div class="card-header">
+        <span class="card-num">01</span>
+        <a class="card-title" href="https://www.bestblogs.dev/video/77d5e14" target="_blank">OpenAI Build Hour: Harness Engineering — 让智能体自主交付高质量代码</a>
+      </div>
+      <div class="card-meta">OpenAI · 人工智能 · <span class="score">94</span> 分 <span class="type-badge">视频</span></div>
+      <div class="card-summary">OpenAI 提出 "Harness Engineering" 方法论——通过严格的架构边界、自动化验证桩和代码库级指令，使 AI 智能体能自主生成、测试并提交可合并代码。软件开发正式从"AI 结对编程"迈入"智能体委派"时代。同时发布 GPT-5.4 计算机使用能力和 Codex Worktrees 并行工作流。</div>
+    </div>
+
+    <!-- 2 -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-num">02</span>
+        <a class="card-title" href="https://www.bestblogs.dev/status/2031268686984527936" target="_blank">Yann LeCun 创立 AMI Labs，完成 $10.3 亿种子轮融资</a>
+      </div>
+      <div class="card-meta">@ylecun · 推文 · <span class="score">93</span> 分</div>
+      <div class="card-summary">Meta 首席 AI 科学家、图灵奖得主 Yann LeCun 揭秘新创公司 AMI Labs，完成 10.3 亿美元种子轮——史上最大规模种子轮之一。这一创业动向将对全球 AI 格局产生深远影响。</div>
+    </div>
+
+    <!-- 3 -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-num">03</span>
+        <a class="card-title" href="https://www.bestblogs.dev/status/2031135152349524125" target="_blank">Karpathy autoresearch 实测：AI 自动发现 20 项改进，训练提速 11%</a>
+      </div>
+      <div class="card-meta">@karpathy · 推文 · <span class="score">93</span> 分</div>
+      <div class="card-summary">autoresearch 框架首次实测结果：在 nanochat 模型上自动运行 2 天，发现 20 处可叠加改进，将 "Time to GPT-2" 从 2.02 小时降至 1.80 小时。Karpathy 预言这种 AI 自主迭代优化将成为前沿实验室的标准实践。</div>
+    </div>
+
+    <!-- 4 -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-num">04</span>
+        <a class="card-title" href="https://www.bestblogs.dev/video/fac7677" target="_blank">Uber 智能体工程转型：从代码补全到自主任务执行</a>
+      </div>
+      <div class="card-meta">The Pragmatic Engineer · 编程技术 · <span class="score">93</span> 分 <span class="type-badge">视频</span></div>
+      <div class="card-summary">Uber 部署自主智能体处理库迁移、错误修复、单元测试生成等异步任务。内部生态包括 AIFX、Minion、Shephard 三大系统。开发者角色从手动编码者转变为监督 AI 工作流的"技术主管"。</div>
+    </div>
+
+    <!-- 5 -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-num">05</span>
+        <a class="card-title" href="https://www.bestblogs.dev/video/954bb75" target="_blank">Google AI 最新更新：NotebookLM 电影级视频 + Gemini 3 + AI 智能体</a>
+      </div>
+      <div class="card-meta">Futurepedia · 人工智能 · <span class="score">92</span> 分 <span class="type-badge">视频</span></div>
+      <div class="card-summary">Google 多线出击：NotebookLM 利用 Gemini 3 Pro 生成代码驱动动画，确保复杂可视化准确性；Gemini 3 DeepThink 聚焦高级推理；Chrome 和 Google Labs 集成 AI 智能体实现自主浏览。</div>
+    </div>
+
+    <!-- 6 -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-num">06</span>
+        <a class="card-title" href="https://www.bestblogs.dev/video/8afa36a" target="_blank">AlphaGo 十年回顾：从第 37 手到科学突破</a>
+      </div>
+      <div class="card-meta">Google DeepMind · 人工智能 · <span class="score">92</span> 分 <span class="type-badge">视频</span></div>
+      <div class="card-summary">与 AlphaGo 核心架构师深度对话，回顾"快思考"与"慢思考"的混合架构，以及从棋类游戏向蛋白质折叠、材料科学等复杂科学挑战的转型路径。</div>
+    </div>
+
+    <!-- 7 -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-num">07</span>
+        <a class="card-title" href="https://www.bestblogs.dev/article/4b14d95b" target="_blank">Claude Code vs Codex：智能体编程迎来拐点</a>
+      </div>
+      <div class="card-meta">LessWrong · 编程技术 · <span class="score">92</span> 分</div>
+      <div class="card-summary">深度综述 AI 辅助软件工程的"拐点"——Claude Code 和 Codex 正从实验原型转向主流生产工具。重点分析 Opus 4.6 "快速模式"及 Anthropic 与 OpenAI 的竞争格局。</div>
+    </div>
+
+    <!-- 8 -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-num">08</span>
+        <a class="card-title" href="https://www.bestblogs.dev/podcast/6df0d8a" target="_blank">当"小龙虾"接管日常：OpenClaw 的 Agent 范式转移</a>
+      </div>
+      <div class="card-meta">硬地骇客 · 商业科技 · <span class="score">92</span> 分 <span class="type-badge">播客</span></div>
+      <div class="card-summary">面向 Agent 的软件标准——Markdown 文档、CLI/API 优先、MCP 协议。探讨 Agent 时代商业模式变革：从卖软件到卖自动化服务。</div>
+    </div>
+
+    <!-- 9 -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-num">09</span>
+        <a class="card-title" href="https://www.bestblogs.dev/status/2031171466574889344" target="_blank">LlamaIndex 战略转型：从 RAG 框架到文档基础设施</a>
+      </div>
+      <div class="card-meta">@jerryjliu0 · 推文 · <span class="score">92</span> 分</div>
+      <div class="card-summary">Jerry Liu 宣布 LlamaIndex 从 RAG 框架转向"文档基础设施"——核心是打造全球最强 OCR 和解析引擎 LlamaParse，作为智能体自动化时代的长久基石。</div>
+    </div>
+
+    <!-- 10 -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-num">10</span>
+        <a class="card-title" href="https://www.bestblogs.dev/article/3727eb85" target="_blank">GitHub 智能体工作流的安全架构：零密钥 + 深度防御</a>
+      </div>
+      <div class="card-meta">The GitHub Blog · 编程技术 · <span class="score">92</span> 分</div>
+      <div class="card-summary">将 AI 智能体集成到 CI/CD 的安全优先方法：深度防御、零密钥访问、分阶段写入、全面日志记录。从架构层面防御提示词注入攻击。</div>
+    </div>
+
+    <div class="footer">
+      <div class="footer-brand">BestBlogs.dev</div>
+      <div class="footer-tagline">遇见更好的技术阅读</div>
+    </div>
+
+  </div>
+</body>
+</html>

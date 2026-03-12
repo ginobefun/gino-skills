@@ -1,0 +1,56 @@
+BestBlogs 早报 | 2026-03-09
+
+# OpenClaw 生态 / Mobile-Agent 开源 / Agent Infra / AI 产品格局
+
+[1] AI 行业 2025 年度总结补充篇：70 页 PPT 全景拆解中美 AI 变局 [播客 100min]
+庄明浩基于 70 页 PPT 深度复盘 2 月以来中美 AI 市场核心变局。美国篇聚焦科技巨头 Capex 投入指数级增长及英伟达股价滞涨的深层逻辑，重点探讨 OpenClaw 引发的 Agent 热潮——标志着 AI 从"对话"向"执行"的工程化跨越。"2028 末世论"预警 AI 正在通过吃掉软件和中介环节重塑 SaaS 行业。中国篇盘点了模型厂商密集发布、字节 Seedance 2.0 视频生成突破及林俊旸离职事件。
+来源: 屠龙之术 | 评分: 94
+https://www.bestblogs.dev/podcast/74aee00
+
+[2] 阿里巴巴通义实验室开源 Mobile-Agent-v3.5：真正"多平台可用"的 GUI Agent 基座模型
+通义实验室开源 Mobile-Agent-v3.5 和 GUI-Owl-1.5 模型家族，从 2B 到 32B 多种尺寸，覆盖 Instruct 和 Thinking 两种版本，在 20+ 基准测试中达到 SOTA。核心技术创新包括混合数据飞轮、统一能力增强和 MRPO 强化学习算法，标志着 GUI Agent 从实验 Demo 向工程可用阶段的迈进。
+来源: 魔搭ModelScope社区 | 评分: 93
+https://www.bestblogs.dev/article/03667b92
+
+[3] 20 个问题，搞懂 OpenClaw：爆红机制、本质变化、创业机会 [播客 63min]
+十字路口深度播客，系统拆解 OpenClaw 与传统对话 AI 的本质区别：它更像具备执行力的"实习生"，拥有本地环境授权、自我进化能力和闭环反馈系统。详解其三层记忆机制（原始日志、中期记忆、长期偏好），并展望 Agent 时代的创业机遇——IM 入口、Agent 专用基础设施、ToB 数字员工。
+来源: 十字路口Crossing | 评分: 93
+https://www.bestblogs.dev/podcast/69d4334
+
+[4] OpenClaw 生态正在疯长，我们拆解了 PH 上 40 多款相关产品
+Founder Park 系统梳理 OpenClaw 生态的爆发式增长：2A 社交生态（Agent-to-Agent 自主交互）、记忆与技能包管理、云托管一键部署、安全运维、硬件消费级应用五大维度。OpenClaw 已形成自下而上的完整商业产业链。
+来源: Founder Park | 评分: 92
+https://www.bestblogs.dev/article/23e840fe
+
+[5] 你从未听说过的最成功的 AI 公司：Applied Intuition [视频]
+Lenny's Podcast 专访估值 150 亿美元的"隐形"AI 独角兽 Applied Intuition CEO Qasar Younis。他认为 AI 最深远的影响将发生在物理世界——农业、采矿、建筑——是解决全球劳动力短缺的关键方案。倡导"激进务实主义"：隐形模式、维护工作和工程纪律优于公开炒作。
+来源: Lenny's Podcast | 评分: 92
+https://www.bestblogs.dev/video/ea4216b
+
+[6] Ramp 构建 AI 产品的经验教训 [视频]
+金融科技公司 Ramp 分享从数千个单一智能体到统一多技能对话界面"Omnihat"的范式转变。"Policy Agent"将自然语言费用政策转为可执行规则——英语是新的编程语言。内部编码智能体"Ramp Inspect"已处理超 50% 的 PR。
+来源: The Pragmatic Engineer | 评分: 92
+https://www.bestblogs.dev/video/19e210e
+
+[7] 品牌时代
+Paul Graham 最新文章，宝玉翻译。以瑞士制表业"石英危机"为切入，提出核心理论：品牌是产品实质差异消失后的产物。设计是追求最优解的"向心力"，品牌是追求差异化的"离心力"，两者本质相悖。警示读者：由品牌定义的领域往往怪异且平庸，真正的卓越工作应"跟着问题走"。
+来源: 宝玉的分享 | 评分: 92
+https://www.bestblogs.dev/article/1aca936e
+
+[8] 为什么现有的 Agent Infra 无法支撑生产级应用？
+Agent 落地的瓶颈在基础设施而非模型。现有 K8s/Temporal 基于确定性执行假设，无法应对 Agent 的长程运行、敌意输入、不确定决策。文章提出三条关键原语：Effect Log（副作用日志）、Capability Gateway（能力隔离）、Fork Recovery（分叉恢复），Infra 使命从"保活"转向"可恢复性"。
+来源: InfoQ 中文 | 评分: 91
+https://www.bestblogs.dev/article/6a3465b9
+
+[9] Claude Code 之父访谈：不写 PRD、不设职称，Anthropic 如何推出 AI 爆款？
+Boris Cherny 详述 Claude Code 从脚本到全自动 Agent 的演进：放弃 RAG 转向 Agentic Search、并行 Agent 提升产出。Anthropic 组织文化独特：全员"技术参谋"统一职称、原型驱动取代 PRD、鼓励通才模式。工程师价值正从编码转向假设驱动思维和多 Agent 管理。
+来源: InfoQ 中文 | 评分: 90
+https://www.bestblogs.dev/article/a7a6ba50
+
+[10] 封神！豆包破 3 亿，千问狂涨 552%，ChatGPT 慌了｜2 月 AI 产品榜
+2026 年 2 月全球 AI 产品数据全景：字节豆包凭春晚红包 MAU 突破 3.15 亿（全球第二），阿里千问通过 30 亿补贴月增速 552%（全球第三）。国内 C 端五强格局确立：豆包、千问、夸克、DeepSeek、腾讯元宝。出海方面 DeepSeek 稳居榜首，但全球订阅收入 ChatGPT 仍统治性领先。
+来源: 硅星人Pro | 评分: 91
+https://www.bestblogs.dev/article/afee134d
+
+---
+BestBlogs.dev - 遇见更好的技术阅读

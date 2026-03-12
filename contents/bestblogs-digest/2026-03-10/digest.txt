@@ -1,0 +1,58 @@
+BestBlogs 早报 | 2026-03-10
+
+# AI 代码审查 / a16z AI Top 100 / Copilot Cowork / WebMCP / Vibe Coding 反思
+
+[1] Claude Code 推出 AI 代码审查：多智能体团队自动 PR Review
+Anthropic 为 Claude Code 引入重磅功能——AI 驱动的代码审查。系统部署多个 AI 智能体组成审查团队，自动对 GitHub Pull Request 进行深度审查并排查潜在 Bug，大幅提升开发者的代码质量保障效率。这是继 /loop 定时任务后，Claude Code 从编程助手向全流程开发平台迈进的又一关键步骤。同日，Cognition 也发布了免费的 Devin Review 工具，支持自动 PR 审查和代码库感知对话，AI 代码审查正在成为开发工具的标配。
+来源: @claudeai / @bcherny | 评分: 93
+https://www.bestblogs.dev/status/2031088171262554195
+另见: Devin Review (Cognition)
+
+[2] a16z 第六版消费级 AI Top 100 报告：三大阵营分化
+a16z 发布最新一期消费级 AI 应用 Top 100 排名，揭示全球 AI 使用正分化为三大阵营。ChatGPT 在付费订阅市场仍占绝对主导地位——月付费用户数是 Gemini 和 Claude 总和的 2.5 倍以上。视频、音乐和语音类 AI 产品正在蚕食传统图像生成工具的市场份额。OpenClaw 的注册页面日访问量已接近 100 万次。
+来源: @a16z | 评分: 92
+https://www.bestblogs.dev/status/2031105607303049541
+
+[3] 微软发布 Copilot Cowork：M365 跨应用 AI 智能体
+萨蒂亚·纳德拉宣布 Microsoft 365 推出 Copilot Cowork，这是一项全新的 AI 智能体功能，能够跨 Word、Excel、Teams 等多个应用规划并自主执行复杂任务。标志着微软将 AI 智能体从"对话助手"升级为"跨应用执行者"，办公自动化进入智能体驱动新阶段。
+来源: @satyanadella | 评分: 92
+https://www.bestblogs.dev/status/2030992877665583440
+
+[4] Runway 发布 Characters：可定制实时智能数字人
+Runway 推出 Characters 产品，支持创建可定制的实时交互智能数字人，集成自定义知识库和语音，并提供 API 部署能力。从视频生成到数字人，Runway 正在将 AI 创意工具从"生成内容"拓展到"生成角色"。
+来源: @runwayml | 评分: 92
+https://www.bestblogs.dev/status/2031028120971571687
+
+[5] WebMCP：让网站直接与 AI 智能代理交互的 W3C 新标准
+一种正在推进的 W3C 标准 WebMCP 允许网站通过结构化工具（JS 函数或 HTML 表单）直接与 AI 代理交互，从而替代低效的截图识别和 DOM 解析方式。这意味着网站可以主动声明"我能提供什么服务给 AI Agent"，是 Agent 时代 Web 基础设施的关键演进。
+来源: 前端早读课 | 评分: 92
+https://www.bestblogs.dev/article/1e9d9524
+
+[6] Jeremy Howard 批判 Vibe Coding：AI 正剥夺人类建立"直觉"的权利
+深度学习先驱 Jeremy Howard 在最新对话中犀利批判当前"Vibe Coding"热潮，认为 AI 自动化正在剥夺人类通过"适当困难"建立专业直觉的权利——就像在拉老虎机，看似高效实则跳过了真正的学习过程。他更指出 AI 真正的风险不在于机器觉醒，而在于权力垄断。
+来源: AI科技大本营 | 评分: 90
+https://www.bestblogs.dev/article/054383ef
+
+[7] 快手智能 Code Review 三阶进化：采纳率从 7.9% 到 54%
+快手技术团队详述了智能代码审查系统的三代架构演进：1.0 纯 LLM 启发式（高误报）→ 2.0 知识引擎 + 1200 条确定性规则（可信度飞跃）→ 3.0 Agentic 自主决策（标准场景高效 + 复杂场景深度推理双路并行）。目前已覆盖 74% 的 MR，是 AI 代码审查从实验走向大规模落地的最佳实践案例。
+来源: 快手技术 | 评分: 93
+https://www.bestblogs.dev/article/288cbab6
+另见: 阿里 AI 代码评审实践 + AACR-Bench 开源
+
+[8] 88 岁图灵奖得主高德纳用 Claude 一小时破解 30 年数学悬案
+计算机科学泰斗 Donald Knuth（高德纳）记录了 Claude Opus 4.6 如何仅用一小时，通过结构化推理攻克了困扰他 30 年的三维图论难题。这不仅是 AI 推理能力的有力证明，更展示了顶级数学家如何将 AI 作为研究伙伴的工作模式。
+来源: 量子位 | 评分: 88
+https://www.bestblogs.dev/article/4569669b
+
+[9] LangChain 内部 GTM 智能体：销售转化率提升 250%
+LangChain 详细分享了其内部构建的 GTM（Go-to-Market）智能体的架构设计和实际效果。该智能体实现了销售调研和触达的全流程自动化，使转化率提升了 250%。从"做 Agent 框架的公司"到"用 Agent 改造自身业务"，这是 AI 智能体在 B2B 销售场景中最有说服力的落地案例之一。
+来源: LangChain Blog | 评分: 92
+https://www.bestblogs.dev/article/876f3ad3
+
+[10] Jina AI 研究：从向量中逆向还原原始文本和模型来源
+Jina AI 最新研究揭示了一个被广泛忽视的安全风险：向量嵌入并非不可逆。通过位级别分词和掩码扩散模型，研究者可以高准确率地从向量中识别模型来源并还原原始文本。这对所有依赖向量数据库存储敏感信息的 RAG 系统敲响了安全警钟。
+来源: Jina AI | 评分: 91
+https://www.bestblogs.dev/article/7089a43f
+
+---
+BestBlogs.dev - 遇见更好的技术阅读

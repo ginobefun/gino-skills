@@ -1,0 +1,58 @@
+BestBlogs 早报 | 2026-03-07
+
+# GPT-5.4 / Cursor 云端智能体 / AI Coding / 比亚迪刀片电池
+
+[1] GPT-5.4：专业工作流进入"可执行时代"
+OpenAI 发布 GPT-5.4，标志着 AI 从对话助手向自主执行代理的关键跨越。核心突破包括 105 万超长上下文、原生计算机使用能力（GUI 交互）、Tool Search 机制（降低 47% token 消耗）以及交互式思考（支持中途纠偏）。对开发者而言，这意味着长程 Agent 构建变得可行，但也警示"凡是能被写进 SOP 的能力都将贬值"。
+来源: 浮之静 | 评分: 93
+https://www.bestblogs.dev/article/bfed7323
+另见: 赛博禅心, 爱范儿, Latent Space AINews
+
+[2] Cursor 的第三个时代：云端智能体
+Latent Space 深度访谈揭示 Cursor 正从 IDE 内的代码补全进化为云端自主智能体。新架构为 Agent 提供独立虚拟机，使其能执行代码、运行测试并通过"计算机使用"与 UI 交互。最颠覆性的变化：Agent 自动生成视频演示以简化 PR 审查，开发协作正从本地 IDE 迁移到 Slack。
+来源: Latent Space | 评分: 93
+https://www.bestblogs.dev/article/862a3021
+另见: ByteByteGo 构建 Cursor 经验
+
+[3] 打造 Vercel v0 和 d0 智能体的经验教训 [视频]
+Vercel CTO 分享了构建 AI 产品的实战经验。核心洞察：D0 智能体通过将数据任务视为编程问题，从复杂工具链简化为 50 行代码；v0 的成功源于"Tailwind 顿悟"——LLM 在代码协同放置时推理能力远优于分离；代码生成正变得免费，但维护是"免费小狗"问题。
+来源: The Pragmatic Engineer | 评分: 93
+https://www.bestblogs.dev/video/14400be
+
+[4] OpenAI 推出 Codex Security @OpenAIDevs
+OpenAI 正式发布应用安全智能体 Codex Security，能自动发现代码库漏洞、验证影响并提供修复代码供审核。AI 驱动的 DevSecOps 迈出重要一步，减少人工安全开销并加速代码交付。
+来源: OpenAI Developers | 评分: 92
+https://www.bestblogs.dev/status/2029983809652035758
+
+[5] 智能体时代的人月神话
+pandas 创始人 Wes McKinney 借《人月神话》经典理论发出警告：AI 虽极大提升代码生成速度，但并未解决"本质复杂性"。AI 容易制造更臃肿的代码库，技术债以机器速度累积，形成"智能体焦油坑"。当编码成本趋零，架构设计、范围克制和审美品味将成为最终约束。
+来源: InfoQ 中文 | 评分: 89
+https://www.bestblogs.dev/article/3069e75c
+
+[6] 大模型之后：人类与机器的分工重写
+腾讯研究院万字圆桌实录。科幻作家陈楸帆与提示词专家李继刚深度探讨：AI 革命通过将知识"蒸馏"成向量晶体，消除了学习的时间障碍。社会分工发生根本逆转——AI 负责"技法"，人类的稀缺性转向"想法"与"品味"。顶尖创作者将借 AI 放大价值，底层从业者面临替代压力。
+来源: 腾讯研究院 | 评分: 92
+https://www.bestblogs.dev/article/a5e6b529
+
+[7] GPT-5.4 回一个 hi 要花 80 刀，谷歌这篇论文有解
+深入探讨大模型推理"过度思考"导致的成本激增。研究发现推理长度与准确率呈倒 U 型曲线，过长思考反而降低准确率。谷歌提出"深度思考率（DTR）"指标，通过监测 Token 在深层网络中的收敛来区分有效思考与无效冗余。AI 正从追求推理长度向追求计算密度转型。
+来源: 腾讯科技 | 评分: 90
+https://www.bestblogs.dev/article/ffe71bbd
+
+[8] 智能体手动测试 — 智能体工程模式
+Simon Willison 分享 Agent 工程中一个被忽视但至关重要的实践：手动测试。在自动化测试难以覆盖 Agent 行为不确定性的现实下，系统化的手动测试流程成为保障 Agent 质量的关键防线。文章提供了具体的测试模式和方法论。
+来源: Simon Willison's Weblog | 评分: 88
+https://www.bestblogs.dev/article/f425bd68
+
+[9] 比亚迪第二代刀片电池：9 分钟满电
+比亚迪发布第二代刀片电池，常温 9 分钟充至 97%，-30°C 极寒仅需 12 分钟。配套 1500kW 闪充桩通过"储能缓冲"解决兆瓦级快充对电网的冲击。首批 10 款新车搭载，含腾势 Z9GT、仰望 U7。纯电车正式进入与燃油车硬指标对决阶段。
+来源: 爱范儿 | 评分: 89
+https://www.bestblogs.dev/article/cf23cc8a
+
+[10] 林俊旸离职风波：Qwen 负责人与阿里的分歧
+晚点深度复盘阿里 Qwen 负责人林俊旸离职事件。导火索是阿里云拟将 Qwen 从垂直整合转向水平分工的架构调整。Qwen 作为追求技术领先和开源影响力的小团队，与阿里集团追求商业化增长之间产生了目标错位。折射出 AI 时代大公司管理"超级个体"的核心挑战。
+来源: 晚点LatePost | 评分: 85
+https://www.bestblogs.dev/article/7b55fd09
+
+---
+BestBlogs.dev - 遇见更好的技术阅读

@@ -1,0 +1,150 @@
+{
+  "date": "2026-03-09",
+  "keywords": ["OpenClaw 生态", "Mobile-Agent 开源", "Agent Infra", "AI 产品格局"],
+  "brandName": "BestBlogs 早报",
+  "brandSlogan": "遇见更好的技术阅读",
+  "audioFile": "podcast.mp3",
+  "totalDuration": 414.85,
+  "items": [
+    {
+      "rank": 1,
+      "type": "deep",
+      "resourceType": "PODCAST",
+      "title": "AI 行业年度总结：70 页 PPT 全景拆解中美 AI 变局",
+      "source": "屠龙之术",
+      "author": "庄明浩",
+      "score": 94,
+      "summary": "基于 70 页 PPT，系统梳理二月以来中美 AI 市场核心变局，从 Capex 投入到 Agent 爆发再到 SaaS 末日论。",
+      "points": [
+        "科技巨头 Capex 从百亿冲向千亿美金，英伟达财报亮眼但股价滞涨",
+        "OpenClaw 标志 AI 从「对话」到「执行」的工程化跨越",
+        "「2028 末世论」：AI 吃掉软件引发裁员与消费下降的恶性循环"
+      ],
+      "quote": "我们曾经认为中国的 SaaS 会像美国 SaaS 那么值钱，现在看美国的 SaaS 会像中国的 SaaS 那么不值钱。",
+      "images": ["assets/article-1-gen1.png"],
+      "audioStart": 17.87,
+      "audioDuration": 98.66
+    },
+    {
+      "rank": 2,
+      "type": "deep",
+      "resourceType": "ARTICLE",
+      "title": "通义实验室开源 Mobile-Agent-v3.5：多平台 GUI Agent 基座模型",
+      "source": "魔搭ModelScope社区",
+      "author": "通义实验室",
+      "score": 93,
+      "summary": "从 2B 到 32B 多种尺寸，Instruct 和 Thinking 双版本，20+ 基准 SOTA，GUI Agent 从 Demo 迈向工程可用。",
+      "points": [
+        "混合数据飞轮：用大模型合成复杂多窗口场景，真实设备自动回测",
+        "统一思维合成：每步加入屏幕描述、动作反思、关键信息记忆",
+        "MRPO 算法解决多平台混训的梯度冲突，实现稳定跨端泛化"
+      ],
+      "quote": "不是所有任务都需要 32B，但每个场景都需要可部署。",
+      "images": ["assets/article-2-gen1.png"],
+      "audioStart": 116.53,
+      "audioDuration": 77.69
+    },
+    {
+      "rank": 3,
+      "type": "deep",
+      "resourceType": "PODCAST",
+      "title": "20 个问题搞懂 OpenClaw：爆红机制、本质变化、创业机会",
+      "source": "十字路口Crossing",
+      "score": 93,
+      "summary": "系统拆解 OpenClaw 的三层记忆机制和 Agent 时代的创业方向。",
+      "points": [
+        "ChatGPT 是咨询师，OpenClaw 是实习生：从对话到交付的跨越",
+        "三层记忆系统（日志、中期、长期）赋予 Agent 拟人化的默契感",
+        "创业方向：IM 入口集成、Agent 专用基建、ToB 数字员工"
+      ],
+      "quote": "它显得更有人味，不是因为它更聪明，而是因为它有记忆、有默契。",
+      "images": ["assets/article-3-gen1.png"],
+      "audioStart": 194.22,
+      "audioDuration": 82.00
+    },
+    {
+      "rank": 4,
+      "type": "quick",
+      "resourceType": "ARTICLE",
+      "title": "OpenClaw 生态疯长：PH 上 40+ 相关产品拆解",
+      "source": "Founder Park",
+      "score": 92,
+      "oneLiner": "五大维度梳理生态爆发：2A 社交、记忆管理、云托管、安全运维、硬件集成",
+      "images": ["assets/article-4-gen1.png"],
+      "audioStart": 276.22,
+      "audioDuration": 17.62
+    },
+    {
+      "rank": 5,
+      "type": "quick",
+      "resourceType": "VIDEO",
+      "title": "Applied Intuition：150 亿估值的隐形 AI 独角兽",
+      "source": "Lenny's Podcast",
+      "score": 92,
+      "oneLiner": "AI 最深远影响在物理世界，激进务实主义优于公开炒作",
+      "images": ["assets/article-5-gen1.png"],
+      "audioStart": 293.84,
+      "audioDuration": 17.62
+    },
+    {
+      "rank": 6,
+      "type": "quick",
+      "resourceType": "VIDEO",
+      "title": "Ramp 构建 AI 产品的经验教训",
+      "source": "The Pragmatic Engineer",
+      "score": 92,
+      "oneLiner": "从数千个单一智能体到统一对话界面，内部 AI 已处理超 50% 的 PR",
+      "images": ["assets/article-6-gen1.png"],
+      "audioStart": 311.46,
+      "audioDuration": 17.62
+    },
+    {
+      "rank": 7,
+      "type": "quick",
+      "resourceType": "ARTICLE",
+      "title": "品牌时代",
+      "source": "宝玉的分享",
+      "score": 92,
+      "oneLiner": "Paul Graham 最新文章：设计是向心力，品牌是离心力，两者本质相悖",
+      "images": ["assets/article-7-gen1.png"],
+      "audioStart": 329.08,
+      "audioDuration": 17.62
+    },
+    {
+      "rank": 8,
+      "type": "quick",
+      "resourceType": "ARTICLE",
+      "title": "为什么现有的 Agent Infra 无法支撑生产级应用？",
+      "source": "InfoQ 中文",
+      "score": 91,
+      "oneLiner": "Agent 落地瓶颈在基础设施：副作用日志、能力隔离、分叉恢复三大原语",
+      "images": ["assets/article-8-gen1.png"],
+      "audioStart": 346.70,
+      "audioDuration": 17.52
+    },
+    {
+      "rank": 9,
+      "type": "quick",
+      "resourceType": "ARTICLE",
+      "title": "Claude Code 之父访谈：Anthropic 如何推出 AI 爆款？",
+      "source": "InfoQ 中文",
+      "score": 90,
+      "oneLiner": "放弃 RAG 转向 Agentic Search，不写 PRD、统一职称、通才模式",
+      "images": ["assets/article-9-gen1.png"],
+      "audioStart": 364.22,
+      "audioDuration": 17.52
+    },
+    {
+      "rank": 10,
+      "type": "quick",
+      "resourceType": "ARTICLE",
+      "title": "豆包破 3 亿，千问狂涨 552%｜2 月 AI 产品榜",
+      "source": "硅星人Pro",
+      "score": 91,
+      "oneLiner": "国内五强格局确立：豆包、千问、夸克、DeepSeek、腾讯元宝",
+      "images": ["assets/article-10-gen1.png"],
+      "audioStart": 381.74,
+      "audioDuration": 17.52
+    }
+  ]
+}

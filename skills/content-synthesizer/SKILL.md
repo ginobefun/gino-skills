@@ -7,7 +7,22 @@ description: "将阅读笔记、文章洞察或个人思考转化为多平台适
 
 将阅读笔记、文章洞察或个人思考转化为多种平台适配的内容格式。核心能力是理解素材本质，结合个人视角，生成适合不同平台的高质量原创内容。
 
-个人写作风格和背景见用户画像文件（`gino-bot/USER.md`），按需从 auto memory 或用户指定路径加载。若无法访问，使用对话中已知的用户信息，或提示用户提供写作偏好。
+### 个人风格加载
+
+按优先级加载写作风格参考：
+1. **风格画像**（优先）: 读取 `contents/style-profile.md` — 从用户真实博客和推文中提取的风格特征（语言特征、思维模式、平台风格差异、禁忌清单、代表性样本）
+2. **用户画像**: 读取 `gino-bot/USER.md` — 基本信息、写作偏好
+3. **均不可用时**: 使用通用风格，告知用户"未加载个人画像，内容可能缺少个性化风格"
+
+### Daily Workspace 素材读取
+
+创作前优先从工作区缓存读取素材，避免重复获取：
+- **文章全文**: 先查 `contents/daily-workspace/YYYY-MM-DD/article-details/{id}.md`（含 AI 分析）
+- **推文详情**: 先查 `contents/daily-workspace/YYYY-MM-DD/tweet-details/{id}.md`
+- **主题聚合**: 读取 `contents/daily-workspace/YYYY-MM-DD/topic-clusters.md`（了解多源综合信息）
+- 缓存未命中时再通过 Jina Reader 或 API 获取，获取后写入缓存供后续 skill 复用
+
+文件格式详见 `skills/daily-content-management/references/workspace-spec.md`。
 
 ## 认证
 

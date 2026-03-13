@@ -1,6 +1,6 @@
 # 杂志风 HTML 模板
 
-生成 `digest-YYYY-MM-DD.html` 时使用此模板。文件必须自包含（所有 CSS 内联），可直接浏览器打开。
+生成 `digest.html` 时使用此模板（存放于 `contents/twitter-digest/YYYY-MM-DD/digest.html`）。文件必须自包含（所有 CSS 内联），可直接浏览器打开。
 
 ## 设计理念
 
@@ -444,7 +444,7 @@
 
     <div class="footer">
       由 <a href="https://xgo.ing">XGo</a> 提供数据支持 ·
-      <a href="digest-YYYY-MM-DD-full.md">查看完整版</a>
+      <a href="digest-full.md">查看完整版</a>
     </div>
 
   </div>

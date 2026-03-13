@@ -73,7 +73,7 @@
 
 ### 个人博客 (ginonotes.com)
 
-**保存位置**: `contents/blog-posts/YYYY-MM-DD-{slug}.md`
+**保存位置**: `contents/blog-posts/YYYY-MM-DD/{slug}.md`
 
 **Markdown 格式**:
 ```markdown

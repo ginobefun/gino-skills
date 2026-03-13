@@ -17,9 +17,9 @@ description: "将阅读笔记、文章洞察或个人思考转化为多平台适
 ### Daily Workspace 素材读取
 
 创作前优先从工作区缓存读取素材，避免重复获取：
-- **文章全文**: 先查 `contents/daily-workspace/YYYY-MM-DD/article-details/{id}.md`（含 AI 分析）
-- **推文详情**: 先查 `contents/daily-workspace/YYYY-MM-DD/tweet-details/{id}.md`
-- **主题聚合**: 读取 `contents/daily-workspace/YYYY-MM-DD/topic-clusters.md`（了解多源综合信息）
+- **文章全文**: 先查 `contents/tmp/workspace/YYYY-MM-DD/article-details/{id}.md`（含 AI 分析）
+- **推文详情**: 先查 `contents/tmp/workspace/YYYY-MM-DD/tweet-details/{id}.md`
+- **主题聚合**: 读取 `contents/tmp/workspace/YYYY-MM-DD/topic-clusters.md`（了解多源综合信息）
 - 缓存未命中时再通过 Jina Reader 或 API 获取，获取后写入缓存供后续 skill 复用
 
 文件格式详见 `skills/daily-content-management/references/workspace-spec.md`。
@@ -289,7 +289,7 @@ tags: [tag1, tag2, tag3]
    - 如需文内配图，先调用 `article-illustrator` 生成
 
 3. **博客保存**: 将 Markdown 文件保存到博客项目目录
-   - 默认路径：`contents/blog-posts/YYYY-MM-DD-{slug}.md`（本项目下）
+   - 默认路径：`contents/blog-posts/YYYY-MM-DD/{slug}.md`（本项目下）
    - 用户可指定其他目录（如博客 repo 的 `_posts/` 目录）
 
 4. **其他平台**: 输出格式化好的内容，提示用户手动发布

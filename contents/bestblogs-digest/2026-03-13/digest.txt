@@ -1,0 +1,56 @@
+BestBlogs 早报 | 2026-03-13
+
+# Claude Code 架构 / RAG 进化 / Sora 2 视频 API / 智能体测试 / AI 设计时代
+
+[1] 你不知道的 Claude Code：架构、治理与工程实践
+Tw93 深度拆解 Claude Code 内部机制，涵盖三大维度：架构层（工具调用图、任务规划与上下文管理策略）、治理层（Anthropic 如何通过 CLAUDE.md 与 agents.md 实现"软约束"而非硬限制）、工程实践层（并行子智能体、循环控制与错误恢复模式）。这是目前中文圈最系统的 Claude Code 技术解读，无论你是正在使用 Claude Code 的开发者，还是在构建自己的 Coding Agent，都值得精读。
+来源：Tw93 Blog | 评分：94
+https://www.bestblogs.dev/article/5c79977a
+
+[2] RAG 后的检索：混合搜索、智能体与数据库设计
+Latent Space 对话 Turbopuffer 创始人 Simon Hørup Eskildsen，深度探讨向量数据库赛道的下一阶段演进。核心论点：纯向量检索已触及天花板，未来是"混合检索"（向量 + 关键词 + 元数据过滤）、智能体驱动的动态查询规划，以及数据库设计从"为人类查询优化"向"为 AI Agent 查询优化"的范式转变。
+来源：Latent Space | 评分：93
+https://www.bestblogs.dev/article/18a0d718
+
+[3] OpenAI 推出由 Sora 2 驱动的全新视频 API 功能
+OpenAI 正式开放 Sora 2 的视频生成 API，开发者现在可以通过 API 调用最新一代视频生成模型。这是 OpenAI 将旗舰视频能力商业化的关键一步，也意味着视频生成将被深度集成到各类 AI 产品工作流中。API 支持多分辨率输出与长视频生成，定价模型已公开。
+来源：OpenAI | 评分：92
+https://www.bestblogs.dev/status/2032142448970121468
+
+[4] AI 编程能力边界探索：基于 Claude Code 的 Spec Coding 项目实战｜得物技术
+得物技术团队分享将 Claude Code 引入实际研发流程的深度实践报告。重点验证"Spec Coding"模式（先写规格说明再让 AI 编码）在复杂业务场景下的边界：什么样的需求适合全程 AI 主导？哪些环节人工仍是瓶颈？并给出了可直接复用的 Prompt 模板和工作流设计。这是来自一线互联网大厂最具参考价值的 AI 编程实践报告之一。
+来源：得物技术 | 评分：92
+https://www.bestblogs.dev/article/9c6c68a5
+
+[5] 构建第一代智能体商务的 10 个经验教训
+Stripe 工程团队基于将 AI Agent 引入支付和商务场景的实践，总结出 10 条核心经验，涵盖：如何设计对 Agent 友好的 API（结构化错误 > 人类可读错误）、智能体事务的幂等性保障、人机交接的最佳时机，以及如何在不影响安全性的前提下赋予 Agent 足够的执行权限。
+来源：Stripe Blog | 评分：92
+https://www.bestblogs.dev/article/c5a969d1
+
+[6] 阻止我过度设计 Claude Code 的可扩展性三角
+HackerNoon 的开发者分享了一个反直觉的 Claude Code 使用心得："可扩展性三角"——越是为未来扩展性而预先设计的架构，越容易让 Claude Code 陷入幻觉和过度抽象。作者总结出三条简单规则：最小化上下文、具体胜于抽象、优先让 AI 重写而非扩展。对抗 Vibe Coding 过度工程化的实用指南。
+来源：HackerNoon | 评分：92
+https://www.bestblogs.dev/article/36a44b3d
+
+[7] 构建会思考的测试 Agent：从自动化到自主智能的演进
+阿里云开发者团队详述测试 Agent 的三代架构演进：第一代脚本驱动（规则配置）、第二代 LLM 辅助（意图理解）、第三代自主智能（目标驱动、自我修复、跨步骤推理）。落地数据：自主测试 Agent 的用例生成覆盖率提升 40%，维护成本降低 60%。适合正在推进测试智能化的团队参考。
+来源：阿里云开发者 | 评分：92
+https://www.bestblogs.dev/article/55bc6d71
+
+[8] 通过符合 RFC 9457 标准的错误响应，将智能体 Token 成本降低 98%
+Cloudflare 工程师分享了一个出乎意料的成本优化发现：将 API 错误响应改为 RFC 9457 标准格式（结构化机器可读 JSON），AI Agent 处理错误时的 Token 消耗从数千骤降到数十——降幅高达 98%。核心原因：标准化错误格式让模型无需冗长上下文就能理解错误类型和恢复策略。
+来源：The Cloudflare Blog | 评分：91
+https://www.bestblogs.dev/article/2a660879
+
+[9] #454.AI 时代的设计：从 Notion 到 Cursor，对话 Ryo Lu [播客]
+跨国串门儿计划对话前 Figma 设计师、现 Cursor 设计负责人 Ryo Lu，深度探讨 AI 工具时代的设计哲学变迁：当产品功能可以被 AI 即时生成，设计师的核心价值是什么？Notion 到 Cursor 的跨越背后，是怎样的产品直觉？值得每个在 AI 时代思考设计价值的从业者收听。
+来源：跨国串门儿计划 | 评分：92
+https://www.bestblogs.dev/podcast/5aa11b9
+
+[10] AI + 游戏 + 社交的新演绎｜42 章经
+42 章经分析 AI、游戏与社交三个维度融合产生的新商业形态：AI 角色扮演游戏如何成为新一代社交入口、为什么游戏公司比科技公司更懂"用户长时间沉浸"的设计、以及 Character.ai 之后的下一个爆款可能长什么样。提供了从产品、技术到商业模式的系统性框架。
+来源：42 章经 | 评分：91
+https://www.bestblogs.dev/article/704e35e5
+
+---
+BestBlogs.dev - 遇见更好的技术阅读

@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BestBlogs 早报 | 2026-03-13</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #fefdfb;
+      font-family: -apple-system, 'PingFang SC', 'Helvetica Neue', sans-serif;
+      color: #374151;
+      min-height: 100vh;
+      position: relative;
+    }
+
+    body::before {
+      content: '';
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      opacity: 0.03; pointer-events: none; z-index: 9999;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    }
+
+    .container {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 48px 24px 64px;
+    }
+
+    /* Header */
+    .header {
+      margin-bottom: 40px;
+      border-bottom: 1px solid #e5e7eb;
+      padding-bottom: 28px;
+    }
+
+    .brand {
+      font-family: Georgia, 'Noto Serif SC', serif;
+      font-size: 22px;
+      font-weight: normal;
+      color: #1a365d;
+      letter-spacing: 0.05em;
+      margin-bottom: 6px;
+    }
+
+    .date {
+      font-size: 13px;
+      color: #6b7280;
+      margin-bottom: 16px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .keywords {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .keyword {
+      font-size: 12px;
+      color: #1a365d;
+      border: 1px solid #1a365d;
+      border-radius: 20px;
+      padding: 3px 10px;
+      letter-spacing: 0.02em;
+    }
+
+    /* Top 1 Card */
+    .top1-card {
+      border-left: 3px solid #d97706;
+      background: rgba(217, 119, 6, 0.06);
+      padding: 24px;
+      margin-bottom: 0;
+      border-radius: 0 4px 4px 0;
+    }
+
+    .top1-label {
+      font-size: 11px;
+      color: #d97706;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      margin-bottom: 10px;
+    }
+
+    .top1-title {
+      font-family: Georgia, 'Noto Serif SC', serif;
+      font-size: 20px;
+      color: #1a365d;
+      line-height: 1.45;
+      margin-bottom: 14px;
+    }
+
+    .top1-title a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .top1-title a:hover {
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .top1-summary {
+      font-size: 14px;
+      line-height: 1.75;
+      color: #374151;
+      margin-bottom: 14px;
+    }
+
+    .top1-meta {
+      font-size: 12px;
+      color: #6b7280;
+      font-family: 'Inter', sans-serif;
+    }
+
+    /* Regular Items */
+    .items-list {
+      margin-top: 0;
+    }
+
+    .item {
+      padding: 24px 0;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .item:last-child {
+      border-bottom: none;
+    }
+
+    .item-header {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .item-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      color: #1a365d;
+      flex-shrink: 0;
+      min-width: 20px;
+    }
+
+    .item-title {
+      font-family: Georgia, 'Noto Serif SC', serif;
+      font-size: 17px;
+      color: #1a365d;
+      line-height: 1.4;
+    }
+
+    .item-title a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .item-title a:hover {
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .item-summary {
+      font-size: 14px;
+      line-height: 1.7;
+      color: #374151;
+      margin-bottom: 10px;
+      padding-left: 32px;
+    }
+
+    .item-meta {
+      font-size: 12px;
+      color: #6b7280;
+      font-family: 'Inter', sans-serif;
+      padding-left: 32px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .item-score {
+      font-weight: 500;
+      color: #1a365d;
+    }
+
+    .tag {
+      background: #f3f4f6;
+      color: #6b7280;
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-size: 11px;
+    }
+
+    /* Footer */
+    .footer {
+      margin-top: 48px;
+      padding-top: 24px;
+      border-top: 1px solid #e5e7eb;
+      text-align: center;
+    }
+
+    .footer-brand {
+      font-family: Georgia, 'Noto Serif SC', serif;
+      font-size: 14px;
+      color: #1a365d;
+      letter-spacing: 0.1em;
+      margin-bottom: 4px;
+    }
+
+    .footer-tagline {
+      font-size: 12px;
+      color: #6b7280;
+    }
+
+    .divider {
+      height: 1px;
+      background: #e5e7eb;
+      margin: 0 0 0 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <!-- Header -->
+    <div class="header">
+      <div class="brand">BestBlogs 早报</div>
+      <div class="date">2026 年 3 月 13 日 &nbsp;·&nbsp; 今日精选 10 条</div>
+      <div class="keywords">
+        <span class="keyword">Claude Code 架构</span>
+        <span class="keyword">RAG 进化</span>
+        <span class="keyword">Sora 2 视频 API</span>
+        <span class="keyword">智能体商务</span>
+        <span class="keyword">AI 设计时代</span>
+      </div>
+    </div>
+
+    <!-- Top 1 -->
+    <div class="top1-card">
+      <div class="top1-label">今日精选 · No.1</div>
+      <div class="top1-title">
+        <a href="https://www.bestblogs.dev/article/5c79977a" target="_blank">
+          你不知道的 Claude Code：架构、治理与工程实践
+        </a>
+      </div>
+      <div class="top1-summary">
+        Tw93 深度拆解 Claude Code 内部机制，涵盖三大维度：架构层（工具调用图、任务规划与上下文管理策略）、治理层（Anthropic 如何通过 CLAUDE.md 与 agents.md 实现"软约束"而非硬限制）、工程实践层（并行子智能体、循环控制与错误恢复模式）。这是目前中文圈最系统的 Claude Code 技术解读，无论你是正在使用 Claude Code 的开发者，还是在构建自己的 Coding Agent，都值得精读。
+      </div>
+      <div class="top1-meta">
+        Tw93 Blog &nbsp;·&nbsp; <span class="item-score">评分 94</span>
+      </div>
+    </div>
+
+    <!-- Items 2-10 -->
+    <div class="items-list">
+
+      <div class="item">
+        <div class="item-header">
+          <span class="item-num">02</span>
+          <span class="item-title">
+            <a href="https://www.bestblogs.dev/article/18a0d718" target="_blank">
+              RAG 后的检索：混合搜索、智能体与数据库设计
+            </a>
+          </span>
+        </div>
+        <div class="item-summary">
+          Latent Space 对话 Turbopuffer 创始人，深度探讨向量数据库的下一阶段演进。核心论点：纯向量检索已触及天花板，未来是"混合检索"（向量 + 关键词 + 元数据过滤）与智能体驱动的动态查询规划，数据库设计正从"为人类优化"转向"为 AI Agent 优化"。
+        </div>
+        <div class="item-meta">
+          Latent Space &nbsp;·&nbsp; <span class="item-score">评分 93</span>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="item-header">
+          <span class="item-num">03</span>
+          <span class="item-title">
+            <a href="https://www.bestblogs.dev/status/2032142448970121468" target="_blank">
+              OpenAI 推出由 Sora 2 驱动的全新视频 API 功能
+            </a>
+          </span>
+        </div>
+        <div class="item-summary">
+          OpenAI 正式开放 Sora 2 的视频生成 API，开发者可通过 API 调用最新一代视频模型，支持多分辨率输出与长视频生成。这是 OpenAI 将旗舰视频能力商业化的关键一步，视频生成即将被深度集成到各类 AI 产品工作流中。
+        </div>
+        <div class="item-meta">
+          OpenAI &nbsp;·&nbsp; <span class="item-score">评分 92</span> &nbsp;·&nbsp; <span class="tag">推文</span>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="item-header">
+          <span class="item-num">04</span>
+          <span class="item-title">
+            <a href="https://www.bestblogs.dev/article/9c6c68a5" target="_blank">
+              AI 编程能力边界探索：基于 Claude Code 的 Spec Coding 项目实战｜得物技术
+            </a>
+          </span>
+        </div>
+        <div class="item-summary">
+          得物技术团队深度验证"Spec Coding"模式（先写规格说明再让 AI 编码）在复杂业务场景下的边界，总结哪些需求适合全程 AI 主导、哪些环节人工仍是瓶颈，并提供可复用的 Prompt 模板和工作流设计。
+        </div>
+        <div class="item-meta">
+          得物技术 &nbsp;·&nbsp; <span class="item-score">评分 92</span>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="item-header">
+          <span class="item-num">05</span>
+          <span class="item-title">
+            <a href="https://www.bestblogs.dev/article/c5a969d1" target="_blank">
+              构建第一代智能体商务的 10 个经验教训
+            </a>
+          </span>
+        </div>
+        <div class="item-summary">
+          Stripe 工程团队基于将 AI Agent 引入支付场景的实践，总结 10 条核心经验：如何设计对 Agent 友好的 API（结构化错误 > 人类可读错误）、智能体事务的幂等性保障、人机交接的最佳时机，以及如何在不影响安全性的前提下赋予 Agent 足够的执行权限。
+        </div>
+        <div class="item-meta">
+          Stripe Blog &nbsp;·&nbsp; <span class="item-score">评分 92</span>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="item-header">
+          <span class="item-num">06</span>
+          <span class="item-title">
+            <a href="https://www.bestblogs.dev/article/36a44b3d" target="_blank">
+              阻止我过度设计 Claude Code 的可扩展性三角
+            </a>
+          </span>
+        </div>
+        <div class="item-summary">
+          反直觉的 Claude Code 使用心得："可扩展性三角"——越是为未来扩展性而预先设计的架构，越容易让 Claude Code 陷入幻觉和过度抽象。三条简单规则：最小化上下文、具体胜于抽象、优先让 AI 重写而非扩展。对抗 Vibe Coding 过度工程化的实用指南。
+        </div>
+        <div class="item-meta">
+          HackerNoon &nbsp;·&nbsp; <span class="item-score">评分 92</span>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="item-header">
+          <span class="item-num">07</span>
+          <span class="item-title">
+            <a href="https://www.bestblogs.dev/article/55bc6d71" target="_blank">
+              构建会思考的测试 Agent：从自动化到自主智能的演进
+            </a>
+          </span>
+        </div>
+        <div class="item-summary">
+          阿里云开发者团队详述测试 Agent 的三代架构演进：脚本驱动 → LLM 辅助 → 自主智能（目标驱动、自我修复、跨步骤推理）。落地数据：用例生成覆盖率提升 40%，维护成本降低 60%。适合正在推进测试智能化的团队参考。
+        </div>
+        <div class="item-meta">
+          阿里云开发者 &nbsp;·&nbsp; <span class="item-score">评分 92</span>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="item-header">
+          <span class="item-num">08</span>
+          <span class="item-title">
+            <a href="https://www.bestblogs.dev/article/2a660879" target="_blank">
+              通过符合 RFC 9457 标准的错误响应，将智能体 Token 成本降低 98%
+            </a>
+          </span>
+        </div>
+        <div class="item-summary">
+          Cloudflare 工程师的成本优化发现：将 API 错误响应改为 RFC 9457 标准格式（结构化机器可读 JSON），AI Agent 处理错误的 Token 消耗从数千骤降到数十，降幅达 98%。核心原因：标准化错误格式让模型无需冗长上下文就能理解错误类型和恢复策略。
+        </div>
+        <div class="item-meta">
+          The Cloudflare Blog &nbsp;·&nbsp; <span class="item-score">评分 91</span>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="item-header">
+          <span class="item-num">09</span>
+          <span class="item-title">
+            <a href="https://www.bestblogs.dev/podcast/5aa11b9" target="_blank">
+              #454.AI 时代的设计：从 Notion 到 Cursor，对话 Ryo Lu
+            </a>
+          </span>
+        </div>
+        <div class="item-summary">
+          跨国串门儿计划对话前 Figma 设计师、现 Cursor 设计负责人 Ryo Lu：当产品功能可以被 AI 即时生成，设计师的核心价值是什么？从 Notion 到 Cursor 的跨越背后，是怎样的产品直觉？值得每个在 AI 时代思考设计价值的从业者收听。
+        </div>
+        <div class="item-meta">
+          跨国串门儿计划 &nbsp;·&nbsp; <span class="item-score">评分 92</span> &nbsp;·&nbsp; <span class="tag">播客</span>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="item-header">
+          <span class="item-num">10</span>
+          <span class="item-title">
+            <a href="https://www.bestblogs.dev/article/704e35e5" target="_blank">
+              AI + 游戏 + 社交的新演绎｜42 章经
+            </a>
+          </span>
+        </div>
+        <div class="item-summary">
+          42 章经分析 AI、游戏与社交三个维度融合产生的新商业形态：AI 角色扮演游戏如何成为新一代社交入口、游戏公司为何比科技公司更懂"用户长时间沉浸"的设计，以及 Character.ai 之后的下一个爆款可能长什么样。从产品、技术到商业模式的系统性框架。
+        </div>
+        <div class="item-meta">
+          42 章经 &nbsp;·&nbsp; <span class="item-score">评分 91</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <div class="footer-brand">BestBlogs.dev</div>
+      <div class="footer-tagline">遇见更好的技术阅读</div>
+    </div>
+
+  </div>
+</body>
+</html>

@@ -224,7 +224,7 @@
 | 说法示例 | 行为 | 涉及的 Skill |
 |----------|------|--------------|
 | "每日 review" / "review 并推荐阅读" | 拉取待审内容 → AI 评审分类 → 输出评分统计 + review 表格 + 推荐阅读清单（分必读/推荐/可选三层） | bestblogs-content-reviewer |
-| "第3条评分调到85" / "把第5条标记为不合格" | 调整分类或评分 → 批量执行 markNotQualified | bestblogs-content-reviewer |
+| "第 3 条评分调到 85" / "把第 5 条标记为不合格" | 调整分类或评分 → 批量执行 markNotQualified | bestblogs-content-reviewer |
 | "学习偏好" / "分析评分规律" | 分析历史精选/非精选特征 → 输出偏好模型 | bestblogs-content-reviewer |
 
 **输出内容**:

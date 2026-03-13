@@ -164,6 +164,53 @@ rm -f /tmp/wechat_msg.json
 
 详见上方「发送图片」的完整代码示例。
 
+### 场景四：向多个群依次发送图片 + 文字
+
+适用于早报/周报推送等需要对每个群先发图后发文的场景。
+
+发送流程：
+1. 用 Python 一次性为所有群预生成 JSON 文件（图片 base64 只编码一次，复用到各群）
+2. 按群逐个发送，每群内**先图后文**，两条之间 `sleep 1`，换群时 `sleep 1`
+3. 每批最多 5 个群，超过 5 个分批执行
+4. 单条失败不中断，记录 ❌ 继续执行；连续失败 3 次暂停告知用户
+5. 全部完成后清理所有临时文件，汇总报告
+
+```bash
+# 预生成所有 JSON（Python，只编码一次图片）
+python3 -c "
+import base64, json
+
+with open('/path/to/poster.png', 'rb') as f:
+    raw = f.read()
+# 用 file 命令确认格式；JPEG 文件即使扩展名是 .png 也用 jpeg MIME
+pic_b64 = 'data:image/jpeg;base64,' + base64.b64encode(raw).decode()
+
+with open('/path/to/digest.txt', 'r') as f:
+    text = f.read()
+
+groups = ['群名1', '群名2', '群名3']
+for i, g in enumerate(groups):
+    with open(f'/tmp/wechat_poster_{i}.json', 'w', encoding='utf-8') as f:
+        json.dump({'content': '', 'groupName': g, 'picBase64': pic_b64}, f, ensure_ascii=False)
+    with open(f'/tmp/wechat_text_{i}.json', 'w', encoding='utf-8') as f:
+        json.dump({'content': text, 'groupName': g, 'picBase64': ''}, f, ensure_ascii=False)
+"
+
+# 对每个群逐个调用（不用 shell for 循环）
+# 群名1
+curl -s -X POST "$WECHAT_BOT_HOST/noc/message/info" \
+  -H "Content-Type: application/json" -H "X-API-Key: $WECHAT_BOT_API_KEY" \
+  -d @/tmp/wechat_poster_0.json
+sleep 1
+curl -s -X POST "$WECHAT_BOT_HOST/noc/message/info" \
+  -H "Content-Type: application/json" -H "X-API-Key: $WECHAT_BOT_API_KEY" \
+  -d @/tmp/wechat_text_0.json
+# ... 以此类推（每群之间 sleep 1）
+
+# 全部完成后清理
+rm -f /tmp/wechat_poster_*.json /tmp/wechat_text_*.json
+```
+
 ## 输出格式
 
 发送完成后，向用户报告结果：

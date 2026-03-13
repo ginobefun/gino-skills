@@ -1,6 +1,6 @@
 ---
 name: bestblogs-weekly-blogger
-description: "从 BestBlogs.dev 周刊生成图文并茂的博客文章。适用场景: (1) 基于某期周刊撰写博客, (2) 将周刊精选内容转化为深度阅读笔记, (3) 生成带个人洞察的周刊导读文章。触发短语: '写周刊博客', '生成博客', 'weekly blog', '周刊导读', 'write blog from newsletter', '写第N期博客', '周刊笔记', 'bestblogs blog'"
+description: "从 BestBlogs.dev 周刊生成图文并茂的博客文章。适用场景：(1) 基于某期周刊撰写博客，(2) 将周刊精选内容转化为深度阅读笔记，(3) 生成带个人洞察的周刊导读文章。触发短语：'写周刊博客', '生成博客', 'weekly blog', '周刊导读', 'write blog from newsletter', '写第 N 期博客', '周刊笔记', 'bestblogs blog'"
 ---
 
 # BestBlogs 周刊博客生成器 (Weekly Blogger)
@@ -13,7 +13,7 @@ description: "从 BestBlogs.dev 周刊生成图文并茂的博客文章。适用
 
 ## 认证
 
-所有请求需要 `X-API-KEY` 请求头。从环境变量 `BESTBLOGS_API_KEY` 读取密钥:
+所有请求需要 `X-API-KEY` 请求头。从环境变量 `BESTBLOGS_API_KEY` 读取密钥：
 
 ```bash
 -H "X-API-KEY: $BESTBLOGS_API_KEY"
@@ -21,7 +21,7 @@ description: "从 BestBlogs.dev 周刊生成图文并茂的博客文章。适用
 
 若 `BESTBLOGS_API_KEY` 未设置，提示用户配置。
 
-接口地址: `https://api.bestblogs.dev`
+接口地址：`https://api.bestblogs.dev`
 
 ## 进度清单
 
@@ -37,11 +37,11 @@ description: "从 BestBlogs.dev 周刊生成图文并茂的博客文章。适用
 
 ---
 
-## 阶段一: 获取周刊数据
+## 阶段一：获取周刊数据
 
 ### 1.1 确定期数
 
-用户通常会指定期数（如「写第 85 期博客」）。如果未指定，获取最新一期:
+用户通常会指定期数（如「写第 85 期博客」）。如果未指定，获取最新一期：
 
 ```bash
 curl -s -X POST https://api.bestblogs.dev/openapi/v1/newsletter/list \
@@ -57,7 +57,7 @@ curl -s "https://api.bestblogs.dev/openapi/v1/newsletter/get?id={ISSUE_ID}&langu
   -H "X-API-KEY: $BESTBLOGS_API_KEY"
 ```
 
-从响应中提取:
+从响应中提取：
 - `title`: 周刊标题（含关键词，如「驾驭工程」）
 - `summary`: 完整推荐语（已包含 10 个亮点的提炼）
 - `articles`: 完整文章列表（含 id, title, summary, sourceName, score, aiCategory, resourceType, sort 等）
@@ -72,7 +72,7 @@ curl -s "https://api.bestblogs.dev/openapi/v1/newsletter/get?id={ISSUE_ID}&langu
 ls /Users/gino/Documents/Github/ginonotes-blog/posts/reading/notes/ | grep bestblogs_weekly | tail -3
 ```
 
-使用 Read 工具读取最近一篇（如有多篇，优先读最新的），理解:
+使用 Read 工具读取最近一篇（如有多篇，优先读最新的），理解：
 - frontmatter 格式（title, date, description, category, tags, cover, slug）
 - 章节组织方式（按主题而非分类平铺）
 - 叙述风格和语言习惯
@@ -80,7 +80,7 @@ ls /Users/gino/Documents/Github/ginonotes-blog/posts/reading/notes/ | grep bestb
 
 ### 1.4 初步分析
 
-从周刊推荐语和文章列表中识别:
+从周刊推荐语和文章列表中识别：
 - 本期关键词/主题（从 `title` 提取，如「驾驭工程」「编排」）
 - 各 aiCategory 的文章分布
 - 高分文章（score >= 93）和精选文章（qualified: true）
@@ -88,13 +88,13 @@ ls /Users/gino/Documents/Github/ginonotes-blog/posts/reading/notes/ | grep bestb
 
 ---
 
-## 阶段二: 深度分析重点文章
+## 阶段二：深度分析重点文章
 
 不是所有文章都需要深度分析。选择 5-8 篇重点文章获取原始内容，其余依赖周刊提供的 summary 即可。
 
 ### 2.1 选择重点文章的标准
 
-按以下优先级选取:
+按以下优先级选取：
 1. 与本期主题最相关、能串联主线的文章
 2. 高分 + 高阅读量 + 精选的文章
 3. 来自权威来源的重磅发布（头部厂商官方、知名技术博客）
@@ -109,7 +109,7 @@ curl -s "https://api.bestblogs.dev/openapi/v1/resource/markdown?id={ARTICLE_ID}"
   -H "X-API-KEY: $BESTBLOGS_API_KEY"
 ```
 
-返回的 `data` 字段为 Markdown 字符串。内容可能很长，重点关注:
+返回的 `data` 字段为 Markdown 字符串。内容可能很长，重点关注：
 - 文章的核心论点和框架
 - 关键数据和引用
 - 独特的洞察或判断
@@ -119,7 +119,7 @@ curl -s "https://api.bestblogs.dev/openapi/v1/resource/markdown?id={ARTICLE_ID}"
 
 ### 2.3 深度分析要点
 
-对每篇重点文章提炼:
+对每篇重点文章提炼：
 - 核心论点（一句话）
 - 为什么值得重点展开（对读者的价值）
 - 与本期其他文章的关联（能否串联成主题线索）
@@ -127,7 +127,7 @@ curl -s "https://api.bestblogs.dev/openapi/v1/resource/markdown?id={ARTICLE_ID}"
 
 ---
 
-## 阶段三: 收集个人洞察
+## 阶段三：收集个人洞察
 
 ⚠️ 这是需要用户参与的环节。
 
@@ -142,7 +142,7 @@ curl -s "https://api.bestblogs.dev/openapi/v1/resource/markdown?id={ARTICLE_ID}"
 
 ---
 
-## 阶段四: 构思主题与结构
+## 阶段四：构思主题与结构
 
 这一步在写作前完成，决定博客的骨架。
 
@@ -170,7 +170,7 @@ curl -s "https://api.bestblogs.dev/openapi/v1/resource/markdown?id={ARTICLE_ID}"
 
 ### 4.3 简要大纲
 
-在开始写作前，先列出:
+在开始写作前，先列出：
 - 各章节标题
 - 每章包含哪些文章
 - 哪些文章是重点展开的（标记出来）
@@ -178,7 +178,7 @@ curl -s "https://api.bestblogs.dev/openapi/v1/resource/markdown?id={ARTICLE_ID}"
 
 ---
 
-## 阶段五: 生成博客文章
+## 阶段五：生成博客文章
 
 ### 5.1 文件信息
 
@@ -202,19 +202,19 @@ slug: bestblogs-weekly-issue-{N}
 
 ### 5.2 图片占位符
 
-写作阶段先使用占位路径，阶段六会生成实际图片并替换:
+写作阶段先使用占位路径，阶段六会生成实际图片并替换：
 
 ```markdown
 ![章节描述](bestblogs-issue-{N}-{seq}.png)
 ```
 
-其中 `{seq}` 从 1 开始递增。通常 6-8 张图。首图和尾图固定:
-- 首图: `bestblogs-issue-{N}-1.png`（周刊标题图）
-- 尾图: `bestblogs-issue-{N}-{last}.png`（「保持好奇，我们下周见」）
+其中 `{seq}` 从 1 开始递增。通常 6-8 张图。首图和尾图固定：
+- 首图：`bestblogs-issue-{N}-1.png`（周刊标题图）
+- 尾图：`bestblogs-issue-{N}-{last}.png`（「保持好奇，我们下周见」）
 
 ### 5.3 写作风格
 
-详见 `references/blog_style_guide.md`，核心要点:
+详见 `references/blog_style_guide.md`，核心要点：
 
 - 中文为主，英文专有名词保留原文，中英文和数字之间加空格
 - 叙述流畅自然，像在和朋友分享本周读到的好内容
@@ -256,7 +256,7 @@ slug: bestblogs-weekly-issue-{N}
 
 ### 5.5 输出
 
-使用 Write 工具直接创建 MDX 文件。写完后告知用户:
+使用 Write 工具直接创建 MDX 文件。写完后告知用户：
 - 文件路径
 - 章节结构概览
 - 图片占位符列表（含 alt 描述，用于阶段六生成提示词）
@@ -266,7 +266,7 @@ slug: bestblogs-weekly-issue-{N}
 
 ---
 
-## 阶段六: 生成配图与封面
+## 阶段六：生成配图与封面
 
 使用 `image-gen` 技能的 CLI 脚本为博客生成配图和封面。如需更精细的维度定制，可参考 `cover-image` 和 `article-illustrator` 的提示词模板。
 
@@ -276,18 +276,18 @@ slug: bestblogs-weekly-issue-{N}
 
 ### 6.2 生成文章配图
 
-创建工作目录存放图片:
+创建工作目录存放图片：
 
 ```bash
 mkdir -p /tmp/bestblogs-issue-{N}/
 ```
 
-为博客中的每张配图生成提示词并调用 `image-gen` 生成。每张图的提示词应基于:
+为博客中的每张配图生成提示词并调用 `image-gen` 生成。每张图的提示词应基于：
 - 对应章节的主题和核心内容
 - 图片 alt 文本描述
 - 整体视觉风格保持一致（同一期使用相同风格）
 
-使用 `image-gen` 的 CLI 生成图片:
+使用 `image-gen` 的 CLI 生成图片：
 
 ```bash
 SKILL_DIR=~/.claude/skills/image-gen
@@ -304,7 +304,7 @@ bun run ${SKILL_DIR}/scripts/main.ts \
 
 ### 6.3 生成封面图
 
-封面图使用不同的宽高比和风格:
+封面图使用不同的宽高比和风格：
 
 ```bash
 bun run ${SKILL_DIR}/scripts/main.ts \
@@ -318,17 +318,17 @@ bun run ${SKILL_DIR}/scripts/main.ts \
 
 ### 6.4 确认图片
 
-生成完成后列出所有图片，告知用户:
+生成完成后列出所有图片，告知用户：
 - 图片数量和路径
 - 询问是否需要重新生成某张图片
 
 ---
 
-## 阶段七: 上传图片到 R2 并替换链接
+## 阶段七：上传图片到 R2 并替换链接
 
 ### 7.1 环境检查
 
-确认以下环境变量已设置:
+确认以下环境变量已设置：
 - `CLOUDFLARE_ACCOUNT_ID`
 - `R2_ACCESS_KEY_ID`
 - `R2_SECRET_ACCESS_KEY`
@@ -337,7 +337,7 @@ bun run ${SKILL_DIR}/scripts/main.ts \
 
 ### 7.2 上传配图
 
-使用 `image-gen` 中的 R2 上传脚本批量上传:
+使用 `image-gen` 中的 R2 上传脚本批量上传：
 
 ```bash
 SKILL_DIR=~/.claude/skills/image-gen
@@ -346,11 +346,11 @@ bun run ${SKILL_DIR}/scripts/upload-r2.ts \
   Banana/
 ```
 
-脚本会输出每个文件的公开 URL（格式: `{R2_PUBLIC_URL}/Banana/{filename}`）。
+脚本会输出每个文件的公开 URL（格式：`{R2_PUBLIC_URL}/Banana/{filename}`）。
 
 ### 7.3 上传封面图
 
-封面图上传到单独路径:
+封面图上传到单独路径：
 
 ```bash
 bun run ${SKILL_DIR}/scripts/upload-r2.ts \
@@ -360,15 +360,15 @@ bun run ${SKILL_DIR}/scripts/upload-r2.ts \
 
 ### 7.4 替换博客中的链接
 
-用上传后的实际 URL 替换博客文件中的占位路径:
-- 配图: `bestblogs-issue-{N}-{seq}.png` → `{R2_PUBLIC_URL}/Banana/bestblogs-issue-{N}-{seq}.png`
-- 封面: frontmatter 中 `cover` 字段的 `cover_bestblogs_{N}.png` → `{R2_PUBLIC_URL}/covers/cover_bestblogs_{N}.png`
+用上传后的实际 URL 替换博客文件中的占位路径：
+- 配图：`bestblogs-issue-{N}-{seq}.png` → `{R2_PUBLIC_URL}/Banana/bestblogs-issue-{N}-{seq}.png`
+- 封面：frontmatter 中 `cover` 字段的 `cover_bestblogs_{N}.png` → `{R2_PUBLIC_URL}/covers/cover_bestblogs_{N}.png`
 
 使用 Edit 工具逐个替换。
 
 ### 7.5 完成
 
-告知用户:
+告知用户：
 - 所有图片已上传到 R2
 - 博客文件中的链接已替换为实际 URL
 - 博客文件最终路径

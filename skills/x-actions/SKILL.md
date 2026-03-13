@@ -1,6 +1,6 @@
 ---
 name: x-actions
-description: "通过 Chrome CDP 在 Twitter/X 上执行操作。适用场景: (1) 发推文/发帖, (2) 回复推文, (3) 引用推文, (4) 转推/转发, (5) 点赞推文, (6) 取消点赞, (7) 取消转推。触发短语: '发推', 'post tweet', '发帖到X', '回复推文', 'reply to tweet', '引用推文', 'quote tweet', '转推', 'retweet', '转发这条', '点赞', 'like tweet', '取消点赞', 'unlike', '在X上发', '帮我发推', '回复这条', '点赞这条', '帮我转推', 'post to twitter', 'tweet this', 'send tweet', '发条推文'。"
+description: "通过 Chrome CDP 在 Twitter/X 上执行操作。适用场景：(1) 发推文/发帖，(2) 回复推文，(3) 引用推文，(4) 转推/转发，(5) 点赞推文，(6) 取消点赞，(7) 取消转推。触发短语：'发推', 'post tweet', '发帖到 X', '回复推文', 'reply to tweet', '引用推文', 'quote tweet', '转推', 'retweet', '转发这条', '点赞', 'like tweet', '取消点赞', 'unlike', '在 X 上发', '帮我发推', '回复这条', '点赞这条', '帮我转推', 'post to twitter', 'tweet this', 'send tweet', '发条推文'。"
 ---
 
 # X 操作器 (X Actions)
@@ -13,7 +13,7 @@ description: "通过 Chrome CDP 在 Twitter/X 上执行操作。适用场景: (1
 
 ## 脚本目录
 
-确定 SKILL.md 所在目录以定位脚本:
+确定 SKILL.md 所在目录以定位脚本：
 
 ```bash
 SKILL_DIR="$(cd "$(dirname "$0")" && pwd)"
@@ -28,7 +28,7 @@ SKILL_DIR="$(cd "$(dirname "$0")" && pwd)"
 | `x-retweet.ts` | 简单转推 | `<tweet-url>`, `--undo`, `--submit` |
 | `x-like.ts` | 点赞/取消 | `<tweet-url>`, `--unlike`, `--submit` |
 
-执行方式: `npx -y bun $SKILL_DIR/scripts/<script>.ts [args]`
+执行方式：`npx -y bun $SKILL_DIR/scripts/<script>.ts [args]`
 
 ## 前置条件
 
@@ -46,7 +46,7 @@ SKILL_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 ⚠️ **写操作确认规则**: 调用任何脚本前，必须先向用户展示将要执行的操作内容，等待用户明确确认后才能添加 `--submit` 参数。禁止未经确认直接使用 `--submit`。
 
-## 操作一: 发推文
+## 操作一：发推文
 
 ```bash
 npx -y bun $SKILL_DIR/scripts/x-post.ts [--image <path>]... [--submit] <text>
@@ -72,7 +72,7 @@ npx -y bun $SKILL_DIR/scripts/x-post.ts "Thread pics" --image a.png --image b.pn
 
 **图片处理**: 通过系统剪贴板 + 真实按键粘贴（macOS: `osascript` 发送 `Cmd+V`），绕过 X 的反自动化检测。支持 JPG、PNG、GIF、WebP。
 
-## 操作二: 回复推文
+## 操作二：回复推文
 
 ```bash
 npx -y bun $SKILL_DIR/scripts/x-reply.ts <tweet-url> [--image <path>]... [--submit] <text>
@@ -96,7 +96,7 @@ npx -y bun $SKILL_DIR/scripts/x-reply.ts https://x.com/user/status/123 "Look at 
 
 **URL 格式**: 支持 `x.com` 和 `twitter.com`，自动标准化为 `x.com`。
 
-## 操作三: 引用推文
+## 操作三：引用推文
 
 ```bash
 npx -y bun $SKILL_DIR/scripts/x-quote.ts <tweet-url> [--submit] [comment]
@@ -117,7 +117,7 @@ npx -y bun $SKILL_DIR/scripts/x-quote.ts https://x.com/user/status/123 "Great in
 npx -y bun $SKILL_DIR/scripts/x-quote.ts https://x.com/user/status/123 "I agree!" --submit
 ```
 
-## 操作四: 转推
+## 操作四：转推
 
 ```bash
 npx -y bun $SKILL_DIR/scripts/x-retweet.ts <tweet-url> [--undo] [--submit]
@@ -140,7 +140,7 @@ npx -y bun $SKILL_DIR/scripts/x-retweet.ts https://x.com/user/status/123 --undo 
 
 **状态检测**: 脚本自动检测当前状态 — 若推文已转推会提示，无需重复操作。
 
-## 操作五: 点赞
+## 操作五：点赞
 
 ```bash
 npx -y bun $SKILL_DIR/scripts/x-like.ts <tweet-url> [--unlike] [--submit]
@@ -211,5 +211,5 @@ npx -y bun $SKILL_DIR/scripts/x-like.ts https://x.com/user/status/123 --unlike -
 
 ## 参考资料
 
-- 选择器参考: `references/cdp-selectors.md` — Twitter/X 页面元素的 `data-testid` 选择器
-- 故障排查: `references/troubleshooting.md` — 常见问题和解决方案
+- 选择器参考：`references/cdp-selectors.md` — Twitter/X 页面元素的 `data-testid` 选择器
+- 故障排查：`references/troubleshooting.md` — 常见问题和解决方案

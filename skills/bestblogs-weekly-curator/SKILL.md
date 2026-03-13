@@ -1,6 +1,6 @@
 ---
 name: bestblogs-weekly-curator
-description: "BestBlogs.dev 每周精选内容策展工作流。适用场景: (1) 从本周内容中精选 20 篇文章生成周刊, (2) 按模型/开发/产品/资讯分类策展, (3) 生成周刊中英文标题和推荐语, (4) 参考往期周刊风格生成新一期, (5) 筛选高分内容制作精选合集, (6) 基于文章原文生成高质量 newsletter。触发短语: '每周精选', '周刊策展', 'weekly curation', '生成周刊', 'curate weekly', '精选文章', '本周精选', 'weekly newsletter', '制作周刊', '选文章', 'pick articles for newsletter', '策展', '生成推荐语', 'newsletter summary', '周刊推荐语', 'write newsletter'"
+description: "BestBlogs.dev 每周精选内容策展工作流。适用场景：(1) 从本周内容中精选 20 篇文章生成周刊，(2) 按模型/开发/产品/资讯分类策展，(3) 生成周刊中英文标题和推荐语，(4) 参考往期周刊风格生成新一期，(5) 筛选高分内容制作精选合集，(6) 基于文章原文生成高质量 newsletter。触发短语：'每周精选', '周刊策展', 'weekly curation', '生成周刊', 'curate weekly', '精选文章', '本周精选', 'weekly newsletter', '制作周刊', '选文章', 'pick articles for newsletter', '策展', '生成推荐语', 'newsletter summary', '周刊推荐语', 'write newsletter'"
 ---
 
 # BestBlogs 每周精选策展 (Weekly Curator)
@@ -11,7 +11,7 @@ description: "BestBlogs.dev 每周精选内容策展工作流。适用场景: (1
 
 ## 认证
 
-所有请求需要 `X-API-KEY` 请求头。从环境变量 `BESTBLOGS_API_KEY` 读取密钥:
+所有请求需要 `X-API-KEY` 请求头。从环境变量 `BESTBLOGS_API_KEY` 读取密钥：
 
 ```bash
 -H "X-API-KEY: $BESTBLOGS_API_KEY"
@@ -19,7 +19,7 @@ description: "BestBlogs.dev 每周精选内容策展工作流。适用场景: (1
 
 若 `BESTBLOGS_API_KEY` 未设置，提示用户配置。
 
-接口地址: `https://api.bestblogs.dev`
+接口地址：`https://api.bestblogs.dev`
 
 ## 进度清单
 
@@ -37,7 +37,7 @@ description: "BestBlogs.dev 每周精选内容策展工作流。适用场景: (1
 
 ---
 
-## 阶段一: 获取往期周刊参考
+## 阶段一：获取往期周刊参考
 
 拉取最近 3 期已发布的周刊列表和详情，理解选文风格、分类比例和推荐语写法。
 
@@ -52,7 +52,7 @@ curl -s -X POST https://api.bestblogs.dev/openapi/v1/newsletter/list \
 
 ### 1.2 获取每期详情（并行 6 个请求）
 
-分别获取中文和英文版本，供阶段五参考双语写作风格:
+分别获取中文和英文版本，供阶段五参考双语写作风格：
 
 ```bash
 # 中文版
@@ -68,7 +68,7 @@ curl -s "https://api.bestblogs.dev/openapi/v1/newsletter/get?id={ISSUE_ID}&langu
 
 ### 1.3 分析往期模式
 
-从 3 期详情中提取:
+从 3 期详情中提取：
 - 每期文章总数（通常 20-24 篇）
 - `aiCategory` 分布比例（MODELS / DEV / PRODUCT / NEWS 各约 5 篇，DEV 有时会多 2-3 篇）
 - 中文推荐语风格：开篇引题 → 个人动态 → 10 个亮点（emoji 标识）→ 结尾
@@ -77,13 +77,13 @@ curl -s "https://api.bestblogs.dev/openapi/v1/newsletter/get?id={ISSUE_ID}&langu
 
 ---
 
-## 阶段二: 拉取本周候选内容
+## 阶段二：拉取本周候选内容
 
 通过两组查询覆盖候选范围，预计获取 200-400 条内容。
 
 ### 查询策略（6 个并行请求）
 
-**第一组: AI 分类内容（88 分以上）** — 分资源类型查询:
+**第一组：AI 分类内容（88 分以上）** — 分资源类型查询：
 
 ```bash
 # 2.1 AI 文章
@@ -105,7 +105,7 @@ curl -s -X POST https://api.bestblogs.dev/openapi/v1/resource/list \
   -d '{"currentPage":1,"pageSize":100,"timeFilter":"1w","sortType":"score_desc","category":"Artificial_Intelligence","type":"VIDEO","userLanguage":"zh_CN"}'
 ```
 
-**第二组: 全分类高分内容（90 分以上，前 100 条）** — 捕捉非 AI 分类的优质内容:
+**第二组：全分类高分内容（90 分以上，前 100 条）** — 捕捉非 AI 分类的优质内容：
 
 ```bash
 # 2.4 全分类高分文章
@@ -138,7 +138,7 @@ curl -s -X POST https://api.bestblogs.dev/openapi/v1/resource/list \
 
 ---
 
-## 阶段三: 深度分析候选内容
+## 阶段三：深度分析候选内容
 
 对阶段二筛选后的候选池（预计 80-150 条）进行深度分析。通过调用文章详情接口获取更丰富的信息，辅助后续的精选决策。
 
@@ -148,7 +148,7 @@ curl -s -X POST https://api.bestblogs.dev/openapi/v1/resource/list \
 
 ### 3.2 调用文章详情接口（分批并行）
 
-对进入深度分析的文章，调用 markdown 接口获取正文内容:
+对进入深度分析的文章，调用 markdown 接口获取正文内容：
 
 ```bash
 curl -s "https://api.bestblogs.dev/openapi/v1/resource/markdown?id={RESOURCE_ID}" \
@@ -162,27 +162,27 @@ curl -s "https://api.bestblogs.dev/openapi/v1/resource/markdown?id={RESOURCE_ID}
 对每篇内容从 3 个维度评分（结合 markdown 正文 + 列表接口元数据）:
 
 1. **内容质量** — 论证深度、信息密度、原创性、写作质量
-   - 优质信号: 有数据支撑、有代码示例、有独到见解、有实践经验
-   - 低质信号: 纯资讯搬运、内容空洞、标题党、过度营销
+   - 优质信号：有数据支撑、有代码示例、有独到见解、有实践经验
+   - 低质信号：纯资讯搬运、内容空洞、标题党、过度营销
 2. **信息重要性** — 对 AI 行业的影响程度
-   - 高: 头部厂商重大发布、突破性研究、行业政策变化
-   - 中: 工具更新、实践分享、趋势分析
-   - 低: 日常动态、边缘话题
+   - 高：头部厂商重大发布、突破性研究、行业政策变化
+   - 中：工具更新、实践分享、趋势分析
+   - 低：日常动态、边缘话题
 3. **读者相关性** — 与 BestBlogs 读者群（AI 从业者、开发者、产品经理）的匹配度
-   - 高: 可直接指导工作实践、影响技术决策
-   - 中: 值得了解的行业信息
-   - 低: 受众面窄、过于学术或过于通俗
+   - 高：可直接指导工作实践、影响技术决策
+   - 中：值得了解的行业信息
+   - 低：受众面窄、过于学术或过于通俗
 
 ### 3.4 标记来源权威性
 
-在评估过程中标记以下高权威来源:
+在评估过程中标记以下高权威来源：
 - **头部厂商官方**: OpenAI、Anthropic、Google/DeepMind、Meta、阿里巴巴/通义、腾讯、月之暗面/Kimi、智谱/GLM、Minimax、百度/文心、字节跳动/豆包
 - **业界领袖**: 检查 `authors` 字段，识别知名人物
 - **订阅源优先级**: 标注 `priority` 为 `HIGH` 或 `MEDIUM` 的来源
 
 ---
 
-## 阶段四: AI 筛选与推荐
+## 阶段四：AI 筛选与推荐
 
 基于阶段三的深度分析，从候选池中推荐 30-40 篇内容，按 `aiCategory` 分配到 4 个栏目。
 
@@ -203,13 +203,13 @@ curl -s "https://api.bestblogs.dev/openapi/v1/resource/markdown?id={RESOURCE_ID}
 
 ### 筛选标准
 
-按以下优先级排序候选内容:
+按以下优先级排序候选内容：
 
 1. **来源权威性（最高权重）**:
    - 优先选择来源于 `priority` 为 `HIGH` 和 `MEDIUM` 的订阅源
-   - 优先选择来自头部厂商的内容: OpenAI、Anthropic、Google/DeepMind、Meta、阿里巴巴/通义、腾讯、月之暗面/Kimi、智谱/GLM、Minimax、百度/文心、字节跳动/豆包
+   - 优先选择来自头部厂商的内容：OpenAI、Anthropic、Google/DeepMind、Meta、阿里巴巴/通义、腾讯、月之暗面/Kimi、智谱/GLM、Minimax、百度/文心、字节跳动/豆包
    - 优先选择业界领袖人物（如 Sam Altman、Dario Amodei、Andrej Karpathy 等）的内容
-2. **内容质量综合判断**: 综合以下指标评估，而非仅看单一维度:
+2. **内容质量综合判断**: 综合以下指标评估，而非仅看单一维度：
    - `score` 评分（高分优先）
    - `qualified` 是否精选（精选内容优先）
    - `readCount` 阅读量（高阅读量说明内容有吸引力）
@@ -250,7 +250,7 @@ curl -s "https://api.bestblogs.dev/openapi/v1/resource/markdown?id={RESOURCE_ID}
 - 为什么适合 BestBlogs 读者（相关性）
 - 内容质量亮点（深度、独特视角、实践指导等）
 
-**⚠️ 等待用户确认**: 展示候选清单后暂停，等待用户:
+**⚠️ 等待用户确认**: 展示候选清单后暂停，等待用户：
 - 从 30-40 篇中勾选最终 20 篇
 - 调整某篇的去留
 - 调整分类配额
@@ -258,7 +258,7 @@ curl -s "https://api.bestblogs.dev/openapi/v1/resource/markdown?id={RESOURCE_ID}
 
 ---
 
-## 阶段五: 生成周刊推荐语
+## 阶段五：生成周刊推荐语
 
 用户确认选文后，深度阅读入选文章原文，结合用户输入和往期风格，生成高质量的中英文标题和推荐语。
 
@@ -266,7 +266,7 @@ curl -s "https://api.bestblogs.dev/openapi/v1/resource/markdown?id={RESOURCE_ID}
 
 ### 5.1 获取入选文章原文
 
-对用户确认的 20 篇文章，获取 markdown 原文内容。阶段三可能已获取了部分文章的原文，只需补充未获取的:
+对用户确认的 20 篇文章，获取 markdown 原文内容。阶段三可能已获取了部分文章的原文，只需补充未获取的：
 
 ```bash
 curl -s "https://api.bestblogs.dev/openapi/v1/resource/markdown?id={RESOURCE_ID}" \
@@ -275,7 +275,7 @@ curl -s "https://api.bestblogs.dev/openapi/v1/resource/markdown?id={RESOURCE_ID}
 
 每批 5 个并行请求。markdown 返回 `null` 的文章，依赖列表接口的 `summary` 和 `mainPoints`。
 
-阅读每篇原文时重点关注:
+阅读每篇原文时重点关注：
 - 核心论点和关键数据
 - 独到见解或判断
 - 作者身份（区分实际作者与发布平台）
@@ -283,7 +283,7 @@ curl -s "https://api.bestblogs.dev/openapi/v1/resource/markdown?id={RESOURCE_ID}
 
 ### 5.2 提取主题候选 + 收集用户输入
 
-基于 20 篇文章的原文内容提炼主题候选，同时收集用户上下文。**合并为一次交互**，避免多轮追问:
+基于 20 篇文章的原文内容提炼主题候选，同时收集用户上下文。**合并为一次交互**，避免多轮追问：
 
 ```
 阅读完本期 20 篇文章后，我提炼了以下主题候选:
@@ -302,7 +302,7 @@ curl -s "https://api.bestblogs.dev/openapi/v1/resource/markdown?id={RESOURCE_ID}
 4. 本周有什么个人观察或思考想融入推荐语？
 ```
 
-主题提取思路:
+主题提取思路：
 - 跨多篇文章出现的共同模式
 - 本周最重磅文章的核心概念
 - 文章集体讲述的行业叙事
@@ -314,19 +314,19 @@ curl -s "https://api.bestblogs.dev/openapi/v1/resource/markdown?id={RESOURCE_ID}
 
 ### 5.3 生成中英文标题和推荐语
 
-参考阶段一获取的最近 3 期周刊的 `zhTitle`/`enTitle` 和 `zhSummary`/`enSummary`，学习:
-- 标题的命名模式（通常: "BestBlogs 周刊第 N 期: {关键词}"）
+参考阶段一获取的最近 3 期周刊的 `zhTitle`/`enTitle` 和 `zhSummary`/`enSummary`，学习：
+- 标题的命名模式（通常："BestBlogs 周刊第 N 期：{关键词}"）
 - 推荐语的叙事节奏（开篇引题 → 个人动态 → 10 个亮点 → 结尾）
 - 语言风格（口语化程度、句式习惯、数据引用方式）
 
 #### 标题格式
 
-- 中文: `BestBlogs 周刊第 N 期: {主题关键词}`
-- 英文: `BestBlogs Weekly Issue #N: {Theme Keyword}`
+- 中文：`BestBlogs 周刊第 N 期: {主题关键词}`
+- 英文：`BestBlogs Weekly Issue #N: {Theme Keyword}`
 
 #### 推荐语生成要求
 
-基于文章原文（而非仅摘要）撰写，确保信息准确、有深度:
+基于文章原文（而非仅摘要）撰写，确保信息准确、有深度：
 
 1. **开篇段落**（2-3 句）: 用主题关键词串联本周最重要的趋势，提出引发思考的问题
 2. **个人更新段落**: 融入用户提供的 BestBlogs 动态或个人实验（没有则跳过）
@@ -340,15 +340,15 @@ curl -s "https://api.bestblogs.dev/openapi/v1/resource/markdown?id={RESOURCE_ID}
 
 #### 语言质量要求
 
-- 中英文和数字之间加空格: `Claude Opus 4.5 发布`
+- 中英文和数字之间加空格：`Claude Opus 4.5 发布`
 - 减少不必要的引号、破折号和复杂句式
 - 中文版用全角标点，英文版语感地道不像翻译
-- 信息必须准确: 作者归属、数据引用、核心论点与原文一致
+- 信息必须准确：作者归属、数据引用、核心论点与原文一致
 - 加粗仅用于产品/模型名称
 
 ### 5.4 确定期数并输出
 
-从阶段一获取的最新一期 id（如 `issue55`）推算新期数: `issue56`。
+从阶段一获取的最新一期 id（如 `issue55`）推算新期数：`issue56`。
 
 #### 输出周刊草稿
 
@@ -386,7 +386,7 @@ curl -s "https://api.bestblogs.dev/openapi/v1/resource/markdown?id={RESOURCE_ID}
 
 ```json
 {
-  "zhTitle": "BestBlogs 周刊第 N 期: {关键词}",
+  "zhTitle": "BestBlogs 周刊第 N 期：{关键词}",
   "enTitle": "BestBlogs Weekly Issue #N: {Keyword}",
   "zhSummary": "中文推荐语全文",
   "enSummary": "English summary full text",
@@ -401,7 +401,7 @@ curl -s "https://api.bestblogs.dev/openapi/v1/resource/markdown?id={RESOURCE_ID}
 }
 ```
 
-`sort` 值规则: 按 MODELS → DEV → PRODUCT → NEWS 顺序，从 1 开始连续编号。
+`sort` 值规则：按 MODELS → DEV → PRODUCT → NEWS 顺序，从 1 开始连续编号。
 
 ---
 

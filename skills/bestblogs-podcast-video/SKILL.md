@@ -392,7 +392,7 @@ rm -rf ${REMOTION_DIR}/public/assets ${REMOTION_DIR}/public/podcast.mp3
 
 ### 5.1 生成 metadata.json
 
-上传和 RSS 更新需要的元数据文件，**必须在上传前创建**。包含: `date`, `title`, `description`, `duration`(秒), `durationFormatted`, `audioFile`(相对路径), `audioSize`(字节, `stat -f%z`), `keywords`, `items`(10 条的 rank+title+source)。
+上传和 RSS 更新需要的元数据文件，**必须在上传前创建**。包含：`date`, `title`, `description`, `duration`(秒), `durationFormatted`, `audioFile`(相对路径), `audioSize`(字节，`stat -f%z`), `keywords`, `items`(10 条的 rank+title+source)。
 
 ### 5.2 上传 R2
 

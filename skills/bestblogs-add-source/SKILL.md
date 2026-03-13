@@ -1,6 +1,6 @@
 ---
 name: bestblogs-add-source
-description: "添加 RSS 订阅源到 BestBlogs。适用场景: (1) 从文本中提取 RSS 链接并添加, (2) 解析 OPML 文件批量导入订阅源, (3) 添加单个或多个 RSS feed 到 BestBlogs, (4) 导入订阅源列表。触发短语: '添加订阅源', '导入订阅', '添加 RSS', 'add source', 'add RSS', 'import OPML', '导入 OPML', 'add feed', '添加 feed', '批量添加订阅', 'import feeds', '订阅源导入', 'add subscription', '新增订阅源', 'import subscription', '导入 RSS', 'import RSS'"
+description: "添加 RSS 订阅源到 BestBlogs。适用场景：(1) 从文本中提取 RSS 链接并添加，(2) 解析 OPML 文件批量导入订阅源，(3) 添加单个或多个 RSS feed 到 BestBlogs, (4) 导入订阅源列表。触发短语：'添加订阅源', '导入订阅', '添加 RSS', 'add source', 'add RSS', 'import OPML', '导入 OPML', 'add feed', '添加 feed', '批量添加订阅', 'import feeds', '订阅源导入', 'add subscription', '新增订阅源', 'import subscription', '导入 RSS', 'import RSS'"
 ---
 
 # BestBlogs 添加订阅源 (Add RSS Source)
@@ -11,7 +11,7 @@ description: "添加 RSS 订阅源到 BestBlogs。适用场景: (1) 从文本中
 
 ## 认证
 
-所有请求使用 Admin API 认证:
+所有请求使用 Admin API 认证：
 
 | 变量 | 用途 |
 |------|------|
@@ -26,7 +26,7 @@ description: "添加 RSS 订阅源到 BestBlogs。适用场景: (1) 从文本中
 
 若环境变量未设置，提示用户配置。
 
-接口地址: `https://api.bestblogs.dev`
+接口地址：`https://api.bestblogs.dev`
 
 ## 可用端点
 
@@ -113,7 +113,7 @@ curl -s -X POST "https://api.bestblogs.dev/api/admin/source/addRssUrl" \
 ```markdown
 ## 添加订阅源完成
 
-✅ 成功: M 个 | ❌ 失败: N 个 | 共计: T 个
+✅ 成功：M 个 | ❌ 失败：N 个 | 共计：T 个
 
 ### 成功列表
 | # | RSS URL | Source ID |

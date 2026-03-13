@@ -9,12 +9,24 @@ description: "深度阅读与批判性分析框架。通过 15+ 思维模型（S
 
 ## 内容获取
 
-当用户提供 URL 时，通过 Jina Reader 将网页转为 Markdown：
+### Daily Workspace 缓存集成
 
-1. 使用 WebFetch 工具访问 `https://r.jina.ai/{用户提供的完整URL}`
-   - 例如用户给出 `https://blog.example.com/article`，则 fetch `https://r.jina.ai/https://blog.example.com/article`
+获取文章内容前，优先检查 Daily Workspace 缓存（避免重复拉取）：
+
+1. **检查缓存**: 读取 `contents/daily-workspace/YYYY-MM-DD/article-details/` 目录，按 URL 或文章 ID 匹配
+   - 若命中且包含全文内容 → 直接使用缓存，跳过网络获取
+2. **未命中时获取**: 通过 Jina Reader 将网页转为 Markdown：
+   - 使用 WebFetch 工具访问 `https://r.jina.ai/{用户提供的完整URL}`
    - prompt 设为：`提取文章的完整内容，保留标题、正文、作者、日期等所有信息`
-2. 如果 Jina Reader 返回错误、内容为空或被拦截，直接用 WebFetch 访问原始 URL 兜底
+   - 如果 Jina Reader 返回错误、内容为空或被拦截，直接用 WebFetch 访问原始 URL 兜底
+3. **写入缓存**: 获取成功后，将全文内容保存到工作区缓存：
+   ```bash
+   mkdir -p contents/daily-workspace/YYYY-MM-DD/article-details
+   ```
+   保存为 `contents/daily-workspace/YYYY-MM-DD/article-details/{article-id}.md`，格式包含元数据 + 全文内容。
+4. **追加分析结果**: 分析完成后，将 AI 分析结果追加到同一缓存文件的 `## AI 分析` 部分，供 content-synthesizer 等下游 skill 直接引用。
+
+文件格式详见 `skills/daily-content-management/references/workspace-spec.md`。
 
 获取后立即进入分析流程，无需向用户确认。
 

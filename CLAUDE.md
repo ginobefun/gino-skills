@@ -209,52 +209,65 @@ description: "中文描述。适用场景：(1)... (2)... 触发短语：'中文
 
 ## Contents 目录规范
 
-Content OS 相关 skills 将数据持久化到项目根目录的 `contents/` 下，统一按日期组织：
+`contents/` 分两层：`tmp/` 存放临时中间数据（已 gitignore，可随时清理），其余为持久化产出（按 `<type>/YYYY-MM-DD/` 组织，需长期保存用于去重和回顾）。
 
 ```
 contents/
-  daily-workspace/             # 每日共享工作区（各 skill 中间数据枢纽）
+  # ─── 临时数据（gitignore，可随时清理）───
+  tmp/
+    workspace/                     # 每日共享工作区（原 daily-workspace）
+      YYYY-MM-DD/
+        raw-articles.md            # BestBlogs 原始文章列表
+        raw-tweets.md              # XGo 原始推文列表
+        article-details/           # 文章详情缓存
+        tweet-details/             # 推文详情缓存
+        topic-clusters.md          # 同主题聚合
+        plan.md                    # 选题计划
+        outputs/                   # 创作草稿
+    podcast-video/                 # 播客视频中间文件（脚本/音频片段/素材）
+      YYYY-MM-DD/
+        script.md / segments/ / assets/ / video-data.json
+    transcribe/                    # 视频转录中间文件
+      transcribe-{id}-{timestamp}.md
+
+  # ─── 持久化产出（按 <type>/YYYY-MM-DD/ 组织）───
+  bestblogs-digest/                # BestBlogs 每日日报
     YYYY-MM-DD/
-      raw-articles.md          # BestBlogs 原始文章列表（基础信息）
-      raw-tweets.md            # XGo 原始推文列表（基础信息）
-      article-details/         # 文章详情缓存（按需获取，skill 间共享）
-        {article-id}.md        # 单篇文章全文 + AI 分析
-      tweet-details/           # 推文详情缓存
-        {tweet-id}.md          # 推文完整内容 + 上下文
-      topic-clusters.md        # 同主题聚合结果
-      plan.md                  # 选题计划和执行状态
-      outputs/                 # 创作产出（多渠道版本）
-        {序号}-{slug}.md
-  daily-curation/              # daily-content-curator 输出
+      digest.txt / digest.html / poster.png
+  twitter-digest/                  # 推文每日日报
     YYYY-MM-DD/
-      curation.md              # 阅读清单（默认）
-      curation-am.md           # 早间版本（一天两次时）
-      curation-pm.md           # 晚间版本
-  reading-notes/               # reading-workflow 输出
+      digest.md / digest-full.md / digest.html / digest.png
+  daily-curation/                  # 每日阅读清单
     YYYY-MM-DD/
-      notes.md                 # 阅读笔记（含进度状态标记）
-      materials.md             # 创作素材清单（结构化，供 content-synthesizer 解析）
-  blog-posts/                  # content-synthesizer 输出
-    YYYY-MM-DD-{slug}.md       # 博客文章 Markdown
-  content-analytics/           # content-analytics 输出
-    weekly-YYYY-MM-DD.md       # 周报
-    monthly-YYYY-MM.md         # 月报
-  style-profile.md             # 个人写作风格画像（每周更新，各 skill 共享）
-  content-strategy.md          # 内容策略画像（analytics→curator 反馈闭环）
-  daily-digest/                # bestblogs-daily-digest 输出（已有）
+      curation.md / curation-am.md / curation-pm.md
+  reading-notes/                   # 阅读笔记
     YYYY-MM-DD/
-      digest.md
+      notes.md / materials.md
+  blog-posts/                      # 博客文章
+    YYYY-MM-DD/
+      {slug}.md
+  podcast-video/                   # 播客视频最终产出
+    YYYY-MM-DD/
+      podcast.mp3 / video.mp4 / metadata.json
+    podcast.xml                    # RSS Feed
+  content-analytics/               # 内容分析报告
+    weekly-YYYY-MM-DD.md / monthly-YYYY-MM.md
+
+  # ─── 共享引用文件（根级）───
+  style-profile.md                 # 写作风格画像（每周更新）
+  content-strategy.md              # 内容策略画像（analytics→curator 反馈闭环）
 ```
 
-**Daily Workspace 共享协议**: Content OS 相关 skills 通过 `daily-workspace/` 共享中间数据，避免重复 API 调用。详细格式规范见 `skills/daily-content-management/references/workspace-spec.md`。核心规则：
-- 获取内容详情前先查 `article-details/` 或 `tweet-details/` 缓存
+**Workspace 共享协议**: Content OS skills 通过 `tmp/workspace/` 共享中间数据，避免重复 API 调用。详细格式规范见 `skills/daily-content-management/references/workspace-spec.md`。核心规则：
+- 获取内容详情前先查 `tmp/workspace/YYYY-MM-DD/article-details/` 或 `tweet-details/` 缓存
 - 风格参考统一从 `contents/style-profile.md` 读取
 - 选题和创作状态通过 `plan.md` 追踪
 
 **命名约定**:
-- 目录按日期: `YYYY-MM-DD` 格式
+- 产出目录统一按 `<type>/YYYY-MM-DD/` 组织
 - 文件名小写，连字符分隔
 - 所有 skill 写入前先 `mkdir -p` 确保目录存在
+- `contents/tmp/` 已加入 `.gitignore`，不会提交到 Git
 
 ---
 

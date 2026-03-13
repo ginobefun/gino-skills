@@ -371,12 +371,12 @@ mkdir -p contents/daily-curation/YYYY-MM-DD
 同时将原始数据写入每日共享工作区，供下游 skills（daily-content-management、reading-workflow、content-synthesizer 等）直接复用，避免重复 API 调用：
 
 ```bash
-mkdir -p contents/daily-workspace/YYYY-MM-DD/article-details contents/daily-workspace/YYYY-MM-DD/tweet-details
+mkdir -p contents/tmp/workspace/YYYY-MM-DD/article-details contents/tmp/workspace/YYYY-MM-DD/tweet-details
 ```
 
 写入文件：
-- `contents/daily-workspace/YYYY-MM-DD/raw-articles.md` — BestBlogs 文章列表（基础信息：标题、URL、摘要、评分、来源、标签、readUrl）
-- `contents/daily-workspace/YYYY-MM-DD/raw-tweets.md` — XGo 推文列表（基础信息：内容、作者、互动数据、影响力分、URL）
+- `contents/tmp/workspace/YYYY-MM-DD/raw-articles.md` — BestBlogs 文章列表（基础信息：标题、URL、摘要、评分、来源、标签、readUrl）
+- `contents/tmp/workspace/YYYY-MM-DD/raw-tweets.md` — XGo 推文列表（基础信息：内容、作者、互动数据、影响力分、URL）
 
 **关键**: 只存列表级别的基础信息，不含文章全文。详情按需由下游 skill 获取后缓存到 `article-details/` 或 `tweet-details/`。
 

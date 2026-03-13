@@ -150,7 +150,7 @@ curl -s "https://api.bestblogs.dev/openapi/v1/resource/markdown?id={RESOURCE_ID}
 为视频准备**大量**图片素材。精讲项需要 5-8 张图用于 slides 切换（每 8-15 秒换一张），避免长时间停留在同一画面。
 
 ```bash
-mkdir -p contents/bestblogs-podcast-video/YYYY-MM-DD/assets
+mkdir -p contents/tmp/podcast-video/YYYY-MM-DD/assets
 ```
 
 **各类型配图来源**（按优先级逐级获取，尽量多收集）:
@@ -238,7 +238,7 @@ Minimalist tech illustration, flat design, muted color palette (ink blue #1a365d
 脚本保存到：
 
 ```bash
-contents/bestblogs-podcast-video/YYYY-MM-DD/script.md
+contents/tmp/podcast-video/YYYY-MM-DD/script.md
 ```
 
 ---
@@ -270,7 +270,7 @@ SKILL_DIR=$(readlink -f ~/.claude/skills/bestblogs-podcast-video 2>/dev/null)
 # 合成单个片段
 bun ${SKILL_DIR}/scripts/fish-tts.ts \
   --text "片段文本" \
-  --output contents/bestblogs-podcast-video/YYYY-MM-DD/segments/segment-00.mp3 \
+  --output contents/tmp/podcast-video/YYYY-MM-DD/segments/segment-00.mp3 \
   --voice-id "$FISH_AUDIO_VOICE_ID" \
   --rate 1.0
 ```
@@ -279,18 +279,18 @@ bun ${SKILL_DIR}/scripts/fish-tts.ts \
 
 ```bash
 bun ${SKILL_DIR}/scripts/fish-tts.ts \
-  --script contents/bestblogs-podcast-video/YYYY-MM-DD/script.md \
-  --output-dir contents/bestblogs-podcast-video/YYYY-MM-DD/segments/ \
+  --script contents/tmp/podcast-video/YYYY-MM-DD/script.md \
+  --output-dir contents/tmp/podcast-video/YYYY-MM-DD/segments/ \
   --voice-id "$FISH_AUDIO_VOICE_ID" \
   --rate 1.0 \
-  --merge contents/bestblogs-podcast-video/YYYY-MM-DD/podcast.mp3
+  --merge contents/podcast-video/YYYY-MM-DD/podcast.mp3
 ```
 
 脚本自动按 `<!-- SEGMENT: name -->` 标记分段合成，`--merge` 参数自动调用 FFmpeg 合并并归一化音量。
 
 **分段合成优势**: 避免超长文本质量下降，失败时可单段重试。
 
-输出：`contents/bestblogs-podcast-video/YYYY-MM-DD/podcast.mp3`
+输出：`contents/podcast-video/YYYY-MM-DD/podcast.mp3`
 
 ---
 
@@ -327,7 +327,7 @@ bun ${SKILL_DIR}/scripts/fish-tts.ts \
 - 无图片的 slide（problem/quote）用纯色背景 + 大字排版
 - slides 内容和顺序必须与音频播讲顺序一致
 
-保存到：`contents/bestblogs-podcast-video/YYYY-MM-DD/video-data.json`
+保存到：`contents/tmp/podcast-video/YYYY-MM-DD/video-data.json`
 
 ### 4.3 计算音频时间轴
 
@@ -338,7 +338,7 @@ bun ${SKILL_DIR}/scripts/fish-tts.ts \
 for seg in intro deep-1 deep-2 deep-3 quick quick-2 outro; do
   ffprobe -v quiet -show_entries format=duration \
     -of default=noprint_wrappers=1:nokey=1 \
-    contents/bestblogs-podcast-video/YYYY-MM-DD/segments/$seg.mp3
+    contents/tmp/podcast-video/YYYY-MM-DD/segments/$seg.mp3
 done
 ```
 
@@ -362,12 +362,13 @@ done
 SKILL_DIR=$(readlink -f ~/.claude/skills/bestblogs-podcast-video 2>/dev/null)
 PROJECT_DIR=$(pwd)
 REMOTION_DIR=${SKILL_DIR}/scripts/remotion
-CONTENT_DIR=${PROJECT_DIR}/contents/bestblogs-podcast-video/YYYY-MM-DD
+TMP_DIR=${PROJECT_DIR}/contents/tmp/podcast-video/YYYY-MM-DD
+CONTENT_DIR=${PROJECT_DIR}/contents/podcast-video/YYYY-MM-DD
 
 # 1. 复制素材到 Remotion public/（不能用 symlink，Remotion 会复制到临时目录）
 mkdir -p ${REMOTION_DIR}/public
 cp ${CONTENT_DIR}/podcast.mp3 ${REMOTION_DIR}/public/podcast.mp3
-cp -r ${CONTENT_DIR}/assets ${REMOTION_DIR}/public/assets
+cp -r ${TMP_DIR}/assets ${REMOTION_DIR}/public/assets
 
 # 2. 渲染视频
 cd ${REMOTION_DIR} && \
@@ -384,7 +385,7 @@ rm -rf ${REMOTION_DIR}/public/assets ${REMOTION_DIR}/public/podcast.mp3
 
 视觉设计详见 `references/video_design_guide.md`。
 
-输出：`contents/bestblogs-podcast-video/YYYY-MM-DD/video.mp4`
+输出：`contents/podcast-video/YYYY-MM-DD/video.mp4`
 
 ---
 
@@ -401,17 +402,17 @@ SKILL_DIR=$(readlink -f ~/.claude/skills/bestblogs-podcast-video 2>/dev/null)
 
 # 首次上传（位置参数: <local-file> <r2-key>）
 bun ${SKILL_DIR}/scripts/upload-r2.ts \
-  contents/bestblogs-podcast-video/YYYY-MM-DD/podcast.mp3 \
+  contents/podcast-video/YYYY-MM-DD/podcast.mp3 \
   "podcast/YYYY-MM-DD/podcast.mp3"
 
 # 重新生成后需要 --overwrite 覆盖已有文件
 bun ${SKILL_DIR}/scripts/upload-r2.ts --overwrite \
-  contents/bestblogs-podcast-video/YYYY-MM-DD/podcast.mp3 \
+  contents/podcast-video/YYYY-MM-DD/podcast.mp3 \
   "podcast/YYYY-MM-DD/podcast.mp3"
 
 # 上传视频（同理，重新生成加 --overwrite）
 bun ${SKILL_DIR}/scripts/upload-r2.ts \
-  contents/bestblogs-podcast-video/YYYY-MM-DD/video.mp4 \
+  contents/podcast-video/YYYY-MM-DD/video.mp4 \
   "podcast/YYYY-MM-DD/video.mp4"
 ```
 
@@ -419,14 +420,14 @@ bun ${SKILL_DIR}/scripts/upload-r2.ts \
 
 ```bash
 bun ${SKILL_DIR}/scripts/podcast-rss.ts \
-  --metadata contents/bestblogs-podcast-video/YYYY-MM-DD/metadata.json \
-  --feed contents/bestblogs-podcast-video/podcast.xml \
+  --metadata contents/podcast-video/YYYY-MM-DD/metadata.json \
+  --feed contents/podcast-video/podcast.xml \
   --base-url "$R2_PUBLIC_URL/podcast" \
   --upload
 ```
 
 `--upload` 参数会自动将更新后的 podcast.xml 上传到 R2。
-RSS Feed 保存在：`contents/bestblogs-podcast-video/podcast.xml`。
+RSS Feed 保存在：`contents/podcast-video/podcast.xml`。
 
 ### 5.3 ⛔ 平台分发（需用户确认）
 
@@ -439,16 +440,19 @@ RSS Feed 保存在：`contents/bestblogs-podcast-video/podcast.xml`。
 所有输出保存到项目根目录下：
 
 ```
-contents/bestblogs-podcast-video/
+contents/tmp/podcast-video/           # 临时中间文件（gitignore）
   YYYY-MM-DD/
-    script.md          # 播客脚本
-    podcast.mp3        # 播客音频
-    video.mp4          # 短视频
-    video-data.json    # 视频渲染数据
-    metadata.json      # 元数据（标题、描述、时长、URL）
-    assets/            # 图片素材
-    segments/          # TTS 音频片段（可清理）
-  podcast.xml          # RSS Feed（累积更新）
+    script.md                       # 播客脚本
+    segments/                       # TTS 音频片段
+    assets/                         # 图片素材
+    video-data.json                 # 视频渲染数据
+
+contents/podcast-video/              # 最终产出（持久化）
+  YYYY-MM-DD/
+    podcast.mp3                     # 播客音频
+    video.mp4                       # 短视频
+    metadata.json                   # 元数据
+  podcast.xml                       # RSS Feed（累积更新）
 ```
 
 完成后输出摘要（脚本/播客/视频路径 + 精讲 3 条标题 + 速览 7 条）。

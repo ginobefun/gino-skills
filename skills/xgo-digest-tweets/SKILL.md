@@ -35,15 +35,15 @@ description: "通过 XGo (xgo.ing) 开放接口生成每日推文简报。适用
   5.4 信息图 PNG（Top 10）
 ```
 
-**输出目录**: `contents/twitter-digest/`（项目根目录的相对路径）
+**输出目录**: `contents/twitter-digest/YYYY-MM-DD/`（项目根目录的相对路径，按日期子目录组织）
 
 **输出文件**:
 | 文件 | 内容 | 选取 |
 |------|------|------|
-| `digest-YYYY-MM-DD.md` | 可读简报，叙事式快速概览 | Top 20 |
-| `digest-YYYY-MM-DD-full.md` | 完整版，所有分类全部推文详细数据 | 全部 |
-| `digest-YYYY-MM-DD.html` | 杂志风 HTML，可浏览器打开/截图 | Top 20 |
-| `digest-YYYY-MM-DD.png` | 信息图，关键词 + 核心推文 | Top 10 |
+| `digest.md` | 可读简报，叙事式快速概览 | Top 20 |
+| `digest-full.md` | 完整版，所有分类全部推文详细数据 | 全部 |
+| `digest.html` | 杂志风 HTML，可浏览器打开/截图 | Top 20 |
+| `digest.png` | 信息图，关键词 + 核心推文 | Top 10 |
 
 **速率说明**: 5 请求/次，远低于 PLUS 200 次/分限制。
 
@@ -193,10 +193,10 @@ curl -s -X POST https://api.xgo.ing/openapi/v1/tweet/list \
 确保输出目录存在：
 
 ```bash
-mkdir -p contents/twitter-digest
+mkdir -p contents/twitter-digest/YYYY-MM-DD
 ```
 
-### 5.1 可读简报（digest-YYYY-MM-DD.md）
+### 5.1 可读简报（digest.md）
 
 这是给读者的主要阅读产物，像一篇短日报，用户应能在 2-3 分钟内读完并掌握当天最重要的推文动态。
 
@@ -226,7 +226,7 @@ mkdir -p contents/twitter-digest
 
 ---
 
-*数据来源：XGo | 关注者 X 条 + 推荐 Y 条 | [完整版](digest-YYYY-MM-DD-full.md)*
+*数据来源：XGo | 关注者 X 条 + 推荐 Y 条 | [完整版](digest-full.md)*
 ```
 
 **写作要点**:
@@ -236,7 +236,7 @@ mkdir -p contents/twitter-digest
 - 头条部分可以加入简短评论或背景补充
 - 重点是快速、清晰、不遗漏关键信息
 
-### 5.2 完整版（digest-YYYY-MM-DD-full.md）
+### 5.2 完整版（digest-full.md）
 
 保留详细输出格式，按分类组织全部推文数据。**生成前先为每个分类生成 1-2 句话的 AI 摘要**，概括该分类中的热点话题和关键信息（摘要应捕捉核心内容，不罗列每条推文）:
 
@@ -267,7 +267,7 @@ mkdir -p contents/twitter-digest
 - 分类按推文总数降序排列
 - 空分类不输出
 
-### 5.3 杂志风 HTML（digest-YYYY-MM-DD.html）
+### 5.3 杂志风 HTML（digest.html）
 
 生成一个自包含的 HTML 文件，可直接在浏览器中打开查看或截图分享。展示 Top 20 推文（Top 1-3 头条大卡片 + Top 4-20 紧凑列表）。
 
@@ -280,7 +280,7 @@ mkdir -p contents/twitter-digest
 - **内容**: 每条推文显示作者、一句话概括、影响力分数、关键互动指标、原文链接
 - **语言**: 标题、section label、页脚等界面文字使用中文，符合用户阅读习惯
 
-### 5.4 信息图（digest-YYYY-MM-DD.png）
+### 5.4 信息图（digest.png）
 
 使用 `image-gen` 技能生成一张信息图，展示 Top 10 推文的核心信息。
 
@@ -297,7 +297,7 @@ mkdir -p contents/twitter-digest
 SKILL_DIR=~/.claude/skills/image-gen
 bun run ${SKILL_DIR}/scripts/main.ts \
   --prompt "{根据 Top 10 内容生成的提示词}" \
-  --image contents/twitter-digest/digest-YYYY-MM-DD.png \
+  --image contents/twitter-digest/YYYY-MM-DD/digest.png \
   --provider google \
   --model gemini-3-pro-image-preview \
   --ar 9:16 \

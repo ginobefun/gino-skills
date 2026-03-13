@@ -7,7 +7,7 @@
 ## 一、目录结构
 
 ```
-contents/daily-workspace/
+contents/tmp/workspace/
   YYYY-MM-DD/
     ├── raw-articles.md          # BestBlogs 原始文章列表
     ├── raw-tweets.md            # XGo 原始推文列表

@@ -1,6 +1,6 @@
 # 信息图生成指南
 
-生成 `digest-YYYY-MM-DD.png` 时参考此文档构建 image-gen 提示词。
+生成 `digest.png` 时参考此文档构建 image-gen 提示词（存放于 `contents/twitter-digest/YYYY-MM-DD/digest.png`）。
 
 ## 设计理念
 
@@ -68,7 +68,7 @@ Critical requirements:
 SKILL_DIR=~/.claude/skills/image-gen
 bun run ${SKILL_DIR}/scripts/main.ts \
   --prompt "{填充后的提示词}" \
-  --image contents/twitter-digest/digest-YYYY-MM-DD.png \
+  --image contents/twitter-digest/YYYY-MM-DD/digest.png \
   --provider google \
   --model gemini-3-pro-image-preview \
   --ar 9:16 \

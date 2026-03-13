@@ -151,10 +151,11 @@ curl -s -X POST https://api.bestblogs.dev/api/admin/article/list \
 | 其他 (`MEDIUM`, `LOW`, `NONE`) | `think` |
 
 ```bash
-npx -y bun <TRANSCRIBE_SCRIPT> --thinking <level> -o ./contents/transcribe-<id>-<yyyyMMddHHmmss>.md <video-url>
+mkdir -p ./contents/tmp/transcribe && \
+npx -y bun <TRANSCRIBE_SCRIPT> --thinking <level> -o ./contents/tmp/transcribe/transcribe-<id>-<yyyyMMddHHmmss>.md <video-url>
 ```
 
-文件保存到当前工作目录的 `./contents/` 下，文件名：`transcribe-{id}-{yyyyMMddHHmmss}.md`。
+文件保存到当前工作目录的 `./contents/tmp/transcribe/` 下，文件名：`transcribe-{id}-{yyyyMMddHHmmss}.md`。
 
 > **注意**：`pro` 模式会调用 Gemini Pro（需时较长），若 Chrome AppleScript 超时（`ETIMEDOUT`），自动降级为 `think` 模式重试一次。两次均失败时记录错误并跳过。
 
@@ -223,8 +224,8 @@ curl -s -X POST "https://api.bestblogs.dev/api/admin/article/runAnalysisFlow?id=
 
 | # | ID | 标题 | 链接 | 转录 | 更新 | 分析 | 文件 |
 |---|-----|------|------|------|------|------|------|
-| 1 | RR_xxx | 标题 1 | [YouTube](https://www.youtube.com/watch?v=xxx) | ✅ 12345 字 | ✅ | ✅ | ./contents/transcribe-RR_xxx-20250305143022.md |
-| 2 | RR_yyy | 标题 2 | [YouTube](https://www.youtube.com/watch?v=yyy) | ✅ 8901 字 | ✅ | ✅ | ./contents/transcribe-RR_yyy-20250305143522.md |
+| 1 | RR_xxx | 标题 1 | [YouTube](https://www.youtube.com/watch?v=xxx) | ✅ 12345 字 | ✅ | ✅ | ./contents/tmp/transcribe/transcribe-RR_xxx-20250305143022.md |
+| 2 | RR_yyy | 标题 2 | [YouTube](https://www.youtube.com/watch?v=yyy) | ✅ 8901 字 | ✅ | ✅ | ./contents/tmp/transcribe/transcribe-RR_yyy-20250305143522.md |
 | 3 | RR_zzz | 标题 3 | [YouTube](https://www.youtube.com/watch?v=zzz) | ❌ 转录失败 | - | - | - |
 
 ### 统计

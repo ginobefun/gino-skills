@@ -1,0 +1,25 @@
+Create a modern, minimalist infographic poster for "Twitter Daily Digest 2026-03-13".
+
+Style: Clean editorial design with off-white/cream background (#FAF9F6), black and charcoal text, subtle geometric grid layout inspired by Monocle magazine and Kinfolk aesthetic.
+
+Structure:
+- Header: "TWITTER DIGEST" in bold sans-serif, date "2026-03-13" below, small "XGo" branding
+- Top 10 List: Numbered 1-10, each entry shows:
+  1. @om_patel5 - "stop spending money on Claude Code. 
+
+Chipotle's support bot..." (Score: 21224)
+  2. @claudeai - "1 million context window: Now generally available for Claude..." (Score: 2942)
+  3. @Polymarket - "BREAKING: New startup "RentAHuman" allows AI agents to rent ..." (Score: 6108)
+  4. @heynavtoor - "🚨SHOCKING: Anthropic published a paper admitting they train..." (Score: 1977)
+  5. @deadend_king - "This is next level petty I promise. I couldn't imagine havin..." (Score: 3818)
+  6. @nikitabier - "Happy Friday—In this week's creator payout, we have allocate..." (Score: 2496)
+  7. @Polymarket - "BREAKING: Eric Swalwell surges in the CA Governor’s race, no..." (Score: 2332)
+  8. @DearS_o_n - "What’s a “boring” skill that secretly gives a man huge advan..." (Score: 1974)
+  9. @travisk - "Atoms. 
+
+https://t.co/nbCnIkI3RD..." (Score: 1969)
+  10. @Polymarket - "BREAKING: Democrats now projected to seize control of both c..." (Score: 1866)
+
+- Footer: Keywords tags [Claude, AI, Anthropic, Coding, Agent]
+
+Design notes: Use a clear visual hierarchy with the top 3 headlines emphasized. Include subtle noise texture for paper-like quality. 9:16 vertical aspect ratio suitable for mobile viewing.

@@ -163,24 +163,43 @@ curl -s -X POST https://api.bestblogs.dev/api/admin/article/list \
 | `publishDate` | string | 发布时间（ISO 8601） |
 | `publishDateStr` | string | 发布时间描述 |
 
-### 主领域枚举值
+### 一级分类枚举值（domain）
 
-| 值 | 描述 |
-|---|------|
-| `Artificial_Intelligence` | 人工智能 |
-| `Programming_Technology` | 软件编程 |
-| `Business_Tech` | 商业科技 |
-| `Product_Design` | 产品设计 |
+| 值 | 描述 | 类型 |
+|---|------|------|
+| `Artificial_Intelligence` | 人工智能 | 核心 |
+| `Programming_Technology` | 软件编程 | 核心 |
+| `Product_Development` | 产品设计 | 核心 |
+| `Business_Tech` | 商业科技 | 核心 |
+| `Productivity_Growth` | 个人成长 | 核心 |
+| `Finance_Economy` | 投资财经 | 通用 |
+| `News_Media` | 媒体资讯 | 通用 |
+| `Lifestyle_Culture` | 生活文化 | 通用 |
 
-### AI 子分类枚举值
+### 二级分类枚举值（subCategory）
 
-| 值 | 描述 |
-|---|------|
-| `MODELS` | AI 模型 |
-| `DEV` | AI 开发 |
-| `PRODUCT` | AI 产品 |
-| `NEWS` | AI 资讯 |
-| `OTHERS` | 其他 |
+| 一级 | 值 | 描述 |
+|------|---|------|
+| AI | `MODELS` | AI 模型与研究 |
+| AI | `AI_CODING` | AI 编程 |
+| AI | `DEV` | AI 应用开发 |
+| AI | `PRODUCT` | AI 产品与工具 |
+| AI | `NEWS` | AI 行业动态 |
+| SE | `SE_FRONTEND` | 前端开发 |
+| SE | `SE_BACKEND` | 后端与架构 |
+| SE | `SE_DEVOPS` | DevOps 与云 |
+| SE | `SE_TOOLS` | 开源与工具 |
+| SE | `SE_PRACTICE` | 工程实践 |
+| PD | `PD_PM` | 产品管理 |
+| PD | `PD_DESIGN` | UX/UI 设计 |
+| PD | `PD_CREATIVE` | 创意与视觉 |
+| BT | `BT_STARTUP` | 创业与投资 |
+| BT | `BT_NEWS` | 科技资讯 |
+| BT | `BT_INSIGHT` | 商业洞察 |
+| BT | `BT_PEOPLE` | 人物与访谈 |
+| PG | `PG_TOOLS` | 效率工具 |
+| PG | `PG_CAREER` | 职业发展 |
+| PG | `PG_LEARNING` | 思维与学习 |
 
 ---
 
@@ -263,32 +282,51 @@ POST /api/admin/article/saveAnalysisResult?id={id}
 | `oneSentenceSummary` | string | body | 是 | 一句话核心总结，与原文同语言 |
 | `summary` | string | body | 是 | 核心内容概要 200-400 字，与原文同语言 |
 | `content` | string | body | 否 | 正文 Markdown，**分析阶段不传**，仅翻译阶段使用 |
-| `domain` | string | body | 是 | 领域代码（见下方枚举表） |
-| `aiSubcategory` | string | body | 否 | AI 子分类代码（仅 `Artificial_Intelligence` 时填写） |
+| `domain` | string | body | 是 | 一级分类代码（见下方枚举表） |
+| `aiSubcategory` | string | body | 否 | 二级分类代码（核心分类必填，通用分类留空） |
 | `tags` | string[] | body | 是 | 结构化标签 3-8 个，与原文同语言 |
 | `mainPoints` | object[] | body | 是 | 主要观点 3-5 条，每项含 `point` 和 `explanation`，与原文同语言 |
 | `keyQuotes` | string[] | body | 是 | 代表性金句 3-5 句，必须逐字引用原文 |
 | `score` | int | body | 是 | 综合评分，0-100 整数 |
 | `remark` | string | body | 否 | 评分依据和推荐等级，**始终用中文** |
 
-### 领域枚举值（domain）
+### 一级分类枚举值（domain）
 
-| 领域 | 枚举值 |
-|------|--------|
-| 人工智能 | `Artificial_Intelligence` |
-| 软件编程 | `Programming_Technology` |
-| 产品设计 | `Product_Design` |
-| 商业科技（含个人成长/效率） | `Business_Tech` |
+| 领域 | 枚举值 | 类型 |
+|------|--------|------|
+| 人工智能 | `Artificial_Intelligence` | 核心 |
+| 软件编程 | `Programming_Technology` | 核心 |
+| 产品设计 | `Product_Development` | 核心 |
+| 商业科技 | `Business_Tech` | 核心 |
+| 个人成长 | `Productivity_Growth` | 核心 |
+| 投资财经 | `Finance_Economy` | 通用 |
+| 媒体资讯 | `News_Media` | 通用 |
+| 生活文化 | `Lifestyle_Culture` | 通用 |
 
-### AI 子分类枚举值（aiSubcategory）
+### 二级分类枚举值（subCategory）
 
-| 子分类 | 枚举值 |
-|--------|--------|
-| AI 模型 | `MODELS` |
-| AI 开发 | `DEV` |
-| AI 产品 | `PRODUCT` |
-| AI 资讯 | `NEWS` |
-| 其他 | `OTHERS` |
+| 一级分类 | 二级分类 | 枚举值 |
+|---------|---------|--------|
+| 人工智能 | AI 模型与研究 | `MODELS` |
+| 人工智能 | AI 编程 | `AI_CODING` |
+| 人工智能 | AI 应用开发 | `DEV` |
+| 人工智能 | AI 产品与工具 | `PRODUCT` |
+| 人工智能 | AI 行业动态 | `NEWS` |
+| 软件编程 | 前端开发 | `SE_FRONTEND` |
+| 软件编程 | 后端与架构 | `SE_BACKEND` |
+| 软件编程 | DevOps 与云 | `SE_DEVOPS` |
+| 软件编程 | 开源与工具 | `SE_TOOLS` |
+| 软件编程 | 工程实践 | `SE_PRACTICE` |
+| 产品设计 | 产品管理 | `PD_PM` |
+| 产品设计 | UX/UI 设计 | `PD_DESIGN` |
+| 产品设计 | 创意与视觉 | `PD_CREATIVE` |
+| 商业科技 | 创业与投资 | `BT_STARTUP` |
+| 商业科技 | 科技资讯 | `BT_NEWS` |
+| 商业科技 | 商业洞察 | `BT_INSIGHT` |
+| 商业科技 | 人物与访谈 | `BT_PEOPLE` |
+| 个人成长 | 效率工具 | `PG_TOOLS` |
+| 个人成长 | 职业发展 | `PG_CAREER` |
+| 个人成长 | 思维与学习 | `PG_LEARNING` |
 
 ### curl 示例
 

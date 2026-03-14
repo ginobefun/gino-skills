@@ -114,12 +114,25 @@
 
 ## 领域分类
 
-| 领域 | 子分类/方向 |
-|------|------------|
-| **软件编程** | 编程语言、软件架构、开发工具、开源技术、软件工程、云服务 |
-| **人工智能** | AI 模型（模型/论文/训练/评测）、AI 开发（RAG/Agent/提示词/AI Coding）、AI 产品（产品/设计/评测）、AI 资讯（动态/新闻/访谈） |
-| **产品设计** | 产品策略、用户体验、产品运营、方法论 |
-| **商业科技** | 技术创业、商业模式、个人成长、领导力、个人效率（个人成长与效率相关内容归入此类，后续会独立分类） |
+### 8 个一级分类
+
+| 领域 | 类型 | 子分类/方向 |
+|------|------|------------|
+| **人工智能** | 核心 | AI 模型与研究（MODELS）、AI 编程（AI_CODING）、AI 应用开发（DEV）、AI 产品与工具（PRODUCT）、AI 行业动态（NEWS） |
+| **软件编程** | 核心 | 前端开发（SE_FRONTEND）、后端与架构（SE_BACKEND）、DevOps 与云（SE_DEVOPS）、开源与工具（SE_TOOLS）、工程实践（SE_PRACTICE） |
+| **产品设计** | 核心 | 产品管理（PD_PM）、UX/UI 设计（PD_DESIGN）、创意与视觉（PD_CREATIVE） |
+| **商业科技** | 核心 | 创业与投资（BT_STARTUP）、科技资讯（BT_NEWS）、商业洞察（BT_INSIGHT）、人物与访谈（BT_PEOPLE） |
+| **个人成长** | 核心 | 效率工具（PG_TOOLS）、职业发展（PG_CAREER）、思维与学习（PG_LEARNING） |
+| **投资财经** | 通用 | 投资理财、宏观经济、金融科技、财经新闻（暂无二级） |
+| **媒体资讯** | 通用 | 综合新闻、时事评论、深度报道、信息简报（暂无二级） |
+| **生活文化** | 通用 | 健康运动、人文社科、文化艺术、生活方式（暂无二级） |
+
+### 分类判断关键边界
+
+- **AI_CODING vs SE_***：AI 工具的使用方法/评测/技巧 → AI_CODING；工程实践本身只是恰好用了 AI → SE_*
+- **AI_DEV vs AI_CODING**：构建 AI 应用（RAG/Agent/MCP）→ DEV；用 AI 辅助写代码 → AI_CODING
+- **BT vs Productivity_Growth**：组织级管理/商业思考 → BT_INSIGHT；个人成长/效率/职业 → PG_*
+- **核心 vs 通用**：优先匹配 5 个核心分类；纯金融 → Finance_Economy；非科技综合新闻 → News_Media；健康/文化/人文 → Lifestyle_Culture
 
 ---
 
@@ -150,8 +163,8 @@
   "title": "可选：仅当标题含网站名称等冗余信息时填写清理后版本，否则省略此字段",
   "oneSentenceSummary": "一句话核心总结（100 字内，与原文同语言）",
   "summary": "核心内容概要（200-400 字，与原文同语言）",
-  "domain": "领域代码：Artificial_Intelligence / Programming_Technology / Product_Design / Business_Tech",
-  "aiSubcategory": "AI 子分类代码（仅 Artificial_Intelligence 时填写）：MODELS / DEV / PRODUCT / NEWS / OTHERS；其余填空字符串",
+  "domain": "一级分类代码：Artificial_Intelligence / Programming_Technology / Product_Development / Business_Tech / Productivity_Growth / Finance_Economy / News_Media / Lifestyle_Culture",
+  "aiSubcategory": "二级分类代码（核心分类必填，通用分类留空）",
   "tags": ["与原文同语言的标签（3-8 个）"],
   "mainPoints": [{"point": "主要观点（通常 3-5 条，与原文同语言）", "explanation": "观点解释（与原文同语言）"}],
   "keyQuotes": ["原文金句，逐字引用（通常 3-5 句）"],
@@ -169,7 +182,7 @@
 3. 编译转述类、营销导向类文章严格按减分标准执行，且编译转述类上限 89 分
 4. 确保评分与文章质量相符，宁可偏低避免通胀
 5. 规范使用标点符号，确保信息完整性
-6. `domain` 非 `Artificial_Intelligence` 时，`aiSubcategory` 填空字符串
+6. 5 个核心分类（AI/SE/PD/BT/PG）必须填写 `aiSubcategory`；3 个通用分类（Finance_Economy/News_Media/Lifestyle_Culture）`aiSubcategory` 填空字符串
 
 ---
 
@@ -182,7 +195,7 @@
   "oneSentenceSummary": "This article outlines a disciplined, AI-assisted engineering workflow for developers, emphasizing planning, iterative development, context provision, model selection, human oversight, and version control best practices.",
   "summary": "The article presents a comprehensive AI-assisted coding workflow for developers, emphasizing that while AI coding assistants are transformative, effectively harnessing them requires skill and structure. It advocates for treating LLMs as junior pair programmers needing guidance and oversight. The author's workflow, honed over a year, focuses on robust planning (specs before code), breaking work into small, iterative chunks, providing extensive context to LLMs, and choosing the right models for specific tasks.",
   "domain": "Artificial_Intelligence",
-  "aiSubcategory": "DEV",
+  "aiSubcategory": "AI_CODING",
   "tags": ["LLM", "Coding Workflow", "Software Engineering", "AI Assistants", "Prompt Engineering", "Version Control", "Best Practices"],
   "mainPoints": [
     {"point": "Start with a clear plan and detailed specifications before generating any code.", "explanation": "Engage the AI to collaboratively brainstorm requirements, edge cases, and a step-by-step project plan, enabling structured development and preventing wasted effort from vague prompts."},
@@ -206,7 +219,7 @@
   "oneSentenceSummary": "本文汇总了 Hacker News 过去 24 小时内的热门话题，涵盖 GLM-4.7 模型、PostgreSQL 18 瞬时克隆、恶意 npm 包、Nagle 算法优化等多领域技术与社会热点。",
   "summary": "文章精选了 Hacker News 上近期备受关注的十大热点话题。内容涵盖 Jay Alammar 对 Transformer 模型核心机制的图解分析；关于在分布式系统中禁用 Nagle 算法以降低延迟的专业探讨；GLM-4.7 新型大模型在编码和多模态生成方面的显著进展；PostgreSQL 18 通过文件系统级克隆实现瞬时数据库副本；恶意 npm 包「lotusbail」窃取 WhatsApp 消息的供应链攻击案例。这些内容反映了当前技术界和社会领域的多样化关注点。",
   "domain": "Programming_Technology",
-  "aiSubcategory": "",
+  "aiSubcategory": "SE_PRACTICE",
   "tags": ["Hacker News", "技术热点", "数据库技术", "软件安全", "网络协议", "供应链安全"],
   "mainPoints": [
     {"point": "Hacker News 热点内容涵盖广泛，反映了技术与社会前沿的多元关注。", "explanation": "从深度技术探讨（AI 模型、网络协议、数据库）到社会政治议题（政府决策、隐私安全），展示了 HN 社区对前沿技术和全球事件的综合兴趣。"},

@@ -187,8 +187,8 @@ curl -s "https://api.bestblogs.dev/openapi/v1/resource/markdown?id=RAW_xxx" \
   "title": "可选：仅在标题含网站名称等冗余信息时填写清理后的标题，否则省略",
   "oneSentenceSummary": "一句话核心总结，与原文同语言",
   "summary": "核心内容概要（200-400 字），与原文同语言",
-  "domain": "领域代码，如 Artificial_Intelligence / Programming_Technology / Product_Design / Business_Tech",
-  "aiSubcategory": "AI 子分类代码（仅 Artificial_Intelligence 时填写：MODELS/DEV/PRODUCT/NEWS/OTHERS，其余留空）",
+  "domain": "一级分类代码：Artificial_Intelligence / Programming_Technology / Product_Development / Business_Tech / Productivity_Growth / Finance_Economy / News_Media / Lifestyle_Culture",
+  "aiSubcategory": "二级分类代码（核心分类必填，通用分类留空）：AI→MODELS/AI_CODING/DEV/PRODUCT/NEWS；SE→SE_FRONTEND/SE_BACKEND/SE_DEVOPS/SE_TOOLS/SE_PRACTICE；PD→PD_PM/PD_DESIGN/PD_CREATIVE；BT→BT_STARTUP/BT_NEWS/BT_INSIGHT/BT_PEOPLE；PG→PG_TOOLS/PG_CAREER/PG_LEARNING",
   "tags": ["与原文同语言的标签（3-8 个）"],
   "mainPoints": [{"point": "主要观点（3-5 条，与原文同语言）", "explanation": "观点解释（与原文同语言）"}],
   "keyQuotes": ["原文金句，必须逐字引用原文（3-5 句）"],
@@ -201,24 +201,49 @@ curl -s "https://api.bestblogs.dev/openapi/v1/resource/markdown?id=RAW_xxx" \
 
 **端点**：`POST /api/admin/article/saveAnalysisResult?id={id}`，id 为 query 参数。
 
-**领域枚举值**（`domain` 字段）：
+**一级分类枚举值**（`domain` 字段）：
 
-| 领域 | 枚举值 |
-|------|--------|
-| 人工智能 | `Artificial_Intelligence` |
-| 软件编程 | `Programming_Technology` |
-| 产品设计 | `Product_Design` |
-| 商业科技（含个人成长/效率） | `Business_Tech` |
+| 领域 | 枚举值 | 类型 |
+|------|--------|------|
+| 人工智能 | `Artificial_Intelligence` | 核心 |
+| 软件编程 | `Programming_Technology` | 核心 |
+| 产品设计 | `Product_Development` | 核心 |
+| 商业科技 | `Business_Tech` | 核心 |
+| 个人成长 | `Productivity_Growth` | 核心 |
+| 投资财经 | `Finance_Economy` | 通用 |
+| 媒体资讯 | `News_Media` | 通用 |
+| 生活文化 | `Lifestyle_Culture` | 通用 |
 
-**AI 子分类枚举值**（`aiSubcategory` 字段，仅 domain 为 `Artificial_Intelligence` 时填写）：
+**二级分类枚举值**（`aiSubcategory` 字段，5 个核心分类必填，3 个通用分类留空）：
 
-| 子分类 | 枚举值 |
-|--------|--------|
-| AI 模型 | `MODELS` |
-| AI 开发 | `DEV` |
-| AI 产品 | `PRODUCT` |
-| AI 资讯 | `NEWS` |
-| 其他 | `OTHERS` |
+| 一级分类 | 二级分类 | 枚举值 |
+|---------|---------|--------|
+| 人工智能 | AI 模型与研究 | `MODELS` |
+| 人工智能 | AI 编程 | `AI_CODING` |
+| 人工智能 | AI 应用开发 | `DEV` |
+| 人工智能 | AI 产品与工具 | `PRODUCT` |
+| 人工智能 | AI 行业动态 | `NEWS` |
+| 软件编程 | 前端开发 | `SE_FRONTEND` |
+| 软件编程 | 后端与架构 | `SE_BACKEND` |
+| 软件编程 | DevOps 与云 | `SE_DEVOPS` |
+| 软件编程 | 开源与工具 | `SE_TOOLS` |
+| 软件编程 | 工程实践 | `SE_PRACTICE` |
+| 产品设计 | 产品管理 | `PD_PM` |
+| 产品设计 | UX/UI 设计 | `PD_DESIGN` |
+| 产品设计 | 创意与视觉 | `PD_CREATIVE` |
+| 商业科技 | 创业与投资 | `BT_STARTUP` |
+| 商业科技 | 科技资讯 | `BT_NEWS` |
+| 商业科技 | 商业洞察 | `BT_INSIGHT` |
+| 商业科技 | 人物与访谈 | `BT_PEOPLE` |
+| 个人成长 | 效率工具 | `PG_TOOLS` |
+| 个人成长 | 职业发展 | `PG_CAREER` |
+| 个人成长 | 思维与学习 | `PG_LEARNING` |
+
+**分类判断关键边界**：
+- **AI_CODING vs SE_***：AI 工具的使用方法/评测/技巧 → AI_CODING；工程实践本身只是恰好用了 AI → SE_*
+- **AI_DEV vs AI_CODING**：构建 AI 应用（RAG/Agent）→ DEV；用 AI 辅助写代码 → AI_CODING
+- **BT vs Productivity_Growth**：组织级管理/商业思考 → BT_INSIGHT；个人成长/效率 → PG_*
+- **核心 vs 通用**：优先匹配 5 个核心分类；不匹配时归入 3 个通用分类
 
 ```bash
 curl -s -X POST "https://api.bestblogs.dev/api/admin/article/saveAnalysisResult?id=RAW_xxx" \

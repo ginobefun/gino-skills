@@ -1,0 +1,636 @@
+[{
+  "_id": {
+    "$oid": "68b43cca126abf2947fe7105"
+  },
+  "code": "Programming_Technology",
+  "nameEn": "Programming",
+  "nameZh": "软件编程",
+  "alias": "programming",
+  "categoryType": "PRIMARY",
+  "sortOrder": 1,
+  "enabled": true,
+  "description": "涵盖前端开发（Web/移动端）、后端系统设计与架构、DevOps 与云基础设施、开发者工具与开源生态，以及大厂工程实践与团队文化。关注的是\"如何构建和维护高质量软件系统\"，区别于 AI 分类中\"如何用 AI 构建应用\"。",
+  "iconUrl": "",
+  "color": "",
+  "createdTime": {
+    "$date": "2025-08-31T12:15:06.299Z"
+  },
+  "updatedTime": {
+    "$date": "2026-03-14T07:03:28.327Z"
+  },
+  "_class": "dev.bestblogs.entity.CategoryEntity"
+},
+{
+  "_id": {
+    "$oid": "68b43cca126abf2947fe7106"
+  },
+  "code": "Artificial_Intelligence",
+  "nameEn": "Artificial Intelligence",
+  "nameZh": "人工智能",
+  "alias": "ai",
+  "categoryType": "PRIMARY",
+  "sortOrder": 2,
+  "enabled": true,
+  "description": "涵盖 AI/ML 领域的模型研究与发布、AI 辅助编程与代码生成、AI 应用开发框架与实践、面向终端用户的 AI 产品与工具，以及 AI 行业的投融资、政策、趋势等动态信息。",
+  "iconUrl": "",
+  "color": "",
+  "createdTime": {
+    "$date": "2025-08-31T12:15:06.434Z"
+  },
+  "updatedTime": {
+    "$date": "2026-03-14T07:02:58.285Z"
+  },
+  "_class": "dev.bestblogs.entity.CategoryEntity"
+},
+{
+  "_id": {
+    "$oid": "68b43cca126abf2947fe7107"
+  },
+  "code": "Product_Development",
+  "nameEn": "Product & Design",
+  "nameZh": "产品设计",
+  "alias": "product",
+  "categoryType": "PRIMARY",
+  "sortOrder": 3,
+  "enabled": true,
+  "description": "涵盖产品管理方法论（策略/增长/数据驱动）、UX/UI 设计（交互/体验/设计系统）、以及视觉与创意设计（品牌/Web 设计/设计工具）。",
+  "iconUrl": "",
+  "color": "",
+  "createdTime": {
+    "$date": "2025-08-31T12:15:06.440Z"
+  },
+  "updatedTime": {
+    "$date": "2026-03-14T07:03:56.791Z"
+  },
+  "_class": "dev.bestblogs.entity.CategoryEntity"
+},
+{
+  "_id": {
+    "$oid": "68b43cca126abf2947fe7108"
+  },
+  "code": "Business_Tech",
+  "nameEn": "Business & Tech",
+  "nameZh": "商业科技",
+  "alias": "business",
+  "categoryType": "PRIMARY",
+  "sortOrder": 4,
+  "enabled": true,
+  "description": "涵盖创业故事与 VC 生态、科技行业新闻与公司动态、商业分析与管理思考，以及科技人物的深度报道与访谈。关注的是\"科技如何改变商业\"和\"科技行业的商业逻辑\"。",
+  "iconUrl": "",
+  "color": "",
+  "createdTime": {
+    "$date": "2025-08-31T12:15:06.450Z"
+  },
+  "updatedTime": {
+    "$date": "2026-03-14T07:04:12.282Z"
+  },
+  "_class": "dev.bestblogs.entity.CategoryEntity"
+},
+{
+  "_id": {
+    "$oid": "68b43cca126abf2947fe7109"
+  },
+  "code": "MODELS",
+  "nameEn": "AI Models",
+  "nameZh": "AI 模型",
+  "alias": "models",
+  "categoryType": "SUB",
+  "parentCode": "Artificial_Intelligence",
+  "sortOrder": 1,
+  "enabled": true,
+  "description": "覆盖 AI/ML 领域的基础研究与模型技术。包括大语言模型的发布与评测、学术论文解读与综述、模型训练/微调/推理优化技术、Benchmark 评测与排行、AI 安全与对齐研究、多模态模型（视觉/语音/视频）、以及 AI 基础理论（Transformer 架构、注意力机制、Scaling Law 等）。",
+  "iconUrl": "",
+  "color": "",
+  "createdTime": {
+    "$date": "2025-08-31T12:15:06.458Z"
+  },
+  "updatedTime": {
+    "$date": "2026-03-14T06:38:52.519Z"
+  },
+  "_class": "dev.bestblogs.entity.CategoryEntity"
+},
+{
+  "_id": {
+    "$oid": "68b43cca126abf2947fe710a"
+  },
+  "code": "DEV",
+  "nameEn": "AI Development",
+  "nameZh": "AI 开发",
+  "alias": "development",
+  "categoryType": "SUB",
+  "parentCode": "Artificial_Intelligence",
+  "sortOrder": 3,
+  "enabled": true,
+  "description": "覆盖将 AI 能力集成到应用中的开发技术与实践。包括 RAG 架构与实现、AI Agent 框架与编排、LLMOps 与模型部署运维、向量数据库与嵌入技术、MCP 与工具调用、开发框架（LangChain/LlamaIndex/Dify/CrewAI）、以及上下文工程和提示词工程等。",
+  "iconUrl": "",
+  "color": "",
+  "createdTime": {
+    "$date": "2025-08-31T12:15:06.468Z"
+  },
+  "updatedTime": {
+    "$date": "2026-03-14T06:45:00.626Z"
+  },
+  "_class": "dev.bestblogs.entity.CategoryEntity"
+},
+{
+  "_id": {
+    "$oid": "68b43cca126abf2947fe710b"
+  },
+  "code": "PRODUCT",
+  "nameEn": "AI 产品",
+  "nameZh": "AI 产品",
+  "alias": "products",
+  "categoryType": "SUB",
+  "parentCode": "Artificial_Intelligence",
+  "sortOrder": 4,
+  "enabled": true,
+  "description": "覆盖面向终端用户的 AI 产品与工具。包括通用 AI 助手（ChatGPT、Claude、Gemini、Kimi）、AI 搜索引擎（Perplexity）、AI 图像/视频生成（Midjourney、DALL-E、Sora、Kling）、AI 笔记与知识管理（NotebookLM、Notion AI）、以及各类垂直领域 AI 产品的评测与使用指南。",
+  "iconUrl": "",
+  "color": "",
+  "createdTime": {
+    "$date": "2025-08-31T12:15:06.484Z"
+  },
+  "updatedTime": {
+    "$date": "2026-03-14T06:43:54.586Z"
+  },
+  "_class": "dev.bestblogs.entity.CategoryEntity"
+},
+{
+  "_id": {
+    "$oid": "68b43cca126abf2947fe710c"
+  },
+  "code": "NEWS",
+  "nameEn": "AI News",
+  "nameZh": "AI 资讯",
+  "alias": "news",
+  "categoryType": "SUB",
+  "parentCode": "Artificial_Intelligence",
+  "sortOrder": 5,
+  "enabled": true,
+  "description": "覆盖 AI 行业的商业、政策与生态信息。包括 AI 公司的融资与上市动态、AI 政策法规（监管/开源协议/版权争议）、AI 行业趋势分析与预测、行业观点与评论文章、以及 AI 领域的周报/日报型资讯汇总。",
+  "iconUrl": "",
+  "color": "",
+  "createdTime": {
+    "$date": "2025-08-31T12:15:06.496Z"
+  },
+  "updatedTime": {
+    "$date": "2026-03-14T06:44:46.949Z"
+  },
+  "_class": "dev.bestblogs.entity.CategoryEntity"
+},
+{
+  "_id": {
+    "$oid": "69b5013ae4da881620b7eaa6"
+  },
+  "code": "Productivity_Growth",
+  "nameEn": "Productivity & Growth",
+  "nameZh": "个人成长",
+  "alias": "growth",
+  "categoryType": "PRIMARY",
+  "sortOrder": 5,
+  "enabled": true,
+  "description": "涵盖生产力工具与工作流优化、工程师职业发展路径与团队管理、认知科学与学习方法论。",
+  "iconUrl": "",
+  "color": "",
+  "createdTime": {
+    "$date": "2026-03-14T06:33:30.026Z"
+  },
+  "updatedTime": {
+    "$date": "2026-03-14T07:04:35.168Z"
+  },
+  "_class": "dev.bestblogs.entity.CategoryEntity"
+},
+{
+  "_id": {
+    "$oid": "69b50192e4da881620b7eaa7"
+  },
+  "code": "News_Media",
+  "nameEn": "News & Media",
+  "nameZh": "媒体资讯",
+  "alias": "new",
+  "categoryType": "PRIMARY",
+  "sortOrder": 6,
+  "enabled": true,
+  "description": "涵盖综合新闻与时事报道（国际/国内/社会新闻）、深度调查与特稿、时事评论与观点文章、播客/视频等媒体内容、以及新闻聚合与信息简报。面向关注时事、希望获取多元信息的广泛用户群体。不限于科技领域，可涵盖政治、社会、文化等广义新闻。",
+  "iconUrl": "",
+  "color": "",
+  "createdTime": {
+    "$date": "2026-03-14T06:34:58.957Z"
+  },
+  "updatedTime": {
+    "$date": "2026-03-14T06:37:29.050Z"
+  },
+  "_class": "dev.bestblogs.entity.CategoryEntity"
+},
+{
+  "_id": {
+    "$oid": "69b501e3e4da881620b7eaa8"
+  },
+  "code": "Finance_Economy",
+  "nameEn": "Finance & Economy",
+  "nameZh": "投资财经",
+  "alias": "finance",
+  "categoryType": "PRIMARY",
+  "sortOrder": 7,
+  "enabled": true,
+  "description": "涵盖投资理财（股票/基金/加密货币/个人理财）、宏观经济分析（货币政策/经济周期/全球化趋势）、行业研究报告（券商研报/行业白皮书）、金融科技（FinTech/DeFi/数字支付）、以及财经新闻与市场动态。",
+  "iconUrl": "",
+  "color": "",
+  "createdTime": {
+    "$date": "2026-03-14T06:36:19.508Z"
+  },
+  "updatedTime": {
+    "$date": "2026-03-14T06:36:19.508Z"
+  },
+  "_class": "dev.bestblogs.entity.CategoryEntity"
+},
+{
+  "_id": {
+    "$oid": "69b5021c9e3e1a21aaf34aea"
+  },
+  "code": "Lifestyle_Culture",
+  "nameEn": "Lifestyle & Culture",
+  "nameZh": "生活文化",
+  "alias": "lifestyle",
+  "categoryType": "PRIMARY",
+  "sortOrder": 8,
+  "enabled": true,
+  "description": "涵盖健康与运动（健身/营养/心理健康/睡眠优化）、旅行与美食、影视与书评、人文社科（历史/哲学/社会学/心理学）、生活方式与消费（数码评测/居家/穿搭）、以及文化艺术（音乐/摄影/建筑/博物馆）。",
+  "iconUrl": "",
+  "color": "",
+  "createdTime": {
+    "$date": "2026-03-14T06:37:16.013Z"
+  },
+  "updatedTime": {
+    "$date": "2026-03-14T06:37:39.004Z"
+  },
+  "_class": "dev.bestblogs.entity.CategoryEntity"
+},
+{
+  "_id": {
+    "$oid": "69b502fbe4da881620b7eaa9"
+  },
+  "code": "AI_CODING",
+  "nameEn": "AI Coding",
+  "nameZh": "AI 编程",
+  "alias": "coding",
+  "categoryType": "SUB",
+  "parentCode": "Artificial_Intelligence",
+  "sortOrder": 2,
+  "enabled": true,
+  "description": "覆盖 AI 辅助软件开发的工具、实践与生态。包括 Vibe Coding 理念与实践、AI IDE 和代码编辑器（Cursor、Windsurf）、终端 AI 工具（Claude Code、GitHub Copilot CLI）、AI 代码生成平台（v0、Lovable、bolt.new、Replit Agent）、AI 辅助代码审查与测试、以及 AI 编程最佳实践与工作流。",
+  "iconUrl": "",
+  "color": "",
+  "createdTime": {
+    "$date": "2026-03-14T06:40:59.509Z"
+  },
+  "updatedTime": {
+    "$date": "2026-03-14T06:40:59.509Z"
+  },
+  "_class": "dev.bestblogs.entity.CategoryEntity"
+},
+{
+  "_id": {
+    "$oid": "69b50431e4da881620b7eaaa"
+  },
+  "code": "SE_FRONTEND",
+  "nameEn": "Frontend Development",
+  "nameZh": "前端开发",
+  "alias": "frontend",
+  "categoryType": "SUB",
+  "parentCode": "Programming_Technology",
+  "sortOrder": 1,
+  "enabled": true,
+  "description": "覆盖 Web 前端及跨平台 UI 开发技术。包括主流框架（React/Next.js/Vue/Nuxt）、CSS 技术与方案（Tailwind/CSS-in-JS/CSS 新特性）、TypeScript 进阶、浏览器 API 与 Web 标准、服务端渲染（SSR/SSG/ISR）、前端性能优化、移动端 Web 开发、以及前端工程化。",
+  "iconUrl": "",
+  "color": "",
+  "createdTime": {
+    "$date": "2026-03-14T06:46:09.457Z"
+  },
+  "updatedTime": {
+    "$date": "2026-03-14T06:46:09.457Z"
+  },
+  "_class": "dev.bestblogs.entity.CategoryEntity"
+},
+{
+  "_id": {
+    "$oid": "69b5045f9e3e1a21aaf34aeb"
+  },
+  "code": "SE_BACKEND",
+  "nameEn": "Backend & Architecture",
+  "nameZh": "后端与架构",
+  "alias": "backend",
+  "categoryType": "SUB",
+  "parentCode": "Programming_Technology",
+  "sortOrder": 2,
+  "enabled": true,
+  "description": "覆盖后端系统开发、架构设计与数据管理。包括系统设计原则与模式（DDD/CQRS/Event Sourcing）、微服务与分布式架构、数据库技术（关系型/NoSQL/NewSQL）、API 设计（REST/GraphQL/gRPC）、消息队列与事件驱动架构、缓存策略、安全实践（认证/授权/加密）、以及后端语言生态（Java/Go/Rust/Python/Node.js）。",
+  "iconUrl": "",
+  "color": "",
+  "createdTime": {
+    "$date": "2026-03-14T06:46:55.038Z"
+  },
+  "updatedTime": {
+    "$date": "2026-03-14T06:46:55.038Z"
+  },
+  "_class": "dev.bestblogs.entity.CategoryEntity"
+},
+{
+  "_id": {
+    "$oid": "69b50494e4da881620b7eaab"
+  },
+  "code": "SE_DEVOPS",
+  "nameEn": "DevOps & Cloud",
+  "nameZh": "DevOps 与云",
+  "alias": "devops",
+  "categoryType": "SUB",
+  "parentCode": "Programming_Technology",
+  "sortOrder": 3,
+  "enabled": true,
+  "description": "覆盖开发运维一体化与云基础设施。包括 CI/CD 流水线设计与优化、容器化技术（Docker/Podman）与容器编排（Kubernetes）、云平台服务（AWS/GCP/Azure/Vercel/Cloudflare）、基础设施即代码（Terraform/Pulumi）、监控与可观测性（Prometheus/Grafana/OpenTelemetry）、SRE 实践与可靠性工程、以及安全运维。",
+  "iconUrl": "",
+  "color": "",
+  "createdTime": {
+    "$date": "2026-03-14T06:47:48.806Z"
+  },
+  "updatedTime": {
+    "$date": "2026-03-14T06:47:48.806Z"
+  },
+  "_class": "dev.bestblogs.entity.CategoryEntity"
+},
+{
+  "_id": {
+    "$oid": "69b504d1e4da881620b7eaac"
+  },
+  "code": "SE_TOOLS",
+  "nameEn": "Open Source & Tools",
+  "nameZh": "开源与工具",
+  "alias": "tools",
+  "categoryType": "SUB",
+  "parentCode": "Programming_Technology",
+  "sortOrder": 4,
+  "enabled": true,
+  "description": "覆盖开发者工具生态与开源社区。包括开发者工具推荐与评测（终端/编辑器/调试器）、IDE 功能与插件（VS Code/JetBrains）、开源项目推荐与趋势（GitHub Trending/HelloGitHub）、编程语言新特性与生态、包管理与依赖管理、以及开发者体验改进。",
+  "iconUrl": "",
+  "color": "",
+  "createdTime": {
+    "$date": "2026-03-14T06:48:49.370Z"
+  },
+  "updatedTime": {
+    "$date": "2026-03-14T06:48:49.370Z"
+  },
+  "_class": "dev.bestblogs.entity.CategoryEntity"
+},
+{
+  "_id": {
+    "$oid": "69b504fe9e3e1a21aaf34aec"
+  },
+  "code": "SE_PRACTICE",
+  "nameEn": "Engineering Practice",
+  "nameZh": "工程实践",
+  "alias": "practice",
+  "categoryType": "SUB",
+  "parentCode": "Programming_Technology",
+  "sortOrder": 5,
+  "enabled": true,
+  "description": "覆盖软件工程的实践经验与团队文化。包括大厂技术博客精选（Netflix/Airbnb/Uber/美团/字节跳动）、架构案例复盘与技术选型、Code Review 实践与标准、工程文化与团队管理、技术债务治理、重构与迁移经验、以及软件质量保障（测试策略/监控体系）。",
+  "iconUrl": "",
+  "color": "",
+  "createdTime": {
+    "$date": "2026-03-14T06:49:34.145Z"
+  },
+  "updatedTime": {
+    "$date": "2026-03-14T06:49:34.145Z"
+  },
+  "_class": "dev.bestblogs.entity.CategoryEntity"
+},
+{
+  "_id": {
+    "$oid": "69b5052e9e3e1a21aaf34aed"
+  },
+  "code": "PD_PM",
+  "nameEn": "Product Management",
+  "nameZh": "产品管理",
+  "alias": "pm",
+  "categoryType": "SUB",
+  "parentCode": "Product_Development",
+  "sortOrder": 1,
+  "enabled": true,
+  "description": "覆盖数字产品的策划、运营与增长。包括产品策略与路线图规划、用户研究方法（访谈/问卷/数据分析）、增长黑客与实验驱动、产品指标体系（北极星指标/漏斗分析）、需求分析与优先级排序、产品文档与 PRD 编写、以及 B2B/B2C/SaaS 等不同产品形态的方法论。",
+  "iconUrl": "",
+  "color": "",
+  "createdTime": {
+    "$date": "2026-03-14T06:50:22.439Z"
+  },
+  "updatedTime": {
+    "$date": "2026-03-14T06:50:22.439Z"
+  },
+  "_class": "dev.bestblogs.entity.CategoryEntity"
+},
+{
+  "_id": {
+    "$oid": "69b5055b9e3e1a21aaf34aee"
+  },
+  "code": "PD_DESIGN",
+  "nameEn": "UX/UI Design",
+  "nameZh": "UX/UI 设计",
+  "alias": "design",
+  "categoryType": "SUB",
+  "parentCode": "Product_Development",
+  "sortOrder": 2,
+  "enabled": true,
+  "description": "覆盖用户体验设计与界面设计。包括交互设计原则与模式、用户体验研究与测试、设计系统构建与维护（组件库/Design Token）、可用性测试与易用性评估、信息架构与导航设计、响应式设计与多端适配、无障碍设计（Accessibility/WCAG）、以及设计规范文档编写。",
+  "iconUrl": "",
+  "color": "",
+  "createdTime": {
+    "$date": "2026-03-14T06:51:07.201Z"
+  },
+  "updatedTime": {
+    "$date": "2026-03-14T06:51:17.665Z"
+  },
+  "_class": "dev.bestblogs.entity.CategoryEntity"
+},
+{
+  "_id": {
+    "$oid": "69b5058d9e3e1a21aaf34aef"
+  },
+  "code": "PD_CREATIVE",
+  "nameEn": "Creative & Visual",
+  "nameZh": "创意与视觉",
+  "alias": "creative",
+  "categoryType": "SUB",
+  "parentCode": "Product_Development",
+  "sortOrder": 3,
+  "enabled": true,
+  "description": "覆盖视觉设计与创意表达。包括视觉设计趋势与灵感、品牌设计与视觉识别、Web 设计风格与案例、设计工具教程（Figma/Sketch/Adobe）、动效设计与微交互、插画与图标设计、以及设计作品集展示。",
+  "iconUrl": "",
+  "color": "",
+  "createdTime": {
+    "$date": "2026-03-14T06:51:57.154Z"
+  },
+  "updatedTime": {
+    "$date": "2026-03-14T06:51:57.154Z"
+  },
+  "_class": "dev.bestblogs.entity.CategoryEntity"
+},
+{
+  "_id": {
+    "$oid": "69b505b2e4da881620b7eaad"
+  },
+  "code": "BT_STARTUP",
+  "nameEn": "Startups & Ventures",
+  "nameZh": "创业与投资",
+  "alias": "startup",
+  "categoryType": "SUB",
+  "parentCode": "Business_Tech",
+  "sortOrder": 1,
+  "enabled": true,
+  "description": "覆盖科技创业生态与风险投资。包括创业故事与复盘、VC 观点与投资方法论、融资动态与交易分析、独立开发者（Indie Hacker）实践、出海经验与全球化策略、创业方法论（精益创业/PMF/GTM）、以及加速器与孵化器生态（YC/a16z/真格）。",
+  "iconUrl": "",
+  "color": "",
+  "createdTime": {
+    "$date": "2026-03-14T06:52:34.730Z"
+  },
+  "updatedTime": {
+    "$date": "2026-03-14T06:52:34.730Z"
+  },
+  "_class": "dev.bestblogs.entity.CategoryEntity"
+},
+{
+  "_id": {
+    "$oid": "69b505f4e4da881620b7eaae"
+  },
+  "code": "BT_NEWS",
+  "nameEn": "Tech News",
+  "nameZh": "科技资讯",
+  "alias": "technews",
+  "categoryType": "SUB",
+  "parentCode": "Business_Tech",
+  "sortOrder": 2,
+  "enabled": true,
+  "description": "覆盖科技行业的新闻与快讯。包括科技公司动态（产品发布/并购/人事变动）、行业趋势与政策法规、科技硬件与消费电子（手机/芯片/可穿戴设备）、互联网行业新闻、以及科技政策与监管动态。",
+  "iconUrl": "",
+  "color": "",
+  "createdTime": {
+    "$date": "2026-03-14T06:53:40.210Z"
+  },
+  "updatedTime": {
+    "$date": "2026-03-14T06:53:40.210Z"
+  },
+  "_class": "dev.bestblogs.entity.CategoryEntity"
+},
+{
+  "_id": {
+    "$oid": "69b506169e3e1a21aaf34af0"
+  },
+  "code": "BT_INSIGHT",
+  "nameEn": "Business Insights",
+  "nameZh": "商业洞察",
+  "alias": "insight",
+  "categoryType": "SUB",
+  "parentCode": "Business_Tech",
+  "sortOrder": 3,
+  "enabled": true,
+  "description": "覆盖商业分析与管理思考。包括行业深度分析报告、商业模式拆解与案例复盘、管理思想与方法论（OKR/战略规划）、经济观察与市场趋势、以及科技与商业的交叉分析。",
+  "iconUrl": "",
+  "color": "",
+  "createdTime": {
+    "$date": "2026-03-14T06:54:14.716Z"
+  },
+  "updatedTime": {
+    "$date": "2026-03-14T06:54:14.716Z"
+  },
+  "_class": "dev.bestblogs.entity.CategoryEntity"
+},
+{
+  "_id": {
+    "$oid": "69b5063f9e3e1a21aaf34af1"
+  },
+  "code": "BT_PEOPLE",
+  "nameEn": "People & Interviews",
+  "nameZh": "人物与访谈",
+  "alias": "people",
+  "categoryType": "SUB",
+  "parentCode": "Business_Tech",
+  "sortOrder": 4,
+  "enabled": true,
+  "description": "覆盖科技领域的人物故事与深度访谈。包括创始人/CEO 的创业故事与理念、深度人物特写与报道、长篇播客/视频访谈、技术领袖的思想观点、以及行业名人的职业轨迹与经验分享。",
+  "iconUrl": "",
+  "color": "",
+  "createdTime": {
+    "$date": "2026-03-14T06:54:55.361Z"
+  },
+  "updatedTime": {
+    "$date": "2026-03-14T06:54:55.361Z"
+  },
+  "_class": "dev.bestblogs.entity.CategoryEntity"
+},
+{
+  "_id": {
+    "$oid": "69b5066fe4da881620b7eaaf"
+  },
+  "code": "PG_TOOLS",
+  "nameEn": "Tools & Productivity",
+  "nameZh": "效率工具",
+  "alias": "tools",
+  "categoryType": "SUB",
+  "parentCode": "Productivity_Growth",
+  "sortOrder": 1,
+  "enabled": true,
+  "description": "覆盖个人效率提升与数字生活优化。包括生产力工具推荐与评测（Notion/Obsidian/Todoist/Raycast）、工作流优化与自动化（Zapier/Make/Shortcuts）、数字生活管理（文件组织/密码管理/备份策略）、笔记与知识管理方法（Zettelkasten/PARA/GTD）、以及效率方法论实践。",
+  "iconUrl": "",
+  "color": "",
+  "createdTime": {
+    "$date": "2026-03-14T06:55:43.103Z"
+  },
+  "updatedTime": {
+    "$date": "2026-03-14T06:55:43.103Z"
+  },
+  "_class": "dev.bestblogs.entity.CategoryEntity"
+},
+{
+  "_id": {
+    "$oid": "69b5068fe4da881620b7eab0"
+  },
+  "code": "PG_CAREER",
+  "nameEn": "Career Development",
+  "nameZh": "职业发展",
+  "alias": "career",
+  "categoryType": "SUB",
+  "parentCode": "Productivity_Growth",
+  "sortOrder": 2,
+  "enabled": true,
+  "description": "覆盖技术从业者的职业成长与软技能。包括工程师成长路径（IC/管理双通道）、技术管理与团队领导力、职场沟通与软技能、面试准备与求职策略、远程工作与自由职业、以及职业转型与跨界发展。",
+  "iconUrl": "",
+  "color": "",
+  "createdTime": {
+    "$date": "2026-03-14T06:56:15.100Z"
+  },
+  "updatedTime": {
+    "$date": "2026-03-14T06:56:15.100Z"
+  },
+  "_class": "dev.bestblogs.entity.CategoryEntity"
+},
+{
+  "_id": {
+    "$oid": "69b506b5e4da881620b7eab1"
+  },
+  "code": "PG_LEARNING",
+  "nameEn": "Thinking & Learning",
+  "nameZh": "思维与学习",
+  "alias": "learning",
+  "categoryType": "SUB",
+  "parentCode": "Productivity_Growth",
+  "sortOrder": 3,
+  "enabled": true,
+  "description": "覆盖认知提升与终身学习。包括认知科学与心理学（决策偏差/认知负载/注意力管理）、学习方法论（费曼技巧/间隔重复/主动回忆）、阅读笔记与书评、心智模型与思维框架（第一性原理/逆向思维/贝叶斯思维）、通识教育与跨学科知识、以及个人反思与自我管理。",
+  "iconUrl": "",
+  "color": "",
+  "createdTime": {
+    "$date": "2026-03-14T06:56:53.414Z"
+  },
+  "updatedTime": {
+    "$date": "2026-03-14T06:56:53.414Z"
+  },
+  "_class": "dev.bestblogs.entity.CategoryEntity"
+}]

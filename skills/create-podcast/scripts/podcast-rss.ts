@@ -37,6 +37,8 @@ interface EpisodeMetadata {
   audioFile: string;
   audioSize: number;
   keywords: string[];
+  series?: string; // "daily" | "weekly" | "article" — defaults to "daily"
+  slug?: string; // for article series, e.g. "claude-code-deep-dive"
   items: { rank: number; title: string; source: string }[];
 }
 
@@ -103,6 +105,19 @@ function formatPubDate(dateStr: string): string {
   return date.toUTCString();
 }
 
+/**
+ * Build a unique GUID for the episode.
+ * Supports multiple series: daily, weekly, article.
+ * Backward compatible with existing "bestblogs-daily-{date}" GUIDs.
+ */
+function buildGuid(meta: EpisodeMetadata): string {
+  const series = meta.series || "daily";
+  if (series === "article" && meta.slug) {
+    return `bestblogs-article-${meta.slug}`;
+  }
+  return `bestblogs-${series}-${meta.date}`;
+}
+
 function buildEpisodeItem(meta: EpisodeMetadata, baseUrl: string): string {
   const audioUrl = `${baseUrl}/${meta.audioFile}`;
   const description = buildEpisodeDescription(meta);
@@ -115,7 +130,7 @@ function buildEpisodeItem(meta: EpisodeMetadata, baseUrl: string): string {
       <itunes:duration>${formatDuration(meta.duration)}</itunes:duration>
       <itunes:episode>${dateToEpisodeNumber(meta.date)}</itunes:episode>
       <itunes:keywords>${meta.keywords.map(escapeXml).join(", ")}</itunes:keywords>
-      <guid isPermaLink="false">bestblogs-daily-${meta.date}</guid>
+      <guid isPermaLink="false">${buildGuid(meta)}</guid>
     </item>`;
 }
 
@@ -211,7 +226,7 @@ Options:
     existingItems = extractExistingItems(feedContent);
 
     // Check for duplicate
-    const guid = `bestblogs-daily-${meta.date}`;
+    const guid = buildGuid(meta);
     if (feedContent.includes(guid)) {
       console.log(`Episode ${meta.date} already exists in feed, updating...`);
       existingItems = existingItems.filter((item) => !item.includes(guid));

@@ -11,10 +11,19 @@ description: "通过 XGo (xgo.ing) 开放接口生成每日推文简报。适用
 
 ## 认证
 
-所有请求需要 `X-API-KEY` 请求头。从环境变量 `XGO_API_KEY` 读取密钥：
+所有请求需要 `X-API-KEY` 请求头。从环境变量 `XGO_API_KEY` 读取密钥。
+
+**注意**: 在某些 shell 环境中 `$XGO_API_KEY` 可能无法正确展开，建议先检查变量值或直接使用硬编码：
 
 ```bash
--H "X-API-KEY: $XGO_API_KEY"
+# 方法 1: 直接使用变量值
+curl -s "https://api.xgo.ing/openapi/v1/list/all" \
+  -H "X-API-KEY: xgo_xxxxxx..."
+
+# 方法 2: 先验证变量存在
+echo "${XGO_API_KEY:0:20}..."
+curl -s "https://api.xgo.ing/openapi/v1/list/all" \
+  -H "X-API-KEY: ${XGO_API_KEY}"
 ```
 
 若 `XGO_API_KEY` 未设置，提示用户配置。
@@ -179,6 +188,27 @@ curl -s -X POST https://api.xgo.ing/openapi/v1/tweet/list \
 
 多条推文讨论同一话题（如多人转发评论同一事件）时，保留综合分最高的一条，在描述中可提及其他来源的视角。
 
+**常见同话题场景**：
+- 同一产品发布，多个账号转发评论 → 保留官方账号或最权威来源
+- 同一新闻事件，多个媒体报导 → 保留影响力最高或最详细的一条
+- 同一 meme/梗图被广泛传播 → 保留原始发布者或互动最高的一条
+
+**AI 判断提示**：在生成简报时，AI 应识别并合并同一话题的多条推文，避免重复占用头条位置。
+
+### 内容质量人工判断
+
+算法排序基于互动量和来源权重，但**内容质量需要人工判断**：
+
+**高互动但低价值的内容**（可能排在前列但不应作为头条）：
+- 调侃/段子性质的对比推文（如 "Chipotle 机器人免费 vs Claude Code"）
+- 情绪煽动性内容（如 "SHOCKING: AI 变 evil"）
+- 纯娱乐性质的 viral 内容
+
+**头条选择建议**：
+- 优先选择产品发布、技术突破、重要观点等实质性内容
+- 对于调侃类高互动推文，可放入"值得关注"或"快速浏览"部分
+- 在生成简报时，AI 应识别内容类型并调整排序
+
 ### 输出
 
 排序后取：
@@ -207,7 +237,7 @@ mkdir -p contents/twitter-digest/YYYY-MM-DD
 ```markdown
 # Twitter 日报 YYYY-MM-DD
 
-> 一句话总结今日推特圈最值得关注的事。
+> 一句话总结今日推特圈最值得关注的事（基于 Top 3 头条内容提炼）。
 
 ---
 
@@ -238,7 +268,7 @@ mkdir -p contents/twitter-digest/YYYY-MM-DD
 
 ### 5.2 完整版（digest-full.md）
 
-保留详细输出格式，按分类组织全部推文数据。**生成前先为每个分类生成 1-2 句话的 AI 摘要**，概括该分类中的热点话题和关键信息（摘要应捕捉核心内容，不罗列每条推文）:
+保留详细输出格式，按分类组织全部推文数据。**为每个分类生成 1-2 句话的 AI 摘要**，概括该分类中的热点话题和关键信息（摘要应捕捉核心内容，不罗列每条推文）:
 
 ```markdown
 ## 每日推文简报 - 完整版 (YYYY-MM-DD, 共 N 条)
@@ -247,9 +277,9 @@ mkdir -p contents/twitter-digest/YYYY-MM-DD
 
 ---
 
-### 分类名 (N 条中取 Top 5)
+### 分类名 (N 条)
 
-> **摘要**: 1-2 句话概括该分类热点。
+> **摘要**: [AI生成的1-2句话摘要，概括该分类的核心热点]
 
 #### 1. @username - DisplayName
 - **影响力**: 85 | **互动**: 👍 446 🔁 134 💬 36 🔄 12 📑 8 👁 45K
@@ -259,6 +289,12 @@ mkdir -p contents/twitter-digest/YYYY-MM-DD
 
 ...
 ```
+
+**AI 摘要生成要点**:
+- 分析该分类下所有推文的共同主题
+- 提取 1-2 个最关键的趋势或事件
+- 用简洁的语言概括，不罗列具体推文
+- 示例："该分类主要讨论 Claude 的最新功能发布，包括 100万token 上下文窗口开放和多个实际应用案例分享。"
 
 **字段映射和完整性规则同原版**:
 - `text` 完整输出不截断
@@ -291,18 +327,18 @@ mkdir -p contents/twitter-digest/YYYY-MM-DD
 - Top 10 推文：每条显示作者名 + 一句话核心观点 + 影响力分数
 - 各分类的关键词标签
 
-**生成命令**:
+**生成方式**:
+
+1. 先生成信息图提示词文件 `infographic-prompt.txt`（供用户或后续步骤使用）
+2. 若 `GOOGLE_API_KEY` 已设置，调用 `image-gen` 技能生成：
 
 ```bash
-SKILL_DIR=~/.claude/skills/image-gen
-bun run ${SKILL_DIR}/scripts/main.ts \
-  --prompt "{根据 Top 10 内容生成的提示词}" \
-  --image contents/twitter-digest/YYYY-MM-DD/digest.png \
-  --provider google \
-  --model gemini-3-pro-image-preview \
-  --ar 9:16 \
-  --quality 2k
+# 使用 skill 的脚本生成（如 image-gen 提供）
+# 或手动调用 image-gen skill
+/image-gen "{生成的提示词内容}" --ar 9:16 --provider google
 ```
+
+3. 若 API Key 未设置，跳过生成并提示用户手动调用
 
 信息图使用 9:16 竖版比例（适合手机浏览和社交媒体分享）。
 
@@ -341,3 +377,67 @@ bun run ${SKILL_DIR}/scripts/main.ts \
 - **daily-content-curator**: 跨源（BestBlogs + XGo）个人阅读清单，基于兴趣打分筛选，适合决定"今天读什么"
 
 如需跨源个性化阅读推荐，使用 `daily-content-curator`。
+
+---
+
+## 实现参考
+
+本 skill 的工作流可通过以下方式实现：
+
+### 方式一：命令行 + 脚本（推荐）
+
+1. 创建数据处理脚本（Node.js/Python）：
+   - `scripts/process-tweets.js` - 处理原始数据，构建映射、去重、分类、计算综合分数
+   - `scripts/generate-digest.js` - 生成四种输出文件
+
+2. 脚本核心逻辑：
+   - 并行执行 5 个 curl 请求获取数据
+   - 构建 author->list 映射表
+   - 按 id 去重，保留 following 来源优先
+   - 计算综合分数：`influenceScore * 来源权重 * 主题加权`
+   - 排序取 Top 20/Top 10
+   - 生成 Markdown/HTML 输出
+
+3. 输出目录结构：
+   ```
+   contents/twitter-digest/YYYY-MM-DD/
+   ├── digest.md          # 可读简报
+   ├── digest-full.md     # 完整版
+   ├── digest.html        # 杂志风 HTML
+   └── infographic-prompt.txt  # 信息图提示词
+   ```
+
+### 方式二：直接使用 API
+
+如需更灵活的控制，可直接调用 XGo API 并在代码中实现筛选逻辑。参考 `references/api_reference.md` 获取完整的端点文档和 DTO 定义。
+
+### 关键实现细节
+
+**去重逻辑**：
+- 使用推文 `id` 作为唯一键
+- 同一推文出现在多个查询结果中时，优先保留 `source: "following"`
+
+**综合分数计算**：
+```javascript
+const sourceWeights = {
+  headline_vendor: 5,   // 头部厂商
+  industry_leader: 3,   // 行业领袖
+  premium_media: 2,     // 高优媒体
+  builder: 1.5,         // 独立开发者
+  default: 1
+};
+
+const topicWeights = {
+  ai_coding: 2,         // AI Coding
+  new_release: 1.8,     // 新发布
+  methodology: 1.3,     // 方法论
+  default: 1
+};
+
+const score = influenceScore * sourceWeight * topicWeight;
+```
+
+**分类组织**：
+- 按 `list/all` 返回的列表名组织推文
+- 未匹配到列表的推文归入 "其他"（following 来源）或 "其他 (推荐)"
+- 完整版按分类输出，简报不按分类组织

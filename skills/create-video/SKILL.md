@@ -260,29 +260,27 @@ mkdir -p contents/tmp/video/YYYY-MM-DD/assets
 
 ### 1.6 配图质量审核（必须执行）
 
-**淘汰条件**（符合任一则丢弃）:
-- 文件大小低于 10KB
-- 分辨率低于 800px 宽
-- 与内容无关（通用 banner、广告、stock photo）
-- 纯文字截图且文字无法辨认
+每张图都要问：**这张图对观众理解内容有帮助吗？** 无意义的图比没有图更糟糕。
 
-**生成替换图**（图片不足 5 张或质量不合格时）:
+**淘汰条件**（符合任一则丢弃）: 文件 <10KB 或宽 <800px、与讲述内容无关（通用 banner/广告/stock photo）、纯文字不可辨认、装饰性无信息量配图、带水印或严重变形、与同条目其他图高度重复。
+
+**保留优先级**: 架构图/流程图 > 数据图表 > 产品截图/UI > 实物照片 > 概念插图
+
+### 1.7 AI 生成替补图
+
+源文章图片不足或被淘汰时，用 `image-gen` 生成替补。**生成图必须与已有素材风格一致**，详细规范见 `references/video_design_guide.md` 的"AI 生成图规范"。
+
+核心要求：(1) prompt 描述该 slide 实际概念，不生成泛泛"AI 概念图" (2) 同期统一风格前缀和色调 (3) 与同条目真实图片的色调、构图风格协调 (4) 不同 slide 生成图主体和构图各异
 
 ```bash
 IMAGE_GEN_SKILL_DIR=$(readlink -f ~/.claude/skills/image-gen 2>/dev/null)
-
 bun ${IMAGE_GEN_SKILL_DIR}/scripts/main.ts \
   --promptfiles assets/gen-prompt-{rank}.md \
   --image assets/article-{rank}-gen1.png \
   --ar 16:9 --quality 2k
 ```
 
-生图 prompt 统一风格前缀:
-```
-Minimalist tech illustration, flat design, muted color palette (ink blue #1a365d, cream #fefdfb, gray tones), clean lines, no text overlays, 16:9 aspect ratio. [核心概念描述]
-```
-
-同一期所有生成图风格一致。
+**生成后必须二次审核**: 同样要通过 1.6 的审核标准。不合格的生成图不如纯色背景 fallback。
 
 ---
 

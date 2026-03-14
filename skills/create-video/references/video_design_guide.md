@@ -319,7 +319,13 @@ B 方:   cover(B) → point × 2-3
 - 格式: JPG/PNG/WebP
 - 文件大小: ≥10KB
 
-### AI 生成图风格
+### AI 生成图规范
+
+生成图是源文章真实图片的**替补**，不是首选。使用时必须确保与视频整体视觉品质一致。
+
+#### 风格基线
+
+统一风格前缀（所有生成图 prompt 开头加上）：
 
 ```
 Minimalist tech illustration, flat design, muted color palette
@@ -327,7 +333,55 @@ Minimalist tech illustration, flat design, muted color palette
 no text overlays, 16:9 aspect ratio.
 ```
 
-同一期所有生成图风格一致。
+#### 按 Slide 类型定制 prompt
+
+不同 slide 类型需要不同的图片构图：
+
+| Slide 类型 | 图片需求 | prompt 策略 |
+|-----------|---------|-----------|
+| `cover` | 全幅大图，视觉冲击力 | 聚焦主题的概念性场景，留出底部空间给标题渐变 |
+| `point` | 左侧 60% 配图 | 具体概念的图解或示意，主体偏左或居中，右侧可留白 |
+| `takeaway` | 暗色叠加底图 | 偏暗调或有纹理的抽象图，叠加半透明后文字仍清晰 |
+
+#### prompt 内容要求
+
+**必须**: prompt 描述该 slide 实际讲述的具体概念
+
+```
+✅ 好的 prompt：
+"...A split-view diagram showing a monolithic LLM agent on the left
+transforming into three specialized micro-agents on the right,
+connected by message arrows..."
+
+❌ 差的 prompt：
+"...An AI technology concept with neural network and data flow..."
+```
+
+**关键原则**:
+- 每张生成图的主体必须不同（不能 3 张图都是"电脑屏幕上的代码"）
+- 概念要具体到当前文章的论点，不能是泛泛的"AI/技术"
+- 避免生成人物面部（容易不自然）
+- 避免生成文字（AI 文字渲染质量差）
+
+#### 与真实图片的融合
+
+当同一条目中既有真实图片又有生成图时：
+
+- 生成图的色调参考真实图片的整体调性（冷色/暖色/中性）
+- 如果真实图片偏写实（如产品截图），生成图不要过于抽象
+- 如果真实图片偏图解（如架构图），生成图也用图解风格
+- 生成图的复杂度不应高于真实图片，避免喧宾夺主
+
+#### 质量门控
+
+生成后必须检查：
+- [ ] 与当前 slide 讲述的内容直接相关（不是泛泛的概念图）
+- [ ] 与同条目中其他图片的风格、色调不冲突
+- [ ] 没有不自然的 AI 痕迹（畸变的文字、不合理的结构）
+- [ ] 缩放到 1920×1080 后仍清晰，没有明显模糊
+- [ ] 在 Ken Burns 效果（1.0→1.05 放大）下边缘不会露出空白
+
+不合格的生成图不如不放。**纯色背景 + 大字排版的 fallback 永远好于一张无关或低质的图。**
 
 ---
 

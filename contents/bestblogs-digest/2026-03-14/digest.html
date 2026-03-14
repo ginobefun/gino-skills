@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BestBlogs 早报 | 2026-03-14</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #fefdfb;
+      color: #374151;
+      font-family: -apple-system, 'PingFang SC', 'Helvetica Neue', sans-serif;
+      font-size: 14px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      opacity: 0.03;
+      pointer-events: none;
+      z-index: 9999;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-size: 256px 256px;
+    }
+
+    .container {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 48px 24px 64px;
+    }
+
+    /* Header */
+    .header {
+      margin-bottom: 40px;
+    }
+
+    .brand {
+      font-family: Georgia, 'Noto Serif SC', serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: #1a365d;
+      letter-spacing: 0.05em;
+      margin-bottom: 6px;
+    }
+
+    .date {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      color: #6b7280;
+      margin-bottom: 16px;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .tag {
+      font-size: 12px;
+      color: #1a365d;
+      border: 1px solid #1a365d;
+      border-radius: 20px;
+      padding: 3px 12px;
+      background: transparent;
+      white-space: nowrap;
+    }
+
+    /* Top 1 Card */
+    .card-top {
+      border-left: 3px solid #d97706;
+      background: rgba(217, 119, 6, 0.06);
+      padding: 24px;
+      margin-bottom: 32px;
+    }
+
+    .card-top .card-number {
+      color: #d97706;
+    }
+
+    .card-top .card-title a {
+      font-size: 20px;
+    }
+
+    /* Regular Cards */
+    .card {
+      padding: 24px 0;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .card:last-child {
+      border-bottom: none;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .card-number {
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      color: #1a365d;
+      flex-shrink: 0;
+      min-width: 20px;
+    }
+
+    .card-title a {
+      font-family: Georgia, 'Noto Serif SC', serif;
+      font-size: 17px;
+      font-weight: 600;
+      color: #1a365d;
+      text-decoration: none;
+      line-height: 1.4;
+    }
+
+    .card-title a:hover {
+      text-decoration: underline;
+    }
+
+    .card-meta {
+      font-size: 12px;
+      color: #6b7280;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .card-meta .separator {
+      color: #d1d5db;
+    }
+
+    .type-badge {
+      font-size: 11px;
+      color: #6b7280;
+      border: 1px solid #d1d5db;
+      border-radius: 3px;
+      padding: 1px 6px;
+    }
+
+    .card-score {
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+    }
+
+    .card-summary {
+      font-size: 14px;
+      color: #374151;
+      line-height: 1.7;
+    }
+
+    .card-top .card-meta {
+      margin-left: 0;
+      margin-top: 4px;
+    }
+
+    .card-top .card-summary {
+      margin-top: 12px;
+    }
+
+    /* Footer */
+    .footer {
+      margin-top: 48px;
+      padding-top: 24px;
+      border-top: 1px solid #e5e7eb;
+      text-align: center;
+    }
+
+    .footer-brand {
+      font-family: Georgia, 'Noto Serif SC', serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: #1a365d;
+      letter-spacing: 0.08em;
+      margin-bottom: 4px;
+    }
+
+    .footer-tagline {
+      font-size: 12px;
+      color: #6b7280;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <div class="brand">BestBlogs 早报</div>
+      <div class="date">2026 年 3 月 14 日 星期六</div>
+      <div class="tags">
+        <span class="tag">Agent 可观测性</span>
+        <span class="tag">Claude Code 治理</span>
+        <span class="tag">Skills 工程化</span>
+        <span class="tag">AI 代码评审</span>
+        <span class="tag">TPU vs GPU</span>
+      </div>
+    </div>
+
+    <!-- Top 1 -->
+    <div class="card-top">
+      <div class="card-header">
+        <span class="card-number">01</span>
+        <div class="card-title">
+          <a href="https://www.bestblogs.dev/article/e2b00eaa" target="_blank">你的 AI Agent 真的在受控运行吗？</a>
+        </div>
+      </div>
+      <div class="card-meta">
+        <span>阿里云开发者</span>
+        <span class="separator">|</span>
+        <span>人工智能</span>
+        <span class="separator">|</span>
+        <span class="card-score">93</span>
+      </div>
+      <div class="card-summary">
+        以 OpenClaw 为例，系统阐述如何通过 Session 审计日志、应用日志和 OTEL 遥测构建 AI Agent 可观测体系。核心洞察：Agent 行为的非确定性使传统 API 审计失效，必须建立"指标发现-日志定位-审计还原"的多源联动排查模式。对所有部署 Agent 的团队都具有直接参考价值。
+      </div>
+    </div>
+
+    <!-- Cards 2-10 -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-number">02</span>
+        <div class="card-title">
+          <a href="https://www.bestblogs.dev/article/6abd2f96" target="_blank">如何使用 Hooks、Skills 和 Agents 为 Claude Code 构建治理层</a>
+        </div>
+      </div>
+      <div class="card-meta">
+        <span>HackerNoon</span>
+        <span class="separator">|</span>
+        <span>软件编程</span>
+        <span class="separator">|</span>
+        <span class="card-score">93</span>
+      </div>
+      <div class="card-summary">通过四阶段 Hook 堆栈管理 AI 会话生命周期，用结构化 Skills 将 AI 转为流程驱动工具。"AI 助手没有糟糕的记忆，它们有的是糟糕的治理。"</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-number">03</span>
+        <div class="card-title">
+          <a href="https://www.bestblogs.dev/article/a9529ba9" target="_blank">一文搞懂爆火的 Skills 原理及实践案例</a>
+        </div>
+      </div>
+      <div class="card-meta">
+        <span>腾讯云开发者</span>
+        <span class="separator">|</span>
+        <span>软件编程</span>
+        <span class="separator">|</span>
+        <span class="card-score">92</span>
+      </div>
+      <div class="card-summary">深度解析 Skills 本质——"公共 Prompt 的工程化复用"，提出"不是让 AI 知道更多，而是让 AI 在恰当的时间知道恰当的事"的设计哲学。</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-number">04</span>
+        <div class="card-title">
+          <a href="https://www.bestblogs.dev/article/7a6e51dd" target="_blank">给"氛围编程"系上安全带：阿里集团 AI 代码评审实践与 Benchmark 开源</a>
+        </div>
+      </div>
+      <div class="card-meta">
+        <span>阿里技术</span>
+        <span class="separator">|</span>
+        <span>软件编程</span>
+        <span class="separator">|</span>
+        <span class="card-score">92</span>
+      </div>
+      <div class="card-summary">基于 Agent 架构的 AI 代码评审实践，开源业界首个仓库级上下文感知评测基准 AACR-Bench。Vibe Coding 信任膨胀需要 AI 评审作为"安全带"制衡。</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-number">05</span>
+        <div class="card-title">
+          <a href="https://www.bestblogs.dev/article/c5d9d9be" target="_blank">AI 操作系统：从指令到意图</a>
+        </div>
+      </div>
+      <div class="card-meta">
+        <span>浮之静</span>
+        <span class="separator">|</span>
+        <span>人工智能</span>
+        <span class="separator">|</span>
+        <span class="card-score">92</span>
+      </div>
+      <div class="card-summary">GUI 本质是人类对机器低理解力的"补偿性补丁"，软件正从"给人看的界面"退化为"给代理调用的能力"。AI OS 将由 MCP、A2A、A2UI 三大协议支撑。</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-number">06</span>
+        <div class="card-title">
+          <a href="https://www.bestblogs.dev/article/ed4a931a" target="_blank">GPT-5.4 引起轰动，AI 在移动端的增长，数据中心脱离电网</a>
+        </div>
+      </div>
+      <div class="card-meta">
+        <span>deeplearning.ai</span>
+        <span class="separator">|</span>
+        <span>人工智能</span>
+        <span class="separator">|</span>
+        <span class="card-score">91</span>
+      </div>
+      <div class="card-summary">GPT-5.4 为智能体编码设定新性能上限；移动 AI 收入和使用时长呈指数级增长；AI 公司正成为私营电力公司。Andrew Ng 提议建立"智能体版 Stack Overflow"。</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-number">07</span>
+        <div class="card-title">
+          <a href="https://www.bestblogs.dev/article/f583e1be" target="_blank">从 IDE 到 Terminal：适合后端宝宝体质的 Claude Code 工作流</a>
+        </div>
+      </div>
+      <div class="card-meta">
+        <span>得物技术</span>
+        <span class="separator">|</span>
+        <span>软件编程</span>
+        <span class="separator">|</span>
+        <span class="card-score">91</span>
+      </div>
+      <div class="card-summary">后端工程师视角的 Claude Code 实战：模型快速切换、AppleScript 驱动 iTerm2 同步、主从 Agent 协作架构，以及"短期记忆快照"解决长对话失焦。</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-number">08</span>
+        <div class="card-title">
+          <a href="https://www.bestblogs.dev/podcast/ca55255" target="_blank">谷歌 TPU 能撼动英伟达吗？前 TPU 工程师首次揭秘</a>
+        </div>
+      </div>
+      <div class="card-meta">
+        <span>硅谷101</span>
+        <span class="separator">|</span>
+        <span class="type-badge">播客 67min</span>
+        <span class="separator">|</span>
+        <span class="card-score">92</span>
+      </div>
+      <div class="card-summary">前谷歌 TPU 工程师首次披露架构内幕：脉动阵列 vs SIMT 的本质差异、OCS 光交换机的系统级成本优势，以及 XLA 编译器"黑盒"特性的双刃剑效应。</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-number">09</span>
+        <div class="card-title">
+          <a href="https://www.bestblogs.dev/article/1390d442" target="_blank">Claude Opus 4.6 推出自适应推理与上下文压缩</a>
+        </div>
+      </div>
+      <div class="card-meta">
+        <span>InfoQ</span>
+        <span class="separator">|</span>
+        <span>软件编程</span>
+        <span class="separator">|</span>
+        <span class="card-score">88</span>
+      </div>
+      <div class="card-summary">Anthropic 发布 Opus 4.6：四档细粒度推理控制取代二进制开关，上下文压缩自动总结早期对话解决"上下文腐化"，支持自主智能体团队并行处理。</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-number">10</span>
+        <div class="card-title">
+          <a href="https://www.bestblogs.dev/podcast/b15cd11" target="_blank">余一：如何高效 PUA 100 个 Agents 为你卖命</a>
+        </div>
+      </div>
+      <div class="card-meta">
+        <span>AI炼金术</span>
+        <span class="separator">|</span>
+        <span class="type-badge">播客 87min</span>
+        <span class="separator">|</span>
+        <span class="card-score">92</span>
+      </div>
+      <div class="card-summary">从"AI 使用者"到"AI 董事长"的思维跃迁：文档驱动异步沟通、复利工程模块化沉淀、"红黄绿灯"决策分级管理百人 Agent 团队。</div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <div class="footer-brand">BestBlogs.dev</div>
+      <div class="footer-tagline">遇见更好的技术阅读</div>
+    </div>
+  </div>
+</body>
+</html>

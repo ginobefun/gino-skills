@@ -1,0 +1,56 @@
+BestBlogs 早报 | 2026-03-14
+
+# Agent 可观测性 / Claude Code 治理 / Skills 工程化 / AI 代码评审 / TPU vs GPU
+
+[1] 你的 AI Agent 真的在受控运行吗？
+以 OpenClaw 为例，系统阐述如何通过 Session 审计日志、应用日志和 OTEL 遥测构建 AI Agent 可观测体系。核心洞察：Agent 行为的非确定性使传统 API 审计失效，必须建立"指标发现 - 日志定位 - 审计还原"的多源联动排查模式，将运行时防护从"城墙"升级为"持续哨兵"。对所有部署 Agent 的团队都具有直接参考价值。
+来源：阿里云开发者 | 评分：93
+https://www.bestblogs.dev/article/e2b00eaa
+
+[2] 如何使用 Hooks、Skills 和 Agents 为 Claude Code 构建治理层
+提出 Claude Code 治理的工程化框架：通过四阶段 Hook 堆栈管理 AI 会话生命周期，用结构化 Skills 和斜杠命令将 AI 转为流程驱动工具，再通过子智能体实现关注点分离。核心观点："AI 助手没有糟糕的记忆，它们有的是糟糕的治理。"
+来源：HackerNoon | 评分：93
+https://www.bestblogs.dev/article/6abd2f96
+
+[3] 一文搞懂爆火的 Skills 原理及实践案例
+腾讯云开发者深度解析 AI Coding 中 Skills 的本质——"公共 Prompt 的工程化复用"。提出基于中台思维的设计哲学："不是让 AI 知道更多，而是让 AI 在恰当的时间知道恰当的事"，并通过逆向建模、问题定位、AI-CR 三个实战案例验证。
+来源：腾讯云开发者 | 评分：92
+https://www.bestblogs.dev/article/a9529ba9
+
+[4] 给"氛围编程"系上安全带：阿里集团 AI 代码评审实践与 Benchmark 开源
+阿里集团分享基于 Agent 架构的 AI 代码评审实践，并开源业界首个仓库级上下文感知评测基准 AACR-Bench。核心发现：Vibe Coding 带来的信任膨胀需要 AI 评审作为"安全带"制衡，开发者需从"被动等待者"转型为"主动引导者"。
+来源：阿里技术 | 评分：92
+https://www.bestblogs.dev/article/7a6e51dd
+
+[5] AI 操作系统：从指令到意图
+深度思考 GUI 到 AI OS 的范式转移。核心论断：GUI 本质是人类对机器低理解力的"补偿性补丁"，软件正从"给人看的界面"退化为"给代理调用的能力"。未来 AI OS 基础设施将由 MCP（工具协议）、A2A（智能体协议）和 A2UI（界面协议）三大协议支撑。
+来源：浮之静 | 评分：92
+https://www.bestblogs.dev/article/c5d9d9be
+
+[6] GPT-5.4 引起轰动，AI 在移动端的增长，数据中心脱离电网
+deeplearning.ai 本周综述：GPT-5.4 以高昂定价为智能体编码设定新性能上限（编码成本低于 Claude Opus 4.6）；移动 AI 应用收入和使用时长呈指数级增长，达到临界点；AI 公司正在成为私营电力公司以克服电网瓶颈。Andrew Ng 提议建立"智能体版 Stack Overflow"。
+来源：deeplearning.ai | 评分：91
+https://www.bestblogs.dev/article/ed4a931a
+
+[7] 从 IDE 到 Terminal：适合后端宝宝体质的 Claude Code 工作流
+得物技术分享后端工程师视角的 Claude Code 实战工作流：通过 Shell 环境变量实现模型快速切换，用 AppleScript 驱动 iTerm2 同步项目路径，构建"主从 Agent 协作"架构模拟架构师与开发者分工，并用"短期记忆快照"策略解决长对话注意力失焦。
+来源：得物技术 | 评分：91
+https://www.bestblogs.dev/article/f583e1be
+
+[8] 谷歌 TPU 能撼动英伟达吗？前 TPU 工程师首次揭秘 [播客 67min]
+硅谷 101 对话前谷歌 TPU 工程师 Henry Zhu，首次披露 TPU 技术内幕：脉动阵列架构 vs GPU SIMT 架构的本质差异、OCS 光交换机降低数据中心 TCO 的系统级优势，以及 XLA 编译器"黑盒"特性的双刃剑效应。结论：TPU 与 GPU 将长期并存。
+来源：硅谷 101 | 评分：92
+https://www.bestblogs.dev/podcast/ca55255
+
+[9] Claude Opus 4.6 推出自适应推理与上下文压缩，助力长时运行智能体
+Anthropic 发布 Claude Opus 4.6，引入四档细粒度推理控制（低/中/高/最高）取代二进制开关，上下文压缩自动总结早期对话解决"上下文腐化"问题。在智能体和知识工作基准测试中实现显著性能提升，同时支持自主智能体团队并行处理。
+来源：InfoQ | 评分：88
+https://www.bestblogs.dev/article/1390d442
+
+[10] 余一：如何高效 PUA 100 个 Agents 为你卖命 [播客 87min]
+从"AI 使用者"到"AI 董事长"的思维跃迁：建立文档驱动的异步沟通机制、通过复利工程实现 AI 能力模块化沉淀、用"红黄绿灯"决策分级体系管理百人规模 Agent 团队。核心观点："如果你还把自己定位成执行者，你的带宽会瞬间被淹没。"
+来源：AI 炼金术 | 评分：92
+https://www.bestblogs.dev/podcast/b15cd11
+
+---
+BestBlogs.dev - 遇见更好的技术阅读

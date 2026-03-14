@@ -226,62 +226,91 @@ curl -s "https://api.bestblogs.dev/openapi/v1/resource/markdown?id=RAW_55206902"
 ### 请求
 
 ```
-POST /api/admin/article/saveAnalysisResult
+POST /api/admin/article/saveAnalysisResult?id={id}
 ```
 
-### 请求体
+> **注意**：文章 ID 通过 **query 参数** 传递，不在请求体中。
+
+### 请求体（ResourceAnalysisResponse）
 
 ```json
 {
-  "id": "RAW_55206902",
-  "oneSentenceSummary": "一句话核心总结",
-  "summary": "核心内容概要（200-400 字）",
-  "mainDomain": "Artificial_Intelligence",
-  "aiSubCategory": "DEV",
-  "tags": ["标签1", "标签2", "标签3"],
+  "title": "可选：仅当原标题含网站名称等冗余时填写清理后版本",
+  "oneSentenceSummary": "一句话核心总结（与原文同语言）",
+  "summary": "核心内容概要，200-400 字（与原文同语言）",
+  "domain": "Artificial_Intelligence",
+  "aiSubcategory": "DEV",
+  "tags": ["Tag1", "Tag2", "Tag3"],
   "mainPoints": [
-    {"point": "主要观点 1", "explanation": "观点解释 1"},
-    {"point": "主要观点 2", "explanation": "观点解释 2"}
+    {"point": "主要观点 1（与原文同语言）", "explanation": "观点解释 1（与原文同语言）"},
+    {"point": "主要观点 2（与原文同语言）", "explanation": "观点解释 2（与原文同语言）"},
+    {"point": "主要观点 3（与原文同语言）", "explanation": "观点解释 3（与原文同语言）"}
   ],
-  "keyQuotes": ["金句 1", "金句 2", "金句 3"],
-  "totalScore": 85,
-  "remark": "评分依据、分析和推荐等级"
+  "keyQuotes": ["原文金句 1", "原文金句 2", "原文金句 3"],
+  "score": 85,
+  "remark": "中文评分依据和推荐等级"
 }
 ```
 
+> **说明**：`content` 字段（正文 Markdown）仅在翻译阶段使用，分析阶段**无需传入**。
+
 ### 请求参数说明
 
-| 参数 | 类型 | 必填 | 说明 |
-|------|------|------|------|
-| `id` | string | 是 | 文章 ID，如 `RAW_55206902` |
-| `oneSentenceSummary` | string | 是 | 一句话核心总结，100 字内 |
-| `summary` | string | 是 | 核心内容概要，200-400 字 |
-| `mainDomain` | string | 是 | 主领域枚举值（见枚举表） |
-| `aiSubCategory` | string | 否 | AI 子分类（仅人工智能领域需填写） |
-| `tags` | string[] | 是 | 结构化标签，3-8 个 |
-| `mainPoints` | object[] | 是 | 主要观点列表，每项含 `point` 和 `explanation` |
-| `keyQuotes` | string[] | 是 | 代表性金句，3-5 句 |
-| `totalScore` | int | 是 | 综合评分，0-100 整数 |
-| `remark` | string | 否 | 评分依据和推荐等级 |
+| 参数 | 类型 | 位置 | 必填 | 说明 |
+|------|------|------|------|------|
+| `id` | string | query | 是 | 文章 ID，如 `RAW_55206902` |
+| `title` | string | body | 否 | 仅在原标题含网站名等冗余信息时填写清理后版本，否则省略 |
+| `oneSentenceSummary` | string | body | 是 | 一句话核心总结，与原文同语言 |
+| `summary` | string | body | 是 | 核心内容概要 200-400 字，与原文同语言 |
+| `content` | string | body | 否 | 正文 Markdown，**分析阶段不传**，仅翻译阶段使用 |
+| `domain` | string | body | 是 | 领域代码（见下方枚举表） |
+| `aiSubcategory` | string | body | 否 | AI 子分类代码（仅 `Artificial_Intelligence` 时填写） |
+| `tags` | string[] | body | 是 | 结构化标签 3-8 个，与原文同语言 |
+| `mainPoints` | object[] | body | 是 | 主要观点 3-5 条，每项含 `point` 和 `explanation`，与原文同语言 |
+| `keyQuotes` | string[] | body | 是 | 代表性金句 3-5 句，必须逐字引用原文 |
+| `score` | int | body | 是 | 综合评分，0-100 整数 |
+| `remark` | string | body | 否 | 评分依据和推荐等级，**始终用中文** |
+
+### 领域枚举值（domain）
+
+| 领域 | 枚举值 |
+|------|--------|
+| 人工智能 | `Artificial_Intelligence` |
+| 软件编程 | `Programming_Technology` |
+| 产品设计 | `Product_Design` |
+| 商业科技（含个人成长/效率） | `Business_Tech` |
+
+### AI 子分类枚举值（aiSubcategory）
+
+| 子分类 | 枚举值 |
+|--------|--------|
+| AI 模型 | `MODELS` |
+| AI 开发 | `DEV` |
+| AI 产品 | `PRODUCT` |
+| AI 资讯 | `NEWS` |
+| 其他 | `OTHERS` |
 
 ### curl 示例
 
 ```bash
-curl -s -X POST https://api.bestblogs.dev/api/admin/article/saveAnalysisResult \
+curl -s -X POST "https://api.bestblogs.dev/api/admin/article/saveAnalysisResult?id=RAW_55206902" \
   -H "Authorization: Bearer $BESTBLOGS_ADMIN_JWT_TOKEN" \
   -H "User-Id: $BESTBLOGS_ADMIN_USER_ID" \
   -H "Content-Type: application/json" \
   -d '{
-    "id": "RAW_55206902",
     "oneSentenceSummary": "一句话总结",
     "summary": "核心内容概要",
-    "mainDomain": "Artificial_Intelligence",
-    "aiSubCategory": "DEV",
-    "tags": ["标签1", "标签2"],
-    "mainPoints": [{"point": "观点", "explanation": "解释"}],
-    "keyQuotes": ["金句1"],
-    "totalScore": 85,
-    "remark": "评分依据"
+    "domain": "Artificial_Intelligence",
+    "aiSubcategory": "DEV",
+    "tags": ["Tag1", "Tag2", "Tag3"],
+    "mainPoints": [
+      {"point": "观点1", "explanation": "解释1"},
+      {"point": "观点2", "explanation": "解释2"},
+      {"point": "观点3", "explanation": "解释3"}
+    ],
+    "keyQuotes": ["金句1", "金句2", "金句3"],
+    "score": 85,
+    "remark": "中文评分依据"
   }'
 ```
 
@@ -298,39 +327,6 @@ curl -s -X POST https://api.bestblogs.dev/api/admin/article/saveAnalysisResult \
 ```
 
 `data` 为 `true` 表示保存成功。
-
-### 字段映射（分析输出 → API 参数）
-
-| 分析输出字段 | API 参数 | 转换规则 |
-|-------------|---------|---------|
-| `oneSentenceSummary` | `oneSentenceSummary` | 直接映射 |
-| `summary` | `summary` | 直接映射 |
-| `domain` | `mainDomain` | 中文→枚举值（见下方映射表） |
-| `aiSubcategory` | `aiSubCategory` | 中文→枚举值（见下方映射表） |
-| `tags` | `tags` | 直接映射 |
-| `mainPoints` | `mainPoints` | 直接映射 |
-| `keyQuotes` | `keyQuotes` | 直接映射 |
-| `score` | `totalScore` | 直接映射 |
-| `remark` | `remark` | 直接映射 |
-
-### 领域映射表
-
-| 分析输出 domain | API mainDomain |
-|----------------|----------------|
-| 人工智能 | `Artificial_Intelligence` |
-| 软件编程 | `Programming_Technology` |
-| 产品设计 | `Product_Design` |
-| 商业科技 | `Business_Tech` |
-
-### AI 子分类映射表
-
-| 分析输出 aiSubcategory | API aiSubCategory |
-|------------------------|-------------------|
-| AI 模型 | `MODELS` |
-| AI 开发 | `DEV` |
-| AI 产品 | `PRODUCT` |
-| AI 资讯 | `NEWS` |
-| 其他 | `OTHERS` |
 
 ---
 

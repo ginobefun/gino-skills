@@ -263,7 +263,7 @@ POST /api/admin/article/saveTranslateResult?id={id}
 
 ### 请求体（ResourceAnalysisResponse）
 
-翻译阶段只传翻译后的文本字段，**不传** `score`、`remark`、`domain`、`aiSubcategory`、`content` 等非翻译字段。
+翻译阶段只传翻译后的文本字段，**不传** `score`、`remark`、`domain`、`aiSubcategory`、`content` 等非翻译字段。正文翻译（`content`）暂不支持。
 
 ```json
 {
@@ -300,7 +300,7 @@ public class ResourceAnalysisResponse implements Serializable {
     private String title;              // 翻译后的标题
     private String oneSentenceSummary; // 翻译后的一句话总结
     private String summary;            // 翻译后的摘要
-    private String content;            // 翻译阶段不传
+    private String content;            // 翻译阶段不传（正文翻译暂不支持）
     private String domain;             // 翻译阶段不传
     private String aiSubcategory;      // 翻译阶段不传
     private List<String> tags;         // 翻译后的标签

@@ -207,7 +207,6 @@ curl -s "https://api.bestblogs.dev/dify/resource/markdown?id=RAW_xxx&language=zh
 3. **格式要求**
    - 中文与英文、数字之间添加空格
    - 保持原 JSON 结构和 key 名称不变
-
 4. **输出要求**
    - **只输出翻译后的 JSON，不输出任何其他内容**
    - 禁止：解释说明、括号注释（如"某某（公司名）"）、术语列表、JSON 前后的文本
@@ -229,17 +228,17 @@ curl -s -X POST "https://api.bestblogs.dev/api/admin/article/saveTranslateResult
     "title": "翻译后的标题",
     "oneSentenceSummary": "翻译后的一句话总结",
     "summary": "翻译后的全文摘要",
-    "tags": ["Translated Tag1", "Translated Tag2"],
+    "tags": ["翻译后标签1", "翻译后标签2"],
     "mainPoints": [
-      {"point": "Translated point 1", "explanation": "Translated explanation 1"},
-      {"point": "Translated point 2", "explanation": "Translated explanation 2"}
+      {"point": "翻译后的观点 1", "explanation": "翻译后的解释 1"},
+      {"point": "翻译后的观点 2", "explanation": "翻译后的解释 2"}
     ],
-    "keyQuotes": ["Translated quote 1", "Translated quote 2"]
+    "keyQuotes": ["翻译后的金句 1", "翻译后的金句 2"]
   }'
 ```
 
 **注意**：
-- 翻译阶段**不传** `score`、`remark`、`domain`、`aiSubcategory`、`content` — 这些字段保持分析阶段的原值或不适用
+- `score`、`remark`、`domain`、`aiSubcategory`、`content` **不传** — 保持分析阶段的原值，正文翻译暂不支持
 - 步骤 B（翻译）和步骤 C（保存）**必须作为独立步骤分开执行**。先确保翻译结果完整、JSON 合法，再调用保存 API
 
 ### 输出进度

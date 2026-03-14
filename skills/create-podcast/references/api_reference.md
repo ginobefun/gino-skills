@@ -15,7 +15,7 @@
 |------|------|--------|------|
 | `text` | String | **必填** | 要合成的文本 |
 | `reference_id` | String | — | 克隆后的 voice_id |
-| `format` | String | `"mp3"` | 输出格式: `mp3`, `wav`, `opus`, `pcm` |
+| `format` | String | `"mp3"` | 输出格式：`mp3`, `wav`, `opus`, `pcm` |
 | `mp3_bitrate` | Integer | `128` | MP3 比特率 |
 | `prosody.speed` | Float | `1.0` | 语速控制（0.5-2.0） |
 | `prosody.volume` | Float | `0` | 音量调整 |
@@ -23,7 +23,7 @@
 | `top_p` | Float | `0.7` | 核采样参数 |
 | `chunk_length` | Integer | `300` | 文本分块长度 |
 | `normalize` | Boolean | `true` | 文本归一化 |
-| `latency` | String | `"normal"` | 延迟模式: `normal`, `balanced`, `low` |
+| `latency` | String | `"normal"` | 延迟模式：`normal`, `balanced`, `low` |
 | `repetition_penalty` | Float | `1.2` | 重复惩罚 |
 | `condition_on_previous_chunks` | Boolean | `true` | 保持声音一致性 |
 
@@ -31,8 +31,8 @@
 
 | 参数 | 说明 |
 |------|------|
-| `emotion` | 情绪控制: `"calm"`, `"happy"`, `"sad"` 等 |
-| `language` | 语言增强: `"zh"`, `"en"` |
+| `emotion` | 情绪控制：`"calm"`, `"happy"`, `"sad"` 等 |
+| `language` | 语言增强：`"zh"`, `"en"` |
 
 ### curl 示例
 

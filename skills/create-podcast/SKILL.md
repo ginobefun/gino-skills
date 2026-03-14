@@ -1,6 +1,6 @@
 ---
 name: create-podcast
-description: "将任意内容生成播客音频。适用场景：(1) 将每日早报生成播客，(2) 将每周周刊生成播客，(3) 将博客文章/文档生成播客，(4) 将任意文本生成语音播客，(5) 更新播客 RSS Feed，(6) 用我的声音播报内容。触发短语：'生成播客', 'create podcast', '做成播客', '播客音频', '文章转播客', 'article to podcast', '语音版', '音频版', '录制播客', '把这个做成播客', '周报播客', 'weekly podcast', '早报播客', 'daily podcast', '内容转音频', '播客'"
+description: "将任意内容生成播客音频。适用场景：(1) 将每日早报生成播客，(2) 将每周周刊生成播客，(3) 将博客文章/文档生成播客，(4) 将任意文本生成语音播客，(5) 更新播客 RSS Feed，(6) 用我的声音播报内容，(7) 发布到小宇宙。触发短语：'生成播客', 'create podcast', '做成播客', '播客音频', '文章转播客', 'article to podcast', '语音版', '音频版', '录制播客', '把这个做成播客', '周报播客', 'weekly podcast', '早报播客', 'daily podcast', '内容转音频', '播客', '发小宇宙', 'xiaoyuzhou'"
 ---
 
 # 播客生成器 (Create Podcast)
@@ -57,7 +57,7 @@ podcast_intro_name: Gino   # 开场白中使用的名字
 - [ ] 阶段一: 内容准备（识别输入源，提取关键内容）
 - [ ] 阶段二: 脚本生成 ⚠️ 需用户确认
 - [ ] 阶段三: 音频合成（Fish.audio TTS 分段 + FFmpeg 合并）
-- [ ] 阶段四: 上传 & 分发 ⛔ 分发需用户确认
+- [ ] 阶段四: 产出 & 分发（标题/ShowNotes/封面 + 展示确认）
 ```
 
 ---
@@ -87,7 +87,7 @@ contents/bestblogs-digest/YYYY-MM-DD/digest.txt
 
 从早报中提取：10 条内容的标题、来源、摘要、评分、readUrl、关键词标签、日期。
 
-**获取 Top 3 深度内容**: 对排名前 3 的内容，按 `resourceType` 获取完整信息:
+**获取 Top 3 深度内容**: 对排名前 3 的内容，按 `resourceType` 获取完整信息：
 
 ```bash
 # 获取资源元数据
@@ -127,8 +127,8 @@ curl -s "https://api.bestblogs.dev/openapi/v1/newsletter/detail?id={NEWSLETTER_I
 
 用户提供的文章来源：
 - URL: 使用 WebFetch 获取内容
-- 文件路径: 直接读取
-- 粘贴内容: 直接使用
+- 文件路径：直接读取
+- 粘贴内容：直接使用
 
 ### 1.5 任意内容输入
 
@@ -140,23 +140,25 @@ curl -s "https://api.bestblogs.dev/openapi/v1/newsletter/detail?id={NEWSLETTER_I
 
 根据输入源类型选择对应的脚本模板。详细模板和风格指南见 `references/script_templates.md`。
 
-### 脚本模板选择
+### 内容类型与时长
 
-| 模板 | 时长 | 字数 | 结构 |
+| 类型 | 时长 | 字数 | 说明 |
 |------|------|------|------|
-| **daily** | 10-12 min | 3800-5000 字 | 开场 → Top 3 精讲(BCPT) → 7 条速览 → 结尾 |
-| **weekly** | 15-20 min | 6000-8000 字 | 开场 → 本周亮点 → 分类精选 → 重点深度 → 总结 |
-| **article** | 5-8 min | 2000-3200 字 | 开场 → 深度 BCPT 展开 → 延伸思考 → 结尾 |
-| **freeform** | 视内容而定 | 视内容而定 | 根据内容结构自适应 |
+| **daily** | 10-12 min | 3800-5000 字 | 从 10 条中选 2-4 条展开，其余速览 |
+| **weekly** | 15-20 min | 6000-8000 字 | 找到本周叙事线，围绕主题串联 |
+| **article** | 5-8 min | 2000-3200 字 | 提炼而非复述，加个人思考 |
+| **freeform** | 视内容而定 | 视内容而定 | 根据内容特点自适应 |
 
-### 通用脚本规则
+### 核心规则
 
-- **语气**: 自然、专业、像朋友间分享有趣发现
-- **TTS 友好**: 纯文本，无 Markdown 标记，口语化处理
-- **段落标记**: `<!-- SEGMENT: name -->` 供 TTS 分段
-- **个人风格**: 读取 `contents/style-profile.md`（若存在）注入个人声音特征
+- **风格锚定**: **必须**读取 `contents/style-profile.md` 注入个人声音特征
+- **内容驱动**: 由内容本身决定结构和节奏，不要套死模板
+- **信息准确**: 核心信息不失真，技术细节不含糊
+- **自然流畅**: 逻辑通顺，听众不需要倒回去重听
+- **TTS 友好**: 纯文本，口语化，无 Markdown/引号/破折号/括号
+- **段落标记**: `<!-- SEGMENT: name -->` 用描述性命名，放在内容自然分界处
 
-⚠️ 脚本常偏短，必须主动扩充。精讲每条至少 3 个观点。
+⚠️ 脚本常偏短，必须主动扩充到时长下限。重要内容多花时间讲透，不要平均分配。
 
 ### ⚠️ 用户确认
 
@@ -188,17 +190,176 @@ bun ${SKILL_DIR}/scripts/fish-tts.ts \
 
 脚本自动按 `<!-- SEGMENT: name -->` 标记分段合成，`--merge` 参数自动调用 FFmpeg 合并并归一化音量。
 
-分段合成优势: 避免超长文本质量下降，失败时可单段重试。
+分段合成优势：避免超长文本质量下降，失败时可单段重试。
 
 ---
 
-## 阶段四：上传 & 分发
+## 阶段四：产出 & 分发
 
 ### 4.1 生成 metadata.json
 
 包含：`date`, `title`, `description`, `duration`(秒), `durationFormatted`, `audioFile`(相对路径), `audioSize`(字节), `keywords`, `series`（daily/weekly/article）, `items`。
 
-### 4.2 上传 R2
+### 4.2 生成小宇宙发布素材
+
+音频合成完成后，**自动**生成小宇宙所需的全部素材，无需用户额外触发。
+
+#### 4.2.1 单集标题
+
+根据内容类型生成标题：
+
+| 类型 | 标题格式 | 示例 |
+|------|---------|------|
+| **daily** | `EP{n} · {关键词1}/{关键词2}/{关键词3} · MM.DD 早报` | `EP12 · Claude 4/Cursor 新功能/AI 编程趋势 · 03.14 早报` |
+| **weekly** | `EP{n} · 本周精选 · {核心趋势} · MM.DD-MM.DD` | `EP13 · 本周精选 · AI Agent 爆发 · 03.08-03.14` |
+| **article** | `EP{n} · {文章标题的精炼版}` | `EP14 · Vibe Coding 到底改变了什么` |
+
+规则：
+- 标题不超过 50 字
+- 关键词用 `/` 分隔，最多 3 个
+- EP 序号从 `contents/podcast/` 目录下已有单集数量推算
+
+#### 4.2.2 ShowNotes
+
+小宇宙 ShowNotes 支持富文本。生成 **Markdown 格式**的 ShowNotes，用户粘贴到编辑器后自动识别。
+
+**Daily 模板**:
+
+```markdown
+## 今日精讲
+
+00:40 {Top1 标题}
+来自 {来源}，{一句话核心观点}
+
+03:30 {Top2 标题}
+来自 {来源}，{一句话核心观点}
+
+06:15 {Top3 标题}
+来自 {来源}，{一句话核心观点}
+
+## 速览
+
+08:00 更多值得关注的内容
+· {第 4 条标题} — {来源}
+· {第 5 条标题} — {来源}
+· {第 6 条标题} — {来源}
+· {第 7 条标题} — {来源}
+· {第 8 条标题} — {来源}
+· {第 9 条标题} — {来源}
+· {第 10 条标题} — {来源}
+
+## 相关链接
+
+· 精讲原文：{readUrl1}
+· 精讲原文：{readUrl2}
+· 精讲原文：{readUrl3}
+· BestBlogs: https://bestblogs.dev
+```
+
+**Weekly 模板**:
+
+```markdown
+## 本周亮点
+
+{3-5 个一句话趋势}
+
+## 分类精选
+
+### 模型
+00:xx {标题} — {来源}
+...
+
+### 开发
+xx:xx {标题} — {来源}
+...
+
+### 产品
+xx:xx {标题} — {来源}
+...
+
+## 重点深度
+
+xx:xx {标题}
+{2-3 句核心内容}
+
+## 相关链接
+
+· 本期周刊：{newsletter_url}
+· BestBlogs: https://bestblogs.dev
+```
+
+**Article 模板**:
+
+```markdown
+## 文章信息
+
+· 原文：{文章标题}
+· 作者：{作者}
+· 来源：{来源}
+
+## 内容概要
+
+{2-3 句核心观点}
+
+## 时间线
+
+00:00 开场
+00:30 背景介绍
+01:00 核心问题
+01:30 关键观点
+05:00 个人思考
+
+## 相关链接
+
+· 原文链接：{url}
+```
+
+ShowNotes 生成规则：
+- **时间戳必须准确**：从各 segment 的实际时长累加计算，格式 `MM:SS`
+- 时间戳放在行首，小宇宙编辑器会自动识别为可点击锚点
+- 原文链接使用 BestBlogs 的 readUrl，确保可访问
+- 不写长段描述，保持精炼，用户能快速扫读
+
+#### 4.2.3 单集封面
+
+调用 `cover-image` skill 或 `image-gen` skill 生成封面：
+
+```bash
+IMAGE_GEN_SKILL_DIR=$(readlink -f ~/.claude/skills/image-gen 2>/dev/null)
+
+bun ${IMAGE_GEN_SKILL_DIR}/scripts/main.ts \
+  --promptfiles contents/tmp/podcast/YYYY-MM-DD/cover-prompt.md \
+  --image contents/podcast/daily/YYYY-MM-DD/cover.png \
+  --ar 1:1 --quality 2k
+```
+
+封面规格：
+- **尺寸**: 1:1 正方形（小宇宙推荐 3000×3000，最小 1400×1400）
+- **风格**: 与品牌视觉一致，墨蓝 + 米白，简洁
+- 包含日期和 1-2 个关键词
+- 不堆叠文字，保持留白
+
+生成封面的 prompt 模板：
+```
+Minimalist podcast cover, square format, clean design.
+Muted color palette (ink blue #1a365d, cream #fefdfb).
+Large centered text: "{日期}". Smaller text below: "{关键词}".
+No photos, no gradients, flat design, generous whitespace.
+```
+
+#### 4.2.4 产出文件
+
+所有小宇宙素材保存到最终产出目录：
+
+```
+contents/podcast/daily/YYYY-MM-DD/
+  podcast.mp3          # 音频
+  metadata.json        # 元数据
+  cover.png            # 单集封面
+  shownotes.md         # ShowNotes（Markdown）
+```
+
+### 4.3 上传 R2（可选）
 
 ```bash
 SKILL_DIR=$(readlink -f ~/.claude/skills/create-podcast 2>/dev/null)
@@ -208,7 +369,9 @@ bun ${SKILL_DIR}/scripts/upload-r2.ts \
   "podcast/daily/YYYY-MM-DD/podcast.mp3"
 ```
 
-### 4.3 更新 RSS Feed
+### 4.4 更新 RSS Feed（可选，扩展到 Apple/Spotify 时启用）
+
+当前阶段可跳过。当需要分发到 Apple Podcasts/Spotify 时启用：
 
 ```bash
 bun ${SKILL_DIR}/scripts/podcast-rss.ts \
@@ -218,9 +381,27 @@ bun ${SKILL_DIR}/scripts/podcast-rss.ts \
   --upload
 ```
 
-### 4.4 ⛔ 平台分发（需用户确认）
+RSS 适用场景：Apple Podcasts、Spotify、Google Podcasts 等平台通过订阅 RSS Feed 自动同步新单集。小宇宙支持直接上传，不依赖 RSS。
 
-展示上传结果摘要（文件、时长、R2 URL），询问是否进一步分发。
+### 4.5 ⛔ 展示 & 确认
+
+展示完整的小宇宙发布素材：
+
+```
+📻 播客生成完成
+
+🎵 音频: podcast.mp3 ({时长})
+🖼️ 封面: cover.png
+
+📝 小宇宙单集标题:
+{生成的标题}
+
+📋 ShowNotes:
+{生成的 ShowNotes 全文}
+
+请确认是否满意，或需要调整。
+确认后可直接复制到小宇宙后台发布。
+```
 
 ---
 
@@ -230,18 +411,25 @@ bun ${SKILL_DIR}/scripts/podcast-rss.ts \
 contents/tmp/podcast/YYYY-MM-DD/        # 临时中间文件（gitignore）
   script.md                             # 播客脚本
   segments/                             # TTS 音频片段
+  cover-prompt.md                       # 封面生成 prompt
 
 contents/podcast/                        # 最终产出（持久化）
   daily/YYYY-MM-DD/
     podcast.mp3                         # 播客音频
     metadata.json                       # 元数据
+    cover.png                           # 单集封面（1:1）
+    shownotes.md                        # 小宇宙 ShowNotes
   weekly/YYYY-MM-DD/
     podcast.mp3
     metadata.json
+    cover.png
+    shownotes.md
   articles/{slug}/
     podcast.mp3
     metadata.json
-  podcast.xml                           # RSS Feed（累积更新）
+    cover.png
+    shownotes.md
+  podcast.xml                           # RSS Feed（可选，扩展时启用）
 ```
 
 ---
@@ -257,6 +445,8 @@ contents/podcast/                        # 最终产出（持久化）
 | "重新生成音频" | 从阶段三开始，复用已有脚本 |
 | "换个声音" | 用新 `--voice-id` 重新合成 |
 | "用英文" | 脚本语言切换为英文 |
+| "发小宇宙" | 生成小宇宙适配标题和简介 |
+| "短播客" | 精简为 5 分钟，仅 Top 1 精讲 + 快速速览 |
 
 ---
 

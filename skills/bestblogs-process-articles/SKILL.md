@@ -179,6 +179,7 @@ curl -s "https://api.bestblogs.dev/openapi/v1/resource/markdown?id=RAW_xxx" \
 - `domain`、`aiSubcategory` 使用 API 枚举值（见下方），与语言无关
 - `remark` **始终用中文**（评分依据供内部审核使用）
 - 后续系统有独立翻译流程，分析阶段只输出原文语言
+- **写作风格**：术语不加括号注释、减少引号破折号、中文引号用「」、适度使用 Markdown，详见 `references/analysis_rubric.md`
 
 **分析输出 JSON**:
 

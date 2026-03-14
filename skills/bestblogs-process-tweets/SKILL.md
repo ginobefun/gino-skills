@@ -183,6 +183,7 @@ curl -s -X POST https://api.bestblogs.dev/api/admin/article/list \
 4. `remark` 字段始终使用中文输出
 5. 考虑来源优先级（XML 中的 `<priority>` 字段）和原创性对评分的影响
 6. **评分校正**：≥95/≥90/≥85 分别执行对应的自检清单
+7. **写作风格**：术语不加括号注释、减少引号破折号、中文引号用「」、适度使用 Markdown，详见 `references/analysis_rubric.md`
 
 > 完整评分标准、分布指导、减分项、分类体系均在 `references/analysis_rubric.md` 中，分析时**必须加载并遵循**。
 

@@ -1,9 +1,9 @@
 export interface DeepSlide {
   type: "cover" | "problem" | "point" | "quote" | "takeaway" | "source-card";
   text: string;
-  subText?: string; // secondary text (source, author, etc.)
-  image?: string; // image path relative to Remotion public/
-  durationRatio: number; // fraction of total item audioDuration (0-1, all slides sum to 1.0)
+  subText?: string;
+  image?: string;
+  durationRatio: number;
 }
 
 export interface VideoItem {
@@ -13,28 +13,29 @@ export interface VideoItem {
   title: string;
   source: string;
   author?: string;
-  score: number;
+  score?: number;
   summary?: string;
   points?: string[];
   quote?: string;
   oneLiner?: string;
   images: string[];
-  slides?: DeepSlide[]; // sub-scenes for deep items, each 8-15s
+  slides?: DeepSlide[];
   audioStart: number;
   audioDuration: number;
 }
 
 export interface VideoData {
+  title: string;
+  subtitle?: string;
   date: string;
   keywords: string[];
-  brandName: string;
-  brandSlogan: string;
-  audioFile: string;
+  brandName?: string;
+  brandSlogan?: string;
+  audioFile?: string;
   totalDuration: number;
   items: VideoItem[];
 }
 
-// BestBlogs brand colors
 export const COLORS = {
   inkBlue: "#1a365d",
   amber: "#d97706",

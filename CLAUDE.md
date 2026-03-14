@@ -31,7 +31,7 @@ Skill 内容按需分层加载，避免占用上下文窗口：
 - **BestBlogs 工作流 Skills** (`bestblogs-fetcher`, `bestblogs-daily-digest` 等): BestBlogs.dev 内容获取、策展、生成、分发
 - **XGo 基础 CRUD Skills** (`xgo-fetch-tweets`, `xgo-manage-lists` 等): 封装单组 API 端点的增删改查
 - **XGo 组合型工作流 Skills** (`xgo-track-kol`, `xgo-digest-tweets`, `xgo-organize-follows`): 编排多个 API 调用 + AI 分析
-- **内容创作与分发 Skills** (`image-gen`, `post-to-x`, `deep-reading` 等): 图像生成、内容发布、深度阅读
+- **内容创作与分发 Skills** (`image-gen`, `post-to-x`, `deep-reading`, `create-podcast`, `create-video` 等): 图像生成、内容发布、深度阅读、播客生成、视频生成
 - **Content OS 编排 Skills** (`daily-content-management`, `daily-content-curator`, `reading-workflow`, `content-synthesizer`, `content-analytics`): 每日内容全流程编排，通过 Daily Workspace 共享中间数据
 
 ## 个人上下文
@@ -224,7 +224,10 @@ contents/
         topic-clusters.md          # 同主题聚合
         plan.md                    # 选题计划
         outputs/                   # 创作草稿
-    podcast-video/                 # 播客视频中间文件（脚本/音频片段/素材）
+    podcast/                       # 播客中间文件（脚本/音频片段）
+      YYYY-MM-DD/
+        script.md / segments/
+    video/                         # 视频中间文件（脚本/音频/素材/渲染数据）
       YYYY-MM-DD/
         script.md / segments/ / assets/ / video-data.json
     transcribe/                    # 视频转录中间文件
@@ -246,10 +249,21 @@ contents/
   blog-posts/                      # 博客文章
     YYYY-MM-DD/
       {slug}.md
-  podcast-video/                   # 播客视频最终产出
-    YYYY-MM-DD/
-      podcast.mp3 / video.mp4 / metadata.json
+  podcast/                         # 播客最终产出
+    daily/YYYY-MM-DD/
+      podcast.mp3 / metadata.json
+    weekly/YYYY-MM-DD/
+      podcast.mp3 / metadata.json
+    articles/{slug}/
+      podcast.mp3 / metadata.json
     podcast.xml                    # RSS Feed
+  video/                           # 视频最终产出
+    daily/YYYY-MM-DD/
+      video.mp4 / metadata.json
+    weekly/YYYY-MM-DD/
+      video.mp4 / metadata.json
+    articles/{slug}/
+      video.mp4 / metadata.json
   content-analytics/               # 内容分析报告
     weekly-YYYY-MM-DD.md / monthly-YYYY-MM.md
 

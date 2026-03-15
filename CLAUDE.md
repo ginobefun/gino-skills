@@ -26,10 +26,11 @@ Skill 内容按需分层加载，避免占用上下文窗口：
 
 **关键原则**: SKILL.md 只放概览和指向 references/ 的指针（如 `完整 API 参数详情见 references/api_reference.md`），不要把所有内容内联到 SKILL.md 中。
 
-## Skill 分类（37 个）
+## Skill 分类（41 个）
 
 - **BestBlogs 内容平台 Skills** (12 个): 数据获取与预处理 (`bestblogs-fetcher`, `bestblogs-add-source`, `bestblogs-process-videos`, `bestblogs-transcribe-youtube`, `bestblogs-process-articles`（含翻译）, `bestblogs-process-tweets`)、评审与策展 (`bestblogs-content-reviewer`, `bestblogs-article-recommender`, `bestblogs-weekly-curator`)、内容生成 (`bestblogs-daily-digest`, `bestblogs-weekly-blogger`)
 - **Twitter/X 数据 Skills** (10 个): 数据读取 (`xgo-fetch-tweets`, `xgo-search-tweets`, `xgo-view-profile`)、数据管理 (`xgo-manage-follows`, `xgo-manage-lists`, `xgo-manage-bookmarks`)、AI 分析工作流 (`xgo-track-kol`, `xgo-digest-tweets`, `xgo-organize-follows`)、浏览器操作 (`x-actions`)
+- **内容平台集成 Skills** (4 个): Bilibili (`bili-fetch-content`, `bili-actions`)、小红书 (`xhs-fetch-content`, `xhs-actions`)
 - **内容创作 Skills** (7 个): 深度阅读 (`deep-reading`)、图片生成 (`image-gen`, `cover-image`, `article-illustrator`)、多媒体生成 (`create-podcast`, `create-video`)
 - **内容分发 Skills** (3 个): `post-to-x`, `post-to-wechat`, `send-wechat-group-message`
 - **Content OS 编排 Skills** (5 个): `daily-content-management` (总控)、`daily-content-curator` (筛选)、`reading-workflow` (阅读)、`content-synthesizer` (创作)、`content-analytics` (反馈)

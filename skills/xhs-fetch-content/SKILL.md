@@ -182,6 +182,23 @@ xhs notifications --type connections --yaml
 ---
 ```
 
+### 输出字段映射
+
+| 输出字段 | CLI 字段 | 说明 |
+|---------|---------|------|
+| 笔记标题 | `title` | 完整标题，不截断 |
+| 作者 | `user.nickname` (`user.user_id`) | 作者昵称和 ID |
+| 类型 | `type` | `normal` → 图文，`video` → 视频 |
+| 点赞 | `interact_info.liked_count` | 大数字用 K/M 格式化 |
+| 收藏 | `interact_info.collected_count` | 大数字用 K/M 格式化 |
+| 评论 | `interact_info.comment_count` | 评论数 |
+| 分享 | `interact_info.share_count` | 分享数 |
+| 发布时间 | `time` | 格式化为本地日期 |
+| 内容 | `desc` | 笔记正文，完整输出不截断 |
+| 标签 | `tag_list[].name` | 以 # 前缀输出所有标签 |
+| 图片 | `image_list` | 图片数量提示 |
+| 链接 | — | 拼接自 `https://www.xiaohongshu.com/explore/{note_id}` |
+
 ### 输出完整性规则
 
 - 笔记标题和正文：完整输出，不截断

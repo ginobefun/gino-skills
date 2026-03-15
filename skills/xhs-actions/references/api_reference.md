@@ -1,8 +1,40 @@
 # xiaohongshu-cli 写操作命令参考
 
-## 安装与认证
+## 安装
 
-见 `skills/xhs-fetch-content/references/api_reference.md` 中的安装和认证部分。
+```bash
+# 推荐方式
+uv tool install xiaohongshu-cli
+
+# 备选方式
+pipx install xiaohongshu-cli
+```
+
+## 认证
+
+### 登录方式
+
+```bash
+# 从浏览器提取 cookie（推荐）
+xhs login
+
+# QR码登录
+xhs login --qrcode
+
+# 检查登录状态
+xhs status --yaml
+
+# 查看账号信息
+xhs whoami --yaml
+
+# 登出
+xhs logout
+```
+
+### Cookie 管理
+- Cookie 默认有效期 7 天
+- 过期后需重新 `xhs login`
+- 自动从 Chrome, Firefox, Edge, Brave 提取
 
 **注意**: 写操作命令要求已登录状态，使用前请确认 `xhs status` 返回已登录。Cookie 有效期约 7 天。
 

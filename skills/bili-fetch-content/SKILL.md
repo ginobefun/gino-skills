@@ -172,6 +172,26 @@ bili audio BV1xxxxxxxxx -o ~/output/
 ---
 ```
 
+### 输出字段映射
+
+| 输出字段 | CLI 字段 | 说明 |
+|---------|---------|------|
+| 视频标题 | `title` | 完整标题，不截断 |
+| UP主 | `owner.name` (`owner.mid`) | UP主名称和 UID |
+| 播放 | `stat.view` | 播放量（大数字用 K/M 格式化） |
+| 弹幕 | `stat.danmaku` | 弹幕数 |
+| 评论 | `stat.reply` | 评论数 |
+| 点赞 | `stat.like` | 点赞数 |
+| 投币 | `stat.coin` | 投币数 |
+| 收藏 | `stat.favorite` | 收藏数 |
+| 分享 | `stat.share` | 分享数 |
+| 发布时间 | `pubdate` | 格式化为本地日期 |
+| 简介 | `desc` | 视频描述，完整输出 |
+| BV号 | `bvid` | 视频唯一标识 |
+| 分区 | `tname` | 视频分区，空值省略 |
+| 时长 | `duration` | 视频时长 |
+| 链接 | — | 拼接自 `https://www.bilibili.com/video/{bvid}` |
+
 ### 输出完整性规则
 
 - 视频标题：完整输出，不截断

@@ -1,8 +1,33 @@
 # bilibili-cli 写操作命令参考
 
-## 安装与认证
+## 安装
 
-见 `skills/bili-fetch-content/references/api_reference.md` 中的安装和认证部分。
+```bash
+# 推荐方式
+uv tool install bilibili-cli
+
+# 备选方式
+pipx install bilibili-cli
+```
+
+## 认证
+
+### 登录方式
+
+```bash
+# QR码登录（推荐）
+bili login
+
+# 检查登录状态
+bili status --yaml
+
+# 查看账号信息
+bili whoami --yaml
+```
+
+### 认证优先级
+1. 自动从浏览器提取 cookie（Chrome, Firefox, Edge, Brave）
+2. QR 码登录（生成登录二维码）
 
 **注意**: 写操作命令要求已登录状态，使用前请确认 `bili status` 返回已登录。
 

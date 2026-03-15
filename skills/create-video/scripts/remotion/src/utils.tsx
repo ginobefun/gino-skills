@@ -113,3 +113,73 @@ export const KenBurnsImage: React.FC<{
     </div>
   );
 };
+
+/**
+ * SlideIn: horizontal slide-in animation (for lower-third bars).
+ */
+export const SlideIn: React.FC<{
+  children: React.ReactNode;
+  delay?: number;
+  direction?: "left" | "right";
+  style?: React.CSSProperties;
+}> = ({ children, delay = 0, direction = "left", style = {} }) => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+
+  const progress = spring({
+    frame: frame - delay,
+    fps,
+    config: { damping: 200 },
+  });
+
+  const sign = direction === "left" ? -1 : 1;
+  const translateX = interpolate(progress, [0, 1], [sign * 80, 0]);
+
+  return (
+    <div
+      style={{
+        opacity: progress,
+        transform: `translateX(${translateX}px)`,
+        ...style,
+      }}
+    >
+      {children}
+    </div>
+  );
+};
+
+/**
+ * PulseRing: animated ring that pulses outward (for avatar speaking indicator).
+ */
+export const PulseRing: React.FC<{
+  size: number;
+  color: string;
+  active: boolean;
+}> = ({ size, color, active }) => {
+  const frame = useCurrentFrame();
+
+  if (!active) return null;
+
+  const cycle = frame % 30;
+  const scale = interpolate(cycle, [0, 30], [1, 1.4], {
+    extrapolateRight: "clamp",
+  });
+  const opacity = interpolate(cycle, [0, 30], [0.4, 0], {
+    extrapolateRight: "clamp",
+  });
+
+  return (
+    <div
+      style={{
+        position: "absolute",
+        width: size,
+        height: size,
+        borderRadius: "50%",
+        border: `2px solid ${color}`,
+        transform: `scale(${scale})`,
+        opacity,
+        pointerEvents: "none",
+      }}
+    />
+  );
+};

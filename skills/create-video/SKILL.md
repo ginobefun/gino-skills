@@ -373,8 +373,19 @@ done
 - `items[].type`: `"deep"` 或 `"quick"`
 - `items[].slides`: 精讲项必须提供 slides 数组
 - `items[].audioStart` / `audioDuration`: 秒数
+- `items[].sectionLabel`（可选）: 信息条显示的段落标签，默认 "深度解读"
 - `audioFile`: 音频文件名（Remotion public/ 目录下）
 - `totalDuration`: 总时长（秒）
+
+**视觉增强字段**（所有可选，不设则使用传统纯 slide 模式）:
+- `avatar`（可选）: 主播头像配置，`{ enabled, idleImage, speakingImage, scale?, opacity? }`
+- `lowerThird`（可选）: 底部信息条配置，`{ enabled, showProgress }`
+- `items[].slides[].layout`（可选）: `"multi-region"` 启用侧边栏布局（仅 point slide）
+- `items[].slides[].sidePanel`（可选）: 侧边栏要点摘要数组
+- `items[].slides[].dataViz`（可选）: 数据可视化元素数组
+- `items[].slides[].hideAvatar`（可选）: 在该 slide 隐藏主播头像
+
+启用 avatar 时需先准备头像素材（idle/speaking PNG，400×500px 透明背景），复制到 Remotion `public/` 目录。
 
 保存到：`contents/tmp/video/YYYY-MM-DD/video-data.json`
 

@@ -1,9 +1,41 @@
+// --- Avatar & Overlay Configs ---
+
+export interface AvatarConfig {
+  enabled: boolean;
+  idleImage: string;
+  speakingImage: string;
+  pointingImage?: string;
+  scale?: number;
+  opacity?: number;
+}
+
+export interface LowerThirdConfig {
+  enabled: boolean;
+  showProgress: boolean;
+}
+
+export interface DataVizElement {
+  type: "progress-bar" | "bar-chart" | "counter" | "highlight";
+  label: string;
+  value: number;
+  maxValue?: number;
+  unit?: string;
+  items?: Array<{ label: string; value: number }>;
+}
+
+// --- Slide & Item Types ---
+
 export interface DeepSlide {
   type: "cover" | "problem" | "point" | "quote" | "takeaway" | "source-card";
   text: string;
   subText?: string;
   image?: string;
   durationRatio: number;
+  layout?: "full" | "multi-region";
+  sidePanel?: string[];
+  sectionTitle?: string;
+  hideAvatar?: boolean;
+  dataViz?: DataVizElement[];
 }
 
 export interface VideoItem {
@@ -22,6 +54,7 @@ export interface VideoItem {
   slides?: DeepSlide[];
   audioStart: number;
   audioDuration: number;
+  sectionLabel?: string;
 }
 
 export type NarrativeStrategy =
@@ -44,6 +77,8 @@ export interface VideoData {
   audioFile?: string;
   totalDuration: number;
   items: VideoItem[];
+  avatar?: AvatarConfig;
+  lowerThird?: LowerThirdConfig;
 }
 
 export const COLORS = {

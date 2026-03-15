@@ -2,19 +2,69 @@ import {
   AbsoluteFill,
   Sequence,
   staticFile,
+  useCurrentFrame,
   useVideoConfig,
 } from "remotion";
 import { Audio } from "@remotion/media";
-import type { VideoData } from "./types";
+import type { VideoData, VideoItem } from "./types";
 import { COLORS } from "./types";
 import { BrandIntro } from "./scenes/BrandIntro";
 import { KeywordsScene } from "./scenes/KeywordsScene";
 import { DeepDiveScene } from "./scenes/DeepDiveScene";
 import { QuickReviewIntro, QuickCard } from "./scenes/QuickBrowseScene";
 import { BrandOutro } from "./scenes/BrandOutro";
+import { PresenterAvatar } from "./components/PresenterAvatar";
+import { LowerThird } from "./components/LowerThird";
+
+/**
+ * Determines the currently active VideoItem based on frame position.
+ */
+function getActiveItem(
+  items: VideoItem[],
+  frame: number,
+  fps: number,
+): { item: VideoItem; index: number; total: number } | null {
+  const deepItems = items.filter((i) => i.type === "deep");
+  for (let idx = 0; idx < deepItems.length; idx++) {
+    const item = deepItems[idx];
+    const start = Math.round(item.audioStart * fps);
+    const end = start + Math.round(item.audioDuration * fps);
+    if (frame >= start && frame < end) {
+      return { item, index: idx, total: deepItems.length };
+    }
+  }
+
+  const quickItems = items.filter((i) => i.type === "quick");
+  for (let idx = 0; idx < quickItems.length; idx++) {
+    const item = quickItems[idx];
+    const start = Math.round(item.audioStart * fps);
+    const end = start + Math.round(item.audioDuration * fps);
+    if (frame >= start && frame < end) {
+      return { item, index: idx, total: quickItems.length };
+    }
+  }
+
+  return null;
+}
+
+/**
+ * Checks if the current frame falls within any item's audio range.
+ */
+function isSpeakingAtFrame(
+  items: VideoItem[],
+  frame: number,
+  fps: number,
+): boolean {
+  return items.some((item) => {
+    const start = Math.round(item.audioStart * fps);
+    const end = start + Math.round(item.audioDuration * fps);
+    return frame >= start && frame < end;
+  });
+}
 
 export const ContentVideo: React.FC<VideoData> = (props) => {
-  const { fps } = useVideoConfig();
+  const frame = useCurrentFrame();
+  const { fps, durationInFrames } = useVideoConfig();
 
   const deepItems = props.items.filter((i) => i.type === "deep");
   const quickItems = props.items.filter((i) => i.type === "quick");
@@ -72,6 +122,10 @@ export const ContentVideo: React.FC<VideoData> = (props) => {
 
   // Use title for brand intro, fallback to brandName
   const introTitle = props.title || props.brandName || "Content Video";
+
+  // Overlay state
+  const speaking = isSpeakingAtFrame(props.items, frame, fps);
+  const activeItem = getActiveItem(props.items, frame, fps);
 
   return (
     <AbsoluteFill style={{ backgroundColor: COLORS.cream }}>
@@ -153,6 +207,25 @@ export const ContentVideo: React.FC<VideoData> = (props) => {
           durationInFrames={outroDuration}
         />
       </Sequence>
+
+      {/* Overlay: Lower Third Info Bar */}
+      {props.lowerThird?.enabled && activeItem && (
+        <LowerThird
+          sectionTitle={activeItem.item.title}
+          source={activeItem.item.source}
+          progress={`${activeItem.index + 1}/${activeItem.total} ${activeItem.item.sectionLabel || (activeItem.item.type === "deep" ? "深度解读" : "速览")}`}
+          durationInFrames={Math.round(activeItem.item.audioDuration * fps)}
+        />
+      )}
+
+      {/* Overlay: Presenter Avatar (topmost layer) */}
+      {props.avatar?.enabled && (
+        <PresenterAvatar
+          config={props.avatar}
+          isSpeaking={speaking}
+          durationInFrames={durationInFrames}
+        />
+      )}
     </AbsoluteFill>
   );
 };

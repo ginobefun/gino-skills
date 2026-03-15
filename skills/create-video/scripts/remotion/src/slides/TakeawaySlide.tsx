@@ -2,6 +2,7 @@ import { AbsoluteFill } from "remotion";
 import type { DeepSlide, VideoItem } from "../types";
 import { COLORS, FONTS } from "../types";
 import { SpringIn, KenBurnsImage } from "../utils";
+import { DataVizOverlay } from "../components/dataviz/DataVizOverlay";
 
 export const TakeawaySlide: React.FC<{
   slide: DeepSlide;
@@ -67,6 +68,11 @@ export const TakeawaySlide: React.FC<{
             </div>
           </SpringIn>
         )}
+        {slide.dataViz && (
+          <SpringIn delay={20}>
+            <DataVizOverlay elements={slide.dataViz} delay={20} />
+          </SpringIn>
+        )}
       </AbsoluteFill>
     );
   }
@@ -127,6 +133,11 @@ export const TakeawaySlide: React.FC<{
             >
               {slide.subText}
             </div>
+          </SpringIn>
+        )}
+        {slide.dataViz && (
+          <SpringIn delay={20}>
+            <DataVizOverlay elements={slide.dataViz} delay={20} />
           </SpringIn>
         )}
       </AbsoluteFill>

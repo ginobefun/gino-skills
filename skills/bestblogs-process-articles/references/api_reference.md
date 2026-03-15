@@ -41,6 +41,7 @@
 |------|------|------|------|------|
 | `/api/admin/article/list` | POST | Admin | 读取 | 查询等待分析的文章列表 |
 | `/openapi/v1/resource/markdown` | GET | OpenAPI | 读取 | 获取文章 Markdown 正文 |
+| `/api/admin/article/runPrepareFlow` | POST | Admin | 写入 | 触发文章预处理（空正文兜底） |
 | `/api/admin/article/saveAnalysisResult` | POST | Admin | 写入 | 保存结构化分析结果 |
 
 ---
@@ -238,9 +239,52 @@ curl -s "https://api.bestblogs.dev/openapi/v1/resource/markdown?id=RAW_55206902"
 
 `data` 字段直接返回 Markdown 字符串。资源不存在或正文尚未抓取时返回 `null`。
 
+当 markdown 返回 `null` 或空字符串时，建议立即调用 `runPrepareFlow` 并重试 markdown 1-3 次（每次间隔 2-3 秒）。
+
 ---
 
-## 3. 保存分析结果
+## 3. 触发预处理流程（空正文兜底）
+
+### 请求
+
+```
+POST /api/admin/article/runPrepareFlow?id={id}
+```
+
+> **注意**：文章 ID 通过 **query 参数** 传递，不在请求体中。
+
+### 请求参数
+
+| 参数 | 类型 | 位置 | 必填 | 说明 |
+|------|------|------|------|------|
+| `id` | string | query | 是 | 文章 ID，如 `RAW_55206902` |
+
+### curl 示例
+
+```bash
+curl -s -X POST "https://api.bestblogs.dev/api/admin/article/runPrepareFlow?id=RAW_55206902" \
+  -H "Authorization: Bearer $BESTBLOGS_ADMIN_JWT_TOKEN" \
+  -H "User-Id: $BESTBLOGS_ADMIN_USER_ID" \
+  -H "Content-Type: application/json"
+```
+
+### 响应格式
+
+```json
+{
+  "success": true,
+  "code": null,
+  "message": null,
+  "requestId": "Txxxx",
+  "data": true
+}
+```
+
+`data=true` 表示预处理任务触发成功。建议随后重试 `/openapi/v1/resource/markdown` 获取正文。
+
+---
+
+## 4. 保存分析结果
 
 ### 请求
 
@@ -378,5 +422,7 @@ curl -s -X POST "https://api.bestblogs.dev/api/admin/article/saveAnalysisResult?
 | 404 | - | 资源不存在 | 检查文章 ID 是否有效 |
 | 500 | - | 服务端错误 | 重试一次，仍失败告知用户 |
 | **200** | `success: false` | 业务逻辑错误 | 展示 `message` 字段内容 |
+
+对于 `runPrepareFlow`，若返回 `success: true, data: true`，表示预处理已触发；并不保证 markdown 会立即可用，需重试读取正文。
 
 **重要**: 始终先检查 `response.success` 再处理 `response.data`。部分错误返回 HTTP 200 但 `success: false` — 不要仅依赖 HTTP 状态码。

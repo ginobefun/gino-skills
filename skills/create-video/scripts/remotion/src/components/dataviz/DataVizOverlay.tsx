@@ -34,7 +34,7 @@ export const DataVizOverlay: React.FC<{
             return (
               <AnimatedBarChart
                 key={i}
-                items={el.items || []}
+                items={el.items}
                 unit={el.unit}
                 delay={itemDelay}
               />

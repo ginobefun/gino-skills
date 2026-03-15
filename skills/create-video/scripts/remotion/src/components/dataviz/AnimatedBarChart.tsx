@@ -9,6 +9,8 @@ export const AnimatedBarChart: React.FC<{
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
+  if (!items || items.length === 0) return null;
+
   const maxValue = Math.max(...items.map((i) => i.value), 1);
 
   return (

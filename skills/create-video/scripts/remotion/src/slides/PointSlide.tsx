@@ -132,9 +132,7 @@ export const PointSlide: React.FC<{
         <div style={{ width: "28%", height: "100%" }}>
           <SidePanel
             items={slide.sidePanel!}
-            activeIndex={slide.sidePanel!.findIndex((p) =>
-              slide.text.includes(p.slice(0, 10)),
-            )}
+            activeIndex={slide.sidePanelActiveIndex}
             durationInFrames={slideDuration}
           />
         </div>

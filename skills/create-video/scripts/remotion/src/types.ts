@@ -14,14 +14,32 @@ export interface LowerThirdConfig {
   showProgress: boolean;
 }
 
-export interface DataVizElement {
-  type: "progress-bar" | "bar-chart" | "counter" | "highlight";
-  label: string;
-  value: number;
-  maxValue?: number;
-  unit?: string;
-  items?: Array<{ label: string; value: number }>;
-}
+export type DataVizElement =
+  | {
+      type: "progress-bar";
+      label: string;
+      value: number;
+      maxValue?: number;
+      unit?: string;
+    }
+  | {
+      type: "bar-chart";
+      label: string;
+      items: Array<{ label: string; value: number }>;
+      unit?: string;
+    }
+  | {
+      type: "counter";
+      label: string;
+      value: number;
+      unit?: string;
+    }
+  | {
+      type: "highlight";
+      label: string;
+      value: number;
+      unit?: string;
+    };
 
 // --- Slide & Item Types ---
 
@@ -33,6 +51,7 @@ export interface DeepSlide {
   durationRatio: number;
   layout?: "full" | "multi-region";
   sidePanel?: string[];
+  sidePanelActiveIndex?: number;
   sectionTitle?: string;
   hideAvatar?: boolean;
   dataViz?: DataVizElement[];

@@ -113,17 +113,43 @@ npx -y remotion render src/index.ts ContentVideo \
 ### video-data.json 数据结构
 
 ```typescript
-interface VideoData {
-  title: string;                     // 视频标题
-  subtitle?: string;                 // 可选副标题
-  date: string;                      // "2026-03-14"
-  keywords: string[];                // ["AI", "Claude"]
-  brandName?: string;                // 可选品牌名
-  brandSlogan?: string;              // 可选品牌标语
-  audioFile?: string;                // 音频文件名（相对 public/），可选
-  totalDuration: number;             // 总时长（秒）
-  items: VideoItem[];
+// --- 顶层配置 ---
+
+type NarrativeStrategy =
+  | "standard" | "deep-focus" | "theme-thread"
+  | "comparative" | "trend-signals" | "hands-on";
+
+interface AvatarConfig {
+  enabled: boolean;
+  idleImage: string;               // idle 姿态 PNG（相对 public/）
+  speakingImage: string;           // 说话姿态 PNG（相对 public/）
+  pointingImage?: string;          // 指向姿态 PNG（可选）
+  scale?: number;                  // 缩放比例，默认 1.0
+  opacity?: number;                // 透明度，默认 0.85
 }
+
+interface LowerThirdConfig {
+  enabled: boolean;
+  showProgress: boolean;           // 显示 "2/5 深度解读" 进度
+}
+
+interface VideoData {
+  title: string;                   // 视频标题（动态生成）
+  subtitle?: string;               // 可选副标题
+  date: string;                    // "2026-03-14"
+  keywords: string[];              // ["AI", "Claude"]，空数组跳过关键词场景
+  strategy?: NarrativeStrategy;    // 叙事策略
+  quickReviewTitle?: string;       // 速览标题，默认 "快速速览"
+  brandName?: string;              // 可选品牌名
+  brandSlogan?: string;            // 可选品牌标语
+  audioFile?: string;              // 音频文件名（相对 public/）
+  totalDuration: number;           // 总时长（秒）
+  items: VideoItem[];
+  avatar?: AvatarConfig;           // 主播头像配置
+  lowerThird?: LowerThirdConfig;   // 底部信息条配置
+}
+
+// --- 内容条目 ---
 
 interface VideoItem {
   rank: number;
@@ -138,18 +164,35 @@ interface VideoItem {
   quote?: string;
   oneLiner?: string;
   images: string[];
-  slides?: DeepSlide[];              // 精讲项 slides（8-12 张，每张 8-15 秒）
-  audioStart: number;                // 音频起始时间（秒）
-  audioDuration: number;             // 音频时长（秒）
+  slides?: DeepSlide[];            // 精讲项 slides（8-12 张，每张 8-15 秒）
+  audioStart: number;              // 音频起始时间（秒）
+  audioDuration: number;           // 音频时长（秒）
+  sectionLabel?: string;           // 信息条标签，默认 "深度解读"
 }
+
+// --- Slide 定义 ---
 
 interface DeepSlide {
   type: "cover" | "problem" | "point" | "quote" | "takeaway" | "source-card";
   text: string;
   subText?: string;
-  image?: string;                    // 图片路径（相对 Remotion public/）
-  durationRatio: number;             // 占 item 时长的比例（0-1，和为 1.0）
+  image?: string;                  // 图片路径（相对 Remotion public/）
+  durationRatio: number;           // 占 item 时长的比例（0-1，和为 1.0）
+  layout?: "full" | "multi-region"; // point slide 可用多区域布局
+  sidePanel?: string[];            // 多区域布局的侧边栏要点
+  sidePanelActiveIndex?: number;   // 侧边栏当前高亮项索引
+  sectionTitle?: string;           // 信息条显示的段落标题
+  hideAvatar?: boolean;            // 该 slide 隐藏主播头像
+  dataViz?: DataVizElement[];      // 数据可视化元素（最多 2 个）
 }
+
+// --- 数据可视化（辨别联合类型）---
+
+type DataVizElement =
+  | { type: "progress-bar"; label: string; value: number; maxValue?: number; unit?: string }
+  | { type: "bar-chart"; label: string; items: Array<{ label: string; value: number }>; unit?: string }
+  | { type: "counter"; label: string; value: number; unit?: string }
+  | { type: "highlight"; label: string; value: number; unit?: string };
 ```
 
 ### Slide 类型说明
@@ -169,23 +212,26 @@ interface DeepSlide {
 src/
   index.ts                 # 入口
   Root.tsx                 # Composition 注册
-  ContentVideo.tsx         # 主编排组件
-  types.ts                 # 数据类型定义
-  utils.tsx                # 共享工具（SpringIn, SceneWrapper, KenBurnsImage）
+  ContentVideo.tsx         # 主编排组件（含 avatar/lower-third 覆盖层）
+  types.ts                 # 数据类型定义（含 AvatarConfig, DataVizElement 等）
+  utils.tsx                # 共享工具（SpringIn, SceneWrapper, KenBurnsImage, SlideIn, PulseRing）
   scenes/
     BrandIntro.tsx         # 品牌开场
     KeywordsScene.tsx      # 关键词展示
-    DeepDiveScene.tsx       # 精讲场景（含 fallback slides 生成）
+    DeepDiveScene.tsx      # 精讲场景（含 fallback slides 生成）
     QuickBrowseScene.tsx   # 速览引导 + 卡片
     BrandOutro.tsx         # 品牌结尾
   slides/
     SlideRenderer.tsx      # Slide 类型分发
-    CoverSlide.tsx
-    ProblemSlide.tsx
-    PointSlide.tsx
-    QuoteSlide.tsx
-    TakeawaySlide.tsx
-    SourceCardSlide.tsx
+    CoverSlide.tsx / ProblemSlide.tsx / PointSlide.tsx
+    QuoteSlide.tsx / TakeawaySlide.tsx / SourceCardSlide.tsx
+  components/
+    PresenterAvatar.tsx    # 主播头像覆盖层
+    LowerThird.tsx         # 底部信息条
+    SidePanel.tsx          # 多区域布局侧边栏
+    dataviz/               # 数据可视化组件
+      DataVizOverlay.tsx / AnimatedProgressBar.tsx
+      AnimatedBarChart.tsx / AnimatedCounter.tsx / KeyMetricHighlight.tsx
 ```
 
 ---

@@ -157,14 +157,16 @@ export const PulseRing: React.FC<{
   active: boolean;
 }> = ({ size, color, active }) => {
   const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
 
   if (!active) return null;
 
-  const cycle = frame % 30;
-  const scale = interpolate(cycle, [0, 30], [1, 1.4], {
+  // 1-second pulse cycle, frame-rate independent
+  const cycle = frame % fps;
+  const scale = interpolate(cycle, [0, fps], [1, 1.4], {
     extrapolateRight: "clamp",
   });
-  const opacity = interpolate(cycle, [0, 30], [0.4, 0], {
+  const opacity = interpolate(cycle, [0, fps], [0.4, 0], {
     extrapolateRight: "clamp",
   });
 

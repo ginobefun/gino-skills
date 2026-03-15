@@ -16,9 +16,9 @@ export const LowerThird: React.FC<{
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
-  // Slide in from left
+  // Slide in from left (delay 0.5s)
   const enterProgress = spring({
-    frame: frame - Math.round(0.5 * fps),
+    frame: Math.max(0, frame - Math.round(0.5 * fps)),
     fps,
     config: { damping: 200 },
   });

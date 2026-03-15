@@ -28,8 +28,8 @@ export const PresenterAvatar: React.FC<{
     extrapolateRight: "clamp",
   });
 
-  // Idle breathing: gentle vertical bobbing
-  const breathOffset = Math.sin(frame * 0.1) * 3;
+  // Idle breathing: gentle vertical bobbing (frame-rate independent)
+  const breathOffset = Math.sin((frame / fps) * Math.PI) * 3;
 
   // Speaking: toggle between idle and speaking image every 4 frames
   const showSpeakingFrame = isSpeaking && Math.floor(frame / 4) % 2 === 0;

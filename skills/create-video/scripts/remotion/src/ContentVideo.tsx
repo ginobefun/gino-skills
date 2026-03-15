@@ -1,3 +1,4 @@
+import React, { useMemo } from "react";
 import {
   AbsoluteFill,
   Sequence,
@@ -16,50 +17,12 @@ import { BrandOutro } from "./scenes/BrandOutro";
 import { PresenterAvatar } from "./components/PresenterAvatar";
 import { LowerThird } from "./components/LowerThird";
 
-/**
- * Determines the currently active VideoItem based on frame position.
- */
-function getActiveItem(
-  items: VideoItem[],
-  frame: number,
-  fps: number,
-): { item: VideoItem; index: number; total: number } | null {
-  const deepItems = items.filter((i) => i.type === "deep");
-  for (let idx = 0; idx < deepItems.length; idx++) {
-    const item = deepItems[idx];
-    const start = Math.round(item.audioStart * fps);
-    const end = start + Math.round(item.audioDuration * fps);
-    if (frame >= start && frame < end) {
-      return { item, index: idx, total: deepItems.length };
-    }
-  }
-
-  const quickItems = items.filter((i) => i.type === "quick");
-  for (let idx = 0; idx < quickItems.length; idx++) {
-    const item = quickItems[idx];
-    const start = Math.round(item.audioStart * fps);
-    const end = start + Math.round(item.audioDuration * fps);
-    if (frame >= start && frame < end) {
-      return { item, index: idx, total: quickItems.length };
-    }
-  }
-
-  return null;
-}
-
-/**
- * Checks if the current frame falls within any item's audio range.
- */
-function isSpeakingAtFrame(
-  items: VideoItem[],
-  frame: number,
-  fps: number,
-): boolean {
-  return items.some((item) => {
-    const start = Math.round(item.audioStart * fps);
-    const end = start + Math.round(item.audioDuration * fps);
-    return frame >= start && frame < end;
-  });
+interface AudioRange {
+  start: number;
+  end: number;
+  item: VideoItem;
+  index: number;
+  total: number;
 }
 
 export const ContentVideo: React.FC<VideoData> = (props) => {
@@ -123,9 +86,43 @@ export const ContentVideo: React.FC<VideoData> = (props) => {
   // Use title for brand intro, fallback to brandName
   const introTitle = props.title || props.brandName || "Content Video";
 
-  // Overlay state
-  const speaking = isSpeakingAtFrame(props.items, frame, fps);
-  const activeItem = getActiveItem(props.items, frame, fps);
+  // Pre-compute audio ranges for O(1) frame lookups
+  const audioRanges = useMemo<AudioRange[]>(() => {
+    const ranges: AudioRange[] = [];
+    deepItems.forEach((item, idx) => {
+      ranges.push({
+        start: Math.round(item.audioStart * fps),
+        end: Math.round(item.audioStart * fps) + Math.round(item.audioDuration * fps),
+        item,
+        index: idx,
+        total: deepItems.length,
+      });
+    });
+    quickItems.forEach((item, idx) => {
+      ranges.push({
+        start: Math.round(item.audioStart * fps),
+        end: Math.round(item.audioStart * fps) + Math.round(item.audioDuration * fps),
+        item,
+        index: idx,
+        total: quickItems.length,
+      });
+    });
+    // Sort by start frame for binary search potential
+    ranges.sort((a, b) => a.start - b.start);
+    return ranges;
+  }, [props.items, fps]);
+
+  // Find active item and speaking state from pre-computed ranges
+  const activeItem = useMemo(() => {
+    for (const range of audioRanges) {
+      if (frame >= range.start && frame < range.end) {
+        return range;
+      }
+    }
+    return null;
+  }, [audioRanges, frame]);
+
+  const speaking = activeItem !== null;
 
   return (
     <AbsoluteFill style={{ backgroundColor: COLORS.cream }}>

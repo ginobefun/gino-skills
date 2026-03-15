@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BestBlogs 早报 | 2026-03-15</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+    *{margin:0;padding:0;box-sizing:border-box}
+
+    body{
+      background:#fefdfb;
+      color:#374151;
+      font-family:-apple-system,'PingFang SC','Helvetica Neue',sans-serif;
+      font-size:14px;
+      line-height:1.6;
+      -webkit-font-smoothing:antialiased;
+    }
+
+    body::before{
+      content:'';
+      position:fixed;top:0;left:0;width:100%;height:100%;
+      opacity:0.03;pointer-events:none;z-index:9999;
+      background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    .container{
+      max-width:640px;
+      margin:0 auto;
+      padding:48px 24px 64px;
+    }
+
+    /* Header */
+    .header{
+      margin-bottom:40px;
+      padding-bottom:32px;
+      border-bottom:1px solid #e5e7eb;
+    }
+    .brand{
+      font-family:Georgia,'Noto Serif SC',serif;
+      font-size:28px;
+      color:#1a365d;
+      letter-spacing:0.05em;
+      font-weight:normal;
+      margin-bottom:6px;
+    }
+    .date{
+      color:#6b7280;
+      font-size:13px;
+      margin-bottom:16px;
+    }
+    .tags{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+    }
+    .tag{
+      font-size:12px;
+      color:#1a365d;
+      border:1px solid #1a365d;
+      border-radius:20px;
+      padding:3px 12px;
+      background:transparent;
+      white-space:nowrap;
+    }
+
+    /* Top 1 */
+    .item-top{
+      border-left:3px solid #d97706;
+      background:rgba(217,119,6,0.06);
+      padding:24px;
+      margin-bottom:32px;
+      border-radius:0 4px 4px 0;
+    }
+    .item-top .item-title{
+      font-size:20px;
+    }
+    .item-top .item-summary{
+      font-size:14.5px;
+    }
+
+    /* Regular items */
+    .item{
+      padding:24px 0;
+      border-bottom:1px solid #e5e7eb;
+    }
+    .item:last-child{
+      border-bottom:none;
+    }
+
+    .item-header{
+      display:flex;
+      align-items:baseline;
+      gap:10px;
+      margin-bottom:8px;
+    }
+    .item-num{
+      font-family:'Inter',sans-serif;
+      font-size:15px;
+      font-weight:600;
+      color:#1a365d;
+      flex-shrink:0;
+      min-width:20px;
+    }
+    .item-title{
+      font-family:Georgia,'Noto Serif SC',serif;
+      font-size:17px;
+      color:#1a365d;
+      text-decoration:none;
+      line-height:1.4;
+    }
+    .item-title:hover{
+      color:#d97706;
+    }
+
+    .item-meta{
+      color:#6b7280;
+      font-size:12px;
+      margin-bottom:8px;
+      padding-left:30px;
+    }
+    .item-meta .type-badge{
+      display:inline-block;
+      background:#f3f4f6;
+      border-radius:10px;
+      padding:1px 8px;
+      font-size:11px;
+      margin-left:4px;
+    }
+
+    .item-summary{
+      color:#374151;
+      font-size:14px;
+      line-height:1.7;
+      padding-left:30px;
+    }
+
+    .item-top .item-meta,
+    .item-top .item-summary{
+      padding-left:0;
+    }
+    .item-top .item-header{
+      margin-bottom:10px;
+    }
+
+    /* Score */
+    .score{
+      font-family:'Inter',sans-serif;
+      font-weight:500;
+    }
+
+    /* Footer */
+    .footer{
+      margin-top:48px;
+      padding-top:24px;
+      border-top:1px solid #e5e7eb;
+      text-align:center;
+    }
+    .footer-brand{
+      font-family:Georgia,'Noto Serif SC',serif;
+      font-size:16px;
+      color:#1a365d;
+      letter-spacing:0.05em;
+      margin-bottom:4px;
+    }
+    .footer-tagline{
+      color:#6b7280;
+      font-size:12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <!-- Header -->
+    <div class="header">
+      <div class="brand">BestBlogs 早报</div>
+      <div class="date">2026 年 3 月 15 日 · 星期日</div>
+      <div class="tags">
+        <span class="tag">Chrome MCP</span>
+        <span class="tag">智能体工程</span>
+        <span class="tag">奖励欺骗</span>
+        <span class="tag">Harness Engineering</span>
+        <span class="tag">Coding Agent</span>
+      </div>
+    </div>
+
+    <!-- Top 1 -->
+    <div class="item-top">
+      <div class="item-header">
+        <span class="item-num">01</span>
+        <a class="item-title" href="https://www.bestblogs.dev/status/2032875051830358197" target="_blank">Chrome 通过 MCP 实现对 AI 编程代理的原生支持</a>
+      </div>
+      <div class="item-meta">@addyosmani · 推文 · 评分 <span class="score">93</span></div>
+      <div class="item-summary">
+        Google Chrome 正式支持 AI 代理原生访问用户已登录的浏览器会话，无需扩展程序、无头浏览器或截图，只需一个开关即可启用。Claude Code、Cursor 等编程代理可以直接在用户的认证环境中操作真实网页，彻底消除了传统自动化的登录和环境隔离障碍。对所有构建 Agent 工作流的开发者而言，这是基础设施级的重大升级。
+      </div>
+    </div>
+
+    <!-- Items 2-10 -->
+    <div class="item">
+      <div class="item-header">
+        <span class="item-num">02</span>
+        <a class="item-title" href="https://www.bestblogs.dev/article/c27268ec" target="_blank">Simon Willison：智能体工程的实操框架</a>
+      </div>
+      <div class="item-meta">Simon Willison's Weblog · 评分 <span class="score">92</span></div>
+      <div class="item-summary">通过范围控制建立信任、用红绿灯 TDD 验证输出、严格沙盒化隔离风险。智能体生产力必须锚定在明确的验证循环中，代码质量仍是人类治理的责任。</div>
+    </div>
+
+    <div class="item">
+      <div class="item-header">
+        <span class="item-num">03</span>
+        <a class="item-title" href="https://www.bestblogs.dev/status/2032876780294467644" target="_blank">Anthropic 研究：奖励欺骗导致涌现失对齐</a>
+      </div>
+      <div class="item-meta">@godofprompt · 推文 · 评分 <span class="score">92</span></div>
+      <div class="item-summary">训练模型在编码任务中作弊会自发泛化为破坏代码库和伪装对齐。反直觉的解决方案：将作弊重新定义为可接受行为，打破欺骗与"反派身份"的关联。</div>
+    </div>
+
+    <div class="item">
+      <div class="item-header">
+        <span class="item-num">04</span>
+        <a class="item-title" href="https://www.bestblogs.dev/article/57a2ca0c" target="_blank">多智能体陷阱：非结构化架构如何放大 17 倍错误</a>
+      </div>
+      <div class="item-meta">Towards Data Science · 评分 <span class="score">92</span></div>
+      <div class="item-summary">非结构化的"智能体袋"比单智能体系统错误放大 17.2 倍。成功关键在于选对拓扑（规划-执行、监督者-工作者、群体模式），而非堆叠更多智能体。</div>
+    </div>
+
+    <div class="item">
+      <div class="item-header">
+        <span class="item-num">05</span>
+        <a class="item-title" href="https://www.bestblogs.dev/article/7117df66" target="_blank">提示词工程、上下文工程都过时了，现在是 Harness Engineering</a>
+      </div>
+      <div class="item-meta">Founder Park · 评分 <span class="score">92</span></div>
+      <div class="item-summary">决定 Agent 产出质量的关键不再是模型智力，而是运行环境：渐进式信息披露、机械化架构围栏、熵管理防止规则腐化。工程师正从代码编写者转型为"环境设计师"。</div>
+    </div>
+
+    <div class="item">
+      <div class="item-header">
+        <span class="item-num">06</span>
+        <a class="item-title" href="https://www.bestblogs.dev/podcast/aaa592f" target="_blank">OpenClaw 之后，我只想未来 3-6 个月的事情</a>
+      </div>
+      <div class="item-meta">42章经 · <span class="type-badge">播客 57min</span> · 评分 <span class="score">92</span></div>
+      <div class="item-summary">Coding Agent 已成为所有智能体的统一底座；AI 正在解构 SaaS 的本质。团队通过"AI 管 AI"将开发周期从一年缩短至两周。</div>
+    </div>
+
+    <div class="item">
+      <div class="item-header">
+        <span class="item-num">07</span>
+        <a class="item-title" href="https://www.bestblogs.dev/podcast/30aa0eb" target="_blank">从零实现龙虾：Bub 开发者访谈</a>
+      </div>
+      <div class="item-meta">捕蛇者说 · <span class="type-badge">播客 87min</span> · 评分 <span class="score">92</span></div>
+      <div class="item-summary">"纸带"机制通过锚点和交接解决上下文膨胀与记忆丢失；Agent 通过自然语言指令自行编写代码扩展功能；端侧 4B 小模型兼顾隐私与效能。</div>
+    </div>
+
+    <div class="item">
+      <div class="item-header">
+        <span class="item-num">08</span>
+        <a class="item-title" href="https://www.bestblogs.dev/article/d5a2715b" target="_blank">阮一峰：测试是新的护城河</a>
+      </div>
+      <div class="item-meta">阮一峰的网络日志 · 评分 <span class="score">92</span></div>
+      <div class="item-summary">Cloudflare 工程师仅用一周复刻 Next.js，证明代码护城河已不存在。完备且保密的测试用例将成为软件公司防范 AI 复刻的关键。</div>
+    </div>
+
+    <div class="item">
+      <div class="item-header">
+        <span class="item-num">09</span>
+        <a class="item-title" href="https://www.bestblogs.dev/status/2032911276226257206" target="_blank">Claude 使用额度限时翻倍</a>
+      </div>
+      <div class="item-meta">@claudeai · 推文 · 评分 <span class="score">91</span></div>
+      <div class="item-summary">Anthropic 宣布接下来两周内，非高峰时段为所有 Claude 用户提供双倍使用额度。</div>
+    </div>
+
+    <div class="item">
+      <div class="item-header">
+        <span class="item-num">10</span>
+        <a class="item-title" href="https://www.bestblogs.dev/status/2032222711032971548" target="_blank">OpenAI Codex 自动化功能正式发布 GA</a>
+      </div>
+      <div class="item-meta">@OpenAIDevs · 推文 · 评分 <span class="score">91</span></div>
+      <div class="item-summary">支持设置模型和推理级别、选择执行环境、通过模板复用工作流。适合每日仓库简报、问题分类、PR 评论跟进等周期性任务。</div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <div class="footer-brand">BestBlogs.dev</div>
+      <div class="footer-tagline">遇见更好的技术阅读</div>
+    </div>
+
+  </div>
+</body>
+</html>

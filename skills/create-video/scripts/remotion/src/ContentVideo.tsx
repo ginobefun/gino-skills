@@ -19,9 +19,17 @@ export const ContentVideo: React.FC<VideoData> = (props) => {
   const deepItems = props.items.filter((i) => i.type === "deep");
   const quickItems = props.items.filter((i) => i.type === "quick");
 
-  const brandIntroDuration = 5 * fps;
   const hasKeywords = props.keywords && props.keywords.length > 0;
-  const keywordsDuration = hasKeywords ? 3 * fps : 0;
+  const keywordsDuration = hasKeywords ? 4 * fps : 0;
+
+  // Brand intro fills the gap until keywords or first deep item
+  const firstDeepStart = deepItems.length > 0
+    ? Math.round(deepItems[0].audioStart * fps)
+    : 5 * fps;
+  const brandIntroDuration = Math.max(
+    5 * fps,
+    firstDeepStart - keywordsDuration,
+  );
 
   // Deep dive scenes - aligned to audio timestamps
   const deepScenes = deepItems.map((item) => {

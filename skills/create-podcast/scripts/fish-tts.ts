@@ -179,6 +179,7 @@ async function synthesize(
 
   const body: Record<string, unknown> = {
     text,
+    model: "s2-pro",
     reference_id: voiceId,
     format,
     normalize: true,
@@ -251,9 +252,23 @@ async function mergeSegments(
   // Resolve merge path to absolute so it works with cwd=outputDir
   const absoluteMergePath = resolve(mergePath);
 
+  // Resolve ffmpeg path: check common Homebrew locations if not in PATH
+  const ffmpegPath = await (async () => {
+    try {
+      const which = Bun.spawn(["which", "ffmpeg"], { stdout: "pipe", stderr: "pipe" });
+      await which.exited;
+      const path = (await new Response(which.stdout).text()).trim();
+      if (path) return path;
+    } catch {}
+    for (const p of ["/opt/homebrew/bin/ffmpeg", "/usr/local/bin/ffmpeg"]) {
+      try { if (Bun.file(p).size) return p; } catch {}
+    }
+    return "ffmpeg";
+  })();
+
   const proc = Bun.spawn(
     [
-      "ffmpeg",
+      ffmpegPath,
       "-y",
       "-f",
       "concat",

@@ -323,7 +323,7 @@ contents/tmp/video/YYYY-MM-DD/script.md
 
 ## 阶段三：音频合成
 
-与 `create-podcast` 相同的 Fish.audio TTS 流程:
+使用 Fish.audio S2 Pro 模型（`fish-tts.ts` 已内置 `model: "s2-pro"`）。脚本中可添加情绪标记增强表现力，详见 `references/api_reference.md` 的情绪标记章节。
 
 ```bash
 SKILL_DIR=$(readlink -f ~/.claude/skills/create-video 2>/dev/null)

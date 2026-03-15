@@ -1,0 +1,74 @@
+{
+  "date": "2026-03-15",
+  "title": "EP1 · Chrome MCP/智能体工程/Harness Engineering · 03.15 早报",
+  "description": "Chrome 原生支持 AI Agent 访问浏览器、Simon Willison 的智能体工程实操框架、Harness Engineering 新范式",
+  "duration": 506,
+  "durationFormatted": "08:26",
+  "audioFile": "podcast.mp3",
+  "audioSize": 12148862,
+  "keywords": ["Chrome MCP", "智能体工程", "Harness Engineering", "AI Agent", "TDD"],
+  "series": "daily",
+  "episode": 1,
+  "items": [
+    {
+      "title": "Chrome 通过 MCP 实现对 AI 编程代理的原生支持",
+      "source": "@addyosmani",
+      "readUrl": "https://www.bestblogs.dev/status/2032875051830358197",
+      "type": "deep"
+    },
+    {
+      "title": "Simon Willison：智能体工程的实操框架",
+      "source": "Simon Willison's Weblog",
+      "readUrl": "https://www.bestblogs.dev/article/c27268ec",
+      "type": "deep"
+    },
+    {
+      "title": "提示词工程、上下文工程都过时了，现在是 Harness Engineering 的时代",
+      "source": "Founder Park",
+      "readUrl": "https://www.bestblogs.dev/article/7117df66",
+      "type": "deep"
+    },
+    {
+      "title": "Anthropic 研究：奖励欺骗导致涌现失对齐",
+      "source": "@godofprompt",
+      "readUrl": "https://www.bestblogs.dev/status/2032876780294467644",
+      "type": "scan"
+    },
+    {
+      "title": "多智能体陷阱：非结构化架构如何放大 17 倍错误",
+      "source": "Towards Data Science",
+      "readUrl": "https://www.bestblogs.dev/article/57a2ca0c",
+      "type": "scan"
+    },
+    {
+      "title": "OpenClaw 之后，我只想未来 3-6 个月的事情",
+      "source": "42 章经",
+      "readUrl": "https://www.bestblogs.dev/podcast/aaa592f",
+      "type": "scan"
+    },
+    {
+      "title": "从零实现龙虾：Bub 开发者访谈",
+      "source": "捕蛇者说",
+      "readUrl": "https://www.bestblogs.dev/podcast/30aa0eb",
+      "type": "scan"
+    },
+    {
+      "title": "阮一峰：测试是新的护城河",
+      "source": "阮一峰的网络日志",
+      "readUrl": "https://www.bestblogs.dev/article/d5a2715b",
+      "type": "scan"
+    },
+    {
+      "title": "Claude 使用额度限时翻倍",
+      "source": "@claudeai",
+      "readUrl": "https://www.bestblogs.dev/status/2032911276226257206",
+      "type": "scan"
+    },
+    {
+      "title": "OpenAI Codex 自动化功能正式发布 GA",
+      "source": "@OpenAIDevs",
+      "readUrl": "https://www.bestblogs.dev/status/2032222711032971548",
+      "type": "scan"
+    }
+  ]
+}

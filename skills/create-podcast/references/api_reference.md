@@ -13,6 +13,7 @@
 
 | 参数 | 类型 | 默认值 | 说明 |
 |------|------|--------|------|
+| `model` | String | — | 模型选择：`s2-pro`（最新推荐）、`s1`（旧版） |
 | `text` | String | **必填** | 要合成的文本 |
 | `reference_id` | String | — | 克隆后的 voice_id |
 | `format` | String | `"mp3"` | 输出格式：`mp3`, `wav`, `opus`, `pcm` |
@@ -27,7 +28,25 @@
 | `repetition_penalty` | Float | `1.2` | 重复惩罚 |
 | `condition_on_previous_chunks` | Boolean | `true` | 保持声音一致性 |
 
-### V3 HD 模型额外参数
+### S2-Pro 模型特性
+
+S2-Pro 是 Fish.audio 最新一代模型，推荐优先使用。
+
+**情绪标记语法**（S2-Pro 用 `[bracket]`，S1 用 `(parenthesis)`）：
+
+```
+[excited] 这个消息太棒了！
+[thoughtful] 这个问题值得深入想一想。
+[amused] 他说他以前一直不喜欢 TDD。
+```
+
+规则：
+- 情绪标记**必须放在句首**
+- 每句话只用一个情绪标记
+- 不要过度标记，只在需要明显情绪变化时使用
+- 支持自然语言描述，不限于固定标签
+
+### S1 模型额外参数（旧版）
 
 | 参数 | 说明 |
 |------|------|
@@ -42,6 +61,7 @@ curl -s -X POST https://api.fish.audio/v1/tts \
   -H "Content-Type: application/json" \
   -d '{
     "text": "要合成的文本内容",
+    "model": "s2-pro",
     "reference_id": "'$FISH_AUDIO_VOICE_ID'",
     "format": "mp3",
     "mp3_bitrate": 192,

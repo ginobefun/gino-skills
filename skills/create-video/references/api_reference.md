@@ -15,6 +15,7 @@
 |------|------|--------|------|
 | `text` | String | **必填** | 要合成的文本 |
 | `reference_id` | String | — | 克隆后的 voice_id |
+| `model` | String | `"s2-pro"` | **必须指定**，使用最新的 S2 Pro 模型 |
 | `format` | String | `"mp3"` | 输出格式: `mp3`, `wav`, `opus`, `pcm` |
 | `mp3_bitrate` | Integer | `128` | MP3 比特率 |
 | `prosody.speed` | Float | `1.0` | 语速控制（0.5-2.0） |
@@ -23,6 +24,27 @@
 | `latency` | String | `"normal"` | 延迟模式 |
 | `repetition_penalty` | Float | `1.2` | 重复惩罚 |
 | `condition_on_previous_chunks` | Boolean | `true` | 保持声音一致性 |
+
+### 情绪标记（Emotion Markers）
+
+S2 Pro 模型支持括号语法在句首添加情绪标记，增强语音表现力。
+
+**用法规则**:
+- 情绪标记**必须放在句首**，如 `(excited) 这个数据很有说服力`
+- 每句只用一个情绪标记，不要堆叠
+- 不要在短文本中过度使用
+
+**常用标记**:
+
+| 标记 | 效果 | 适用场景 |
+|------|------|---------|
+| `(excited)` | 兴奋、激动 | 亮眼数据、有趣发现 |
+| `(thoughtful)` | 沉思、思考 | 深度分析、个人判断 |
+| `(serious)` | 严肃、认真 | 重要警告、关键数据 |
+| `(happy)` | 开心、愉悦 | 好消息、轻松内容 |
+| `(empathetic)` | 共情、理解 | 痛点描述、问题引入 |
+
+**脚本中的使用策略**: 每个 SEGMENT 中使用 1-2 个情绪标记即可。在关键转折点、数据亮点、个人判断处使用，不要每句都加。
 
 ### curl 示例
 
@@ -33,6 +55,7 @@ curl -s -X POST https://api.fish.audio/v1/tts \
   -d '{
     "text": "要合成的文本内容",
     "reference_id": "'$FISH_AUDIO_VOICE_ID'",
+    "model": "s2-pro",
     "format": "mp3",
     "mp3_bitrate": 192,
     "prosody": {"speed": 1.0},

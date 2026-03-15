@@ -180,6 +180,7 @@ async function synthesize(
   const body: Record<string, unknown> = {
     text,
     reference_id: voiceId,
+    model: "s2-pro",
     format,
     normalize: true,
     latency: "normal",

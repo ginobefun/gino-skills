@@ -1,4 +1,4 @@
-# BestBlogs Process Articles API 参考
+# BestBlogs Process Articles API 参考（含翻译）
 
 ## 接口地址
 
@@ -10,7 +10,7 @@
 
 ### Admin API 认证
 
-用于查询文章列表和保存分析结果。
+用于查询文章列表、保存分析结果和翻译结果。
 
 ```bash
 -H "Authorization: Bearer $BESTBLOGS_ADMIN_JWT_TOKEN"
@@ -39,10 +39,12 @@
 
 | 端点 | 方法 | 认证 | 类型 | 用途 |
 |------|------|------|------|------|
-| `/api/admin/article/list` | POST | Admin | 读取 | 查询等待分析的文章列表 |
+| `/api/admin/article/list` | POST | Admin | 读取 | 查询等待分析/翻译的文章列表 |
 | `/openapi/v1/resource/markdown` | GET | OpenAPI | 读取 | 获取文章 Markdown 正文 |
+| `/dify/resource/markdown` | GET | 无 | 读取 | 获取文章正文和已分析的结果（翻译阶段用） |
 | `/api/admin/article/runPrepareFlow` | POST | Admin | 写入 | 触发文章预处理（空正文兜底） |
 | `/api/admin/article/saveAnalysisResult` | POST | Admin | 写入 | 保存结构化分析结果 |
+| `/api/admin/article/saveTranslateResult` | POST | Admin | 写入 | 保存翻译后的分析结果 |
 
 ---
 
@@ -72,7 +74,7 @@ POST /api/admin/article/list
 | `currentPage` | int | 是 | 1 | 当前页码 |
 | `pageSize` | int | 是 | 50 | 每页条数，最大 200 |
 | `type` | string | 是 | - | 内容类型: `ARTICLE` |
-| `flowStatusFilter` | string | 是 | - | 处理流程状态: `WAIT_ANALYSIS` |
+| `flowStatusFilter` | string | 是 | - | 处理流程状态: `WAIT_PREPARE` / `WAIT_ANALYSIS` / `WAIT_TRANSLATE` |
 | `keyword` | string | 否 | "" | 搜索关键词 |
 | `category` | string | 否 | "" | 分类过滤 |
 | `language` | string | 否 | "" | 语言过滤 |
@@ -412,6 +414,156 @@ curl -s -X POST "https://api.bestblogs.dev/api/admin/article/saveAnalysisResult?
 
 ---
 
+## 5. 获取文章内容和分析结果（翻译阶段用）
+
+### 请求
+
+```
+GET /dify/resource/markdown?id={id}&language={language}
+```
+
+> **无需认证头。** `language` 参数影响 `languageName` 和 `destLanguageName` 的显示语言。
+
+### 请求参数
+
+| 参数 | 类型 | 必填 | 说明 |
+|------|------|------|------|
+| `id` | string | 是 | 文章 ID，如 `RAW_55206902`（不带 `RAW_` 前缀也可，服务端自动补全） |
+| `language` | string | 否 | 用户语言偏好，如 `zh`。影响语言名称的显示 |
+
+### curl 示例
+
+```bash
+curl -s "https://api.bestblogs.dev/dify/resource/markdown?id=RAW_55206902&language=zh"
+```
+
+### 响应格式
+
+```json
+{
+  "success": "true",
+  "url": "https://example.com/article",
+  "sourceName": "来源名称",
+  "priority": "HIGH",
+  "priorityScore": 80,
+  "title": "文章标题",
+  "languageName": "中文",
+  "destLanguageName": "English",
+  "wordCount": 5385,
+  "markdown": "# 文章标题\n\n正文 Markdown 内容...",
+  "analysisResult": "{\"title\":\"文章标题\",\"oneSentenceSummary\":\"一句话总结\",\"summary\":\"全文摘要\",\"tags\":[\"Tag1\",\"Tag2\"],\"mainPoints\":[{\"point\":\"观点1\",\"explanation\":\"解释1\"}],\"keyQuotes\":[\"金句1\",\"金句2\"]}"
+}
+```
+
+> **注意**：`success` 字段为**字符串类型**（`"true"` / `"false"`），非布尔值。
+
+### 响应字段说明
+
+| 字段 | 类型 | 说明 |
+|------|------|------|
+| `success` | string | `"true"` 成功 / `"false"` 失败（**字符串类型**） |
+| `url` | string | 原文链接 |
+| `sourceName` | string | 来源名称 |
+| `priority` | string | 来源优先级: `HIGHEST` / `HIGH` / `MEDIUM` / `LOW` / `LOWEST` |
+| `title` | string | 文章标题 |
+| `languageName` | string | 原始语言名称（如 "中文"、"English"），用于确定翻译方向 |
+| `destLanguageName` | string | 目标翻译语言名称（如 "English"、"中文"），用于确定翻译方向 |
+| `wordCount` | int | 字数 |
+| `markdown` | string | 文章 Markdown 正文 |
+| `analysisResult` | string | 已分析的结构化结果（**JSON 字符串**，需解析后使用） |
+
+### analysisResult 解析后结构
+
+```json
+{
+  "title": "文章标题",
+  "oneSentenceSummary": "一句话核心总结",
+  "summary": "全文摘要（200-400 字）",
+  "tags": ["标签1", "标签2", "标签3"],
+  "mainPoints": [
+    {"point": "主要观点 1", "explanation": "观点解释 1"}
+  ],
+  "keyQuotes": ["关键引用 1", "关键引用 2"]
+}
+```
+
+---
+
+## 6. 保存翻译结果
+
+### 请求
+
+```
+POST /api/admin/article/saveTranslateResult?id={id}
+```
+
+> **注意**：文章 ID 通过 **query 参数** 传递。端点为 `saveTranslateResult`（非 `saveAnalysisResult`）。
+
+### 请求体（ResourceAnalysisResponse）
+
+翻译阶段只传翻译后的文本字段，**不传** `score`、`remark`、`domain`、`aiSubcategory`、`content` 等非翻译字段。
+
+```json
+{
+  "title": "翻译后的标题",
+  "oneSentenceSummary": "Translated one-sentence summary",
+  "summary": "Translated detailed summary...",
+  "tags": ["Translated Tag1", "Translated Tag2"],
+  "mainPoints": [
+    {"point": "Translated point 1", "explanation": "Translated explanation 1"}
+  ],
+  "keyQuotes": ["Translated quote 1", "Translated quote 2"]
+}
+```
+
+### 请求参数说明
+
+| 参数 | 类型 | 位置 | 必填 | 说明 |
+|------|------|------|------|------|
+| `id` | string | query | 是 | 文章 ID，如 `RAW_55206902` |
+| `title` | string | body | 是 | 翻译后的标题 |
+| `oneSentenceSummary` | string | body | 是 | 翻译后的一句话核心总结 |
+| `summary` | string | body | 是 | 翻译后的详细摘要 |
+| `tags` | string[] | body | 是 | 翻译后的标签列表 |
+| `mainPoints` | object[] | body | 是 | 翻译后的主要观点，每项含 `point` 和 `explanation` |
+| `keyQuotes` | string[] | body | 是 | 翻译后的关键引用 |
+
+### curl 示例
+
+```bash
+curl -s -X POST "https://api.bestblogs.dev/api/admin/article/saveTranslateResult?id=RAW_55206902" \
+  -H "Authorization: Bearer $BESTBLOGS_ADMIN_JWT_TOKEN" \
+  -H "User-Id: $BESTBLOGS_ADMIN_USER_ID" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "title": "Translated Title",
+    "oneSentenceSummary": "Translated one-sentence summary",
+    "summary": "Translated detailed summary content...",
+    "tags": ["Tag1", "Tag2", "Tag3"],
+    "mainPoints": [
+      {"point": "Point 1", "explanation": "Explanation 1"},
+      {"point": "Point 2", "explanation": "Explanation 2"}
+    ],
+    "keyQuotes": ["Quote 1", "Quote 2", "Quote 3"]
+  }'
+```
+
+### 响应格式
+
+```json
+{
+  "success": true,
+  "code": null,
+  "message": null,
+  "requestId": "Txxxx",
+  "data": true
+}
+```
+
+`data` 为 `true` 表示保存成功。
+
+---
+
 ## 错误码
 
 | HTTP 状态 | 错误码 | 说明 | 处理方式 |
@@ -422,7 +574,8 @@ curl -s -X POST "https://api.bestblogs.dev/api/admin/article/saveAnalysisResult?
 | 404 | - | 资源不存在 | 检查文章 ID 是否有效 |
 | 500 | - | 服务端错误 | 重试一次，仍失败告知用户 |
 | **200** | `success: false` | 业务逻辑错误 | 展示 `message` 字段内容 |
+| **200** | `success: "false"` | `/dify/resource/markdown` 端点失败 | 文章内容不可用，跳过该篇 |
 
 对于 `runPrepareFlow`，若返回 `success: true, data: true`，表示预处理已触发；并不保证 markdown 会立即可用，需重试读取正文。
 
-**重要**: 始终先检查 `response.success` 再处理 `response.data`。部分错误返回 HTTP 200 但 `success: false` — 不要仅依赖 HTTP 状态码。
+**重要**: 始终先检查 `response.success` 再处理 `response.data`。注意 `/dify/resource/markdown` 端点的 `success` 为**字符串类型**，其他 Admin API 端点为**布尔类型**。

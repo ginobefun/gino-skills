@@ -24,11 +24,21 @@ export interface VideoItem {
   audioDuration: number;
 }
 
+export type NarrativeStrategy =
+  | "standard"        // 策略一：标准精讲 + 速览
+  | "deep-focus"      // 策略二：深度聚焦
+  | "theme-thread"    // 策略三：主题串联
+  | "comparative"     // 策略四：对比分析
+  | "trend-signals"   // 策略五：趋势信号
+  | "hands-on";       // 策略六：实操拆解
+
 export interface VideoData {
   title: string;
   subtitle?: string;
   date: string;
   keywords: string[];
+  strategy?: NarrativeStrategy;
+  quickReviewTitle?: string;
   brandName?: string;
   brandSlogan?: string;
   audioFile?: string;

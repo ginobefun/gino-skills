@@ -1,20 +1,33 @@
+import React, { useMemo } from "react";
 import {
   AbsoluteFill,
   Sequence,
   staticFile,
+  useCurrentFrame,
   useVideoConfig,
 } from "remotion";
 import { Audio } from "@remotion/media";
-import type { VideoData } from "./types";
+import type { VideoData, VideoItem } from "./types";
 import { COLORS } from "./types";
 import { BrandIntro } from "./scenes/BrandIntro";
 import { KeywordsScene } from "./scenes/KeywordsScene";
 import { DeepDiveScene } from "./scenes/DeepDiveScene";
 import { QuickReviewIntro, QuickCard } from "./scenes/QuickBrowseScene";
 import { BrandOutro } from "./scenes/BrandOutro";
+import { PresenterAvatar } from "./components/PresenterAvatar";
+import { LowerThird } from "./components/LowerThird";
+
+interface AudioRange {
+  start: number;
+  end: number;
+  item: VideoItem;
+  index: number;
+  total: number;
+}
 
 export const ContentVideo: React.FC<VideoData> = (props) => {
-  const { fps } = useVideoConfig();
+  const frame = useCurrentFrame();
+  const { fps, durationInFrames } = useVideoConfig();
 
   const deepItems = props.items.filter((i) => i.type === "deep");
   const quickItems = props.items.filter((i) => i.type === "quick");
@@ -72,6 +85,44 @@ export const ContentVideo: React.FC<VideoData> = (props) => {
 
   // Use title for brand intro, fallback to brandName
   const introTitle = props.title || props.brandName || "Content Video";
+
+  // Pre-compute audio ranges for O(1) frame lookups
+  const audioRanges = useMemo<AudioRange[]>(() => {
+    const ranges: AudioRange[] = [];
+    deepItems.forEach((item, idx) => {
+      ranges.push({
+        start: Math.round(item.audioStart * fps),
+        end: Math.round(item.audioStart * fps) + Math.round(item.audioDuration * fps),
+        item,
+        index: idx,
+        total: deepItems.length,
+      });
+    });
+    quickItems.forEach((item, idx) => {
+      ranges.push({
+        start: Math.round(item.audioStart * fps),
+        end: Math.round(item.audioStart * fps) + Math.round(item.audioDuration * fps),
+        item,
+        index: idx,
+        total: quickItems.length,
+      });
+    });
+    // Sort by start frame for binary search potential
+    ranges.sort((a, b) => a.start - b.start);
+    return ranges;
+  }, [props.items, fps]);
+
+  // Find active item and speaking state from pre-computed ranges
+  const activeItem = useMemo(() => {
+    for (const range of audioRanges) {
+      if (frame >= range.start && frame < range.end) {
+        return range;
+      }
+    }
+    return null;
+  }, [audioRanges, frame]);
+
+  const speaking = activeItem !== null;
 
   return (
     <AbsoluteFill style={{ backgroundColor: COLORS.cream }}>
@@ -153,6 +204,25 @@ export const ContentVideo: React.FC<VideoData> = (props) => {
           durationInFrames={outroDuration}
         />
       </Sequence>
+
+      {/* Overlay: Lower Third Info Bar */}
+      {props.lowerThird?.enabled && activeItem && (
+        <LowerThird
+          sectionTitle={activeItem.item.title}
+          source={activeItem.item.source}
+          progress={`${activeItem.index + 1}/${activeItem.total} ${activeItem.item.sectionLabel || (activeItem.item.type === "deep" ? "深度解读" : "速览")}`}
+          durationInFrames={Math.round(activeItem.item.audioDuration * fps)}
+        />
+      )}
+
+      {/* Overlay: Presenter Avatar (topmost layer) */}
+      {props.avatar?.enabled && (
+        <PresenterAvatar
+          config={props.avatar}
+          isSpeaking={speaking}
+          durationInFrames={durationInFrames}
+        />
+      )}
     </AbsoluteFill>
   );
 };

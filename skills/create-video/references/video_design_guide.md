@@ -423,6 +423,153 @@ connected by message arrows..."
 
 ---
 
+## 主播头像 (Presenter Avatar)
+
+右下角常驻的插画风格动画角色，增加"人"的存在感。
+
+### 素材规格
+
+- **尺寸**: 400×500px PNG，透明背景
+- **风格**: 扁平插画，配色与品牌一致（墨蓝 + 米白色调）
+- **需要**: idle（闭嘴）、speaking（张嘴）两张，差异仅在嘴部
+- **可选**: pointing（指向左侧）用于 point slide
+
+### 行为
+
+- **位置**: `bottom: 0, right: 40px`，渲染尺寸约 200×250px
+- **空闲动画**: 3px 上下呼吸浮动（`sin(frame * 0.1) * 3`）
+- **说话动画**: 每 4 帧切换 idle/speaking 图片（30fps 下约 7.5Hz）
+- **入场**: 0.5s opacity 淡入
+- **投影**: `drop-shadow(0 2px 8px rgba(0,0,0,0.15))`
+- **说话判定**: 基于 `audioStart`/`audioDuration` 场景级判定
+
+### 显示规则
+
+- 品牌开场、关键词、品牌结尾场景：始终显示（idle 状态）
+- 深度解读、速览场景：显示（speaking 状态由音频范围决定）
+- 单个 slide 可通过 `hideAvatar: true` 隐藏（用于全屏封面图等）
+
+### 配置
+
+```json
+{
+  "avatar": {
+    "enabled": true,
+    "idleImage": "avatar-idle.png",
+    "speakingImage": "avatar-speaking.png",
+    "scale": 1.0,
+    "opacity": 0.85
+  }
+}
+```
+
+---
+
+## 底部信息条 (Lower Third)
+
+类新闻频道的信息条，显示当前话题、来源和进度。
+
+### 视觉规格
+
+- **位置**: 屏幕底部，左对齐
+- **宽度**: 75%（给右侧 avatar 留空间）
+- **高度**: 56px
+- **背景**: `rgba(26, 54, 93, 0.88)` + 顶部 2px amber 细线
+- **文字**: 话题标题（白色 20px sans）、来源（白色半透明 16px）、进度（amber 16px mono）
+
+### 动画
+
+- 入场: 从左滑入 0.4s（spring-based）
+- 退场: 场景结束前 0.3s 淡出
+
+### 显示规则
+
+- 仅在深度解读和速览场景显示
+- 品牌开场/关键词/品牌结尾隐藏
+- 进度格式: `"2/5 深度解读"` 或 `"3/7 速览"`
+
+### 配置
+
+```json
+{
+  "lowerThird": {
+    "enabled": true,
+    "showProgress": true
+  }
+}
+```
+
+---
+
+## 数据可视化 (Data Visualization)
+
+在 point/takeaway slide 中嵌入动态数据元素，提升信息密度。
+
+### 4 种可视化类型
+
+| 类型 | 组件 | 适用场景 |
+|------|------|---------|
+| `progress-bar` | 横向填充条 | 百分比、评分、完成度 |
+| `bar-chart` | 多条对比柱状图 | 方案对比、性能指标 |
+| `counter` | 数字计数动画 | 大数字展示（用户数、性能提升） |
+| `highlight` | 关键指标 + 下划线 | 单个核心数据强调 |
+
+### 使用规则
+
+- 每张 slide 最多 **2 个**数据可视化元素
+- 仅用于 `point` 和 `takeaway` slide
+- 数据必须来自源文章，不编造
+- 动画时长 0.8-1s，不影响 slide 切换节奏
+
+### 配置示例
+
+```json
+{
+  "dataViz": [
+    { "type": "progress-bar", "label": "性能提升", "value": 85, "unit": "%" },
+    { "type": "counter", "label": "活跃用户", "value": 500, "unit": "万" }
+  ]
+}
+```
+
+---
+
+## 多区域布局 (Multi-Region Layout)
+
+`point` slide 支持主内容 + 侧边栏摘要布局，适合多要点展开的内容。
+
+### 布局
+
+```
+┌──────────────────────────────────┬────────────────┐
+│  主内容区 (72%)                    │  要点概览 (28%)  │
+│  [图片 + 文字，同标准 point]       │  • 要点 1       │
+│                                  │  • 当前要点 ← amber│
+│                                  │  • 要点 3       │
+└──────────────────────────────────┴────────────────┘
+```
+
+### 适用场景
+
+- 仅 `point` slide（cover/quote/problem 需全屏效果）
+- 当一个 deep item 有 4+ 个要点时，侧边栏帮助观众跟踪进度
+- 当前讲到的要点用 amber 高亮
+
+### 配置
+
+在 slide 中设置 `layout: "multi-region"` 并提供 `sidePanel` 数组：
+
+```json
+{
+  "type": "point",
+  "layout": "multi-region",
+  "sidePanel": ["要点一摘要", "要点二摘要", "要点三摘要"],
+  "text": "当前展开的要点内容..."
+}
+```
+
+---
+
 ## 设计禁忌
 
 - **不要** 使用蓝紫渐变科技感
@@ -434,6 +581,9 @@ connected by message arrows..."
 - **不要** 速览区使用和精讲一样复杂的布局
 - **不要** 连续 4+ 张高信息密度 slides
 - **不要** 每条精讲都用完全相同的 slides 开场方式
+- **不要** 在一张 slide 上放超过 2 个数据可视化元素
+- **不要** 在 cover/quote slide 上强制显示多区域布局
+- **不要** 让 avatar 遮挡关键内容（全屏大图 slide 可设 `hideAvatar: true`）
 
 ---
 

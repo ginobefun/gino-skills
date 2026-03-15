@@ -1,9 +1,60 @@
+// --- Avatar & Overlay Configs ---
+
+export interface AvatarConfig {
+  enabled: boolean;
+  idleImage: string;
+  speakingImage: string;
+  pointingImage?: string;
+  scale?: number;
+  opacity?: number;
+}
+
+export interface LowerThirdConfig {
+  enabled: boolean;
+  showProgress: boolean;
+}
+
+export type DataVizElement =
+  | {
+      type: "progress-bar";
+      label: string;
+      value: number;
+      maxValue?: number;
+      unit?: string;
+    }
+  | {
+      type: "bar-chart";
+      label: string;
+      items: Array<{ label: string; value: number }>;
+      unit?: string;
+    }
+  | {
+      type: "counter";
+      label: string;
+      value: number;
+      unit?: string;
+    }
+  | {
+      type: "highlight";
+      label: string;
+      value: number;
+      unit?: string;
+    };
+
+// --- Slide & Item Types ---
+
 export interface DeepSlide {
   type: "cover" | "problem" | "point" | "quote" | "takeaway" | "source-card";
   text: string;
   subText?: string;
   image?: string;
   durationRatio: number;
+  layout?: "full" | "multi-region";
+  sidePanel?: string[];
+  sidePanelActiveIndex?: number;
+  sectionTitle?: string;
+  hideAvatar?: boolean;
+  dataViz?: DataVizElement[];
 }
 
 export interface VideoItem {
@@ -22,6 +73,7 @@ export interface VideoItem {
   slides?: DeepSlide[];
   audioStart: number;
   audioDuration: number;
+  sectionLabel?: string;
 }
 
 export type NarrativeStrategy =
@@ -44,6 +96,8 @@ export interface VideoData {
   audioFile?: string;
   totalDuration: number;
   items: VideoItem[];
+  avatar?: AvatarConfig;
+  lowerThird?: LowerThirdConfig;
 }
 
 export const COLORS = {

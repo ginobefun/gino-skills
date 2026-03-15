@@ -373,8 +373,13 @@ done
 - `items[].type`: `"deep"` 或 `"quick"`
 - `items[].slides`: 精讲项必须提供 slides 数组
 - `items[].audioStart` / `audioDuration`: 秒数
+- `items[].sectionLabel`（可选）: 信息条显示的段落标签，默认 "深度解读"
 - `audioFile`: 音频文件名（Remotion public/ 目录下）
 - `totalDuration`: 总时长（秒）
+
+**视觉增强字段**（所有可选，不设则使用传统纯 slide 模式，详见 `references/video_design_guide.md`）:
+- `avatar`: 主播头像 — `lowerThird`: 底部信息条 — `dataViz`: 数据可视化 — `layout: "multi-region"`: 侧边栏布局
+- 完整 schema 见 `scripts/remotion/src/types.ts`，素材规格和配置示例见设计指南
 
 保存到：`contents/tmp/video/YYYY-MM-DD/video-data.json`
 
@@ -446,25 +451,8 @@ bun ${SKILL_DIR}/scripts/upload-r2.ts \
 
 ## 输出目录
 
-```
-contents/tmp/video/YYYY-MM-DD/          # 临时中间文件（gitignore）
-  script.md                             # 配音脚本
-  segments/                             # TTS 音频片段
-  audio.mp3                             # 合并后的配音
-  assets/                               # 图片素材
-  video-data.json                       # Remotion 渲染数据
-
-contents/video/                          # 最终产出（持久化）
-  daily/YYYY-MM-DD/
-    video.mp4
-    metadata.json
-  weekly/YYYY-MM-DD/
-    video.mp4
-    metadata.json
-  articles/{slug}/
-    video.mp4
-    metadata.json
-```
+- **临时**: `contents/tmp/video/YYYY-MM-DD/` — script.md, segments/, audio.mp3, assets/, video-data.json
+- **产出**: `contents/video/{daily|weekly|articles}/YYYY-MM-DD/` — video.mp4, metadata.json
 
 ---
 

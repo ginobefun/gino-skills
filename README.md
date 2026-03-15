@@ -2,7 +2,7 @@
 
 个人 Claude Code Skills 集合，服务于 [Content OS](docs/content-os-plan-v2.md) 个人内容操作系统。
 
-> **37 个 Skills** 覆盖从内容获取、筛选、阅读、创作到多渠道分发的完整链路。
+> **41 个 Skills** 覆盖从内容获取、筛选、阅读、创作到多渠道分发的完整链路。
 
 ## Skills 总览
 
@@ -17,10 +17,12 @@
 │-fetcher  │-reviewer │-reading  │-synthe   │post-to-wechat           │
 │xgo-fetch │daily     │reading   │-sizer    │send-wechat-group        │
 │-tweets   │-content  │-workflow │create    │x-actions                │
-│xgo-search│-curator  │          │-podcast  │content-analytics        │
-│-tweets   │          │          │create    │                         │
-│          │          │          │-video    │                         │
-│          │          │          │image-gen │                         │
+│xgo-search│-curator  │          │-podcast  │bili-actions              │
+│-tweets   │          │          │create    │xhs-actions               │
+│bili-fetch│          │          │-video    │content-analytics        │
+│-content  │          │          │image-gen │                         │
+│xhs-fetch │          │          │          │                         │
+│-content  │          │          │          │                         │
 └──────────┴──────────┴──────────┴──────────┴─────────────────────────┘
 ```
 
@@ -143,6 +145,26 @@
 
 ---
 
+## 六、内容平台集成 Skills (4 个)
+
+通过 CLI 工具操作 Bilibili 和小红书平台。
+
+### Bilibili (2 个)
+
+| Skill | 功能 | 技术 |
+|-------|------|------|
+| [bili-fetch-content](skills/bili-fetch-content/) | 获取B站内容（热门/排行/搜索/视频详情/字幕/AI摘要/评论/UP主） | bilibili-cli |
+| [bili-actions](skills/bili-actions/) | B站互动操作（点赞/投币/三连/发布动态/取关） | bilibili-cli |
+
+### 小红书 (2 个)
+
+| Skill | 功能 | 技术 |
+|-------|------|------|
+| [xhs-fetch-content](skills/xhs-fetch-content/) | 获取小红书内容（搜索/热门/笔记详情/评论/用户/话题） | xiaohongshu-cli |
+| [xhs-actions](skills/xhs-actions/) | 小红书互动操作（发布笔记/点赞/收藏/评论/关注） | xiaohongshu-cli |
+
+---
+
 ## 典型使用场景
 
 ### 日常信息获取
@@ -153,6 +175,19 @@
 | "拉取最新推文" / "我的时间线" | xgo-fetch-tweets |
 | "搜一下关于 AI Agent 的推文" | xgo-search-tweets |
 | "生成今日早报" / "每日早报" | bestblogs-daily-digest |
+
+### B站 & 小红书
+
+| 说法示例 | 触发的 Skill |
+|----------|-------------|
+| "B站热门" / "bilibili trending" | bili-fetch-content |
+| "搜B站视频" / "bili search" | bili-fetch-content |
+| "这个视频的字幕" / "AI摘要" | bili-fetch-content |
+| "给视频三连" / "B站点赞" | bili-actions |
+| "搜小红书" / "xhs search" | xhs-fetch-content |
+| "小红书热门" / "看看小红书" | xhs-fetch-content |
+| "发小红书笔记" / "post to xhs" | xhs-actions |
+| "小红书点赞" / "收藏笔记" | xhs-actions |
 
 ### 用户研究
 
@@ -268,6 +303,9 @@ done
 - [XGo](https://xgo.ing) — Twitter/X 数据管理平台
 - [BestBlogs.dev](https://bestblogs.dev) — AI 驱动的技术内容精选平台
 - [baoyu-skills](https://github.com/JimLiu/baoyu-skills) — 内容创作与分发 Skills（部分 fork 定制）
+- [bilibili-cli](https://github.com/jackwener/bilibili-cli) — Bilibili 命令行工具
+- [xiaohongshu-cli](https://github.com/jackwener/xiaohongshu-cli) — 小红书命令行工具
+- [twitter-cli](https://github.com/jackwener/twitter-cli) — Twitter/X 命令行工具
 
 ## License
 

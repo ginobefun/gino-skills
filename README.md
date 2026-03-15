@@ -2,7 +2,7 @@
 
 个人 Claude Code Skills 集合，服务于 [Content OS](docs/content-os-plan-v2.md) 个人内容操作系统。
 
-> **38 个 Skills** 覆盖从内容获取、筛选、阅读、创作到多渠道分发的完整链路。
+> **37 个 Skills** 覆盖从内容获取、筛选、阅读、创作到多渠道分发的完整链路。
 
 ## Skills 总览
 
@@ -26,7 +26,7 @@
 
 ---
 
-## 一、BestBlogs 内容平台 Skills (13 个)
+## 一、BestBlogs 内容平台 Skills (12 个)
 
 从 [BestBlogs.dev](https://bestblogs.dev) 获取、处理、策展、生成内容。
 
@@ -38,9 +38,8 @@
 | [bestblogs-add-source](skills/bestblogs-add-source/) | 从文本或 OPML 批量添加 RSS 订阅源 | Admin API |
 | [bestblogs-process-videos](skills/bestblogs-process-videos/) | 批量转录待预处理视频并更新到系统 | Admin API + Gemini 转录 |
 | [bestblogs-transcribe-youtube](skills/bestblogs-transcribe-youtube/) | 通过 Gemini Gem 转写单个 YouTube 视频 | Chrome AppleScript + Gemini |
-| [bestblogs-process-articles](skills/bestblogs-process-articles/) | 批量获取文章正文、深度分析并更新 | Admin API + AI 分析 |
+| [bestblogs-process-articles](skills/bestblogs-process-articles/) | 批量获取文章正文、深度分析并更新，≥80 分自动翻译 | Admin API + AI 分析/翻译 |
 | [bestblogs-process-tweets](skills/bestblogs-process-tweets/) | 按作者分组批量分析推文并更新 | Admin API + AI 分析 |
-| [bestblogs-translate-article-result](skills/bestblogs-translate-article-result/) | 翻译文章分析结果并更新到系统 | Admin API + AI 翻译 |
 
 ### 评审与策展
 
@@ -168,7 +167,7 @@
 | 说法示例 | 触发的 Skill |
 |----------|-------------|
 | "每日 review" / "review 并推荐阅读" | bestblogs-content-reviewer |
-| "处理待分析的文章" | bestblogs-process-articles |
+| "处理待分析的文章" / "翻译文章结果" | bestblogs-process-articles |
 | "处理待分析的推文" | bestblogs-process-tweets |
 | "处理全部视频" | bestblogs-process-videos |
 

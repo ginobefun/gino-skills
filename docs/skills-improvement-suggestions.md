@@ -73,6 +73,7 @@
 
 | 合并候选 | 合并为 | 理由 |
 |----------|--------|------|
+| ~~`bestblogs-translate-article-result`~~ | ~~已合并到 `bestblogs-process-articles`~~ | ✅ 已完成：分析 ≥80 分自动翻译，无待分析时自动处理待翻译 |
 | `bestblogs-process-articles` + `bestblogs-process-tweets` + `bestblogs-process-videos` | `bestblogs-process-content` | 三者工作流模式相同（查询待处理 → 选择 → 逐个处理 → 更新），仅内容类型不同。合并后通过参数区分，减少 3→1 个 skill |
 | `cover-image` + `article-illustrator` | 保持分离 | 虽然都生成图片，但触发场景和工作流差异大（单图 vs 多图），保持分离更好 |
 
@@ -135,6 +136,7 @@
 | P0 | 明确 `x-actions` vs `post-to-x` 职责边界 | 小 | 消除用户困惑 |
 | P1 | `send-wechat-group-message` → `post-to-wechat-group` 重命名 | 小 | 统一命名体系 |
 | P1 | 强化 `daily-content-management` 作为入口 | 中 | 改善工作流可发现性 |
+| ~~P2~~ | ~~合并 `bestblogs-translate-article-result`~~ | ~~小~~ | ✅ 已完成 |
 | P2 | 合并 `bestblogs-process-*` 三兄弟 | 大 | 减少 skill 数量 |
 | P2 | `content-reviewer` 去除推荐阅读功能 | 中 | 消除与 curator 重叠 |
 | P3 | 新增 `content-calendar` | 大 | 补全 Content OS |

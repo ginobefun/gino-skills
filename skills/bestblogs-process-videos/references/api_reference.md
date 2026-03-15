@@ -29,7 +29,7 @@
 | `/api/admin/article/list` | POST | Admin | 读取 | 查询等待预处理/分析/翻译的视频列表 |
 | `/api/admin/article/updateContent` | POST | Admin | 写入 | 更新视频转录内容 |
 | `/api/admin/article/saveAnalysisResult` | POST | Admin | 写入 | 保存结构化分析结果 |
-| `/dify/resource/markdown` | GET | 无 | 读取 | 获取视频内容和已分析的结果（翻译阶段用） |
+| `/dify/resource/markdown` | GET | 无 | 读取 | 获取视频内容和已分析的结果（WAIT_ANALYSIS 分析 / 翻译阶段用） |
 | `/api/admin/article/saveTranslateResult` | POST | Admin | 写入 | 保存翻译后的分析结果 |
 
 ---
@@ -281,7 +281,7 @@ curl -s -X POST "https://api.bestblogs.dev/api/admin/article/saveAnalysisResult?
 
 ---
 
-## 4. 获取视频内容和分析结果（翻译阶段用）
+## 4. 获取视频内容和分析结果（WAIT_ANALYSIS 分析 / 翻译阶段用）
 
 ### 请求
 
@@ -332,6 +332,7 @@ curl -s "https://api.bestblogs.dev/dify/resource/markdown?id=RR_xxx&language=zh"
 | `url` | string | 原始链接 |
 | `sourceName` | string | 来源名称 |
 | `priority` | string | 来源优先级: `HIGHEST` / `HIGH` / `MEDIUM` / `LOW` / `LOWEST` |
+| `priorityScore` | int | 来源优先级对应分数（如 HIGH=80） |
 | `title` | string | 视频标题 |
 | `languageName` | string | 原始语言名称（如 "English"、"中文"），用于确定翻译方向 |
 | `destLanguageName` | string | 目标翻译语言名称（如 "中文"、"English"），用于确定翻译方向 |

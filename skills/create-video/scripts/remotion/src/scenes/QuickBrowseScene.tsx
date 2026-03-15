@@ -4,9 +4,10 @@ import { COLORS, FONTS } from "../types";
 import { SpringIn, SceneWrapper } from "../utils";
 
 export const QuickReviewIntro: React.FC<{
+  title?: string;
   count?: number;
   durationInFrames: number;
-}> = ({ count = 7, durationInFrames }) => {
+}> = ({ title = "快速速览", count = 7, durationInFrames }) => {
   return (
     <SceneWrapper durationInFrames={durationInFrames}>
       <AbsoluteFill
@@ -26,7 +27,7 @@ export const QuickReviewIntro: React.FC<{
               color: COLORS.inkBlue,
             }}
           >
-            ── 快速速览 ──
+            ── {title} ──
           </div>
         </SpringIn>
         <SpringIn delay={10}>

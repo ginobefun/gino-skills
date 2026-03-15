@@ -4,9 +4,10 @@ import { SpringIn, SceneWrapper } from "../utils";
 
 export const BrandIntro: React.FC<{
   title: string;
+  subtitle?: string;
   date: string;
   durationInFrames: number;
-}> = ({ title, date, durationInFrames }) => {
+}> = ({ title, subtitle, date, durationInFrames }) => {
   return (
     <SceneWrapper durationInFrames={durationInFrames}>
       <AbsoluteFill
@@ -31,7 +32,24 @@ export const BrandIntro: React.FC<{
             {title}
           </div>
         </SpringIn>
-        <SpringIn delay={10}>
+        {subtitle && (
+          <SpringIn delay={8}>
+            <div
+              style={{
+                fontFamily: FONTS.sans,
+                fontSize: 30,
+                color: COLORS.charcoal,
+                marginTop: 16,
+                maxWidth: 1000,
+                textAlign: "center",
+                lineHeight: 1.5,
+              }}
+            >
+              {subtitle}
+            </div>
+          </SpringIn>
+        )}
+        <SpringIn delay={subtitle ? 14 : 10}>
           <div
             style={{
               fontFamily: FONTS.sans,

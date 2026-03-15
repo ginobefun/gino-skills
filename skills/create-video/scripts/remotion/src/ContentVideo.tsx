@@ -20,7 +20,8 @@ export const ContentVideo: React.FC<VideoData> = (props) => {
   const quickItems = props.items.filter((i) => i.type === "quick");
 
   const brandIntroDuration = 5 * fps;
-  const keywordsDuration = 3 * fps;
+  const hasKeywords = props.keywords && props.keywords.length > 0;
+  const keywordsDuration = hasKeywords ? 3 * fps : 0;
 
   // Deep dive scenes - aligned to audio timestamps
   const deepScenes = deepItems.map((item) => {
@@ -73,22 +74,25 @@ export const ContentVideo: React.FC<VideoData> = (props) => {
       <Sequence from={0} durationInFrames={brandIntroDuration} premountFor={fps}>
         <BrandIntro
           title={introTitle}
+          subtitle={props.subtitle}
           date={props.date}
           durationInFrames={brandIntroDuration}
         />
       </Sequence>
 
-      {/* Scene 2: Keywords */}
-      <Sequence
-        from={brandIntroDuration}
-        durationInFrames={keywordsDuration}
-        premountFor={fps}
-      >
-        <KeywordsScene
-          keywords={props.keywords}
+      {/* Scene 2: Keywords (optional) */}
+      {hasKeywords && (
+        <Sequence
+          from={brandIntroDuration}
           durationInFrames={keywordsDuration}
-        />
-      </Sequence>
+          premountFor={fps}
+        >
+          <KeywordsScene
+            keywords={props.keywords}
+            durationInFrames={keywordsDuration}
+          />
+        </Sequence>
+      )}
 
       {/* Scene 3-5: Deep Dives */}
       {deepScenes.map(({ item, start, duration }) => (
@@ -110,6 +114,7 @@ export const ContentVideo: React.FC<VideoData> = (props) => {
           premountFor={fps}
         >
           <QuickReviewIntro
+            title={props.quickReviewTitle}
             count={quickItems.length}
             durationInFrames={quickIntroDuration}
           />

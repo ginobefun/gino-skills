@@ -64,6 +64,15 @@ podcast_intro_name: Gino   # 开场白中使用的名字
 
 ## 阶段一：内容准备
 
+### 1.0 复用 Workspace 缓存
+
+播客和视频共享内容源。开始前**先查 workspace 缓存**（`contents/tmp/workspace/YYYY-MM-DD/`），避免重复 API 调用：
+
+- **`article-details/{id}.md`**: create-video 或 daily-content-curator 已获取的文章详情，直接复用
+- **`plan.md`**: 当天选题计划
+
+**回写**: 播客获取的新文章详情也要写回 `article-details/`，供后续 skill（如 create-video）复用。
+
 ### 1.1 识别输入源
 
 根据用户输入自动识别内容来源类型，选择对应分支：
@@ -87,7 +96,7 @@ contents/bestblogs-digest/YYYY-MM-DD/digest.txt
 
 从早报中提取：10 条内容的标题、来源、摘要、评分、readUrl、关键词标签、日期。
 
-**获取 Top 3 深度内容**: 对排名前 3 的内容，按 `resourceType` 获取完整信息：
+**获取 Top 3 深度内容**: 先查 workspace 缓存 `article-details/{id}.md`，缓存未命中时按 `resourceType` 获取完整信息（获取后写回缓存）：
 
 ```bash
 # 获取资源元数据

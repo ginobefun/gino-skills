@@ -2,7 +2,7 @@
 
 个人 Claude Code Skills 集合，服务于 [Content OS](docs/content-os-plan-v2.md) 个人内容操作系统。
 
-> **41 个 Skills** 覆盖从内容获取、筛选、阅读、创作到多渠道分发的完整链路。
+> **40 个 Skills** 覆盖从内容获取、筛选、阅读、创作到多渠道分发的完整链路。
 
 ## Skills 总览
 
@@ -28,7 +28,7 @@
 
 ---
 
-## 一、BestBlogs 内容平台 Skills (12 个)
+## 一、BestBlogs 内容平台 Skills (13 个)
 
 从 [BestBlogs.dev](https://bestblogs.dev) 获取、处理、策展、生成内容。
 
@@ -41,6 +41,7 @@
 | [bestblogs-process-videos](skills/bestblogs-process-videos/) | 批量转录待预处理视频并更新到系统 | Admin API + Gemini 转录 |
 | [bestblogs-transcribe-youtube](skills/bestblogs-transcribe-youtube/) | 通过 Gemini Gem 转写单个 YouTube 视频 | Chrome AppleScript + Gemini |
 | [bestblogs-process-articles](skills/bestblogs-process-articles/) | 批量获取文章正文、深度分析并更新，≥80 分自动翻译 | Admin API + AI 分析/翻译 |
+| [bestblogs-process-podcasts](skills/bestblogs-process-podcasts/) | 审校播客转录内容、深度分析并评分，≥80 分自动翻译 | Admin API + AI 审校/分析/翻译 |
 | [bestblogs-process-tweets](skills/bestblogs-process-tweets/) | 按作者分组批量分析推文并更新 | Admin API + AI 分析 |
 
 ### 评审与策展
@@ -96,7 +97,7 @@
 
 ---
 
-## 三、内容创作 Skills (7 个)
+## 三、内容创作 Skills (6 个)
 
 ### 深度阅读与思考
 
@@ -203,6 +204,7 @@
 |----------|-------------|
 | "每日 review" / "review 并推荐阅读" | bestblogs-content-reviewer |
 | "处理待分析的文章" / "翻译文章结果" | bestblogs-process-articles |
+| "处理播客" / "审校播客" / "播客分析" | bestblogs-process-podcasts |
 | "处理待分析的推文" | bestblogs-process-tweets |
 | "处理全部视频" | bestblogs-process-videos |
 
@@ -247,6 +249,7 @@
 
 ```
 7:00  process-videos ──→ 视频转录入库 ──→ 触发 AI 分析
+      process-podcasts ──→ 播客审校+分析 ──→ ≥80分自动翻译
                                               ↓
 8:00  content-reviewer ──→ 评分 review ──→ 推荐阅读清单
          ↓                                    ↓

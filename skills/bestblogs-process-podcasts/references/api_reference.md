@@ -266,7 +266,7 @@ curl -s "https://api.bestblogs.dev/api/admin/article/podcast/content?id=RAW_1234
 POST /api/admin/article/savePodcastContent?id={id}
 ```
 
-> **写操作 — 必须在用户明确确认后才能调用。**
+> **写操作 — 审校有修改时自动执行。**
 > **注意**：播客 ID 通过 **query 参数** 传递，不在请求体中。
 
 ### 请求体

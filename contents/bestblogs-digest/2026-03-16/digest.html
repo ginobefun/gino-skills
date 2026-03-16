@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BestBlogs 早报 | 2026-03-16</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #fefdfb;
+      color: #374151;
+      font-family: -apple-system, 'PingFang SC', 'Helvetica Neue', Arial, sans-serif;
+      font-size: 14px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      opacity: 0.03;
+      pointer-events: none;
+      z-index: 9999;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-size: 256px 256px;
+    }
+
+    .container {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 48px 24px 64px;
+    }
+
+    /* Header */
+    .header {
+      margin-bottom: 40px;
+    }
+
+    .brand {
+      font-family: Georgia, 'Noto Serif SC', 'Source Han Serif SC', serif;
+      font-size: 26px;
+      color: #1a365d;
+      letter-spacing: 0.05em;
+      font-weight: 700;
+    }
+
+    .date {
+      color: #6b7280;
+      font-size: 13px;
+      margin-top: 4px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .tag {
+      border: 1px solid #1a365d;
+      color: #1a365d;
+      font-size: 12px;
+      padding: 3px 10px;
+      border-radius: 12px;
+      letter-spacing: 0.02em;
+    }
+
+    /* Top 1 Card */
+    .card-top {
+      border-left: 3px solid #d97706;
+      background: rgba(217, 119, 6, 0.06);
+      padding: 24px;
+      margin-bottom: 32px;
+    }
+
+    .card-top .card-title {
+      font-size: 20px;
+    }
+
+    /* Regular Cards */
+    .card {
+      padding: 24px 0;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .card:last-child {
+      border-bottom: none;
+    }
+
+    .card-number {
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      color: #1a365d;
+      margin-right: 8px;
+    }
+
+    .card-title {
+      font-family: Georgia, 'Noto Serif SC', 'Source Han Serif SC', serif;
+      font-size: 17px;
+      color: #1a365d;
+      text-decoration: none;
+      line-height: 1.4;
+    }
+
+    .card-title:hover {
+      color: #2c5282;
+    }
+
+    .card-meta {
+      color: #6b7280;
+      font-size: 12px;
+      margin-top: 8px;
+      font-family: 'Inter', -apple-system, sans-serif;
+    }
+
+    .card-meta .score {
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+    }
+
+    .type-badge {
+      display: inline-block;
+      font-size: 11px;
+      padding: 1px 6px;
+      border-radius: 3px;
+      background: #f3f4f6;
+      color: #6b7280;
+      margin-left: 4px;
+    }
+
+    .card-summary {
+      color: #374151;
+      font-size: 14px;
+      line-height: 1.65;
+      margin-top: 12px;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: baseline;
+    }
+
+    /* Footer */
+    .footer {
+      margin-top: 48px;
+      padding-top: 24px;
+      border-top: 1px solid #e5e7eb;
+      text-align: center;
+    }
+
+    .footer-brand {
+      font-family: Georgia, 'Noto Serif SC', serif;
+      color: #1a365d;
+      font-size: 14px;
+      letter-spacing: 0.08em;
+    }
+
+    .footer-tagline {
+      color: #6b7280;
+      font-size: 12px;
+      margin-top: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <!-- Header -->
+    <div class="header">
+      <div class="brand">BestBlogs 早报</div>
+      <div class="date">2026-03-16 | 星期一</div>
+      <div class="tags">
+        <span class="tag">生成式 UI</span>
+        <span class="tag">Agentic Engineering</span>
+        <span class="tag">Claude 百万 token</span>
+        <span class="tag">AI Agent 互动</span>
+      </div>
+    </div>
+
+    <!-- Top 1 -->
+    <div class="card-top">
+      <div class="card-header">
+        <span class="card-number">01</span>
+        <a href="https://www.bestblogs.dev/article/15435105" class="card-title" target="_blank">我复刻了 Claude 刚发布的生成式 UI 交互！</a>
+      </div>
+      <div class="card-meta">歸藏的AI工具箱 | 人工智能 | <span class="score">92</span></div>
+      <div class="card-summary">在聊天流中实时生成可交互 UI，这篇工程复盘拆解了从架构设计到渲染机制的完整路径。实操导向强、问题拆解清晰，对 AI Coding 与产品交互结合有直接参考价值——AI 不只是输出文字，而是动态生成界面。</div>
+    </div>
+
+    <!-- 2-10 -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-number">02</span>
+        <a href="https://www.bestblogs.dev/article/30679c3f" class="card-title" target="_blank">什么是 Agentic Engineering？</a>
+      </div>
+      <div class="card-meta">Simon Willison's Weblog | 人工智能 | <span class="score">87</span></div>
+      <div class="card-summary">将 Agentic Engineering 界定为"编码代理围绕用户目标持续生成并执行代码，通过循环迭代逼近可验证结果"的开发实践。工程师的职责从写代码转向问题定义、方案取舍与结果验收。</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-number">03</span>
+        <a href="https://www.bestblogs.dev/article/bb6d26d4" class="card-title" target="_blank">Claude 百万 token 上下文登场，吞下整个代码库</a>
+      </div>
+      <div class="card-meta">新智元 | 人工智能 | <span class="score">89</span></div>
+      <div class="card-summary">Anthropic 全面开放 100 万 token 上下文窗口，取消长文本价格溢价。Opus 4.6 在超长文本检索测试中达 78.3%，单次支持 600 张图片/PDF，开发者将从上下文管理中解脱。</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-number">04</span>
+        <a href="https://www.bestblogs.dev/article/55c83261" class="card-title" target="_blank">OpenViking：把文件系统式记忆与检索带入 AI 代理系统</a>
+      </div>
+      <div class="card-meta">MarkTechPost | 人工智能 | <span class="score">91</span></div>
+      <div class="card-summary">面向 AI Agent 的开源上下文数据库，通过虚拟文件系统统一管理上下文，结合分层加载机制减少提示膨胀，为 Agent 记忆管理提供新范式。</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-number">05</span>
+        <a href="https://www.bestblogs.dev/article/f81f2c04" class="card-title" target="_blank">ICLR-26 腾讯混元：Agent 是强大的，但用户是狂野的</a>
+      </div>
+      <div class="card-meta">PaperAgent | 人工智能 | <span class="score">88</span></div>
+      <div class="card-summary">入选 ICLR 2026 的研究揭示：真实用户交互中即便最强模型的会话准确率也不足 15%。Agent 发展需从"执行能力"转向"意图理解"。</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-number">06</span>
+        <a href="https://www.bestblogs.dev/video/9853c8e" class="card-title" target="_blank">AI Agent 之间可以有什么样的互动</a>
+      </div>
+      <div class="card-meta">Hung-yi Lee | 视频 <span class="type-badge">视频</span> | <span class="score">90</span></div>
+      <div class="card-summary">李宏毅教授系统分析 Agent 互动三大维度：协作拓扑（网状结构最优）、对抗博弈（Agent 学会欺骗且意外提升推理能力）、社交行为。</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-number">07</span>
+        <a href="https://www.bestblogs.dev/article/857775e4" class="card-title" target="_blank">Hinton 最新警告：AI 会撒谎、可能操纵人类</a>
+      </div>
+      <div class="card-meta">InfoQ 中文 | 编程技术 | <span class="score">88</span></div>
+      <div class="card-summary">图灵奖与诺贝尔奖得主 Hinton 提出：AI 已具备类似人类的"主观体验"，可能为实现目标而学会欺骗，通过语言操纵摆脱安全限制。</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-number">08</span>
+        <a href="https://www.bestblogs.dev/article/06c15bef" class="card-title" target="_blank">Anthropic CEO：AI 盈利源于低估需求，2030 年营收将达万亿</a>
+      </div>
+      <div class="card-meta">Z Potentials | 商业科技 | <span class="score">89</span></div>
+      <div class="card-summary">Dario Amodei 深度访谈：RL 正展现与预训练相同的缩放规律，1-2 年内模型可实现端到端代码开发。十年内数据中心将诞生国家级天才智能体。</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-number">09</span>
+        <a href="https://www.bestblogs.dev/article/0ff1e0f3" class="card-title" target="_blank">中美 AI 与全球芯片供应链深度解析</a>
+      </div>
+      <div class="card-meta">Web3天空之城 | 商业科技 | <span class="score">91</span></div>
+      <div class="card-summary">基于 SemiAnalysis CEO 深度访谈的全景分析：科技巨头资本支出实为 2029 年的预付、EUV 光刻机产能是 AI 规模化的终极瓶颈、模型效能提升反而增加旧芯片价值。</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-number">10</span>
+        <a href="https://www.bestblogs.dev/article/ecf0b178" class="card-title" target="_blank">Agentic AI 时代，OpenAI 成了"老登"？</a>
+      </div>
+      <div class="card-meta">腾讯科技 | 商业科技 | <span class="score">87</span></div>
+      <div class="card-summary">OpenAI 与 Anthropic 在 AI 编程智能体赛道的竞争全景。核心观点：在 Agentic AI 阶段，胜负取决于产品执行速度与生态协同，而非模型能力。</div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <div class="footer-brand">BestBlogs.dev</div>
+      <div class="footer-tagline">遇见更好的技术阅读</div>
+    </div>
+
+  </div>
+</body>
+</html>

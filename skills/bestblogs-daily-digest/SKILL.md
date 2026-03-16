@@ -17,7 +17,11 @@ description: "BestBlogs.dev 每日内容早报。适用场景：(1) 生成每日
 -H "X-API-KEY: $BESTBLOGS_API_KEY"
 ```
 
-若 `BESTBLOGS_API_KEY` 未设置，提示用户配置。
+**启动检查**（按顺序执行）:
+1. 检查 `$BESTBLOGS_API_KEY` 是否已设置
+2. 若未设置，执行 `source ~/.zshrc` 后再检查
+3. 若仍未设置，提示用户在 `~/.zshrc` 中配置
+4. 用一个轻量请求验证 key 有效性（如 `pageSize:1` 的请求），若返回 `Unauthorized` 则提示用户更新 key
 
 接口地址：`https://api.bestblogs.dev`
 
@@ -84,7 +88,7 @@ curl -s -X POST https://api.bestblogs.dev/openapi/v1/tweet/list \
   -d '{"currentPage":1,"timeFilter":"3d","sortType":"score_desc","userLanguage":"zh_CN","pageSize":100,"language":"all"}'
 ```
 
-**并行执行所有 7 个请求。** 客户端过滤：仅保留 `score >= 85` 的内容。
+**并行策略**: 使用 Agent 子任务执行所有 7 个请求（避免多个并行 Bash tool call 中单个失败导致全部取消）。Agent 内部可并行发起请求，统一返回合并结果。客户端过滤：仅保留 `score >= 85` 的内容。
 
 ---
 

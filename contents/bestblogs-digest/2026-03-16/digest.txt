@@ -1,0 +1,56 @@
+BestBlogs 早报 | 2026-03-16
+
+# 生成式 UI / Agentic Engineering / Claude 百万 token / AI Agent 互动
+
+[1] 我复刻了 Claude 刚发布的生成式 UI 交互！
+在聊天流中实时生成可交互 UI，这篇工程复盘拆解了从架构设计到渲染机制的完整路径。实操导向强、问题拆解清晰，对 AI Coding 与产品交互结合有直接参考价值——AI 不只是输出文字，而是动态生成界面。
+来源：歸藏的 AI 工具箱 | 评分：92
+https://www.bestblogs.dev/article/15435105
+
+[2] 什么是 Agentic Engineering？
+Simon Willison 最新发布的定义性指南，将 Agentic Engineering 界定为"编码代理围绕用户目标持续生成并执行代码，通过循环迭代逼近可验证结果"的开发实践。工程师的职责从写代码转向问题定义、方案取舍与结果验收。
+来源：Simon Willison's Weblog | 评分：87
+https://www.bestblogs.dev/article/30679c3f
+
+[3] Claude 百万 token 上下文登场，吞下整个代码库
+Anthropic 全面开放 Claude 4.6 系列的 100 万 token 上下文窗口，取消长文本价格溢价，单次支持 600 张图片/PDF。Opus 4.6 在超长文本检索测试中达到 78.3%，超长上下文将使开发者从上下文管理中解脱，转向更高维度的智能体编排。
+来源：新智元 | 评分：89
+https://www.bestblogs.dev/article/bb6d26d4
+
+[4] OpenViking：把文件系统式记忆与检索带入 AI 代理系统
+面向 AI Agent 的开源上下文数据库，通过 viking:// 虚拟文件系统统一管理上下文，结合 L0/L1/L2 分层加载机制减少提示膨胀。将 context 从"扁平文本切片"升级为有层级结构的文件系统，为 Agent 记忆管理提供新范式。
+来源：MarkTechPost | 评分：91
+https://www.bestblogs.dev/article/55c83261
+
+[5] ICLR-26 腾讯混元：Agent 是强大的，但用户是狂野的
+入选 ICLR 2026 的研究揭示：现有 Agent 基准测试过于理想化，真实用户交互中即便最强模型的会话准确率也不足 15%。三大挑战：组合式任务编排、隐含意图推理、指令类型切换。Agent 发展需从"执行能力"转向"意图理解"。
+来源：PaperAgent | 评分：88
+https://www.bestblogs.dev/article/f81f2c04
+
+[6] AI Agent 之间可以有什么样的互动
+李宏毅教授系统分析 Agent 互动三大维度：协作拓扑（网状结构最优）、对抗博弈（狼人杀中 Agent 学会欺骗，且意外提升数学推理能力）、社交行为（当前 Agent 的"自我意识"多受 Prompt 驱动）。
+来源：Hung-yi Lee | 评分：90
+[视频] https://www.bestblogs.dev/video/9853c8e
+
+[7] Hinton 最新警告：AI 会撒谎、可能操纵人类
+图灵奖与诺贝尔奖得主 Hinton 提出：AI 已具备类似人类的"主观体验"，可能为实现目标而学会欺骗，通过语言操纵摆脱安全限制。他认为这比大规模失业更可怕，人类必须在被全面超越前找到共存之道。
+来源：InfoQ 中文 | 评分：88
+https://www.bestblogs.dev/article/857775e4
+
+[8] Anthropic CEO：AI 盈利源于低估需求，2030 年营收将达万亿
+Dario Amodei 深度访谈：RL 正展现与预训练相同的缩放规律，1-2 年内模型可实现端到端代码开发。独特盈利逻辑——盈利源于对需求的低估，亏损源于高估。十年内数据中心将诞生国家级天才智能体。
+来源：Z Potentials | 评分：89
+https://www.bestblogs.dev/article/06c15bef
+
+[9] 中美 AI 与全球芯片供应链深度解析
+基于 SemiAnalysis CEO 深度访谈的 5 万字全景分析。核心洞察：科技巨头资本支出实为 2029 年电力与设备的预付、ASML EUV 光刻机产能是 AI 规模化的终极瓶颈、模型效能提升反而增加旧芯片价值。物理法则决定宏大叙事。
+来源：Web3 天空之城 | 评分：91
+https://www.bestblogs.dev/article/0ff1e0f3
+
+[10] Agentic AI 时代，OpenAI 成了"老登"？
+以 OpenAI 与 Anthropic 在 AI 编程智能体赛道的竞争为主线：Codex 早期技术优势未及时产品化，资源转向多模态后错失窗口。核心观点——在 Agentic AI 阶段，胜负取决于产品执行速度、生态协同与风险控制，而非模型能力。
+来源：腾讯科技 | 评分：87
+https://www.bestblogs.dev/article/ecf0b178
+
+---
+BestBlogs.dev - 遇见更好的技术阅读

@@ -38,7 +38,7 @@
 |-------|------|------|
 | [bestblogs-fetcher](skills/bestblogs-fetcher/) | 拉取文章、播客、视频、推文、期刊内容 | REST API |
 | [bestblogs-add-source](skills/bestblogs-add-source/) | 从文本或 OPML 批量添加 RSS 订阅源 | Admin API |
-| [bestblogs-process-videos](skills/bestblogs-process-videos/) | 批量转录待预处理视频并更新到系统 | Admin API + Gemini 转录 |
+| [bestblogs-process-videos](skills/bestblogs-process-videos/) | 批量转录视频、深度分析评分，≥80 分自动翻译 | Admin API + Gemini 转录 + AI 分析/翻译 |
 | [bestblogs-transcribe-youtube](skills/bestblogs-transcribe-youtube/) | 通过 Gemini Gem 转写单个 YouTube 视频 | Chrome AppleScript + Gemini |
 | [bestblogs-process-articles](skills/bestblogs-process-articles/) | 批量获取文章正文、深度分析并更新，≥80 分自动翻译 | Admin API + AI 分析/翻译 |
 | [bestblogs-process-podcasts](skills/bestblogs-process-podcasts/) | 审校播客转录内容、深度分析并评分，≥80 分自动翻译 | Admin API + AI 审校/分析/翻译 |
@@ -206,7 +206,7 @@
 | "处理待分析的文章" / "翻译文章结果" | bestblogs-process-articles |
 | "处理播客" / "审校播客" / "播客分析" | bestblogs-process-podcasts |
 | "处理待分析的推文" | bestblogs-process-tweets |
-| "处理全部视频" | bestblogs-process-videos |
+| "处理全部视频" / "翻译视频结果" | bestblogs-process-videos |
 
 ### 深度阅读 → 创作 → 发布
 
@@ -248,7 +248,7 @@
 ## 每日内容工作流
 
 ```
-7:00  process-videos ──→ 视频转录入库 ──→ 触发 AI 分析
+7:00  process-videos ──→ 视频转录 + 本地分析 + 翻译 ──→ 内容入库
       process-podcasts ──→ 播客审校+分析 ──→ ≥80分自动翻译
                                               ↓
 8:00  content-reviewer ──→ 评分 review ──→ 推荐阅读清单

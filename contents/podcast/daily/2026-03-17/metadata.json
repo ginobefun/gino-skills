@@ -1,0 +1,81 @@
+{
+  "date": "2026-03-17",
+  "title": "EP2 · 世界模型/软件复杂性/Agent 产品化 · 03.17 早报",
+  "description": "谢赛宁七小时深度访谈挑战 LLM 主流叙事，万字长文讲透软件复杂性在 AI 时代的新意义，智谱 GLM-5-Turbo 展示 Agent 成套产品化方案。另有 GPT-5.4 营收破纪录、Cursor 安全智能体、Stripe Minions 等速览。",
+  "duration": 558,
+  "durationFormatted": "09:17",
+  "audioFile": "podcast.mp3",
+  "audioSize": 13421772,
+  "keywords": [
+    "世界模型",
+    "软件复杂性",
+    "GLM-5-Turbo",
+    "Agent",
+    "GPT-5.4",
+    "Cursor",
+    "谢赛宁"
+  ],
+  "series": "daily",
+  "items": [
+    {
+      "title": "谢赛宁七小时访谈：世界模型与 LLM 中毒",
+      "source": "张小珺 Jùn｜商业访谈录",
+      "readUrl": "https://www.bestblogs.dev/podcast/7231850",
+      "type": "deep"
+    },
+    {
+      "title": "软件为何越做越乱？万字长文讲透软件的复杂性",
+      "source": "大淘宝技术",
+      "readUrl": "https://www.bestblogs.dev/article/a389a9b9",
+      "type": "deep"
+    },
+    {
+      "title": "GLM-5-Turbo：龙虾增强的基座模型",
+      "source": "智谱",
+      "readUrl": "https://www.bestblogs.dev/article/88892d20",
+      "type": "deep"
+    },
+    {
+      "title": "GPT-5.4 创下 API 采用率与营收新纪录",
+      "source": "Greg Brockman(@gdb)",
+      "readUrl": "https://www.bestblogs.dev/status/2033605419726483963",
+      "type": "quick"
+    },
+    {
+      "title": "使用自主智能体保护我们的代码库",
+      "source": "Cursor Blog",
+      "readUrl": "https://www.bestblogs.dev/article/145bc7c9",
+      "type": "quick"
+    },
+    {
+      "title": "Moonshot AI 推出 Attention Residuals",
+      "source": "Kimi",
+      "readUrl": "https://www.bestblogs.dev/status/2033378587878072424",
+      "type": "quick"
+    },
+    {
+      "title": "LLM 幻觉并非数据缺陷",
+      "source": "Towards Data Science",
+      "readUrl": "https://www.bestblogs.dev/article/198f0999",
+      "type": "quick"
+    },
+    {
+      "title": "Stripe 的 Minions 如何每周发布 1,300 个 PR",
+      "source": "ByteByteGo Newsletter",
+      "readUrl": "https://www.bestblogs.dev/article/2a6f7fa5",
+      "type": "quick"
+    },
+    {
+      "title": "Claude Code 团队总结的六条反直觉缓存法则",
+      "source": "前端早读课",
+      "readUrl": "https://www.bestblogs.dev/article/7f5fdb64",
+      "type": "quick"
+    },
+    {
+      "title": "深度解读 315 曝光的 GEO 乱象",
+      "source": "腾讯研究院",
+      "readUrl": "https://www.bestblogs.dev/article/96a7310b",
+      "type": "quick"
+    }
+  ]
+}

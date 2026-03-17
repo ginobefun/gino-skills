@@ -17,7 +17,7 @@
  *   --output <path>        Output file path (mode 1)
  *   --output-dir <path>    Output directory for segments (mode 2)
  *   --voice-id <id>        Override FISH_AUDIO_VOICE_ID
- *   --rate <float>         Speech speed, default 1.0
+ *   --rate <float>         Speech speed, default 0.95
  *   --format <string>      Audio format: mp3 (default), wav, opus
  *   --bitrate <int>        MP3 bitrate, default 192
  *   --merge <path>         After synthesizing segments, merge into this file
@@ -55,7 +55,7 @@ function parseArgs(): CliArgs {
     output: null,
     outputDir: null,
     voiceId: process.env.FISH_AUDIO_VOICE_ID || "",
-    rate: 1.0,
+    rate: 0.95,
     format: "mp3",
     bitrate: 192,
     merge: null,
@@ -114,7 +114,7 @@ Options:
   --output <path>        Output file (single mode)
   --output-dir <path>    Output directory (script mode)
   --voice-id <id>        Override FISH_AUDIO_VOICE_ID env var
-  --rate <float>         Speech speed (default: 1.0)
+  --rate <float>         Speech speed (default: 0.95)
   --format <string>      Audio format: mp3, wav, opus (default: mp3)
   --bitrate <int>        MP3 bitrate (default: 192)
   --merge <path>         Merge all segments into single file (requires ffmpeg)
@@ -164,6 +164,20 @@ function parseScript(filePath: string): Segment[] {
   return segments;
 }
 
+/**
+ * TTS 文本预处理：修正会被语音引擎误读的模式。
+ * - 模型版本号连字符：GPT-5.4 → GPT 5.4，GLM-5-Turbo → GLM 5 Turbo
+ *   中文 TTS 会将 "-" 读作"负"，需替换为空格。
+ */
+function preprocessTextForTTS(text: string): string {
+  // Replace hyphens between uppercase letters/digits in model version names
+  // Matches patterns like: GPT-5.4, GLM-5-Turbo, Claude-3.5, Llama-3, GPT-4o
+  return text.replace(
+    /([A-Z][A-Za-z]*)-(\d[\d.]*(?:-[A-Za-z]+)*)/g,
+    (_match, prefix, rest) => `${prefix} ${rest.replace(/-/g, " ")}`
+  );
+}
+
 async function synthesize(
   text: string,
   voiceId: string,
@@ -177,8 +191,10 @@ async function synthesize(
     process.exit(1);
   }
 
+  const processedText = preprocessTextForTTS(text);
+
   const body: Record<string, unknown> = {
-    text,
+    text: processedText,
     model: "s2-pro",
     reference_id: voiceId,
     format,

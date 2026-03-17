@@ -1,0 +1,58 @@
+BestBlogs 早报 | 2026-03-17
+
+# GPT-5.4 营收破纪录 / 世界模型 / Cursor 安全智能体 / GLM-5-Turbo / Attention Residuals
+
+[1] GPT-5.4 创下 API 采用率与营收新纪录 @gdb
+Greg Brockman 透露 GPT-5.4 已成为 OpenAI 历史上增长最快的模型：发布一周内日处理 5T token，超过一年前整个 API 总和；年化净新增营收达 10 亿美元。新架构在智能体编码场景中的性价比优势正在改写市场格局。
+来源：@gdb | 评分：92
+https://www.bestblogs.dev/status/2033605419726483963
+另见：@sama
+
+[2] 对谢赛宁的 7 小时马拉松访谈：世界模型、逃出硅谷、AMI Labs [播客 420min]
+张小珺与 AMI Labs 联合创始人谢赛宁的深度对话。谢赛宁犀利指出硅谷已"LLM 中毒"，过度依赖语言空间而忽视物理世界建模。他与 Yann LeCun 创立的 AMI Labs 致力于构建"世界模型"——通过预测环境下一状态而非下一字符，挑战当前 LLM 主导叙事。
+来源：张小珺 Jùn｜商业访谈录 | 评分：94
+https://www.bestblogs.dev/podcast/7231850
+另见：独家对话谢赛宁 (语言即世界)
+
+[3] 使用自主智能体保护我们的代码库
+Cursor 官方博客揭秘如何用"Cursor 自动化"扩展安全运营：四种专门智能体——安全审查（实时 PR 门控）、漏洞猎手（扫描现有代码）、Anybump（可达性分析自动升级依赖）、代码质量守护。利用 MCP 做持久化存储，Gemini Flash 2.5 做发现去重。
+来源：Cursor Blog | 评分：92
+https://www.bestblogs.dev/article/145bc7c9
+
+[4] GLM-5-Turbo：龙虾增强的基座模型
+智谱推出专为 OpenClaw Agent 场景优化的 GLM-5-Turbo。通过训练阶段强化工具调用、指令拆解、定时任务及高吞吐稳定性，实现从"能聊天"到"能干活"的转变。同时发布 ZClaw 龙虾场景评测基准。
+来源：智谱 | 评分：92
+https://www.bestblogs.dev/article/88892d20
+
+[5] 软件为何越做越乱？万字长文讲透软件的"复杂性"
+从"限时折扣"功能的腐化故事切入，系统阐述复杂性三大表现（变更放大、认知负荷、未知的未知）及其根源。核心主张"战略性编程"——投入 10-20% 时间做架构优化，并给出深模块、信息隐藏、分层抽象等方法论，AI 时代更需要对抗复杂性的工程素养。
+来源：大淘宝技术 | 评分：93
+https://www.bestblogs.dev/article/a389a9b9
+
+[6] Moonshot AI 推出 Attention Residuals @Kimi_Moonshot
+Kimi 发布技术报告，将标准均匀残差连接替换为"输入依赖型注意力机制"，有效缓解深层网络中的隐藏状态增长和表示稀释。已在 48B 参数的 Kimi Linear 模型上验证，极低延迟开销下显著提升性能。Transformer 架构的重要改进。
+来源：@Kimi_Moonshot | 评分：92
+https://www.bestblogs.dev/status/2033378587878072424
+
+[7] LLM 幻觉并非数据缺陷
+通过分析残差流的"几何结构"揭示：模型产生幻觉时并非未找到正确信息，而是内部表示主动"偏离"正确答案。引入"承诺比率"(κ) 证明模型在幻觉事件中主动抑制事实性词元，转而追求上下文连贯性。幻觉是下一词元预测目标的涌现属性，而非数据缺陷。
+来源：Towards Data Science | 评分：91
+https://www.bestblogs.dev/article/198f0999
+
+[8] Stripe 的 Minions 如何每周发布 1,300 个 PR
+Stripe 内部 AI 智能体系统"Minions"无需人工干预即可自动化端到端编码任务，通过 Slack 触发处理日常工作。成功秘诀不在 LLM 本身，而在成熟的开发基础设施：隔离式开发沙盒、混合确定性工作流与智能体循环的"蓝图"架构。
+来源：ByteByteGo Newsletter | 评分：90
+https://www.bestblogs.dev/article/2a6f7fa5
+
+[9] Claude Code 团队总结的六条反直觉缓存法则
+把"缓存命中率"从成本优化指标提升为系统可靠性指标：提示前缀编排、消息替代系统提示更新、会话中不切模型/不变更工具集、规划模式工具化、工具延迟加载、上下文压缩时的缓存安全分叉。构建长会话 Agent 的团队可直接落地。
+来源：前端早读课 | 评分：90
+https://www.bestblogs.dev/article/7f5fdb64
+
+[10] 深度解读 315 曝光的"GEO 乱象"：AI 的回答是如何"被操控"的？
+315 晚会曝光 AI 大模型被"投毒"——黑产通过批量制造伪内容、伪共识，系统性影响 RAG 检索增强生成过程，将广告伪装成 AI 的"标准答案"。这种"认知操纵"比传统广告更隐蔽，用户无法分辨，本质是操纵模型的外部证据链。
+来源：腾讯研究院 | 评分：89
+https://www.bestblogs.dev/article/96a7310b
+
+---
+BestBlogs.dev - 遇见更好的技术阅读

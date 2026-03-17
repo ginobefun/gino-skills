@@ -18,7 +18,7 @@
 | `reference_id` | String | — | 克隆后的 voice_id |
 | `format` | String | `"mp3"` | 输出格式：`mp3`, `wav`, `opus`, `pcm` |
 | `mp3_bitrate` | Integer | `128` | MP3 比特率 |
-| `prosody.speed` | Float | `1.0` | 语速控制（0.5-2.0） |
+| `prosody.speed` | Float | `1.0` | 语速控制（0.5-2.0），播客推荐 0.95 |
 | `prosody.volume` | Float | `0` | 音量调整 |
 | `temperature` | Float | `0.7` | 随机性控制 |
 | `top_p` | Float | `0.7` | 核采样参数 |
@@ -65,7 +65,7 @@ curl -s -X POST https://api.fish.audio/v1/tts \
     "reference_id": "'$FISH_AUDIO_VOICE_ID'",
     "format": "mp3",
     "mp3_bitrate": 192,
-    "prosody": {"speed": 1.0},
+    "prosody": {"speed": 0.95},
     "latency": "normal",
     "normalize": true
   }' \

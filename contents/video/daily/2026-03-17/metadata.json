@@ -1,0 +1,105 @@
+{
+  "date": "2026-03-17",
+  "title": "世界模型、复杂性与 Agent 产品化",
+  "description": "2026-03-17 BestBlogs 早报视频版",
+  "duration": 558.0,
+  "videoFile": "contents/video/daily/2026-03-17/video.mp4",
+  "videoSize": 69545956,
+  "keywords": [
+    "世界模型",
+    "软件复杂性",
+    "GLM-5-Turbo",
+    "GPT-5.4",
+    "Agent 安全"
+  ],
+  "strategy": "standard",
+  "items": [
+    {
+      "rank": 1,
+      "title": "谢赛宁：世界模型才是下一站",
+      "source": "张小珺 Jùn｜商业访谈录",
+      "type": "deep"
+    },
+    {
+      "rank": 2,
+      "title": "软件复杂性：AI 时代更要练基本功",
+      "source": "大淘宝技术",
+      "type": "deep"
+    },
+    {
+      "rank": 3,
+      "title": "GLM-5-Turbo：从能聊到能干活",
+      "source": "智谱",
+      "type": "deep"
+    },
+    {
+      "rank": 4,
+      "title": "GPT-5.4 创下 API 采用率与营收新纪录",
+      "source": "Greg Brockman(@gdb)",
+      "type": "quick"
+    },
+    {
+      "rank": 5,
+      "title": "Cursor 用自主智能体保护代码库",
+      "source": "Cursor Blog",
+      "type": "quick"
+    },
+    {
+      "rank": 6,
+      "title": "Attention Residuals 架构改进",
+      "source": "Kimi.ai(@Kimi_Moonshot)",
+      "type": "quick"
+    },
+    {
+      "rank": 7,
+      "title": "LLM 幻觉并非数据缺陷",
+      "source": "Towards Data Science",
+      "type": "quick"
+    },
+    {
+      "rank": 8,
+      "title": "Stripe Minions 每周发布 1300 个 PR",
+      "source": "ByteByteGo Newsletter",
+      "type": "quick"
+    },
+    {
+      "rank": 9,
+      "title": "Claude Code 六条缓存法则",
+      "source": "前端早读课",
+      "type": "quick"
+    },
+    {
+      "rank": 10,
+      "title": "315 曝光 AI 被投毒与 GEO 乱象",
+      "source": "腾讯研究院",
+      "type": "quick"
+    }
+  ],
+  "platformMeta": {
+    "bilibili": {
+      "title": "世界模型、复杂性与 Agent 产品化 | 03.17 技术早报",
+      "description": "00:32 世界模型\n02:22 软件复杂性\n04:14 GLM-5-Turbo\n06:07 其余快讯速览",
+      "tags": [
+        "AI",
+        "Agent",
+        "GPT-5.4",
+        "软件工程",
+        "技术早报"
+      ]
+    },
+    "youtube": {
+      "title": "World Models, Software Complexity, and Agent Productization | Daily Tech Digest 03.17",
+      "description": "Timestamps:\n00:32 World models\n02:22 Software complexity\n04:14 GLM-5-Turbo\n06:07 Quick signals",
+      "tags": [
+        "AI",
+        "Agents",
+        "GPT-5.4",
+        "Software Engineering"
+      ]
+    },
+    "wechatVideo": {
+      "title": "世界模型与 Agent 新信号",
+      "description": "三条深度解读 + 七条速览，9 分钟看完今天技术要点。"
+    }
+  }
+}

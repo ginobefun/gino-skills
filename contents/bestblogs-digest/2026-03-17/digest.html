@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BestBlogs 早报 | 2026-03-17</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #fefdfb;
+      color: #374151;
+      font-family: -apple-system, 'PingFang SC', 'Helvetica Neue', sans-serif;
+      font-size: 15px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body::before {
+      content: '';
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      opacity: 0.03; pointer-events: none; z-index: 9999;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-size: 256px 256px;
+    }
+
+    .container {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 48px 24px 64px;
+    }
+
+    .header {
+      margin-bottom: 40px;
+    }
+
+    .brand {
+      font-family: Georgia, 'Noto Serif SC', serif;
+      font-size: 26px;
+      color: #1a365d;
+      letter-spacing: 0.05em;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .date {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      color: #6b7280;
+      margin-bottom: 16px;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .tag {
+      font-size: 12px;
+      color: #1a365d;
+      border: 1px solid #1a365d;
+      border-radius: 20px;
+      padding: 3px 12px;
+      background: transparent;
+      font-family: 'Inter', -apple-system, sans-serif;
+    }
+
+    .item {
+      padding: 28px 0;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .item:last-child {
+      border-bottom: none;
+    }
+
+    .item-top {
+      padding: 28px 0 28px 20px;
+      border-bottom: 1px solid #e5e7eb;
+      border-left: 3px solid #d97706;
+      background: rgba(217,119,6,0.06);
+      margin: 0 -24px;
+      padding-left: 44px;
+      padding-right: 24px;
+    }
+
+    .item-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .item-rank {
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      color: #1a365d;
+      min-width: 22px;
+      line-height: 1.4;
+    }
+
+    .item-top .item-rank {
+      color: #d97706;
+    }
+
+    .item-title {
+      font-family: Georgia, 'Noto Serif SC', serif;
+      font-size: 17px;
+      color: #1a365d;
+      text-decoration: none;
+      line-height: 1.4;
+    }
+
+    .item-title:hover {
+      text-decoration: underline;
+    }
+
+    .item-top .item-title {
+      font-size: 20px;
+    }
+
+    .item-summary {
+      font-size: 14px;
+      color: #374151;
+      line-height: 1.7;
+      margin-bottom: 10px;
+    }
+
+    .item-meta {
+      font-size: 12px;
+      color: #6b7280;
+      font-family: 'Inter', -apple-system, sans-serif;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .item-meta .sep {
+      color: #d1d5db;
+    }
+
+    .score {
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+    }
+
+    .type-badge {
+      font-size: 11px;
+      background: #f3f4f6;
+      color: #6b7280;
+      padding: 1px 8px;
+      border-radius: 10px;
+    }
+
+    .also-see {
+      font-size: 12px;
+      color: #9ca3af;
+      margin-top: 6px;
+    }
+
+    .footer {
+      margin-top: 48px;
+      padding-top: 24px;
+      border-top: 1px solid #e5e7eb;
+      text-align: center;
+    }
+
+    .footer-brand {
+      font-family: Georgia, 'Noto Serif SC', serif;
+      font-size: 15px;
+      color: #1a365d;
+      letter-spacing: 0.08em;
+      margin-bottom: 4px;
+    }
+
+    .footer-slogan {
+      font-size: 12px;
+      color: #6b7280;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="brand">BestBlogs 早报</div>
+      <div class="date">2026-03-17 · 星期二</div>
+      <div class="tags">
+        <span class="tag">GPT-5.4</span>
+        <span class="tag">世界模型</span>
+        <span class="tag">Cursor 安全</span>
+        <span class="tag">GLM-5-Turbo</span>
+        <span class="tag">Attention Residuals</span>
+      </div>
+    </div>
+
+    <div class="item-top">
+      <div class="item-header">
+        <span class="item-rank">1</span>
+        <a class="item-title" href="https://www.bestblogs.dev/status/2033605419726483963" target="_blank">GPT-5.4 创下 API 采用率与营收新纪录</a>
+      </div>
+      <div class="item-summary">
+        Greg Brockman 透露 GPT-5.4 已成为 OpenAI 历史上增长最快的模型：发布一周内日处理 5T token，超过一年前整个 API 总和；年化净新增营收达 10 亿美元。新架构在智能体编码场景中的性价比优势正在改写市场格局。
+      </div>
+      <div class="item-meta">
+        <span>@gdb</span>
+        <span class="sep">·</span>
+        <span class="type-badge">@推文</span>
+        <span class="sep">·</span>
+        <span class="score">92</span>
+      </div>
+      <div class="also-see">另见：@sama</div>
+    </div>
+
+    <div class="item">
+      <div class="item-header">
+        <span class="item-rank">2</span>
+        <a class="item-title" href="https://www.bestblogs.dev/podcast/7231850" target="_blank">对谢赛宁的 7 小时马拉松访谈：世界模型、逃出硅谷、AMI Labs</a>
+      </div>
+      <div class="item-summary">
+        谢赛宁犀利指出硅谷已"LLM 中毒"，过度依赖语言空间而忽视物理世界建模。他与 Yann LeCun 创立的 AMI Labs 致力于构建"世界模型"——通过预测环境下一状态而非下一字符，挑战当前 LLM 主导叙事。
+      </div>
+      <div class="item-meta">
+        <span>张小珺 Jùn｜商业访谈录</span>
+        <span class="sep">·</span>
+        <span class="type-badge">播客 420min</span>
+        <span class="sep">·</span>
+        <span class="score">94</span>
+      </div>
+      <div class="also-see">另见：独家对话谢赛宁 (语言即世界)</div>
+    </div>
+
+    <div class="item">
+      <div class="item-header">
+        <span class="item-rank">3</span>
+        <a class="item-title" href="https://www.bestblogs.dev/article/145bc7c9" target="_blank">使用自主智能体保护我们的代码库</a>
+      </div>
+      <div class="item-summary">
+        Cursor 官方揭秘四种安全智能体架构——安全审查（实时 PR 门控）、漏洞猎手、Anybump（可达性分析自动升级依赖）、代码质量守护，利用 MCP 做持久化存储。
+      </div>
+      <div class="item-meta">
+        <span>Cursor Blog</span>
+        <span class="sep">·</span>
+        <span>AI</span>
+        <span class="sep">·</span>
+        <span class="score">92</span>
+      </div>
+    </div>
+
+    <div class="item">
+      <div class="item-header">
+        <span class="item-rank">4</span>
+        <a class="item-title" href="https://www.bestblogs.dev/article/88892d20" target="_blank">GLM-5-Turbo：龙虾增强的基座模型</a>
+      </div>
+      <div class="item-summary">
+        智谱推出专为 OpenClaw Agent 场景优化的基座模型，强化工具调用、指令拆解和高吞吐稳定性，同步发布 ZClaw 评测基准。
+      </div>
+      <div class="item-meta">
+        <span>智谱</span>
+        <span class="sep">·</span>
+        <span>AI</span>
+        <span class="sep">·</span>
+        <span class="score">92</span>
+      </div>
+    </div>
+
+    <div class="item">
+      <div class="item-header">
+        <span class="item-rank">5</span>
+        <a class="item-title" href="https://www.bestblogs.dev/article/a389a9b9" target="_blank">软件为何越做越乱？万字长文讲透软件的"复杂性"</a>
+      </div>
+      <div class="item-summary">
+        系统阐述复杂性三大表现及根源，给出深模块、信息隐藏、分层抽象等方法论。AI 时代更需要对抗复杂性的工程素养。
+      </div>
+      <div class="item-meta">
+        <span>大淘宝技术</span>
+        <span class="sep">·</span>
+        <span>编程技术</span>
+        <span class="sep">·</span>
+        <span class="score">93</span>
+      </div>
+    </div>
+
+    <div class="item">
+      <div class="item-header">
+        <span class="item-rank">6</span>
+        <a class="item-title" href="https://www.bestblogs.dev/status/2033378587878072424" target="_blank">Moonshot AI 推出 Attention Residuals</a>
+      </div>
+      <div class="item-summary">
+        将标准均匀残差连接替换为输入依赖型注意力机制，缓解深层网络隐藏状态增长和表示稀释。在 48B 参数 Kimi Linear 模型上验证有效。
+      </div>
+      <div class="item-meta">
+        <span>@Kimi_Moonshot</span>
+        <span class="sep">·</span>
+        <span class="type-badge">@推文</span>
+        <span class="sep">·</span>
+        <span class="score">92</span>
+      </div>
+    </div>
+
+    <div class="item">
+      <div class="item-header">
+        <span class="item-rank">7</span>
+        <a class="item-title" href="https://www.bestblogs.dev/article/198f0999" target="_blank">LLM 幻觉并非数据缺陷</a>
+      </div>
+      <div class="item-summary">
+        通过残差流几何分析揭示：模型产生幻觉时并非未找到正确信息，而是主动"偏离"正确答案。幻觉是下一词元预测目标的涌现属性。
+      </div>
+      <div class="item-meta">
+        <span>Towards Data Science</span>
+        <span class="sep">·</span>
+        <span>AI</span>
+        <span class="sep">·</span>
+        <span class="score">91</span>
+      </div>
+    </div>
+
+    <div class="item">
+      <div class="item-header">
+        <span class="item-rank">8</span>
+        <a class="item-title" href="https://www.bestblogs.dev/article/2a6f7fa5" target="_blank">Stripe 的 Minions 如何每周发布 1,300 个 PR</a>
+      </div>
+      <div class="item-summary">
+        Stripe 内部 AI 智能体系统无需人工干预即可自动化端到端编码。成功秘诀在成熟的开发基础设施：隔离沙盒 + 确定性蓝图架构。
+      </div>
+      <div class="item-meta">
+        <span>ByteByteGo Newsletter</span>
+        <span class="sep">·</span>
+        <span>编程技术</span>
+        <span class="sep">·</span>
+        <span class="score">90</span>
+      </div>
+    </div>
+
+    <div class="item">
+      <div class="item-header">
+        <span class="item-rank">9</span>
+        <a class="item-title" href="https://www.bestblogs.dev/article/7f5fdb64" target="_blank">Claude Code 团队的六条反直觉缓存法则</a>
+      </div>
+      <div class="item-summary">
+        把缓存命中率从成本优化指标提升为系统可靠性指标。提示前缀编排、工具延迟加载、上下文压缩时的缓存安全分叉等实战法则。
+      </div>
+      <div class="item-meta">
+        <span>前端早读课</span>
+        <span class="sep">·</span>
+        <span>编程技术</span>
+        <span class="sep">·</span>
+        <span class="score">90</span>
+      </div>
+    </div>
+
+    <div class="item">
+      <div class="item-header">
+        <span class="item-rank">10</span>
+        <a class="item-title" href="https://www.bestblogs.dev/article/96a7310b" target="_blank">深度解读 315 曝光的"GEO 乱象"：AI 的回答是如何"被操控"的？</a>
+      </div>
+      <div class="item-summary">
+        黑产通过批量制造伪内容系统性影响 RAG 过程，将广告伪装成 AI "标准答案"。这种"认知操纵"比传统广告更隐蔽。
+      </div>
+      <div class="item-meta">
+        <span>腾讯研究院</span>
+        <span class="sep">·</span>
+        <span>商业科技</span>
+        <span class="sep">·</span>
+        <span class="score">89</span>
+      </div>
+    </div>
+
+    <div class="footer">
+      <div class="footer-brand">BestBlogs.dev</div>
+      <div class="footer-slogan">遇见更好的技术阅读</div>
+    </div>
+  </div>
+</body>
+</html>

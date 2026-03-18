@@ -75,7 +75,7 @@
 
 | 合并候选 | 合并为 | 理由 |
 |----------|--------|------|
-| ~~`bestblogs-translate-article-result`~~ | ~~已合并到 `bestblogs-process-articles`~~ | ✅ 已完成：分析 ≥80 分自动翻译，无待分析时自动处理待翻译 |
+| ~~`bestblogs-translate-article-result`~~ | 已拆分为独立的 `bestblogs-translate-analysis-result` | ✅ 已完成：作为独立 worker skill 处理翻译任务 |
 | `bestblogs-process-articles` + `bestblogs-process-tweets` + `bestblogs-process-videos` | `bestblogs-process-content` | 三者工作流模式相同（查询待处理 → 选择 → 逐个处理 → 更新），仅内容类型不同。合并后通过参数区分，减少 3→1 个 skill |
 | `cover-image` + `article-illustrator` | 保持分离 | 虽然都生成图片，但触发场景和工作流差异大（单图 vs 多图），保持分离更好 |
 
@@ -89,11 +89,11 @@
 
 | Skill | 问题 | 建议 |
 |-------|------|------|
-| `image-gen` | 英文 description，中文用户可能不触发 | 添加中文触发短语："生成图片"、"AI画图"、"文生图" |
-| `cover-image` | 英文 description | 添加中文触发短语："封面图"、"文章封面"、"生成封面" |
-| `article-illustrator` | 英文 description | 添加中文触发短语："文章配图"、"插图生成"、"给文章配图" |
-| `create-podcast` | 可能与 "播客推荐" 混淆 | 确保 description 强调"生成/制作"语义，排除"推荐/收听" |
-| `x-actions` | 可能与 `post-to-x` 冲突 | 强调"互动"语义：回复、点赞、转推；排除"发布内容" |
+| `image-gen` | 英文 description，中文用户可能不触发 | description 中补充中文场景描述（生成图片、AI 画图、文生图） |
+| `cover-image` | 英文 description | description 中补充中文场景描述（封面图、文章封面） |
+| `article-illustrator` | 英文 description | description 中补充中文场景描述（文章配图、插图） |
+| `create-podcast` | 可能与 "播客推荐" 混淆 | description 强调"生成/制作"语义，排除"推荐/收听" |
+| `x-actions` | 可能与 `post-to-x` 冲突 | description 强调"互动"语义（回复、点赞、转推），排除"发布内容" |
 
 ### 3.2 Skill 间串联可发现性
 
@@ -134,11 +134,11 @@
 
 | 优先级 | 改进项 | 工作量 | 影响 |
 |--------|--------|--------|------|
-| P0 | 图片生成 skills 添加中文触发短语 | 小 | 直接影响中文用户触发率 |
+| P0 | 图片生成 skills description 补充中文场景描述 | 小 | 直接影响中文用户触发率 |
 | P0 | 明确 `x-actions` vs `post-to-x` 职责边界 | 小 | 消除用户困惑 |
 | P1 | `send-wechat-group-message` → `post-to-wechat-group` 重命名 | 小 | 统一命名体系 |
 | P1 | 强化 `daily-content-management` 作为入口 | 中 | 改善工作流可发现性 |
-| ~~P2~~ | ~~合并 `bestblogs-translate-article-result`~~ | ~~小~~ | ✅ 已完成 |
+| ~~P2~~ | ~~合并 `bestblogs-translate-article-result`~~ | ~~小~~ | ✅ 已完成：拆分为独立 `bestblogs-translate-analysis-result` |
 | P2 | 合并 `bestblogs-process-*` 三兄弟 | 大 | 减少 skill 数量 |
 | P2 | `content-reviewer` 去除推荐阅读功能 | 中 | 消除与 curator 重叠 |
 | P3 | 新增 `content-calendar` | 大 | 补全 Content OS |

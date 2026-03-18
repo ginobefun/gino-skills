@@ -11,6 +11,7 @@ ALLOWED_FRONTMATTER_FIELDS = {"name", "description"}
 DESCRIPTION_PREFIX = "Use when"
 DESCRIPTION_MAX_CHARS = 500
 FRONTMATTER_MAX_CHARS = 1024
+SKILL_MAX_LINES = 400
 NAME_PATTERN = re.compile(r"^[a-z0-9][a-z0-9-]*$")
 REQUIRED_SECTION_TITLES = (
     "## When to Use",
@@ -74,7 +75,14 @@ def parse_frontmatter(text: str) -> tuple[dict[str, str], list[str]]:
 
 
 def lint_skill_text(text: str, rel_path: str | None = None) -> list[str]:
+    line_count = text.count("\n")
+    if text and not text.endswith("\n"):
+        line_count += 1
     frontmatter, violations = parse_frontmatter(text)
+    if line_count > SKILL_MAX_LINES:
+        violations.append(
+            f"SKILL.md exceeds {SKILL_MAX_LINES} lines ({line_count})"
+        )
 
     name = frontmatter.get("name", "")
     if not name:

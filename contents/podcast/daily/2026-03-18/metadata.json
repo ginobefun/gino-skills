@@ -1,0 +1,23 @@
+{
+  "date": "2026-03-18",
+  "title": " 早报"EP3 · GTC 万亿愿景/AI 编码工具进化/GPT 5.4 更小更快更便宜 · 03.18,
+  "description": "黄仁勋 GTC 2026 发布 Vera Rubin 平台，提出 AI 工厂和 Agent as a Service 愿景；LangChain Open SWE、Cursor 自我总结、Claude Cowork 等 AI 编码工具集体进化；OpenAI GPT 5.4 mini/nano 模型推理成本加速下降。",
+  "duration": 712,
+  "durationFormatted": "11:52",
+  "audioFile": "podcast.mp3",
+  "audioSize": 17096663,
+  "keywords": ["GTC 2026", "Vera Rubin", "AI 编码", "Open SWE", "Cursor", "Claude Cowork", "GPT 5.4", "Hugging Face", "Midjourney V8"],
+  "series": "daily",
+  "items": [
+    {"id": "00d1d39b", "title": "黄仁勋 GTC 2026：万亿美元愿景", "source": "InfoQ 中文"},
+    {"id": "9f6c9323", "title": "Open SWE：面向企业内部编码智能体的开源框架", "source": "LangChain Blog"},
+    {"id": "933bc25e", "title": "为什么 Anthropic 认为 AI 应该拥有自己的计算机", "source": "Latent Space"},
+    {"id": "eedde830", "title": "OpenAI 发布 GPT-5.4 mini 和 nano", "source": "Simon Willison's Weblog"},
+    {"id": "40081192", "title": "训练 Composer 以应对更长期的任务——自我总结技术", "source": "Cursor Blog"},
+    {"id": "2902aba4", "title": "Agent/Skills/Teams 架构演进过程及技术选型之道", "source": "阿里云开发者"},
+    {"id": "4e42b0b6", "title": "Hugging Face 开源现状：2026 年春季", "source": "Hugging Face Blog"},
+    {"id": "a289e2c6", "title": "上下文锚定：减少 AI 辅助编程中的摩擦", "source": "Martin Fowler"},
+    {"id": "2614f825", "title": "构建 Claude Code 的经验：我们如何使用 Skills", "source": "宝玉的分享"},
+    {"id": "2034015674046288171", "title": "Midjourney V8 发布：5 倍速度提升", "source": "@midjourney"}
+  ]
+}

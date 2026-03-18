@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BestBlogs 早报 | 2026-03-18</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Noto+Serif+SC:wght@400;600;700&display=swap');
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #fefdfb;
+      color: #374151;
+      font-family: -apple-system, 'PingFang SC', 'Helvetica Neue', 'Noto Sans SC', sans-serif;
+      font-size: 15px;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      opacity: 0.03;
+      pointer-events: none;
+      z-index: 9999;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 256px 256px;
+    }
+
+    .container {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 60px 24px 80px;
+    }
+
+    .header {
+      margin-bottom: 48px;
+    }
+
+    .brand {
+      font-family: Georgia, 'Noto Serif SC', serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: #1a365d;
+      letter-spacing: 0.05em;
+      margin-bottom: 6px;
+    }
+
+    .date {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      color: #6b7280;
+      letter-spacing: 0.02em;
+      margin-bottom: 20px;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .tag {
+      font-size: 12px;
+      color: #1a365d;
+      border: 1px solid #1a365d;
+      border-radius: 20px;
+      padding: 3px 12px;
+      letter-spacing: 0.01em;
+      white-space: nowrap;
+    }
+
+    .item {
+      padding: 28px 0;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .item:last-child {
+      border-bottom: none;
+    }
+
+    .item-top {
+      border-bottom: 1px solid #e5e7eb;
+      padding: 28px 0 28px 19px;
+      border-left: 3px solid #d97706;
+      background: rgba(217, 119, 6, 0.06);
+      margin-left: -24px;
+      margin-right: -24px;
+      padding-left: 43px;
+      padding-right: 24px;
+    }
+
+    .item-header {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .item-number {
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      color: #1a365d;
+      flex-shrink: 0;
+      min-width: 20px;
+    }
+
+    .item-top .item-number {
+      color: #d97706;
+    }
+
+    .item-title {
+      font-family: Georgia, 'Noto Serif SC', serif;
+      font-size: 17px;
+      font-weight: 600;
+      color: #1a365d;
+      text-decoration: none;
+      line-height: 1.4;
+    }
+
+    .item-title:hover {
+      color: #2c5282;
+    }
+
+    .item-top .item-title {
+      font-size: 20px;
+    }
+
+    .item-summary {
+      font-size: 14px;
+      color: #374151;
+      line-height: 1.7;
+      margin-bottom: 10px;
+    }
+
+    .item-meta {
+      font-family: 'Inter', -apple-system, sans-serif;
+      font-size: 12px;
+      color: #6b7280;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .item-meta .sep {
+      color: #d1d5db;
+    }
+
+    .score {
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+    }
+
+    .type-badge {
+      font-size: 11px;
+      color: #6b7280;
+      border: 1px solid #e5e7eb;
+      border-radius: 3px;
+      padding: 1px 6px;
+    }
+
+    .also-see {
+      font-size: 12px;
+      color: #9ca3af;
+      margin-top: 6px;
+    }
+
+    .footer {
+      margin-top: 48px;
+      padding-top: 24px;
+      border-top: 1px solid #e5e7eb;
+      text-align: center;
+    }
+
+    .footer-brand {
+      font-family: Georgia, 'Noto Serif SC', serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: #1a365d;
+      letter-spacing: 0.05em;
+      margin-bottom: 4px;
+    }
+
+    .footer-tagline {
+      font-size: 12px;
+      color: #6b7280;
+    }
+
+    a { color: inherit; }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <div class="header">
+      <div class="brand">BestBlogs 早报</div>
+      <div class="date">2026 年 3 月 18 日 · 星期三</div>
+      <div class="tags">
+        <span class="tag">GTC 2026</span>
+        <span class="tag">Open SWE</span>
+        <span class="tag">Anthropic Cowork</span>
+        <span class="tag">GPT-5.4 mini</span>
+        <span class="tag">Midjourney V8</span>
+      </div>
+    </div>
+
+    <!-- Top 1 -->
+    <div class="item-top">
+      <div class="item-header">
+        <span class="item-number">01</span>
+        <a class="item-title" href="https://www.bestblogs.dev/article/00d1d39b" target="_blank">黄仁勋 GTC 2026：万亿美元愿景</a>
+      </div>
+      <div class="item-summary">
+        英伟达 GTC 大会核心发布：Vera Rubin 平台（3.6 EFLOPS 算力、100% 液冷）、Vera CPU、NemoClaw 企业级智能体安全操作系统、DLSS 5 神经渲染。黄仁勋将数据中心重新定义为生产 Token 的"AI 工厂"，预言传统 SaaS 将被智能体服务（AaaS）取代。Feynman 架构将于 2028 年全面换代，目标 2027 年底突破万亿营收。
+      </div>
+      <div class="item-meta">
+        <span>InfoQ 中文</span>
+        <span class="sep">·</span>
+        <span class="score">90</span>
+      </div>
+      <div class="also-see">另见：极客公园, 硅星人Pro, Web3天空之城, CSDN</div>
+    </div>
+
+    <!-- 2 -->
+    <div class="item">
+      <div class="item-header">
+        <span class="item-number">02</span>
+        <a class="item-title" href="https://www.bestblogs.dev/article/9f6c9323" target="_blank">Open SWE：面向企业内部编码智能体的开源框架</a>
+      </div>
+      <div class="item-summary">
+        LangChain 发布 Open SWE，借鉴 Stripe、Ramp、Coinbase 的生产系统经验，为工程团队部署内部 AI 编码智能体提供标准化框架。核心特性：隔离云沙盒安全执行代码、通过 AGENTS.md 实现上下文管理、确定性中间件确保 PR 创建等任务的可靠性。
+      </div>
+      <div class="item-meta">
+        <span>LangChain Blog</span>
+        <span class="sep">·</span>
+        <span class="score">93</span>
+      </div>
+      <div class="also-see">另见：@hwchase17</div>
+    </div>
+
+    <!-- 3 -->
+    <div class="item">
+      <div class="item-header">
+        <span class="item-number">03</span>
+        <a class="item-title" href="https://www.bestblogs.dev/article/933bc25e" target="_blank">为什么 Anthropic 认为 AI 应该拥有自己的计算机</a>
+      </div>
+      <div class="item-summary">
+        Latent Space 对 Anthropic 工程师 Felix Rieseberg 的深度访谈。核心观点：AI 产品的前沿不再是更好的聊天界面，而是可信的任务执行。讨论涵盖本地优先的代理工作流、Skills 在 AI 系统中的重要性，以及 Claude Code Desktop 的新功能 Dispatch。
+      </div>
+      <div class="item-meta">
+        <span>Latent Space</span>
+        <span class="sep">·</span>
+        <span class="score">93</span>
+      </div>
+    </div>
+
+    <!-- 4 -->
+    <div class="item">
+      <div class="item-header">
+        <span class="item-number">04</span>
+        <a class="item-title" href="https://www.bestblogs.dev/article/eedde830" target="_blank">OpenAI 发布 GPT-5.4 mini 和 nano：更小更快更便宜</a>
+      </div>
+      <div class="item-summary">
+        GPT-5.4 mini 速度是 GPT-5 mini 的两倍，API 上下文窗口达 400K；nano 每百万输入 token 仅 $0.20。在 Codex 中使用 mini 仅消耗 GPT-5.4 配额的 30%。高质量推理能力正以极低成本普及。
+      </div>
+      <div class="item-meta">
+        <span>Simon Willison's Weblog</span>
+        <span class="sep">·</span>
+        <span class="score">90</span>
+      </div>
+      <div class="also-see">另见：@OpenAI, @OpenAIDevs</div>
+    </div>
+
+    <!-- 5 -->
+    <div class="item">
+      <div class="item-header">
+        <span class="item-number">05</span>
+        <a class="item-title" href="https://www.bestblogs.dev/article/40081192" target="_blank">训练 Composer 以应对更长期的任务——自我总结技术</a>
+      </div>
+      <div class="item-summary">
+        Cursor 将"自我总结"集成到 RL 训练循环中，模型能识别并保留高价值数据。结果：压缩错误减少 50%，token 使用量减少 80%，成功处理超 170 轮次、10 万+ token 推理的任务。
+      </div>
+      <div class="item-meta">
+        <span>Cursor Blog</span>
+        <span class="sep">·</span>
+        <span class="score">91</span>
+      </div>
+    </div>
+
+    <!-- 6 -->
+    <div class="item">
+      <div class="item-header">
+        <span class="item-number">06</span>
+        <a class="item-title" href="https://www.bestblogs.dev/article/2902aba4" target="_blank">Agent/Skills/Teams 架构演进过程及技术选型之道</a>
+      </div>
+      <div class="item-summary">
+        深度对比四种 Agent 架构模式，结合 Google DeepMind 实证研究，提出"奥卡姆剃刀"选型原则——根据任务复杂度科学选择架构，避免盲目堆砌智能体。
+      </div>
+      <div class="item-meta">
+        <span>阿里云开发者</span>
+        <span class="sep">·</span>
+        <span class="score">93</span>
+      </div>
+    </div>
+
+    <!-- 7 -->
+    <div class="item">
+      <div class="item-header">
+        <span class="item-number">07</span>
+        <a class="item-title" href="https://www.bestblogs.dev/article/4e42b0b6" target="_blank">Hugging Face 开源现状：2026 年春季</a>
+      </div>
+      <div class="item-summary">
+        基于 1100 万用户和 200 万模型的生态报告。中国在模型下载量和仓库增长已超越美国；独立开发者占所有下载量近 40%；用户偏好 1-9B 小型模型；机器人数据集增长 20 倍。
+      </div>
+      <div class="item-meta">
+        <span>Hugging Face Blog</span>
+        <span class="sep">·</span>
+        <span class="score">91</span>
+      </div>
+    </div>
+
+    <!-- 8 -->
+    <div class="item">
+      <div class="item-header">
+        <span class="item-number">08</span>
+        <a class="item-title" href="https://www.bestblogs.dev/article/a289e2c6" target="_blank">上下文锚定：减少 AI 辅助编程中的摩擦</a>
+      </div>
+      <div class="item-summary">
+        Martin Fowler 提出将决策背后的"为什么"和被拒绝的替代方案记录在轻量化外部功能文档中，实现从脆弱的对话驱动向稳健的文档驱动工作流的转变。
+      </div>
+      <div class="item-meta">
+        <span>Martin Fowler</span>
+        <span class="sep">·</span>
+        <span class="score">91</span>
+      </div>
+    </div>
+
+    <!-- 9 -->
+    <div class="item">
+      <div class="item-header">
+        <span class="item-number">09</span>
+        <a class="item-title" href="https://www.bestblogs.dev/article/2614f825" target="_blank">构建 Claude Code 的经验：我们如何使用 Skills</a>
+      </div>
+      <div class="item-summary">
+        Anthropic 工程师的实践指南。Skills 不仅是 Markdown 文件，而是包含脚本、资源和配置的文件夹。文章划分九大类别，分享关键编写技巧：踩坑点章节、渐进式披露、精准触发。
+      </div>
+      <div class="item-meta">
+        <span>宝玉的分享</span>
+        <span class="sep">·</span>
+        <span class="score">92</span>
+      </div>
+    </div>
+
+    <!-- 10 -->
+    <div class="item">
+      <div class="item-header">
+        <span class="item-number">10</span>
+        <a class="item-title" href="https://www.bestblogs.dev/status/2034015674046288171" target="_blank">Midjourney V8 发布：5 倍速度提升</a>
+      </div>
+      <div class="item-summary">
+        Midjourney 正式推出 V8 模型，图像生成速度提升 5 倍。新功能包括增强的提示词理解、改进的个性化设置、风格参考和情绪板。全新 Web 界面支持对话模式、网格模式和侧边栏。
+      </div>
+      <div class="item-meta">
+        <span>@midjourney</span>
+        <span class="sep">·</span>
+        <span class="type-badge">推文</span>
+        <span class="sep">·</span>
+        <span class="score">93</span>
+      </div>
+    </div>
+
+    <div class="footer">
+      <div class="footer-brand">BestBlogs.dev</div>
+      <div class="footer-tagline">遇见更好的技术阅读</div>
+    </div>
+
+  </div>
+</body>
+</html>

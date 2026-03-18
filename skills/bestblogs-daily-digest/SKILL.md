@@ -88,7 +88,24 @@ curl -s -X POST https://api.bestblogs.dev/openapi/v1/tweet/list \
   -d '{"currentPage":1,"timeFilter":"3d","sortType":"score_desc","userLanguage":"zh_CN","pageSize":100,"language":"all"}'
 ```
 
-**并行策略**: 使用 Agent 子任务执行所有 7 个请求（避免多个并行 Bash tool call 中单个失败导致全部取消）。Agent 内部可并行发起请求，统一返回合并结果。客户端过滤：仅保留 `score >= 85` 的内容。
+**并行策略**: 直接使用多个并行 Shell tool call 发起 7 个请求（每个请求一个独立 Shell 调用）。单个请求失败不影响其他请求，失败的可单独重试。不要使用 Task 子任务——子任务环境可能缺少必要工具导致失败。
+
+**客户端过滤**: 仅保留 `score >= 85` 的内容。
+
+**⚠️ score 字段空值处理**: API 返回的 `score` 可能为 `null`/`None`，直接比较会抛出 `TypeError`。Python 脚本中必须用 `score = it.get('score') or 0` 做安全转换后再过滤：
+
+```python
+# resource/list 接口
+score = it.get('score') or 0
+if score < 85:
+    continue
+
+# tweet/list 接口（score 在 resourceMeta 下）
+rm = it.get('resourceMeta', {})
+score = rm.get('score') or 0
+if score < 85:
+    continue
+```
 
 ---
 

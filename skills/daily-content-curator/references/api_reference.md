@@ -198,3 +198,31 @@
 | **200** | xgo-9005 | 操作不允许 | 展示 message |
 
 **重要**: 始终先检查 `response.success` 再处理 `response.data`。XGo 部分错误返回 HTTP 200 但 `success: false`。
+
+---
+
+## 代码示例
+
+### 历史去重
+
+```python
+from datetime import datetime, timedelta
+
+seen_urls = set()
+today = datetime.now()
+for offset in [1, 2, 3]:  # 最近3天
+    date = (today - timedelta(days=offset)).strftime('%Y-%m-%d')
+    history_path = f"contents/daily-curation/{date}/curation.md"
+    # 读取文件并提取所有 URL 加入 seen_urls
+```
+
+### 安全字段取值
+
+```python
+# 安全取值（处理可能为 null 的字段）
+title = item.get('title') or ''
+score = item.get('score') or 0
+summary = item.get('oneSentenceSummary') or ''
+authors = item.get('authors') or ['Unknown']
+url = item.get('readUrl') or item.get('url') or ''
+```

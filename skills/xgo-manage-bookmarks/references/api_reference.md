@@ -3,6 +3,18 @@
 接口地址: `https://api.xgo.ing`
 认证方式: 请求头 `X-API-KEY`（环境变量 `XGO_API_KEY`）
 
+## Worker-First 说明
+
+默认执行路径优先使用：
+
+```bash
+python3 scripts/examples/xgo_folder_overview.py
+python3 scripts/examples/xgo_save_folder.py --name "AI Papers"
+python3 scripts/examples/xgo_bookmark_action.py collect --folder-id FOLDER_ID --tweet-id TWEET_ID
+```
+
+本文件保留 `folder/*` 原始端点说明，主要用于 debug、字段确认和扩展 worker。
+
 ## 目录
 
 1. [获取所有收藏夹](#获取所有收藏夹)

@@ -268,15 +268,15 @@ contents/
   content-analytics/               # 内容分析报告
     weekly-YYYY-MM-DD.md / monthly-YYYY-MM.md
 
-  # ─── 共享引用文件（根级）───
-  style-profile.md                 # 写作风格画像（每周更新）
+  # ─── 共享引用文件（根级，兼容旧路径）───
+  style-profile.md                 # 写作风格画像旧路径，canonical durable path 见下
   content-strategy.md              # 内容策略画像（analytics→curator 反馈闭环）
 ```
 
 **Workspace 共享协议**: Content OS skills 通过 `tmp/workspace/` 共享中间数据，避免重复 API 调用。详细格式规范见 `skills/daily-content-management/references/workspace-spec.md`。核心规则：
 - 获取内容详情前先查 `tmp/workspace/YYYY-MM-DD/article-details/` 或 `tweet-details/` 缓存
-- 风格参考统一从 `contents/style-profile.md` 读取
-- 选题和创作状态通过 `plan.md` 追踪
+- 风格参考优先从 `${CLAUDE_PLUGIN_DATA}/gino-skills/manage-daily-content/memory/style-profile.md` 读取，`contents/style-profile.md` 仅作为临时兼容副本；弃用节奏见 `docs/deprecation-roadmap.md`
+- 选题和创作状态优先写入 `${CLAUDE_PLUGIN_DATA}/gino-skills/manage-daily-content/state/daily/YYYY-MM-DD/`，工作区 `plan.md` 只做当日协同副本
 
 **命名约定**:
 - 产出目录统一按 `<type>/YYYY-MM-DD/` 组织

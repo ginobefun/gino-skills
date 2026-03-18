@@ -1,4 +1,4 @@
-# BestBlogs Process Articles API 参考（含翻译）
+# BestBlogs 文章处理 API 参考（含翻译）
 
 ## 接口地址
 

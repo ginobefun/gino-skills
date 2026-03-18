@@ -1,393 +1,253 @@
-# Detailed Workflow Procedures
+# 详细工作流流程
 
-## Step 1: Pre-check
+## Step 1：预检查
 
-### 1.0 Detect & Save Reference Images ⚠️ REQUIRED if images provided
+### 1.0 检测并保存参考图 ⚠️ 如用户提供图片则必须执行
 
-Check if user provided reference images. Handle based on input type:
+先判断用户是否提供了参考图，并按输入类型处理：
 
-| Input Type | Action |
-|------------|--------|
-| Image file path provided | Copy to `references/` subdirectory → can use `--ref` |
-| Image in conversation (no path) | **ASK user for file path** with AskUserQuestion |
-| User can't provide path | Extract style/palette verbally → append to prompts (NO frontmatter references) |
+| 输入类型 | 动作 |
+|----------|------|
+| 明确给出图片文件路径 | 复制到 `references/` 子目录，可用于 `--ref` |
+| 对话里带了图片，但没有文件路径 | 用 `AskUserQuestion` 请用户提供文件路径 |
+| 用户无法提供路径 | 口头提炼风格 / 配色信息，追加进 prompt（不要写进 frontmatter 的 references） |
 
-**CRITICAL**: Only add `references` to prompt frontmatter if files are ACTUALLY SAVED to `references/` directory.
+**关键规则**：只有参考图文件真的保存到了 `references/` 目录，才能在 prompt frontmatter 里写 `references`。
 
-**If user provides file path**:
-1. Copy to `references/NN-ref-{slug}.png`
-2. Create description: `references/NN-ref-{slug}.md`
-3. Verify files exist before proceeding
+**如果用户提供的是文件路径**：
 
-**If user can't provide path** (extracted verbally):
-1. Analyze image visually, extract: colors, style, composition
-2. Create `references/extracted-style.md` with extracted info
-3. DO NOT add `references` to prompt frontmatter
-4. Instead, append extracted style/colors directly to prompt text
+1. 复制到 `references/NN-ref-{slug}.png`
+2. 创建说明文件：`references/NN-ref-{slug}.md`
+3. 继续前先确认这两个文件都存在
 
-**Description File Format** (only when file saved):
+**如果用户无法提供路径，只能口头描述**：
+
+1. 视觉分析图片，提取：配色、风格、构图
+2. 写入 `references/extracted-style.md`
+3. 不要把 `references` 写到 prompt frontmatter
+4. 把提炼出的风格 / 颜色直接拼到 prompt 文本里
+
+**说明文件格式**（仅在图片文件已保存时使用）：
+
 ```yaml
 ---
 ref_id: NN
 filename: NN-ref-{slug}.png
 ---
-[User's description or auto-generated description]
+[用户描述或自动生成的描述]
 ```
 
-**Verification** (only for saved files):
-```
-Reference Images Saved:
-- 01-ref-{slug}.png ✓ (can use --ref)
-- 02-ref-{slug}.png ✓ (can use --ref)
+**校验输出**（文件已保存时）：
+
+```text
+参考图已保存：
+- 01-ref-{slug}.png ✓（可用于 --ref）
+- 02-ref-{slug}.png ✓（可用于 --ref）
 ```
 
-**Or for extracted style**:
-```
-Reference Style Extracted (no file):
+**如果只是提炼风格**：
+
+```text
+已提炼参考风格（无文件）：
 - Colors: #E8756D coral, #7ECFC0 mint...
 - Style: minimal flat vector, clean lines...
-→ Will append to prompt text (not --ref)
+→ 将直接追加到 prompt 文本，不使用 --ref
 ```
 
 ---
 
-### 1.1 Determine Input Type
+### 1.1 判断输入类型
 
-| Input | Output Directory | Next |
-|-------|------------------|------|
-| File path | Ask user (1.2) | → 1.2 |
-| Pasted content | `illustrations/{topic-slug}/` | → 1.4 |
+| 输入 | 输出目录 | 下一步 |
+|------|----------|--------|
+| 文件路径 | 询问用户（1.2） | → 1.2 |
+| 粘贴内容 | `illustrations/{topic-slug}/` | → 1.4 |
 
-**Backup rule for pasted content**: If `source.md` exists in target directory, rename to `source-backup-YYYYMMDD-HHMMSS.md` before saving.
+**粘贴内容的备份规则**：如果目标目录下已经有 `source.md`，先改名为 `source-backup-YYYYMMDD-HHMMSS.md` 再写新文件。
 
-### 1.2-1.4 Configuration (file path input only)
+### 1.2-1.4 配置与路径决策（仅文件路径输入）
 
-Check preferences and existing state, then ask ALL needed questions in ONE AskUserQuestion call (max 4 questions).
+先读取偏好和现有状态，然后在一次 `AskUserQuestion` 中问完所有必要问题（最多 4 个）。
 
-**Questions to include** (skip if preference exists or not applicable):
+**需要问的问题**（如果已有偏好或当前不适用，可以跳过）：
 
-| Question | When to Ask | Options |
-|----------|-------------|---------|
-| Output directory | No `default_output_dir` in EXTEND.md | `{article-dir}/`, `{article-dir}/imgs/` (Recommended), `{article-dir}/illustrations/`, `illustrations/{topic-slug}/` |
-| Existing images | Target dir has `.png/.jpg/.webp` files | `supplement`, `overwrite`, `regenerate` |
-| Article update | Always (file path input) | `update`, `copy` |
+| 问题 | 何时询问 | 选项 |
+|------|----------|------|
+| 输出目录 | `config` 中没有 `default_output_dir` | `{article-dir}/`、`{article-dir}/imgs/`（推荐）、`{article-dir}/illustrations/`、`illustrations/{topic-slug}/` |
+| 已有图片如何处理 | 目标目录中存在 `.png/.jpg/.webp` | `supplement`、`overwrite`、`regenerate` |
+| 是否更新原文 | 只要是文件路径输入都问 | `update`、`copy` |
 
-**Preference Values** (if configured, skip asking):
+**`default_output_dir` 的值与路径映射**：
 
-| `default_output_dir` | Path |
-|----------------------|------|
+| 配置值 | 路径 |
+|--------|------|
 | `same-dir` | `{article-dir}/` |
 | `imgs-subdir` | `{article-dir}/imgs/` |
 | `illustrations-subdir` | `{article-dir}/illustrations/` |
 | `independent` | `illustrations/{topic-slug}/` |
 
-### 1.5 Load Preferences (EXTEND.md) ⛔ BLOCKING
+### 1.5 加载偏好 / 配置 ⛔ 阻塞
 
-**CRITICAL**: If EXTEND.md not found, MUST complete first-time setup before ANY other questions or steps. Do NOT proceed to reference images, do NOT ask about content, do NOT ask about type/style — ONLY complete the preferences setup first.
+**关键规则**：如果缺少 `config.json`，必须先完成首次设置，才能进入后续任何步骤。不要提前问参考图，不要问内容，不要问 type/style。
+
+优先用共享 loader：
 
 ```bash
-# macOS, Linux, WSL, Git Bash
-test -f .gino-skills/article-illustrator/EXTEND.md && echo "project"
-test -f "$HOME/.gino-skills/article-illustrator/EXTEND.md" && echo "user"
+bun scripts/examples/article_illustrator_config_state.ts read
+```
+
+只有在排查路径问题时，才手动检查文件是否存在：
+
+```bash
+# macOS / Linux / WSL / Git Bash
+test -f .gino-skills/article-illustrator/config.json && echo "project-config"
+test -f "$HOME/.gino-skills/article-illustrator/config.json" && echo "user-config"
 ```
 
 ```powershell
 # PowerShell (Windows)
-if (Test-Path .gino-skills/article-illustrator/EXTEND.md) { "project" }
-if (Test-Path "$HOME/.gino-skills/article-illustrator/EXTEND.md") { "user" }
+if (Test-Path .gino-skills/article-illustrator/config.json) { "project-config" }
+if (Test-Path "$HOME/.gino-skills/article-illustrator/config.json") { "user-config" }
 ```
 
-| Result | Action |
-|--------|--------|
-| Found | Read, parse, display summary → Continue |
-| Not found | ⛔ **BLOCKING**: Run first-time setup ONLY ([config/first-time-setup.md](config/first-time-setup.md)) → Complete and save EXTEND.md → Then continue |
+| 结果 | 动作 |
+|------|------|
+| 找到 `config.json` | 读取、解析、展示摘要 → 继续 |
+| 未找到 | ⛔ 仅执行首次设置（见 `config/first-time-setup.md`）→ 保存 `config.json` → 再继续 |
 
-**Supports**: Watermark | Preferred type/style | Custom styles | Language | Output directory
+支持的偏好包括：水印、偏好 type/style、自定义风格、语言、输出目录。
+
+Legacy `EXTEND.md` fallback 只保留在 `config/first-time-setup.md` 的附录中，本主流程不再展开。
 
 ---
 
-## Step 2: Setup & Analyze
+## Step 2：准备与分析
 
-### 2.1 Analyze Content
+### 2.1 内容分析
 
-| Analysis | Description |
-|----------|-------------|
-| Content type | Technical / Tutorial / Methodology / Narrative |
-| Illustration purpose | information / visualization / imagination |
-| Core arguments | 2-5 main points to visualize |
-| Visual opportunities | Positions where illustrations add value |
-| Recommended type | Based on content signals and purpose |
-| Recommended density | Based on length and complexity |
+| 分析项 | 说明 |
+|--------|------|
+| 内容类型 | Technical / Tutorial / Methodology / Narrative |
+| 插图目的 | information / visualization / imagination |
+| 核心论点 | 需要可视化的 2-5 个重点 |
+| 视觉机会点 | 哪些位置加图才真正有价值 |
+| 推荐类型 | 根据内容信号和目的得出 |
+| 推荐密度 | 根据篇幅和复杂度得出 |
 
-### 2.2 Extract Core Arguments
+### 2.2 提取核心论点
 
-- Main thesis
-- Key concepts reader needs
-- Comparisons/contrasts
-- Framework/model proposed
+- 主论点
+- 读者必须理解的关键概念
+- 对比 / 差异点
+- 文中提出的框架或模型
 
-**CRITICAL**: If article uses metaphors (e.g., "电锯切西瓜"), do NOT illustrate literally. Visualize the **underlying concept**.
+**关键提醒**：如果文章用了隐喻（如“电锯切西瓜”），不要照字面画。要画的是**底层概念**。
 
-### 2.3 Identify Positions
+### 2.3 识别插图位置
 
-**Illustrate**:
-- Core arguments (REQUIRED)
-- Abstract concepts
-- Data comparisons
-- Processes, workflows
+**应该配图**：
 
-**Do NOT Illustrate**:
-- Metaphors literally
-- Decorative scenes
-- Generic illustrations
+- 核心论点（必做）
+- 抽象概念
+- 数据对比
+- 流程 / 工作流
 
-### 2.4 Analyze Reference Images (if provided in Step 1.0)
+**不应该配图**：
 
-For each reference image:
+- 按字面画隐喻
+- 纯装饰场景
+- 泛泛的通用插图
 
-| Analysis | Description |
-|----------|-------------|
-| Visual characteristics | Style, colors, composition |
-| Content/subject | What the reference depicts |
-| Suitable positions | Which sections match this reference |
-| Style match | Which illustration types/styles align |
-| Usage recommendation | `direct` / `style` / `palette` |
+### 2.4 分析参考图（如果 1.0 有参考图）
 
-| Usage | When to Use |
-|-------|-------------|
-| `direct` | Reference matches desired output closely |
-| `style` | Extract visual style characteristics only |
-| `palette` | Extract color scheme only |
+对每张参考图判断：
 
----
+| 分析项 | 说明 |
+|--------|------|
+| 视觉特征 | 风格、颜色、构图 |
+| 内容 / 主题 | 参考图画了什么 |
+| 适用位置 | 更适合文章的哪些段落 |
+| 风格匹配 | 适合哪些插图 type/style |
+| 使用建议 | `direct` / `style` / `palette` |
 
-## Step 3: Confirm Settings ⚠️
-
-**Do NOT skip.** Use ONE AskUserQuestion call with max 4 questions. **Q1, Q2, Q3 are ALL REQUIRED.**
-
-### Q1: Illustration Type ⚠️ REQUIRED
-- [Recommended based on analysis] (Recommended)
-- infographic / scene / flowchart / comparison / framework / timeline / mixed
-
-### Q2: Density ⚠️ REQUIRED - DO NOT SKIP
-- minimal (1-2) - Core concepts only
-- balanced (3-5) - Major sections
-- per-section - At least 1 per section/chapter (Recommended)
-- rich (6+) - Comprehensive coverage
-
-### Q3: Style ⚠️ REQUIRED (ALWAYS ask, even with preferred_style in EXTEND.md)
-
-If EXTEND.md has `preferred_style`:
-- [Custom style name + brief description] (Recommended)
-- [Top compatible core style 1]
-- [Top compatible core style 2]
-- Other (see full Style Gallery)
-
-If no `preferred_style` (present Core Styles first):
-- [Best compatible core style] (Recommended)
-- [Other compatible core style 1]
-- [Other compatible core style 2]
-- Other (see full Style Gallery)
-
-**Core Styles** (simplified selection):
-
-| Core Style | Best For |
-|------------|----------|
-| `minimal-flat` | General, knowledge sharing, SaaS |
-| `sci-fi` | AI, frontier tech, system design |
-| `hand-drawn` | Relaxed, reflective, casual |
-| `editorial` | Processes, data, journalism |
-| `scene` | Narratives, emotional, lifestyle |
-
-Style selection based on Type × Style compatibility matrix (styles.md).
-Full specs: `styles/<style>.md`
-
-### Q4: Image Text Language ⚠️ REQUIRED when article language ≠ EXTEND.md `language`
-
-Detect article language from content. If different from EXTEND.md `language` setting, MUST ask:
-- Article language (match article content) (Recommended)
-- EXTEND.md language (user's general preference)
-
-**Skip only if**: Article language matches EXTEND.md `language`, or EXTEND.md has no `language` setting.
-
-### Display Reference Usage (if references detected in Step 1.0)
-
-When presenting outline preview to user, show reference assignments:
-
-```
-Reference Images:
-| Ref | Filename | Recommended Usage |
-|-----|----------|-------------------|
-| 01 | 01-ref-diagram.png | direct → Illustration 1, 3 |
-| 02 | 02-ref-chart.png | palette → Illustration 2 |
-```
+| 使用方式 | 适用场景 |
+|----------|----------|
+| `direct` | 参考图和目标输出已经很接近 |
+| `style` | 只借用视觉风格 |
+| `palette` | 只借用颜色方案 |
 
 ---
 
-## Step 4: Generate Outline
+## Step 3：确认设置 ⚠️
 
-Save as `outline.md`:
+**不要跳过。** 一次 `AskUserQuestion` 最多 4 个问题。**Q1、Q2、Q3 都必须问。**
 
-```yaml
----
-type: infographic
-density: balanced
-style: blueprint
-image_count: 4
-references:                    # Only if references provided
-  - ref_id: 01
-    filename: 01-ref-diagram.png
-    description: "Technical diagram showing system architecture"
-  - ref_id: 02
-    filename: 02-ref-chart.png
-    description: "Color chart with brand palette"
----
+### Q1：插图类型 ⚠️ 必问
 
-## Illustration 1
+- [根据分析给出的推荐项]（推荐）
+- `infographic` / `scene` / `flowchart` / `comparison` / `framework` / `timeline` / `mixed`
 
-**Position**: [section] / [paragraph]
-**Purpose**: [why this helps]
-**Visual Content**: [what to show]
-**Type Application**: [how type applies]
-**References**: [01]                    # Optional: list ref_ids used
-**Reference Usage**: direct             # direct | style | palette
-**Filename**: 01-infographic-concept-name.png
+### Q2：插图密度 ⚠️ 必问
 
-## Illustration 2
-...
+- `minimal`（1-2 张）- 只覆盖核心概念
+- `balanced`（3-5 张）- 覆盖主要段落
+- `per-section` - 每一节至少 1 张（推荐）
+- `rich`（6+）- 尽可能全面
+
+### Q3：风格 ⚠️ 必问
+
+即使 config 里已有 `preferred_style`，这一题也仍然要问。
+
+如果已有 `preferred_style`：
+
+- [自定义风格名 + 简介]（推荐）
+- [最兼容的核心风格 1]
+- [最兼容的核心风格 2]
+- 其他（查看完整 Style Gallery）
+
+如果没有 `preferred_style`：
+
+- [最匹配的核心风格]（推荐）
+- [其他兼容核心风格 1]
+- [其他兼容核心风格 2]
+- 其他（查看完整 Style Gallery）
+
+**核心风格**（简化选择）：
+
+| 核心风格 | 最适合 |
+|----------|--------|
+| `minimal-flat` | 通用知识分享、SaaS、教程 |
+| `sci-fi` | AI、前沿技术、系统设计 |
+| `hand-drawn` | 轻松、反思、随笔 |
+| `editorial` | 流程、数据、新闻感 |
+| `scene` | 叙事、情绪、生活方式 |
+
+完整规范见 `styles.md` 与 `styles/<style>.md`。
+
+### Q4：图片文字语言 ⚠️ 条件必问
+
+当检测到文章语言和 config 中的 `language` 不一致时，必须询问：
+
+- 使用文章语言（推荐）
+- 使用 config 里的默认语言
+
+**只有在以下情况可以跳过**：
+
+- 文章语言与 config `language` 一致
+- config 没有设置 `language`
+
+### 如果存在参考图，在给用户展示 outline 预览时附带说明
+
+```text
+参考图使用建议：
+| Ref | 文件名 | 推荐用法 |
+|-----|--------|----------|
+| 01  | 01-ref-diagram.png | direct → Illustration 1, 3 |
+| 02  | 02-ref-chart.png   | palette → Illustration 2 |
 ```
-
-**Requirements**:
-- Each position justified by content needs
-- Type applied consistently
-- Style reflected in descriptions
-- Count matches density
-- References assigned based on Step 2.4 analysis
-
----
-
-## Step 5: Generate Images
-
-### 5.1 Create Prompts ⛔ BLOCKING
-
-**Every illustration MUST have a saved prompt file before generation begins. DO NOT skip this step.**
-
-For each illustration in the outline:
-
-1. **Create prompt file**: `prompts/NN-{type}-{slug}.md`
-2. **Include YAML frontmatter**:
-   ```yaml
-   ---
-   illustration_id: 01
-   type: infographic
-   style: custom-flat-vector
-   ---
-   ```
-3. **Follow type-specific template** from [prompt-construction.md](prompt-construction.md)
-4. **Prompt quality requirements** (all REQUIRED):
-   - `Layout`: Describe overall composition (grid / radial / hierarchical / left-right / top-down)
-   - `ZONES`: Describe each visual area with specific content, not vague descriptions
-   - `LABELS`: Use **actual numbers, terms, metrics, quotes from the article** — NOT generic placeholders
-   - `COLORS`: Specify hex codes with semantic meaning (e.g., `Coral (#E07A5F) for emphasis`)
-   - `STYLE`: Describe line treatment, texture, mood, character rendering
-   - `ASPECT`: Specify ratio (e.g., `16:9`)
-5. **Apply defaults**: composition requirements, character rendering, text guidelines, watermark
-6. **Backup rule**: If prompt file exists, rename to `prompts/NN-{type}-{slug}-backup-YYYYMMDD-HHMMSS.md`
-
-**Verification** ⛔: Before proceeding to 5.2, confirm ALL prompt files exist:
-```
-Prompt Files:
-- prompts/01-infographic-overview.md ✓
-- prompts/02-infographic-distillation.md ✓
-...
-```
-
-**DO NOT** pass ad-hoc inline text to `--prompt` without first saving prompt files. The generation command should either use `--promptfiles prompts/NN-{type}-{slug}.md` or read the saved file content for `--prompt`.
-
-**CRITICAL - References in Frontmatter**:
-- Only add `references` field if files ACTUALLY EXIST in `references/` directory
-- If style/palette was extracted verbally (no file), append info to prompt BODY instead
-- Before writing frontmatter, verify: `test -f references/NN-ref-{slug}.png`
-
-### 5.2 Select Generation Skill
-
-Check available skills. If multiple, ask user.
-
-### 5.3 Process References ⚠️ REQUIRED if references saved in Step 1.0
-
-**DO NOT SKIP if user provided reference images.** For each illustration with references:
-
-1. **VERIFY files exist first**:
-   ```bash
-   test -f references/NN-ref-{slug}.png && echo "exists" || echo "MISSING"
-   ```
-   - If file MISSING but in frontmatter → ERROR, fix frontmatter or remove references field
-   - If file exists → proceed with processing
-
-2. Read prompt frontmatter for reference info
-3. Process based on usage type:
-
-| Usage | Action | Example |
-|-------|--------|---------|
-| `direct` | Add reference path to `--ref` parameter | `--ref references/01-ref-brand.png` |
-| `style` | Analyze reference, append style traits to prompt | "Style: clean lines, gradient backgrounds..." |
-| `palette` | Extract colors from reference, append to prompt | "Colors: #E8756D coral, #7ECFC0 mint..." |
-
-4. Check image generation skill capability:
-
-| Skill Supports `--ref` | Action |
-|------------------------|--------|
-| Yes (e.g., image-gen with Google) | Pass reference images via `--ref` |
-| No | Convert to text description, append to prompt |
-
-**Verification**: Before generating, confirm reference processing:
-```
-Reference Processing:
-- Illustration 1: using 01-ref-brand.png (direct) ✓
-- Illustration 2: extracted palette from 02-ref-style.png ✓
-```
-
-### 5.4 Apply Watermark (if enabled)
-
-Add: `Include a subtle watermark "[content]" at [position].`
-
-### 5.5 Generate
-
-1. For each illustration:
-   - **Backup rule**: If image file exists, rename to `NN-{type}-{slug}-backup-YYYYMMDD-HHMMSS.md`
-   - If references with `direct` usage: include `--ref` parameter
-   - Generate image
-2. After each: "Generated X/N"
-3. On failure: retry once, then log and continue
 
 ---
 
-## Step 6: Finalize
+## Step 4：生成大纲
 
-### 6.1 Update Article
-
-Insert after corresponding paragraph:
-```markdown
-![description](illustrations/{slug}/NN-{type}-{slug}.png)
-```
-
-Alt text: concise description in article's language.
-
-### 6.2 Output Summary
-
-```
-Article Illustration Complete!
-
-Article: [path]
-Type: [type] | Density: [level] | Style: [style]
-Location: [directory]
-Images: X/N generated
-
-Positions:
-- 01-xxx.png → After "[Section]"
-- 02-yyy.png → After "[Section]"
-
-[If failures]
-Failed:
-- NN-zzz.png: [reason]
-```
+保存为 `outline.md`。

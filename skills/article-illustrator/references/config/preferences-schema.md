@@ -1,40 +1,28 @@
 ---
 name: preferences-schema
-description: EXTEND.md YAML schema for article-illustrator user preferences
+description: config.json schema for article-illustrator user preferences
 ---
 
 # Preferences Schema
 
 ## Full Schema
 
-```yaml
----
-version: 1
-
-watermark:
-  enabled: false
-  content: ""
-  position: bottom-right  # bottom-right|bottom-left|bottom-center|top-right
-
-preferred_style:
-  name: null              # Built-in or custom style name
-  description: ""         # Override/notes
-
-language: null            # zh|en|ja|ko|auto
-
-default_output_dir: null  # same-dir|illustrations-subdir|independent
-
-custom_styles:
-  - name: my-style
-    description: "Style description"
-    color_palette:
-      primary: ["#1E3A5F", "#4A90D9"]
-      background: "#F5F7FA"
-      accents: ["#00B4D8", "#48CAE4"]
-    visual_elements: "Clean lines, geometric shapes"
-    typography: "Modern sans-serif"
-    best_for: "Business, education"
----
+```json
+{
+  "version": 1,
+  "watermark": {
+    "enabled": false,
+    "content": "",
+    "position": "bottom-right"
+  },
+  "preferred_style": {
+    "name": null,
+    "description": ""
+  },
+  "language": null,
+  "default_output_dir": null,
+  "custom_styles": []
+}
 ```
 
 ## Field Reference
@@ -83,42 +71,47 @@ custom_styles:
 
 ## Example: Minimal Preferences
 
-```yaml
----
-version: 1
-watermark:
-  enabled: true
-  content: "@myusername"
-preferred_style:
-  name: notion
----
+```json
+{
+  "version": 1,
+  "watermark": {
+    "enabled": true,
+    "content": "@myusername"
+  },
+  "preferred_style": {
+    "name": "notion"
+  }
+}
 ```
 
 ## Example: Full Preferences
 
-```yaml
----
-version: 1
-watermark:
-  enabled: true
-  content: "@myaccount"
-  position: bottom-right
-
-preferred_style:
-  name: notion
-  description: "Clean illustrations for tech articles"
-
-language: zh
-
-custom_styles:
-  - name: corporate
-    description: "Professional B2B style"
-    color_palette:
-      primary: ["#1E3A5F", "#4A90D9"]
-      background: "#F5F7FA"
-      accents: ["#00B4D8", "#48CAE4"]
-    visual_elements: "Clean lines, subtle gradients, geometric shapes"
-    typography: "Modern sans-serif, professional"
-    best_for: "Business, SaaS, enterprise"
----
+```json
+{
+  "version": 1,
+  "watermark": {
+    "enabled": true,
+    "content": "@myaccount",
+    "position": "bottom-right"
+  },
+  "preferred_style": {
+    "name": "notion",
+    "description": "Clean illustrations for tech articles"
+  },
+  "language": "zh",
+  "custom_styles": [
+    {
+      "name": "corporate",
+      "description": "Professional B2B style",
+      "color_palette": {
+        "primary": ["#1E3A5F", "#4A90D9"],
+        "background": "#F5F7FA",
+        "accents": ["#00B4D8", "#48CAE4"]
+      },
+      "visual_elements": "Clean lines, subtle gradients, geometric shapes",
+      "typography": "Modern sans-serif, professional",
+      "best_for": "Business, SaaS, enterprise"
+    }
+  ]
+}
 ```

@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "post-to-wechat config",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "default_theme": { "type": ["string", "null"] },
+    "default_color": { "type": ["string", "null"] },
+    "default_publish_method": {
+      "type": ["string", "null"],
+      "enum": ["api", "browser", null]
+    },
+    "default_author": { "type": ["string", "null"] },
+    "need_open_comment": { "type": ["boolean", "integer", "null"] },
+    "only_fans_can_comment": { "type": ["boolean", "integer", "null"] },
+    "chrome_profile_path": { "type": ["string", "null"] },
+    "default_font_family": { "type": ["string", "null"] },
+    "default_font_size": { "type": ["string", "null"] },
+    "default_code_theme": { "type": ["string", "null"] },
+    "mac_code_block": { "type": ["boolean", "null"] },
+    "show_line_number": { "type": ["boolean", "null"] },
+    "cite": { "type": ["boolean", "null"] },
+    "count": { "type": ["boolean", "null"] },
+    "legend": { "type": ["string", "null"] },
+    "keep_title": { "type": ["boolean", "null"] }
+  }
+}

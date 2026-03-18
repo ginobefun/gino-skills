@@ -1,100 +1,101 @@
-# Regular Posts - Detailed Guide
+# 常规帖子详细指南
 
-Detailed documentation for posting text and images to X.
+用于向 X 发布普通文本帖子与图片帖子。
 
-## Manual Workflow
+## 手动工作流
 
-If you prefer step-by-step control:
+如果你希望更细地控制每一步，可以按下面流程执行：
 
-### Step 1: Copy Image to Clipboard
+### Step 1：把图片复制到剪贴板
 
 ```bash
 ${BUN_X} ${SKILL_DIR}/scripts/copy-to-clipboard.ts image /path/to/image.png
 ```
 
-### Step 2: Paste from Clipboard
+### Step 2：从剪贴板粘贴
 
 ```bash
-# Simple paste to frontmost app
+# 粘贴到当前前台应用
 ${BUN_X} ${SKILL_DIR}/scripts/paste-from-clipboard.ts
 
-# Paste to Chrome with retries
+# 粘贴到 Chrome，并带重试
 ${BUN_X} ${SKILL_DIR}/scripts/paste-from-clipboard.ts --app "Google Chrome" --retries 5
 
-# Quick paste with shorter delay
+# 用更短延迟快速粘贴
 ${BUN_X} ${SKILL_DIR}/scripts/paste-from-clipboard.ts --delay 200
 ```
 
-### Step 3: Use Playwright MCP (if Chrome session available)
+### Step 3：使用 Playwright MCP（如果当前已有 Chrome 会话）
 
 ```bash
-# Navigate
+# 打开页面
 mcp__playwright__browser_navigate url="https://x.com/compose/post"
 
-# Get element refs
+# 获取元素引用
 mcp__playwright__browser_snapshot
 
-# Type text
+# 输入文字
 mcp__playwright__browser_click element="editor" ref="<ref>"
 mcp__playwright__browser_type element="editor" ref="<ref>" text="Your content"
 
-# Paste image (after copying to clipboard)
+# 粘贴图片（前提是图片已经进了系统剪贴板）
 mcp__playwright__browser_press_key key="Meta+v"  # macOS
-# or
+# 或
 mcp__playwright__browser_press_key key="Control+v"  # Windows/Linux
 
-# Screenshot to verify
+# 截图确认
 mcp__playwright__browser_take_screenshot filename="preview.png"
 ```
 
-## Image Support
+## 图片支持
 
-- Formats: PNG, JPEG, GIF, WebP
-- Max 4 images per post
-- Images copied to system clipboard, then pasted via keyboard shortcut
+- 支持格式：PNG、JPEG、GIF、WebP
+- 每条帖子最多 4 张图
+- 图片通过系统剪贴板进入浏览器，再用键盘快捷键粘贴
 
-## Example Session
+## 示例会话
 
+```text
+用户：/post-to-x "Hello from Claude!" --image ./screenshot.png
+
+Claude：
+1. 执行：${BUN_X} ${SKILL_DIR}/scripts/x-browser.ts "Hello from Claude!" --image ./screenshot.png
+2. 打开 Chrome，并进入 X 发帖页
+3. 将文字输入编辑器
+4. 把图片复制到剪贴板并粘贴
+5. 浏览器保留 30 秒供预览
+6. 返回："Post composed. Use --submit to post."
 ```
-User: /post-to-x "Hello from Claude!" --image ./screenshot.png
 
-Claude:
-1. Runs: ${BUN_X} ${SKILL_DIR}/scripts/x-browser.ts "Hello from Claude!" --image ./screenshot.png
-2. Chrome opens with X compose page
-3. Text is typed into editor
-4. Image is copied to clipboard and pasted
-5. Browser stays open 30s for preview
-6. Reports: "Post composed. Use --submit to post."
-```
+## 故障排查
 
-## Troubleshooting
+- **找不到 Chrome**：设置环境变量 `X_BROWSER_CHROME_PATH`
+- **未登录**：首次运行会打开 Chrome，请手动登录；cookie 会保存
+- **图片粘贴失败**：
+  - 先验证剪贴板脚本：`${BUN_X} ${SKILL_DIR}/scripts/copy-to-clipboard.ts image <path>`
+  - 在 macOS 上，为 Terminal/iTerm 开启“辅助功能”权限
+  - 粘贴时确保 Chrome 窗口可见且处于前台
+- **`osascript permission denied`**：给终端授予系统辅助功能权限
+- **被限流**：等待几分钟后重试
 
-- **Chrome not found**: Set `X_BROWSER_CHROME_PATH` environment variable
-- **Not logged in**: First run opens Chrome - log in manually, cookies are saved
-- **Image paste fails**:
-  - Verify clipboard script: `${BUN_X} ${SKILL_DIR}/scripts/copy-to-clipboard.ts image <path>`
-  - On macOS, grant "Accessibility" permission to Terminal/iTerm in System Settings > Privacy & Security > Accessibility
-  - Keep Chrome window visible and in front during paste operations
-- **osascript permission denied**: Grant Terminal accessibility permissions in System Preferences
-- **Rate limited**: Wait a few minutes before retrying
+## 工作原理
 
-## How It Works
+`x-browser.ts` 使用 Chrome DevTools Protocol（CDP）执行以下步骤：
 
-The `x-browser.ts` script uses Chrome DevTools Protocol (CDP) to:
-1. Launch real Chrome (not Playwright) with `--disable-blink-features=AutomationControlled`
-2. Use persistent profile directory for saved login sessions
-3. Interact with X via CDP commands (Runtime.evaluate, Input.dispatchKeyEvent)
-4. **Paste images using osascript** (macOS): Sends real Cmd+V keystroke to Chrome, bypassing CDP's synthetic events that X can detect
+1. 启动真实 Chrome（不是 Playwright），并带上 `--disable-blink-features=AutomationControlled`
+2. 使用持久化 profile 目录，复用登录态
+3. 通过 CDP 命令（如 `Runtime.evaluate`、`Input.dispatchKeyEvent`）操作 X
+4. **在 macOS 上用 `osascript` 粘贴图片**：发送真实的 `Cmd+V`，绕过 X 对合成粘贴事件的检测
 
-This approach bypasses X's anti-automation detection that blocks Playwright/Puppeteer.
+这样可以规避 X 对 Playwright / Puppeteer 等自动化痕迹的拦截。
 
-### Image Paste Mechanism (macOS)
+### 图片粘贴机制（macOS）
 
-CDP's `Input.dispatchKeyEvent` sends "synthetic" keyboard events that websites can detect. X ignores synthetic paste events for security. The solution:
+CDP 的 `Input.dispatchKeyEvent` 发出的属于“合成键盘事件”，网站可以检测到。X 会忽略这类合成粘贴事件，所以需要走真实系统粘贴：
 
-1. Copy image to system clipboard via Swift/AppKit (`copy-to-clipboard.ts`)
-2. Bring Chrome to front via `osascript`
-3. Send real Cmd+V keystroke via `osascript` and System Events
-4. Wait for upload to complete
+1. 通过 Swift / AppKit（`copy-to-clipboard.ts`）把图片复制到系统剪贴板
+2. 用 `osascript` 把 Chrome 提到前台
+3. 再用 `osascript` + System Events 发送真实 `Cmd+V`
+4. 等待上传完成
 
-This requires Terminal to have "Accessibility" permission in System Settings.
+因此，Terminal 需要在系统设置里拥有“辅助功能”权限。

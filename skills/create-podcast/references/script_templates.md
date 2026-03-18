@@ -6,7 +6,7 @@
 
 **一句话定位**: 一个懂技术的朋友在和你聊他最近看到的有意思的东西。
 
-**风格锚点**: 脚本**必须**读取 `contents/style-profile.md`，注入个人声音特征。以下原则与 style-profile 对齐，style-profile 有更新时以 style-profile 为准。
+**风格锚点**: 脚本**必须**优先读取 `${CLAUDE_PLUGIN_DATA}/gino-skills/manage-daily-content/memory/style-profile.md`，仅在缺失时临时兼容旧路径 `contents/style-profile.md`，注入个人声音特征。以下原则与 stable style-profile 对齐。
 
 ---
 
@@ -145,7 +145,7 @@ TTS 朗读需要口语化，书面语直接读会很僵：
 - 「今天刷到几篇文章，有一个观点还挺反直觉的……」
 - 「这两天 AI 圈有个变化，我自己也在跟……」
 
-`{name}` 从 EXTEND.md 的 `podcast_intro_name` 读取。
+`{name}` 优先从 `config.json` 的 `podcast_intro_name` 读取；legacy `EXTEND.md` 仅兼容旧流程。
 
 收尾参考：
 - 「好，今天就聊到这里。链接都在简介里，感兴趣的可以看看原文。明天见。」

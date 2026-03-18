@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "article-illustrator config",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "version": { "type": "integer", "minimum": 1 },
+    "watermark": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "enabled": { "type": ["boolean", "null"] },
+        "content": { "type": ["string", "null"] },
+        "position": {
+          "type": ["string", "null"],
+          "enum": ["bottom-right", "bottom-left", "bottom-center", "top-right", null]
+        },
+        "opacity": { "type": ["number", "null"], "minimum": 0, "maximum": 1 }
+      }
+    },
+    "preferred_style": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": ["string", "null"] },
+        "description": { "type": ["string", "null"] }
+      }
+    },
+    "language": { "type": ["string", "null"] },
+    "default_output_dir": { "type": ["string", "null"] },
+    "custom_styles": {
+      "type": ["array", "null"],
+      "items": { "type": "object" }
+    }
+  }
+}

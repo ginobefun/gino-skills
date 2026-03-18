@@ -1,5 +1,16 @@
 # bilibili-cli 命令参考
 
+## Worker-First 说明
+
+主流程优先通过统一 worker 调用：
+
+```bash
+python3 scripts/examples/bili_fetch_worker.py --subcommand hot
+python3 scripts/examples/bili_fetch_worker.py --subcommand video BV1xxxxxxxxx --subtitle
+```
+
+本页保留原始 CLI 命令，供调试、参数核对和低层扩展使用。
+
 ## 安装
 
 ```bash

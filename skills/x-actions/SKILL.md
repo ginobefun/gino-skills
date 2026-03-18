@@ -1,6 +1,6 @@
 ---
 name: x-actions
-description: "通过 Chrome CDP 在 Twitter/X 上执行操作。适用场景：(1) 发推文/发帖，(2) 回复推文，(3) 引用推文，(4) 转推/转发，(5) 点赞推文，(6) 取消点赞，(7) 取消转推。触发短语：'发推', 'post tweet', '发帖到 X', '回复推文', 'reply to tweet', '引用推文', 'quote tweet', '转推', 'retweet', '转发这条', '点赞', 'like tweet', '取消点赞', 'unlike', '在 X 上发', '帮我发推', '回复这条', '点赞这条', '帮我转推', 'post to twitter', 'tweet this', 'send tweet', '发条推文'。"
+description: "Use when 用户想在浏览器里对 X 执行写操作，例如发帖、回复、引用、转推或点赞。"
 ---
 
 # X 操作器 (X Actions)

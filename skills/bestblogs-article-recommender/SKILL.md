@@ -1,11 +1,37 @@
 ---
 name: bestblogs-article-recommender
-description: "为 BestBlogs.dev 内容生成中英文推荐语并可更新到系统。适用场景：(1) 输入文章 ID 或链接生成推荐语，(2) 为周刊精选内容撰写推荐描述，(3) 批量生成内容推荐语，(4) 更新文章的推荐理由到 BestBlogs。触发短语：'生成推荐语', '写推荐理由', '推荐语', '推荐理由', '更新推荐理由', 'write recommendation', 'article recommendation', '帮我写推荐', 'generate recommendation', '内容推荐', '周刊描述', 'update featured reason', 'featured reason'。当用户提供 BestBlogs 内容 ID (如 8a16b2e5、RAW_8a16b2e5) 或链接 (如 https://www.bestblogs.dev/article/8a16b2e5) 并要求生成推荐语时触发。"
+description: "Use when 用户想为一条 BestBlogs 内容生成中英文推荐语，并可选更新 BestBlogs 中的 featured reason。"
 ---
 
 # BestBlogs 文章推荐语生成器
 
 为 BestBlogs.dev 内容生成两个版本的中英文推荐语，用于精选周刊展示。推荐语聚焦文章核心观点、关键信息和亮点内容，帮助读者快速判断是否值得阅读。
+
+## When to Use
+
+- 用户已经有明确的 BestBlogs 资源 ID 或详情页链接，需要生成精选推荐语
+- 用户要为单篇或少量内容写中英文推荐文案，而不是整期周刊
+- 用户可能需要在生成后把 featured reason 回写到 BestBlogs
+
+## When Not to Use
+
+- 需要挑选本周内容或生成整期周刊时，使用 `bestblogs-weekly-curator`
+- 需要对待审内容做评分纠偏和阅读 shortlist 时，使用 `bestblogs-content-reviewer`
+- 只想查看内容原文或元数据时，使用 `bestblogs-fetcher`
+
+## Gotchas
+
+- 更新 featured reason 是写操作，必须先给用户看两个版本并等待明确选择
+- `meta` 和 `markdown` 需要分开取；`markdown` 缺失时只能退化为基于元数据写推荐语
+- 推荐语必须忠于原文，不能为了“好看”补充未出现的观点
+- 批量模式下先统一生成，再统一询问是否回写，避免边写边改造成状态混乱
+
+## Related Skills
+
+- `bestblogs-fetcher`：获取正文、元数据和期刊详情
+- `bestblogs-weekly-curator`：为整期周刊生成标题与推荐语
+- `bestblogs-weekly-blogger`：把周刊进一步扩写为博客文章
+- `bestblogs-content-reviewer`：先做评分 review，再把值得推荐的内容送到这里
 
 ## 认证
 
@@ -152,18 +178,15 @@ curl -s "https://api.bestblogs.dev/openapi/v1/resource/markdown?id={ID}" \
 **更新推荐理由** — 写操作，必须在用户明确确认后才能调用：
 
 ```bash
-curl -s -X POST https://api.bestblogs.dev/api/admin/article/updateFeaturedReason \
-  -H "Authorization: Bearer $BESTBLOGS_ADMIN_JWT_TOKEN" \
-  -H "User-Id: $BESTBLOGS_ADMIN_USER_ID" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "id": "{RESOURCE_ID}",
-    "zhFeaturedReason": "中文推荐语",
-    "enFeaturedReason": "English recommendation"
-  }'
+python3 scripts/examples/bestblogs_update_featured_reason.py \
+  --id "{RESOURCE_ID}" \
+  --zh-text "中文推荐语" \
+  --en-text "English recommendation"
 ```
 
 其中 `id` 使用第一步解析出的内容 ID，`zhFeaturedReason` 和 `enFeaturedReason` 使用用户选择的版本对应的中英文推荐语。
+
+> 当前公开 references 没有给出 featured reason 的稳定读回字段。该模板会先写入，再读取 meta 做 best-effort 校验，并明确提示限制。
 
 更新成功后告知用户。若失败，检查 admin 环境变量是否已配置。
 

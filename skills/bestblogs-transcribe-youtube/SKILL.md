@@ -1,11 +1,37 @@
 ---
 name: bestblogs-transcribe-youtube
-description: "通过 Chrome AppleScript 调用 Gemini Gem 转写 YouTube 视频文字稿。适用场景：(1) 将 YouTube 视频转为文字稿，(2) 提取 YouTube 视频内容，(3) 获取视频字幕/文本，(4) 视频内容转 Markdown。触发短语：'转写视频', '视频文字稿', 'transcribe youtube', 'youtube transcript', '提取视频内容', 'extract video', '视频转文字', 'video to text', 'youtube to markdown', '视频字幕', 'video subtitle', '转录视频', '转写 YouTube', 'transcribe video', '获取视频文字', 'get video text'。"
+description: "Use when 用户只想通过 Gemini Gem 浏览器流程转写单个 YouTube 视频，而不是走完整的 BestBlogs 视频处理流水线。"
 ---
 
 # YouTube 视频转写 (Transcribe YouTube)
 
 通过 Chrome AppleScript 在用户已登录的 Gemini 页面中执行 XHR 请求，调用预配置的 Gem（`8c99566ee291`）转写 YouTube 视频。浏览器自动携带 HttpOnly cookies，无需单独管理认证。
+
+## When to Use
+
+- 用户要转写单个 YouTube 视频，并接受通过 Gemini 网页已有登录态完成
+- 用户需要一个可复用的本地 transcript 文件，供后续分析或人工阅读
+- 用户的问题是“先拿到文字稿”，而不是整条 BestBlogs 视频处理流水线
+
+## When Not to Use
+
+- 要批量处理 BestBlogs 待分析视频时，使用 `bestblogs-process-videos`
+- 要对已拿到文字稿的视频做分析或翻译时，使用 `bestblogs-analyze-content` 或 `bestblogs-translate-analysis-result`
+- 非 macOS 或未登录 Gemini 的环境下，不要优先走这个 skill
+
+## Gotchas
+
+- 依赖 macOS AppleScript 和 Chrome 登录态，少任何一项都会失败
+- 如果 Chrome 没开启 Apple 事件中的 JavaScript，脚本会报错，不是转写逻辑坏了
+- 这是单视频 worker，不负责把结果回写 BestBlogs；需要回写时交给 orchestrator
+- `pro` 模式更慢，只有在确实需要更细 transcript 时再用
+
+## Related Skills
+
+- `bestblogs-process-videos`：BestBlogs 视频批处理 orchestrator
+- `bestblogs-fetch-pending-content`：先找出有哪些视频在等待处理
+- `bestblogs-analyze-content`：基于现有 transcript 做结构化分析
+- `bestblogs-translate-analysis-result`：翻译已分析的高分视频
 
 ## 脚本目录
 

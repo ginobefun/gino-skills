@@ -1,202 +1,213 @@
 ---
 name: first-time-setup
-description: First-time setup flow for cover-image preferences
+description: cover-image 首次偏好设置流程
 ---
 
-# First-Time Setup
+# 首次设置
 
-## Overview
+## 概览
 
-When no EXTEND.md is found, guide user through preference setup.
+当找不到 `config.json` 时，必须先完成封面图偏好设置。
 
-**⛔ BLOCKING OPERATION**: This setup MUST complete before ANY other workflow steps. Do NOT:
-- Ask about reference images
-- Ask about content/article
-- Ask about dimensions (type, palette, rendering)
-- Proceed to content analysis
+**⛔ 阻塞操作**：在设置完成前，不要：
 
-ONLY ask the questions in this setup flow, save EXTEND.md, then continue.
+- 询问参考图
+- 询问文章或内容细节
+- 询问维度细节（type、palette、rendering）
+- 直接开始内容分析
 
-## Setup Flow
+只完成本页中的 setup，写入 `config.json` 后再继续。
 
-```
-No EXTEND.md found
+## 设置流程
+
+```text
+未找到 config.json
         │
         ▼
 ┌─────────────────────┐
 │ AskUserQuestion     │
-│ (all questions)     │
+│ （一次问完）         │
 └─────────────────────┘
         │
         ▼
 ┌─────────────────────┐
-│ Create EXTEND.md    │
+│ 创建 config.json    │
 └─────────────────────┘
         │
         ▼
-    Continue to Step 1
+继续 Step 1
 ```
 
-## Questions
+## 问题清单
 
-**Language**: Use user's input language or saved language preference.
+**语言**：使用用户当前语言或已保存的语言偏好。
 
-Use AskUserQuestion with ALL questions in ONE call:
+一次 `AskUserQuestion` 把所有问题一起问完：
 
-### Question 1: Watermark
+### 问题 1：水印
 
 ```yaml
 header: "Watermark"
-question: "Watermark text for generated cover images?"
+question: "生成封面图时默认加什么水印？"
 options:
   - label: "No watermark (Recommended)"
-    description: "Clean covers, can enable later in EXTEND.md"
+    description: "默认无水印，后续可在 config.json 中再开启"
 ```
 
-### Question 2: Preferred Type
+### 问题 2：偏好 Type
 
 ```yaml
 header: "Type"
-question: "Default cover type preference?"
+question: "默认偏好的封面类型是什么？"
 options:
   - label: "Auto-select (Recommended)"
-    description: "Choose based on content analysis each time"
+    description: "每次根据内容自动判断"
   - label: "hero"
-    description: "Large visual impact - product launch, announcements"
+    description: "强调视觉冲击，适合发布、公告、产品亮相"
   - label: "conceptual"
-    description: "Concept visualization - technical, architecture"
+    description: "强调概念表达，适合技术、架构、抽象主题"
 ```
 
-### Question 3: Preferred Palette
+### 问题 3：偏好 Palette
 
 ```yaml
 header: "Palette"
-question: "Default color palette preference?"
+question: "默认偏好的颜色方案是什么？"
 options:
   - label: "Auto-select (Recommended)"
-    description: "Choose based on content analysis each time"
+    description: "每次根据内容自动判断"
   - label: "elegant"
-    description: "Sophisticated - soft coral, muted teal, dusty rose"
+    description: "更克制、更高级：soft coral / muted teal / dusty rose"
   - label: "warm"
-    description: "Friendly - orange, golden yellow, terracotta"
+    description: "更友好、更温暖：orange / golden yellow / terracotta"
   - label: "cool"
-    description: "Technical - engineering blue, navy, cyan"
+    description: "更技术感：engineering blue / navy / cyan"
 ```
 
-### Question 4: Preferred Rendering
+### 问题 4：偏好 Rendering
 
 ```yaml
 header: "Rendering"
-question: "Default rendering style preference?"
+question: "默认偏好的渲染风格是什么？"
 options:
   - label: "Auto-select (Recommended)"
-    description: "Choose based on content analysis each time"
+    description: "每次根据内容自动判断"
   - label: "hand-drawn"
-    description: "Sketchy organic illustration with personal touch"
+    description: "带个人感的草图 / 手绘风"
   - label: "flat-vector"
-    description: "Clean modern vector with geometric shapes"
+    description: "干净现代的几何矢量风格"
   - label: "digital"
-    description: "Polished precise digital illustration"
+    description: "更精致、可控的数字插画风"
 ```
 
-### Question 5: Default Aspect Ratio
+### 问题 5：默认宽高比
 
 ```yaml
 header: "Aspect"
-question: "Default aspect ratio for cover images?"
+question: "封面图默认宽高比是什么？"
 options:
   - label: "16:9 (Recommended)"
-    description: "Standard widescreen - YouTube, presentations, versatile"
+    description: "通用横版：YouTube、演示文稿、通用封面"
   - label: "2.35:1"
-    description: "Cinematic widescreen - article headers, blog posts"
+    description: "电影感超宽屏：文章头图、博客横幅"
   - label: "1:1"
-    description: "Square - Instagram, WeChat, social cards"
+    description: "方图：Instagram、微信、小卡片"
   - label: "3:4"
-    description: "Portrait - Xiaohongshu, Pinterest, mobile content"
+    description: "竖版：小红书、Pinterest、移动端内容"
 ```
 
-Note: More ratios (4:3, 3:2) available during generation. This sets the default recommendation.
+说明：生成阶段仍可使用更多比例（如 4:3、3:2），这里仅设置默认推荐值。
 
-### Question 6: Default Output Directory
+### 问题 6：默认输出目录
 
 ```yaml
 header: "Output"
-question: "Default output directory for cover images?"
+question: "封面图默认输出到哪里？"
 options:
   - label: "Independent (Recommended)"
-    description: "cover-image/{topic-slug}/ - separate from article"
+    description: "cover-image/{topic-slug}/ - 独立目录"
   - label: "Same directory"
-    description: "{article-dir}/ - alongside the article file"
+    description: "{article-dir}/ - 与文章文件同目录"
   - label: "imgs subdirectory"
-    description: "{article-dir}/imgs/ - images folder near article"
+    description: "{article-dir}/imgs/ - 文章旁边的图片目录"
 ```
 
-### Question 7: Quick Mode
+### 问题 7：Quick Mode
 
 ```yaml
 header: "Quick"
-question: "Enable quick mode by default?"
+question: "是否默认开启 quick mode？"
 options:
   - label: "No (Recommended)"
-    description: "Confirm dimension choices each time"
+    description: "每次仍确认关键维度选择"
   - label: "Yes"
-    description: "Skip confirmation, use auto-selection"
+    description: "跳过确认，直接使用自动选择结果"
 ```
 
-### Question 8: Save Location
+### 问题 8：保存位置
 
 ```yaml
 header: "Save"
-question: "Where to save preferences?"
+question: "偏好保存到哪里？"
 options:
   - label: "Project (Recommended)"
-    description: ".gino-skills/ (this project only)"
+    description: ".gino-skills/（仅当前项目）"
   - label: "User"
-    description: "~/.gino-skills/ (all projects)"
+    description: "~/.gino-skills/（当前用户所有项目）"
 ```
 
-## Save Locations
+## 保存位置
 
-| Choice | Path | Scope |
-|--------|------|-------|
-| Project | `.gino-skills/cover-image/EXTEND.md` | Current project |
-| User | `~/.gino-skills/cover-image/EXTEND.md` | All projects |
+| 选项 | 路径 | 作用范围 |
+|------|------|----------|
+| Project | `.gino-skills/cover-image/config.json` | 当前项目 |
+| User | `~/.gino-skills/cover-image/config.json` | 当前用户所有项目 |
 
-## After Setup
+## 设置完成后
 
-1. Create directory if needed
-2. Write EXTEND.md with frontmatter
-3. Confirm: "Preferences saved to [path]"
-4. Continue to Step 1
+1. 如有需要先创建目录
+2. 写入 `config.json`
+3. 向用户确认：“偏好已保存到 [path]”
+4. 回到 Step 1
 
-## EXTEND.md Template
+## `config.json` 模板
 
-```yaml
----
-version: 3
-watermark:
-  enabled: [true/false]
-  content: "[user input or empty]"
-  position: bottom-right
-  opacity: 0.7
-preferred_type: [selected type or null]
-preferred_palette: [selected palette or null]
-preferred_rendering: [selected rendering or null]
-preferred_text: title-only
-preferred_mood: balanced
-default_aspect: [16:9/2.35:1/1:1/3:4]
-default_output_dir: [independent/same-dir/imgs-subdir]
-quick_mode: [true/false]
-language: null
-custom_palettes: []
----
+```json
+{
+  "version": 3,
+  "watermark": {
+    "enabled": false,
+    "content": "[user input or empty]",
+    "position": "bottom-right",
+    "opacity": 0.7
+  },
+  "preferred_type": "[selected type or null]",
+  "preferred_palette": "[selected palette or null]",
+  "preferred_rendering": "[selected rendering or null]",
+  "preferred_text": "title-only",
+  "preferred_mood": "balanced",
+  "default_aspect": "[16:9/2.35:1/1:1/3:4]",
+  "default_output_dir": "[independent/same-dir/imgs-subdir]",
+  "quick_mode": false,
+  "language": null,
+  "custom_palettes": []
+}
 ```
 
-## Modifying Preferences Later
+## 后续修改偏好
 
-Users can edit EXTEND.md directly or run setup again:
-- Delete EXTEND.md to trigger setup
-- Edit YAML frontmatter for quick changes
-- Full schema: `preferences-schema.md`
+用户可以直接编辑 `config.json`，也可以删除后重新走 setup：
 
-**EXTEND.md Supports**: Watermark | Preferred type | Preferred palette | Preferred rendering | Preferred text | Preferred mood | Default aspect ratio | Default output directory | Quick mode | Custom palette definitions | Language preference
+- 删除 `config.json` 重新触发设置
+- 完整 schema 见 `preferences-schema.md`
+
+机器可读 schema 见：`skills/cover-image/config.schema.json`
+
+## Legacy 兼容附录
+
+迁移期间仍保留 legacy `EXTEND.md` fallback，但只作兼容，不应再出现在主流程。
+
+- `.gino-skills/cover-image/EXTEND.md`
+- `$HOME/.gino-skills/cover-image/EXTEND.md`
+
+弃用时间线见 `docs/deprecation-roadmap.md`

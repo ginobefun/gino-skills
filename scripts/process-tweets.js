@@ -6,22 +6,43 @@
 const fs = require('fs');
 const path = require('path');
 
-// 读取所有数据
-const listAll = JSON.parse(fs.readFileSync('/tmp/list_all.json', 'utf8'));
-const followingP1 = JSON.parse(fs.readFileSync('/tmp/following_p1.json', 'utf8'));
-const followingP2 = JSON.parse(fs.readFileSync('/tmp/following_p2.json', 'utf8'));
-const recommendP1 = JSON.parse(fs.readFileSync('/tmp/recommend_p1.json', 'utf8'));
-const recommendP2 = JSON.parse(fs.readFileSync('/tmp/recommend_p2.json', 'utf8'));
+const sourceBundlePath = process.env.XGO_DIGEST_SOURCE_PATH;
+const outputPath = process.env.XGO_DIGEST_OUTPUT_PATH || '/tmp/tweet_digest_data.json';
 
-// 检查 API 响应
-if (!listAll.success || !followingP1.success || !followingP2.success || !recommendP1.success || !recommendP2.success) {
-  console.error('API 返回错误');
-  process.exit(1);
+let listData = [];
+let followingTweets = [];
+let recommendationTweets = [];
+
+if (sourceBundlePath) {
+  const sourceBundle = JSON.parse(fs.readFileSync(sourceBundlePath, 'utf8'));
+  listData = sourceBundle.lists || [];
+  followingTweets = sourceBundle.followingTweets || [];
+  recommendationTweets = sourceBundle.recommendationTweets || [];
+} else {
+  const listAll = JSON.parse(fs.readFileSync('/tmp/list_all.json', 'utf8'));
+  const followingP1 = JSON.parse(fs.readFileSync('/tmp/following_p1.json', 'utf8'));
+  const followingP2 = JSON.parse(fs.readFileSync('/tmp/following_p2.json', 'utf8'));
+  const recommendP1 = JSON.parse(fs.readFileSync('/tmp/recommend_p1.json', 'utf8'));
+  const recommendP2 = JSON.parse(fs.readFileSync('/tmp/recommend_p2.json', 'utf8'));
+
+  if (!listAll.success || !followingP1.success || !followingP2.success || !recommendP1.success || !recommendP2.success) {
+    console.error('API 返回错误');
+    process.exit(1);
+  }
+
+  listData = listAll.data || [];
+  followingTweets = [
+    ...(followingP1.data?.data || []),
+    ...(followingP2.data?.data || []),
+  ];
+  recommendationTweets = [
+    ...(recommendP1.data?.data || []),
+    ...(recommendP2.data?.data || []),
+  ];
 }
 
 // 第二步：构建 author->list 映射
 const authorToList = new Map();
-const listData = listAll.data || [];
 
 listData.forEach(list => {
   const listName = list.name;
@@ -57,10 +78,8 @@ function addTweets(tweets, source) {
   });
 }
 
-addTweets(followingP1.data.data || [], 'following');
-addTweets(followingP2.data.data || [], 'following');
-addTweets(recommendP1.data.data || [], 'recommendation');
-addTweets(recommendP2.data.data || [], 'recommendation');
+addTweets(followingTweets, 'following');
+addTweets(recommendationTweets, 'recommendation');
 
 console.log(`去重后共 ${allTweets.length} 条推文`);
 
@@ -235,5 +254,5 @@ const result = {
   categories: Array.from(categories.entries()).map(([name, tweets]) => ({ name, tweets }))
 };
 
-fs.writeFileSync('/tmp/tweet_digest_data.json', JSON.stringify(result, null, 2));
-console.log('\n数据处理完成，已保存到 /tmp/tweet_digest_data.json');
+fs.writeFileSync(outputPath, JSON.stringify(result, null, 2));
+console.log(`\n数据处理完成，已保存到 ${outputPath}`);

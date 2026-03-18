@@ -2,4 +2,7 @@
 *.skill
 .claude/
 .claude-plugin/
+.gino-skills/
 contents/tmp/
+__pycache__/
+*.pyc

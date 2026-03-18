@@ -1,7 +1,6 @@
-import fs from "node:fs";
 import { homedir } from "node:os";
-import path from "node:path";
 import type { ExtendConfig } from "./types.js";
+import { loadConfigWithLegacy } from "../../../../scripts/shared/config_loader";
 
 function extractYamlFrontMatter(content: string): string | null {
   const match = content.match(/^---\s*\n([\s\S]*?)\n---\s*$/m);
@@ -34,20 +33,61 @@ function parseExtendYaml(yaml: string): Partial<ExtendConfig> {
   return config;
 }
 
-export function loadExtendConfig(): Partial<ExtendConfig> {
-  const paths = [
-    path.join(process.cwd(), ".gino-skills", "baoyu-markdown-to-html", "EXTEND.md"),
-    path.join(homedir(), ".gino-skills", "baoyu-markdown-to-html", "EXTEND.md"),
-  ];
-  for (const p of paths) {
-    try {
-      const content = fs.readFileSync(p, "utf-8");
-      const yaml = extractYamlFrontMatter(content);
-      if (!yaml) continue;
-      return parseExtendYaml(yaml);
-    } catch {
-      continue;
-    }
+function coerceString(value: unknown, allowEmpty = false): string | null {
+  if (typeof value !== "string") return null;
+  const trimmed = value.trim();
+  if (trimmed.length === 0) {
+    return allowEmpty ? "" : null;
   }
-  return {};
+  return trimmed;
+}
+
+function coerceBoolean(value: unknown): boolean | null {
+  if (typeof value === "boolean") return value;
+  if (typeof value === "number") return value !== 0;
+  if (typeof value === "string") {
+    const normalized = value.trim().toLowerCase();
+    if (["1", "true", "yes", "on"].includes(normalized)) return true;
+    if (["0", "false", "no", "off"].includes(normalized)) return false;
+  }
+  return null;
+}
+
+function parseJsonConfig(data: unknown): Partial<ExtendConfig> {
+  if (!data || typeof data !== "object" || Array.isArray(data)) {
+    throw new Error("post-to-wechat config.json must contain an object.");
+  }
+
+  const raw = data as Record<string, unknown>;
+  const fontSize = coerceString(raw.default_font_size);
+
+  return {
+    default_theme: coerceString(raw.default_theme),
+    default_color: coerceString(raw.default_color),
+    default_font_family: coerceString(raw.default_font_family),
+    default_font_size: fontSize ? (fontSize.endsWith("px") ? fontSize : `${fontSize}px`) : null,
+    default_code_theme: coerceString(raw.default_code_theme),
+    mac_code_block: coerceBoolean(raw.mac_code_block),
+    show_line_number: coerceBoolean(raw.show_line_number),
+    cite: coerceBoolean(raw.cite),
+    count: coerceBoolean(raw.count),
+    legend: coerceString(raw.legend),
+    keep_title: coerceBoolean(raw.keep_title),
+  };
+}
+
+function parseLegacyConfig(content: string): Partial<ExtendConfig> {
+  const yaml = extractYamlFrontMatter(content);
+  return yaml ? parseExtendYaml(yaml) : {};
+}
+
+export function loadExtendConfig(): Partial<ExtendConfig> {
+  return loadConfigWithLegacy<ExtendConfig>({
+    skillName: "post-to-wechat",
+    legacySkillNames: ["baoyu-markdown-to-html"],
+    cwd: process.cwd(),
+    homeDir: homedir(),
+    parseJson: parseJsonConfig,
+    parseLegacy: parseLegacyConfig,
+  }).config;
 }

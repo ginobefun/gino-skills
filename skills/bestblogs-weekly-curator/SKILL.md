@@ -1,6 +1,6 @@
 ---
 name: bestblogs-weekly-curator
-description: "BestBlogs.dev 每周精选内容策展工作流。适用场景：(1) 从本周内容中精选 20 篇文章生成周刊，(2) 按模型/开发/产品/资讯分类策展，(3) 生成周刊中英文标题和推荐语，(4) 参考往期周刊风格生成新一期，(5) 筛选高分内容制作精选合集，(6) 基于文章原文生成高质量 newsletter。触发短语：'每周精选', '周刊策展', 'weekly curation', '生成周刊', 'curate weekly', '精选文章', '本周精选', 'weekly newsletter', '制作周刊', '选文章', 'pick articles for newsletter', '策展', '生成推荐语', 'newsletter summary', '周刊推荐语', 'write newsletter'"
+description: "Use when 用户想从近期内容中策划一份 BestBlogs 周刊，挑选重点条目并生成整期文案。"
 ---
 
 # BestBlogs 每周精选策展 (Weekly Curator)
@@ -8,6 +8,32 @@ description: "BestBlogs.dev 每周精选内容策展工作流。适用场景：(
 从 BestBlogs.dev 本周内容中精选约 20 篇高质量文章，按 AI 细分类别（模型/开发/产品/资讯）组织，并基于文章原文生成高质量的中英文周刊标题和推荐语。
 
 完整 API 参数详情见 `references/api_reference.md`。
+
+## When to Use
+
+- 用户要从一周的 BestBlogs 内容里策展出一份 newsletter issue
+- 用户需要 issue 级别的选文、栏目分配、双语标题和推荐语
+- 用户还没有最终定稿，需要先输出候选清单再确认入选文章
+
+## When Not to Use
+
+- 只想做一天粒度的早报时，使用 `bestblogs-daily-digest`
+- 已经有 issue，想继续扩写成博客文章时，使用 `bestblogs-weekly-blogger`
+- 只想查看原始内容和详情字段时，使用 `bestblogs-fetcher`
+
+## Gotchas
+
+- 这一步先做候选清单和 issue copy，不要直接跳到博客化表达
+- 分类配额是指导，不是硬指标；内容质量优先于“每栏凑够 5 篇”
+- 需要先看往期 issue，避免风格漂移和排序失真
+- 生成推荐语前要补齐重点文章原文，不能完全依赖列表摘要做重策展
+
+## Related Skills
+
+- `bestblogs-fetcher`：获取候选内容、期刊详情和重点文章正文
+- `bestblogs-daily-digest`：日粒度的 briefing 输出
+- `bestblogs-weekly-blogger`：把 issue 继续扩成博客
+- `bestblogs-article-recommender`：为单篇内容补充推荐语
 
 ## 认证
 

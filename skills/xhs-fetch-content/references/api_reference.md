@@ -1,5 +1,16 @@
 # xiaohongshu-cli 命令参考
 
+## Worker-First 说明
+
+主流程优先通过统一 worker 调用：
+
+```bash
+python3 scripts/examples/xhs_fetch_worker.py --subcommand search "关键词"
+python3 scripts/examples/xhs_fetch_worker.py --subcommand read <note_id>
+```
+
+本页保留原始 CLI 命令，供调试、参数核对和底层扩展使用。
+
 ## 安装
 
 ```bash

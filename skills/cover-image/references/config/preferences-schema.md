@@ -1,218 +1,198 @@
 ---
 name: preferences-schema
-description: EXTEND.md YAML schema for cover-image user preferences
+description: cover-image 的 config.json 偏好 schema
 ---
 
-# Preferences Schema
+# 偏好 Schema
 
-## Full Schema
+## 完整 Schema
 
-```yaml
----
-version: 3
-
-watermark:
-  enabled: false
-  content: ""
-  position: bottom-right  # bottom-right|bottom-left|bottom-center|top-right
-
-preferred_type: null      # hero|conceptual|typography|metaphor|scene|minimal or null for auto-select
-
-preferred_palette: null   # warm|elegant|cool|dark|earth|vivid|pastel|mono|retro or null for auto-select
-
-preferred_rendering: null # flat-vector|hand-drawn|painterly|digital|pixel|chalk or null for auto-select
-
-preferred_text: title-only  # none|title-only|title-subtitle|text-rich
-
-preferred_mood: balanced    # subtle|balanced|bold
-
-default_aspect: "2.35:1"  # 2.35:1|16:9|1:1
-
-quick_mode: false         # Skip confirmation when true
-
-language: null            # zh|en|ja|ko|auto (null = auto-detect)
-
-custom_palettes:
-  - name: my-palette
-    description: "Palette description"
-    colors:
-      primary: ["#1E3A5F", "#4A90D9"]
-      background: "#F5F7FA"
-      accents: ["#00B4D8"]
-    decorative_hints: "Clean lines, geometric shapes"
-    best_for: "Business, tech content"
----
+```json
+{
+  "version": 3,
+  "watermark": {
+    "enabled": false,
+    "content": "",
+    "position": "bottom-right"
+  },
+  "preferred_type": null,
+  "preferred_palette": null,
+  "preferred_rendering": null,
+  "preferred_text": "title-only",
+  "preferred_mood": "balanced",
+  "default_aspect": "2.35:1",
+  "quick_mode": false,
+  "language": null,
+  "custom_palettes": []
+}
 ```
 
-## Field Reference
+## 字段说明
 
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `version` | int | 3 | Schema version |
-| `watermark.enabled` | bool | false | Enable watermark |
-| `watermark.content` | string | "" | Watermark text (@username or custom) |
-| `watermark.position` | enum | bottom-right | Position on image |
-| `preferred_type` | string | null | Type name or null for auto |
-| `preferred_palette` | string | null | Palette name or null for auto |
-| `preferred_rendering` | string | null | Rendering name or null for auto |
-| `preferred_text` | string | title-only | Text density level |
-| `preferred_mood` | string | balanced | Mood intensity level |
-| `default_aspect` | string | "2.35:1" | Default aspect ratio |
-| `quick_mode` | bool | false | Skip confirmation step |
-| `language` | string | null | Output language (null = auto-detect) |
-| `custom_palettes` | array | [] | User-defined palettes |
+| 字段 | 类型 | 默认值 | 说明 |
+|------|------|--------|------|
+| `version` | int | 3 | schema 版本 |
+| `watermark.enabled` | bool | false | 是否开启水印 |
+| `watermark.content` | string | "" | 水印文字（@username 或自定义） |
+| `watermark.position` | enum | bottom-right | 水印位置 |
+| `preferred_type` | string | null | 默认 type，`null` 表示自动 |
+| `preferred_palette` | string | null | 默认 palette，`null` 表示自动 |
+| `preferred_rendering` | string | null | 默认 rendering，`null` 表示自动 |
+| `preferred_text` | string | title-only | 文本密度等级 |
+| `preferred_mood` | string | balanced | 情绪强度等级 |
+| `default_aspect` | string | "2.35:1" | 默认宽高比 |
+| `quick_mode` | bool | false | 是否跳过确认步骤 |
+| `language` | string | null | 输出语言，`null` 表示自动识别 |
+| `custom_palettes` | array | [] | 用户自定义 palette |
 
-## Type Options
+## Type 选项
 
-| Value | Description |
-|-------|-------------|
-| `hero` | Large visual impact, title overlay |
-| `conceptual` | Concept visualization, abstract core ideas |
-| `typography` | Text-focused layout, prominent title |
-| `metaphor` | Visual metaphor, concrete expressing abstract |
-| `scene` | Atmospheric scene, narrative feel |
-| `minimal` | Minimalist composition, generous whitespace |
+| 值 | 说明 |
+|----|------|
+| `hero` | 强视觉冲击，标题覆盖型 |
+| `conceptual` | 概念表达，适合抽象核心想法 |
+| `typography` | 文字主导，标题更突出 |
+| `metaphor` | 视觉隐喻，用具象表达抽象 |
+| `scene` | 场景化、叙事感更强 |
+| `minimal` | 极简构图，强调留白 |
 
-## Palette Options
+## Palette 选项
 
-| Value | Description |
-|-------|-------------|
-| `warm` | Friendly, approachable — orange, golden yellow, terracotta |
-| `elegant` | Sophisticated, refined — soft coral, muted teal, dusty rose |
-| `cool` | Technical, professional — engineering blue, navy, cyan |
-| `dark` | Cinematic, premium — electric purple, cyan, magenta |
-| `earth` | Natural, organic — forest green, sage, earth brown |
-| `vivid` | Energetic, bold — bright red, neon green, electric blue |
-| `pastel` | Gentle, whimsical — soft pink, mint, lavender |
-| `mono` | Clean, focused — black, near-black, white |
-| `retro` | Nostalgic, vintage — muted orange, dusty pink, maroon |
+| 值 | 说明 |
+|----|------|
+| `warm` | 友好、亲近：orange / golden yellow / terracotta |
+| `elegant` | 克制、高级：soft coral / muted teal / dusty rose |
+| `cool` | 技术、专业：engineering blue / navy / cyan |
+| `dark` | 电影感、偏高级：electric purple / cyan / magenta |
+| `earth` | 自然、有机：forest green / sage / earth brown |
+| `vivid` | 鲜明、活跃：bright red / neon green / electric blue |
+| `pastel` | 柔和、轻巧：soft pink / mint / lavender |
+| `mono` | 干净、聚焦：black / near-black / white |
+| `retro` | 怀旧、复古：muted orange / dusty pink / maroon |
 
-## Rendering Options
+## Rendering 选项
 
-| Value | Description |
-|-------|-------------|
-| `flat-vector` | Clean outlines, uniform fills, geometric icons |
-| `hand-drawn` | Sketchy, organic, imperfect strokes, paper texture |
-| `painterly` | Soft brush strokes, color bleeds, watercolor feel |
-| `digital` | Polished, precise edges, subtle gradients, UI components |
-| `pixel` | Pixel grid, dithering, chunky 8-bit shapes |
-| `chalk` | Chalk strokes, dust effects, blackboard texture |
+| 值 | 说明 |
+|----|------|
+| `flat-vector` | 干净描边、统一填充、几何图形 |
+| `hand-drawn` | 更自由的手绘笔触、带纸感 |
+| `painterly` | 柔和笔刷、晕染、水彩感 |
+| `digital` | 更精致，边缘更准，渐变更细 |
+| `pixel` | 像素网格、抖动感、8-bit 形态 |
+| `chalk` | 粉笔笔触、粉尘效果、黑板质感 |
 
-## Text Options
+## Text 选项
 
-| Value | Description |
-|-------|-------------|
-| `none` | Pure visual, no text elements |
-| `title-only` | Single headline |
-| `title-subtitle` | Title + subtitle |
-| `text-rich` | Title + subtitle + keyword tags (2-4) |
+| 值 | 说明 |
+|----|------|
+| `none` | 纯视觉，不放文字 |
+| `title-only` | 只有主标题 |
+| `title-subtitle` | 标题 + 副标题 |
+| `text-rich` | 标题 + 副标题 + 2-4 个关键词 |
 
-## Mood Options
+## Mood 选项
 
-| Value | Description |
-|-------|-------------|
-| `subtle` | Low contrast, muted colors, calm aesthetic |
-| `balanced` | Medium contrast, normal saturation, versatile |
-| `bold` | High contrast, vivid colors, dynamic energy |
+| 值 | 说明 |
+|----|------|
+| `subtle` | 低对比、低饱和、偏平静 |
+| `balanced` | 中等对比、中等饱和、通用 |
+| `bold` | 高对比、高饱和、冲击更强 |
 
-## Position Options
+## Position 选项
 
-| Value | Description |
-|-------|-------------|
-| `bottom-right` | Lower right corner (default, most common) |
-| `bottom-left` | Lower left corner |
-| `bottom-center` | Bottom center |
-| `top-right` | Upper right corner |
+| 值 | 说明 |
+|----|------|
+| `bottom-right` | 右下角（默认、最常见） |
+| `bottom-left` | 左下角 |
+| `bottom-center` | 底部居中 |
+| `top-right` | 右上角 |
 
-## Aspect Ratio Options
+## 宽高比选项
 
-| Value | Description | Best For |
-|-------|-------------|----------|
-| `2.35:1` | Cinematic widescreen | Article headers, blog covers |
-| `16:9` | Standard widescreen | Presentations, video thumbnails |
-| `1:1` | Square | Social media, profile images |
+| 值 | 说明 | 适用 |
+|----|------|------|
+| `2.35:1` | 电影感超宽屏 | 文章头图、博客封面 |
+| `16:9` | 标准横屏 | 演示文稿、视频缩略图 |
+| `1:1` | 方图 | 社交媒体、头像类卡片 |
 
-## Custom Palette Fields
+## 自定义 Palette 字段
 
-| Field | Required | Description |
-|-------|----------|-------------|
-| `name` | Yes | Unique palette identifier (kebab-case) |
-| `description` | Yes | What the palette conveys |
-| `colors.primary` | No | Main colors (array of hex) |
-| `colors.background` | No | Background color (hex) |
-| `colors.accents` | No | Accent colors (array of hex) |
-| `decorative_hints` | No | Decorative elements and patterns |
-| `best_for` | No | Recommended content types |
+| 字段 | 必填 | 说明 |
+|------|------|------|
+| `name` | 是 | 唯一 palette 标识（kebab-case） |
+| `description` | 是 | 这套 palette 想表达什么 |
+| `colors.primary` | 否 | 主色数组（hex） |
+| `colors.background` | 否 | 背景色（hex） |
+| `colors.accents` | 否 | 点缀色数组（hex） |
+| `decorative_hints` | 否 | 装饰元素 / 图案提示 |
+| `best_for` | 否 | 推荐适用的内容类型 |
 
-## Example: Minimal Preferences
+## 最小配置示例
 
-```yaml
----
-version: 3
-watermark:
-  enabled: true
-  content: "@myhandle"
-preferred_type: null
-preferred_palette: elegant
-preferred_rendering: hand-drawn
-preferred_text: title-only
-preferred_mood: balanced
-quick_mode: false
----
+```json
+{
+  "version": 3,
+  "watermark": {
+    "enabled": true,
+    "content": "@myhandle"
+  },
+  "preferred_type": null,
+  "preferred_palette": "elegant",
+  "preferred_rendering": "hand-drawn",
+  "preferred_text": "title-only",
+  "preferred_mood": "balanced",
+  "quick_mode": false
+}
 ```
 
-## Example: Full Preferences
+## 完整配置示例
 
-```yaml
----
-version: 3
-watermark:
-  enabled: true
-  content: "myblog.com"
-  position: bottom-right
-
-preferred_type: conceptual
-
-preferred_palette: cool
-
-preferred_rendering: digital
-
-preferred_text: title-subtitle
-
-preferred_mood: subtle
-
-default_aspect: "16:9"
-
-quick_mode: true
-
-language: en
-
-custom_palettes:
-  - name: corporate-tech
-    description: "Professional B2B tech palette"
-    colors:
-      primary: ["#1E3A5F", "#4A90D9"]
-      background: "#F5F7FA"
-      accents: ["#00B4D8", "#48CAE4"]
-    decorative_hints: "Clean lines, subtle gradients, circuit patterns"
-    best_for: "SaaS, enterprise, technical"
----
+```json
+{
+  "version": 3,
+  "watermark": {
+    "enabled": true,
+    "content": "myblog.com",
+    "position": "bottom-right"
+  },
+  "preferred_type": "conceptual",
+  "preferred_palette": "cool",
+  "preferred_rendering": "digital",
+  "preferred_text": "title-subtitle",
+  "preferred_mood": "subtle",
+  "default_aspect": "16:9",
+  "quick_mode": true,
+  "language": "en",
+  "custom_palettes": [
+    {
+      "name": "corporate-tech",
+      "description": "Professional B2B tech palette",
+      "colors": {
+        "primary": ["#1E3A5F", "#4A90D9"],
+        "background": "#F5F7FA",
+        "accents": ["#00B4D8", "#48CAE4"]
+      },
+      "decorative_hints": "Clean lines, subtle gradients, circuit patterns",
+      "best_for": "SaaS, enterprise, technical"
+    }
+  ]
+}
 ```
 
-## Migration from v2
+## 从 v2 迁移
 
-When loading v2 schema, auto-upgrade:
+加载 v2 schema 时，自动升级到 v3：
 
-| v2 Field | v3 Field | Migration |
-|----------|----------|-----------|
-| `version: 2` | `version: 3` | Update |
-| `preferred_style` | `preferred_palette` + `preferred_rendering` | Use preset mapping table |
-| `custom_styles` | `custom_palettes` | Rename, restructure fields |
+| v2 字段 | v3 字段 | 迁移动作 |
+|---------|---------|----------|
+| `version: 2` | `version: 3` | 更新 |
+| `preferred_style` | `preferred_palette` + `preferred_rendering` | 按映射表拆分 |
+| `custom_styles` | `custom_palettes` | 重命名并调整结构 |
 
-**Style → Palette + Rendering mapping**:
+**Style → Palette + Rendering 映射**：
 
 | v2 `preferred_style` | v3 `preferred_palette` | v3 `preferred_rendering` |
-|----------------------|----------------------|-------------------------|
+|----------------------|------------------------|--------------------------|
 | `elegant` | `elegant` | `hand-drawn` |
 | `blueprint` | `cool` | `digital` |
 | `chalkboard` | `dark` | `chalk` |
@@ -232,30 +212,28 @@ When loading v2 schema, auto-upgrade:
 | `vintage` | `retro` | `hand-drawn` |
 | `warm` | `warm` | `hand-drawn` |
 | `watercolor` | `earth` | `painterly` |
-| null (auto) | null | null |
+| null（自动） | null | null |
 
-**Custom style migration**:
+**自定义 style 的迁移**：
 
-| v2 Field | v3 Field |
-|----------|----------|
+| v2 字段 | v3 字段 |
+|---------|---------|
 | `custom_styles[].name` | `custom_palettes[].name` |
 | `custom_styles[].description` | `custom_palettes[].description` |
 | `custom_styles[].color_palette` | `custom_palettes[].colors` |
 | `custom_styles[].visual_elements` | `custom_palettes[].decorative_hints` |
-| `custom_styles[].typography` | (removed — determined by rendering) |
+| `custom_styles[].typography` | 删除（由 rendering 决定） |
 | `custom_styles[].best_for` | `custom_palettes[].best_for` |
 
-## Migration from v1
+## 从 v1 迁移
 
-When loading v1 schema, auto-upgrade to v3:
+加载 v1 schema 时，自动升级到 v3：
 
-| v1 Field | v3 Field | Default Value |
-|----------|----------|---------------|
-| (missing) | `version` | 3 |
-| (missing) | `preferred_palette` | null |
-| (missing) | `preferred_rendering` | null |
-| (missing) | `preferred_text` | title-only |
-| (missing) | `preferred_mood` | balanced |
-| (missing) | `quick_mode` | false |
-
-v1 `--no-title` flag maps to `preferred_text: none`.
+| v1 字段 | v3 字段 | 默认值 |
+|---------|---------|--------|
+| （缺失） | `version` | 3 |
+| （缺失） | `preferred_palette` | null |
+| （缺失） | `preferred_rendering` | null |
+| （缺失） | `preferred_text` | title-only |
+| （缺失） | `preferred_mood` | balanced |
+| （缺失） | `quick_mode` | false |

@@ -1,6 +1,6 @@
 ---
 name: bestblogs-weekly-blogger
-description: "从 BestBlogs.dev 周刊生成图文并茂的博客文章。适用场景：(1) 基于某期周刊撰写博客，(2) 将周刊精选内容转化为深度阅读笔记，(3) 生成带个人洞察的周刊导读文章。触发短语：'写周刊博客', '生成博客', 'weekly blog', '周刊导读', 'write blog from newsletter', '写第 N 期博客', '周刊笔记', 'bestblogs blog'"
+description: "Use when 用户想把 BestBlogs 周刊一期内容扩写成带有更多评论、结构和配图的博客文章。"
 ---
 
 # BestBlogs 周刊博客生成器 (Weekly Blogger)
@@ -10,6 +10,32 @@ description: "从 BestBlogs.dev 周刊生成图文并茂的博客文章。适用
 博客不是周刊的简单搬运，而是一篇有主题线索、有层次感、有个人思考的深度导读。好的周刊博客让读者在 5 分钟内抓住本周 AI 领域最值得关注的趋势，同时在重点内容上获得超越摘要的理解。
 
 完整 API 参数详情见 `references/api_reference.md`，博客写作风格指南见 `references/blog_style_guide.md`。
+
+## When to Use
+
+- 用户已经有一份 BestBlogs 周刊 issue，想进一步扩写成博客文章
+- 用户希望把 issue 中的重点内容、个人洞察和视觉素材整合成更完整的叙事
+- 输出目标是 blog post，而不是 issue copy 或原始候选池
+
+## When Not to Use
+
+- 还在挑本周哪些内容该进周刊时，使用 `bestblogs-weekly-curator`
+- 只想生成单篇内容推荐语时，使用 `bestblogs-article-recommender`
+- 只想浏览周刊或原始内容时，使用 `bestblogs-fetcher`
+
+## Gotchas
+
+- 这不是“把周刊摘要改写长一点”，必须先确定主题线索和重点文章
+- 个人洞察是关键输入；没有用户补充时也要显式说明采用了默认推断
+- 图片生成和上传是后续阶段，不应在文章结构尚未稳定前提前做
+- 博客链接优先使用 BestBlogs 站内链接，避免正文里混入原站和聚合站两套 URL
+
+## Related Skills
+
+- `bestblogs-weekly-curator`：先产出周刊 issue 的选文与推荐语
+- `bestblogs-fetcher`：读取周刊详情和重点文章正文
+- `baoyu-cover-image`、`baoyu-article-illustrator`：补视觉素材时调用
+- `baoyu-post-to-wechat`、`baoyu-post-to-x`：写完博客后继续分发
 
 ## 认证
 

@@ -5,6 +5,20 @@
 
 API Key 按用户绑定。服务端自动从 API Key 推断 `userName`。
 
+## Worker-First 说明
+
+整理关注关系时，默认优先使用 worker：
+
+```bash
+python3 scripts/examples/xgo_following_stats.py
+python3 scripts/examples/xgo_uncategorized_follows.py
+python3 scripts/examples/xgo_user_activity.py TARGET_USER
+python3 scripts/examples/xgo_save_list.py --name "AI Builders"
+python3 scripts/examples/xgo_list_member_action.py add --list-id LIST_ID --user-id USER_ID
+```
+
+下面的原始接口文档主要用于 debug、字段查询和新 worker 开发。
+
 ## 目录
 
 1. [关注统计](#关注统计) - following/stats

@@ -1,6 +1,6 @@
 ---
 name: bestblogs-daily-digest
-description: "BestBlogs.dev 每日内容早报。适用场景：(1) 生成每日早报/日报，(2) 获取过去 24 小时最值得阅读的内容，(3) 每天早上 9 点的内容精选，(4) 今日 AI/技术领域有什么重要动态, (5) 生成早报海报和分享文案。触发短语：'每日早报', '今日早报', 'daily digest', '早报', '日报', '今天有什么值得看的', 'morning briefing', '每日精选', 'daily briefing', '生成早报', '今日精选', 'bestblogs 早报', 'bestblogs digest', '内容早报', '技术早报', 'AI 早报', '每日推荐'"
+description: "Use when 用户想生成 BestBlogs 每日简报，从近期内容中挑选最重要的条目，并输出为文本、HTML 或海报等摘要产物。"
 ---
 
 # BestBlogs 每日早报 (Daily Digest)
@@ -8,6 +8,32 @@ description: "BestBlogs.dev 每日内容早报。适用场景：(1) 生成每日
 从 BestBlogs.dev 过去 3 天的内容中智能筛选 10 条最值得关注的信息，生成纯文本、杂志风 HTML 和信息图海报三种形式的早报。使用 3 天窗口以弥补 RSS/微信公众号/时区导致的数据延迟，同时优先推荐发布时间更近的内容，并与历史日报去重避免重复推荐。
 
 完整 API 参数详情见 `references/api_reference.md`。
+
+## When to Use
+
+- 用户要基于 BestBlogs 近期内容生成一份“今天值得看什么”的日报
+- 用户需要 briefing、HTML 或海报等 digest 输出，而不是原始内容清单
+- 用户希望优先看近 24-72 小时的重要更新，并与历史日报做去重
+
+## When Not to Use
+
+- 只想拉取完整原始列表或单篇正文时，使用 `bestblogs-fetcher`
+- 想策展一整期周刊时，使用 `bestblogs-weekly-curator`
+- 想把日报继续编排到跨渠道生产链路里时，使用 `manage-daily-content`
+
+## Gotchas
+
+- 3 天窗口是有意为之，不要擅自缩成 1 天，否则容易漏掉 RSS 和时区滞后的内容
+- `score` 可能为 `null`，筛选前必须做安全兜底
+- 历史日报去重不是简单删同标题，要区分“重复报道”和“新增角度”
+- 生成三种输出时要共享同一组 Top 10，避免不同文件讲的是三套内容
+
+## Related Skills
+
+- `bestblogs-fetcher`：读取原始候选池
+- `bestblogs-weekly-curator`：按周粒度策展和生成 issue copy
+- `manage-daily-content`：把 Digest 结果接到每日内容编排链路
+- `baoyu-image-gen` 或 `baoyu-infographic`：需要增强视觉输出时再调用
 
 ## 认证
 

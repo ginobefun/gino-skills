@@ -304,8 +304,8 @@ contents/tmp/workspace/
 | 需要文章列表 | 先读 `raw-articles.md` → 不存在则调 API 并写入 |
 | 需要文章全文 | 先查 `article-details/{id}.md` → 不存在则通过 Jina Reader 获取并缓存 |
 | 需要推文详情 | 先查 `tweet-details/{id}.md` → 不存在则调 XGo API 并缓存 |
-| 需要风格参考 | 读 `contents/style-profile.md`（根级别） → 不存在则触发风格画像生成 |
-| 需要选题状态 | 读 `plan.md` |
+| 需要风格参考 | 优先读 `${CLAUDE_PLUGIN_DATA}/gino-skills/manage-daily-content/memory/style-profile.md` → 仅在缺失时临时兼容旧路径 `contents/style-profile.md` |
+| 需要选题状态 | 优先读 `${CLAUDE_PLUGIN_DATA}/gino-skills/manage-daily-content/state/daily/YYYY-MM-DD/plan.md` → 工作区 `plan.md` 作为同日副本 |
 
 ### 写入规则
 
@@ -321,8 +321,8 @@ contents/tmp/workspace/
 
 - **当日数据**: 始终有效，不过期
 - **历史工作区**: 保留 3 天供去重和参考
-- **style-profile.md**: 每周更新一次，存放在 `contents/style-profile.md`（根级别，不在工作区内）
-- **article-details/**: 永不过期（内容不变）
+- **style-profile.md**: 每周更新一次，canonical path 为 `${CLAUDE_PLUGIN_DATA}/gino-skills/manage-daily-content/memory/style-profile.md`，旧路径 `contents/style-profile.md` 仅作为临时兼容副本
+- **article-details/**: 工作区用于当日缓存；长期复用版本逐步迁到 `${CLAUDE_PLUGIN_DATA}/gino-skills/read-deeply/cache/article-details/`
 
 ---
 

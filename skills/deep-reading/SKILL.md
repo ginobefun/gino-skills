@@ -1,11 +1,52 @@
 ---
-name: deep-reading
-description: "深度阅读与批判性分析框架。通过 15+ 思维模型（SCQA、5W2H、MECE、批判性思维、逆向思维、心智模型、第一性原理、系统思维、六顶帽、哲学/历史视角、费曼学习法、苏格拉底追问等）对文章进行全面理解和批判性阅读，并输出思维导图和个性化认知建议。适用场景：(1) 深度理解复杂文章/论文/长文，(2) 分析论证质量并识别逻辑漏洞，(3) 从阅读材料中提取可执行洞察，(4) 创建学习笔记或阅读总结，(5) 多源对比分析，(6) 将知识转化为个人实际应用，(7) 使用特定思维框架分析内容，(8) 从哲学和历史角度深入理解议题。触发短语：'深度阅读', '分析这篇文章', '帮我理解', '深入分析', '提取洞察', '批判性阅读', '阅读笔记', 'deep reading', 'analyze this article', 'help me understand', 'deep dive into', 'extract insights', 'critical reading', '用第一性原理分析', '逆向思考', '六顶帽分析', '系统思维分析', '思维导图', 'mind map', 'MECE 分析', '哲学角度', '历史视角'"
+name: read-deeply
+description: "Use when 用户想对文章、论文或长文本做深度分析，尤其是为了理解论证结构、提炼洞察，或套用特定思维框架。"
 ---
 
 # 深度阅读分析 (Deep Reading Analyst)
 
 通过结构化思维框架，将表层阅读转化为深度学习。支持文章链接或直接输入内容。
+
+## When to Use
+
+- 当用户想深度理解一篇文章、论文、报告或长文
+- 当用户想拆解论证结构、识别漏洞、提炼洞察或应用特定思维框架
+- 当快速摘要不够，需要系统化分析输出时
+
+## When Not to Use
+
+- 需要逐篇引导阅读、记录进度和反思：用 `guide-reading`
+- 需要把素材改写成发布内容：用 `synthesize-content`
+- 只想知道今天该读什么：用 `curate-daily-content`
+
+## Gotchas
+
+- 默认 Level 3 很重；如果用户只是想快速掌握要点，不要无条件上最深分析
+- 输出默认使用中文，这适合大部分场景，但跨语言引用时要保留关键原文术语
+- Level 4 才需要跨源研究；不要把普通深读任务自动升级成检索型研究任务
+- 若工作区已有缓存正文，应优先复用，避免重复抓取同一篇内容
+
+## Related Skills
+
+- `guide-reading`：管理多篇材料的阅读节奏
+- `synthesize-content`：把分析结果转换成可发布内容
+- `manage-daily-content`：在更大的日常内容编排中调度深读
+
+## Boundary
+
+本 skill 负责单篇材料的深度分析，不负责：
+- 多篇阅读流程管理
+- 选题优先级判断
+- 正式平台文案生成
+
+## Runtime Conventions
+
+This skill follows `docs/skill-runtime-conventions.md`.
+
+- Reusable state or memory belongs under `${CLAUDE_PLUGIN_DATA}/gino-skills/read-deeply/` or `.gino-skills/data/read-deeply/`
+- `contents/tmp/workspace/YYYY-MM-DD/` is a disposable cache shared with sibling skills
+- Article fetch cache may live in workspace for same-day reuse, but durable notes or history should move to the stable state root
+- If setup is added later, prefer `.gino-skills/read-deeply/config.json`
 
 ## 内容获取
 

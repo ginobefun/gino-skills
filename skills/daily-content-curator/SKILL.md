@@ -1,11 +1,45 @@
 ---
-name: daily-content-curator
-description: "每日个人内容选题与轻量创作 — 跨 BestBlogs + Twitter 两个数据源，基于个人偏好筛选 30 个选题，生成互动建议和多平台适配内容。适用场景：(1) 生成今天的选题清单，(2) 筛选值得转发评论的内容，(3) 生成快速评论和转发文案，(4) 生成 300-500 字的分享帖，(5) 多平台内容适配，(6) 每日内容灵感。触发短语：'今天聊什么', '选题', '每日筛选', '内容推荐', '生成选题', 'daily curation', 'what to post', '今日推荐', '帮我筛选', '有什么值得聊', '内容筛选', 'curate content', '早间选题', '推荐转发', '个性化推荐', '今天发什么', '找选题', 'topic ideas', '互动建议', '转发推荐'"
+name: curate-daily-content
+description: "Use when 用户想从 BestBlogs 和 X 中得到一份每天值得阅读、回应或轻量起草的选题清单；完整端到端流程请使用 daily-content-management。"
 ---
 
 # 每日内容选题与轻量创作 (Daily Content Curator)
 
 跨 BestBlogs + Twitter (XGo) 两个数据源，基于个人兴趣偏好筛选 30 个选题，按「值得深入」「适合互动」「可以快评」三个维度分层，并生成多平台适配的轻量创作内容。
+
+## When to Use
+
+- 当用户想知道今天有哪些值得读、值得聊、值得转发的主题
+- 当用户需要把 BestBlogs 和 X 的输入合并成可操作的日常选题清单
+- 当用户需要轻量级互动建议或快评草稿，而不是正式长文生产
+
+## When Not to Use
+
+- 需要完整的日常内容编排和发布流程：用 `manage-daily-content`
+- 已经有素材，只想生成正式平台文案：用 `synthesize-content`
+- 只想深读单篇文章：用 `guide-reading` 或 `read-deeply`
+
+## Gotchas
+
+- 这里的轻量创作只是选题辅助，不等同于最终发布文案
+- 评分和聚类用于排序，不等同于最终内容计划；真正执行前仍需要用户判断
+- 不要跳过历史去重和工作区同步，否则会重复推荐相同主题
+- 若用户已经明确选定素材，继续跑全量筛选通常是在浪费上下文和时间
+
+## Related Skills
+
+- `manage-daily-content`：全流程编排和阶段协调
+- `guide-reading`：将清单变成逐篇阅读流程
+- `read-deeply`：对清单中的重点文章做深度分析
+- `synthesize-content`：把选中的素材转成正式内容
+- `content-analytics`：复盘哪些主题长期有效
+
+## Boundary
+
+本 skill 负责“找什么值得做”，不负责“把它完整做完”：
+- 输出的是候选主题、排序结果和轻量建议
+- 正式草稿生产交给 `synthesize-content`
+- 多阶段发布和审阅交给 `manage-daily-content`
 
 **核心原则**: 选题和创作服务于两个目标——个人表达（记录真实进展、分享可复用经验）和读者价值（帮读者快速理解并可直接行动）。好内容是这两个目标对齐的自然结果，不刻意追求流量。
 
@@ -49,8 +83,8 @@ XGo 接口：`https://api.xgo.ing`
 
 ### 风格画像（必须加载）
 
-读取 `contents/style-profile.md`，提取关键约束用于阶段三评分和阶段五创作。
-**所有创作输出必须通过 style-profile.md 中的生成前/生成后检查清单**。
+优先读取 `${CLAUDE_PLUGIN_DATA}/gino-skills/manage-daily-content/memory/style-profile.md`，仅在缺失时临时兼容旧路径 `contents/style-profile.md`，提取关键约束用于阶段三评分和阶段五创作。
+**所有创作输出必须通过 stable style-profile 中的生成前/生成后检查清单**。
 
 ### 历史筛选记录
 
@@ -270,14 +304,14 @@ curl -s -X POST https://api.xgo.ing/openapi/v1/tweet/list \
 ### 创作流程
 
 1. 用户指定：选题编号 + 创作类型 + 目标平台（推特/朋友圈/小红书/即刻）
-2. 加载 `contents/style-profile.md` 的平台适配策略
+2. 优先加载 `${CLAUDE_PLUGIN_DATA}/gino-skills/manage-daily-content/memory/style-profile.md` 的平台适配策略，缺失时才临时兼容旧路径 `contents/style-profile.md`
 3. 生成初稿，参考 `references/content-creation-guide.md` 中的范例和反例
 4. 通过生成前/生成后检查清单审核
 5. 输出最终版本 + 检查结果
 
 ### 创作核心约束
 
-来自 style-profile.md，每次创作必须遵守：
+来自 stable style-profile，每次创作必须遵守：
 
 1. **人设**: 真实一线 builder，分享心态优先
 2. **语气**: 平实友好，信息密度高，同行交流感

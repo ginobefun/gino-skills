@@ -5,6 +5,22 @@
 
 API Key 按用户绑定。服务端自动从 API Key 推断 `userName`。
 
+## Worker-First 说明
+
+本文件保留原始 endpoint、字段和错误码，主要用于：
+- 排查 worker 返回异常
+- 理解底层字段含义
+- 扩展新的 worker 脚本
+
+主流程优先使用：
+
+```bash
+python3 scripts/examples/xgo_user_activity.py TARGET_USER --recent-size 50 --top-size 50
+python3 scripts/examples/xgo_following_status.py TARGET_USER
+```
+
+不要把下面的 `curl` 示例当作默认执行路径。
+
 ## 目录
 
 1. [实时用户资料](#实时用户资料) - user/info

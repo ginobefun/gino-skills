@@ -1,11 +1,41 @@
 ---
 name: xgo-fetch-tweets
-description: "通过 XGo (xgo.ing) 开放接口拉取推文 — 关注者时间线、推荐、列表、标签、收藏。适用场景：(1) 拉取 Twitter/X 时间线最新推文，(2) 获取高影响力/热门推文，(3) 浏览特定列表或标签的推文，(4) 获取推荐推文，(5) 按语言/时间/类型筛选推文。触发短语：'拉取推文', '获取推特', 'fetch tweets', 'get twitter', 'xgo 推文', '我的推特 Timeline', '今天的推文', 'twitter timeline', '看看推特', '推文列表', '推荐推文', 或任何与 XGo 推文拉取相关的表述。"
+description: "Use when 用户想拉取时间线、推荐流、列表、标签或收藏中的推文；话题搜索或指定账号最新推文请使用 xgo-search-tweets。"
 ---
 
 # 推文拉取器 (Twitter Fetcher)
 
 通过 XGo (xgo.ing) 开放接口拉取推文。支持关注者时间线、推荐、列表、标签和收藏等多种查询方式。
+
+## When to Use
+
+- 当用户想查看时间线、推荐流、列表、标签或收藏中的推文
+- 当用户需要按 feed-style 方式批量拉取一批可浏览或后续处理的推文
+- 当任务重点是“取回流里的内容”，而不是搜索某个话题
+
+## When Not to Use
+
+- 搜索关键词、查看某个账号最新推文、或刷新指定推文 ID：用 `xgo-search-tweets`
+- 对账号做深度画像分析：用 `xgo-track-kol`
+
+## Gotchas
+
+- 默认方案是 feed retrieval，不是 search；不要把搜索需求硬塞进 timeline 拉取逻辑
+- `sortType` 必须显式传递，否则服务端默认会回落到 `recent`
+- `following` 和 `recommendation` 的过滤逻辑不同，不要混用阈值假设
+- 大结果集有页数上限；如果结果被截断，要明确告诉用户
+
+## Related Skills
+
+- `xgo-search-tweets`: topic search, account latest, refresh by tweet id
+- `xgo-digest-tweets`: summarize fetched tweets into digest outputs
+- `xgo-view-profile`: inspect a specific account instead of a feed
+- `curate-daily-content`: turn feeds into topic candidates
+
+## Shared Scripts
+
+- 优先复用 `scripts/shared/xgo_client.py`
+- 共享 client 统一处理 tweet/list 分页、`success:false` 检查和 feed 结果聚合
 
 完整 API 参数详情见 `references/api_reference.md`。
 
@@ -34,29 +64,29 @@ API Key 绑定特定 XGo 用户账号。服务端会自动从密钥推断 `userN
 - 客户端过滤：`influenceScore >= 50`
 - 默认输出数量：**20** 条（可根据用户要求调整）
 
-### 拉取方案（3 个并行请求）
+### 拉取方案（shared client template）
 
 ```bash
-# 1. 关注者推文 - 第1页（50条）
-curl -s -X POST https://api.xgo.ing/openapi/v1/tweet/list \
-  -H "Content-Type: application/json" \
-  -H "X-API-KEY: $XGO_API_KEY" \
-  -d '{"queryType":"following","timeRange":"LAST_24H","sortType":"influence","tweetType":"NO_RETWEET","currentPage":1,"pageSize":50}'
+# 关注流
+python3 scripts/examples/xgo_fetch_feed.py \
+  --query-type following \
+  --time-range LAST_24H \
+  --sort-type influence \
+  --tweet-type NO_RETWEET \
+  --page-size 50 \
+  --max-pages 2
 
-# 2. 关注者推文 - 第2页（50条）
-curl -s -X POST https://api.xgo.ing/openapi/v1/tweet/list \
-  -H "Content-Type: application/json" \
-  -H "X-API-KEY: $XGO_API_KEY" \
-  -d '{"queryType":"following","timeRange":"LAST_24H","sortType":"influence","tweetType":"NO_RETWEET","currentPage":2,"pageSize":50}'
-
-# 3. 推荐推文（50条）
-curl -s -X POST https://api.xgo.ing/openapi/v1/tweet/list \
-  -H "Content-Type: application/json" \
-  -H "X-API-KEY: $XGO_API_KEY" \
-  -d '{"queryType":"recommendation","timeRange":"LAST_24H","sortType":"influence","tweetType":"NO_RETWEET","currentPage":1,"pageSize":50}'
+# 推荐流
+python3 scripts/examples/xgo_fetch_feed.py \
+  --query-type recommendation \
+  --time-range LAST_24H \
+  --sort-type influence \
+  --tweet-type NO_RETWEET \
+  --page-size 50 \
+  --max-pages 2
 ```
 
-并行执行所有请求。**必须显式传递 `sortType`** — 服务端默认值为 `recent`，本 skill 默认覆盖为 `influence`。
+并行执行这些模板。**必须显式传递 `sortType`**，shared client 不会替你兜底默认排序。
 
 若 `totalPage > currentPage`，每个 queryType 最多拉取 **4 页**（方案中已覆盖 2 页）。若还有更多页，告知用户结果已截断，建议缩小 `timeRange` 或提高 `influenceScore` 过滤阈值。
 
@@ -68,19 +98,23 @@ curl -s -X POST https://api.xgo.ing/openapi/v1/tweet/list \
 
 **用户自己的推文**（`queryType: "user"`）:
 ```bash
-curl -s -X POST https://api.xgo.ing/openapi/v1/tweet/list \
-  -H "Content-Type: application/json" \
-  -H "X-API-KEY: $XGO_API_KEY" \
-  -d '{"queryType":"user","sortType":"recent","currentPage":1,"pageSize":100}'
+python3 scripts/examples/xgo_fetch_feed.py \
+  --query-type user \
+  --sort-type recent \
+  --tweet-type ALL \
+  --page-size 100 \
+  --max-pages 1
 ```
 自己的推文无需 `influenceScore` 过滤。
 
 **收藏推文**（`queryType: "bookmark"`）:
 ```bash
-curl -s -X POST https://api.xgo.ing/openapi/v1/tweet/list \
-  -H "Content-Type: application/json" \
-  -H "X-API-KEY: $XGO_API_KEY" \
-  -d '{"queryType":"bookmark","sortType":"recent","currentPage":1,"pageSize":100}'
+python3 scripts/examples/xgo_fetch_feed.py \
+  --query-type bookmark \
+  --sort-type recent \
+  --tweet-type ALL \
+  --page-size 100 \
+  --max-pages 1
 ```
 收藏推文无需 `influenceScore` 过滤 — 收藏是用户主动保存的内容。可用 `folderId` 限定特定收藏夹。
 

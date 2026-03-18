@@ -1,66 +1,75 @@
-# Usage
+# 使用方式
 
-## Command Syntax
+## 命令语法
 
 ```bash
-# Auto-select type and style based on content
+# 根据内容自动选择 type 和 style
 /article-illustrator path/to/article.md
 
-# Specify type
+# 指定 type
 /article-illustrator path/to/article.md --type infographic
 
-# Specify style
+# 指定 style
 /article-illustrator path/to/article.md --style blueprint
 
-# Combine type and style
+# 同时指定 type 和 style
 /article-illustrator path/to/article.md --type flowchart --style notion
 
-# Specify density
+# 指定配图密度
 /article-illustrator path/to/article.md --density rich
 
-# Direct content input (paste mode)
+# 直接粘贴内容（paste 模式）
 /article-illustrator
 [paste content]
 ```
 
-## Options
+## 可选项
 
-| Option | Description |
-|--------|-------------|
-| `--type <name>` | Illustration type (see Type Gallery in SKILL.md) |
-| `--style <name>` | Visual style (see references/styles.md) |
-| `--density <level>` | Image count: minimal / balanced / rich |
+| 选项 | 说明 |
+|------|------|
+| `--type <name>` | 插图类型（见 `SKILL.md` 中的 Type Gallery） |
+| `--style <name>` | 视觉风格（见 `references/styles.md`） |
+| `--density <level>` | 图片数量：`minimal` / `balanced` / `rich` |
 
-## Input Modes
+## 输入模式
 
-| Mode | Trigger | Output Directory |
-|------|---------|------------------|
-| File path | `path/to/article.md` | Use `default_output_dir` preference, or ask if not set |
-| Paste content | No path argument | `illustrations/{topic-slug}/` |
+| 模式 | 触发条件 | 输出目录 |
+|------|----------|----------|
+| 文件路径 | 传入 `path/to/article.md` | 优先使用 config 中的 `default_output_dir`，未设置则询问 |
+| 粘贴内容 | 不传路径参数 | `illustrations/{topic-slug}/` |
 
-## Output Directory Options
+## 输出目录选项
 
-| Value | Path |
-|-------|------|
+| 值 | 路径 |
+|----|------|
 | `same-dir` | `{article-dir}/` |
 | `illustrations-subdir` | `{article-dir}/illustrations/` |
 | `independent` | `illustrations/{topic-slug}/` |
 
-Configure in EXTEND.md: `default_output_dir: illustrations-subdir`
+在 `config.json` 中配置示例：
 
-## Examples
+```json
+{
+  "default_output_dir": "illustrations-subdir"
+}
+```
 
-**Technical article with data**:
+## 示例
+
+**技术文章 + 数据图**：
+
 ```bash
 /article-illustrator api-design.md --type infographic --style blueprint
 ```
 
-**Personal story**:
+**个人故事**：
+
 ```bash
 /article-illustrator journey.md --type scene --style warm
 ```
 
-**Tutorial with steps**:
+**教程 / 步骤型内容**：
+
 ```bash
 /article-illustrator how-to-deploy.md --type flowchart --density rich
 ```

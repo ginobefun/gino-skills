@@ -1,197 +1,202 @@
 ---
 name: first-time-setup
-description: First-time setup and default model selection flow for image-gen
+description: image-gen 首次设置与默认模型选择流程
 ---
 
-# First-Time Setup
+# 首次设置
 
-## Overview
+## 概览
 
-Triggered when:
-1. No EXTEND.md found → full setup (provider + model + preferences)
-2. EXTEND.md found but `default_model.[provider]` is null → model selection only
+以下两种情况会触发本流程：
 
-## Setup Flow
+1. 找不到 `config.json` → 走完整设置（provider + model + preferences）
+2. 已有 `config.json`，但 `default_model.[provider]` 为空 → 只补模型选择
 
-```
-No EXTEND.md found          EXTEND.md found, model null
+## 设置流程
+
+```text
+未找到 config.json          已有 config，但 model 为空
         │                            │
         ▼                            ▼
 ┌─────────────────────┐    ┌──────────────────────┐
 │ AskUserQuestion     │    │ AskUserQuestion      │
-│ (full setup)        │    │ (model only)         │
+│ （完整设置）         │    │ （只问模型）          │
 └─────────────────────┘    └──────────────────────┘
         │                            │
         ▼                            ▼
 ┌─────────────────────┐    ┌──────────────────────┐
-│ Create EXTEND.md    │    │ Update EXTEND.md     │
+│ 创建 config.json    │    │ 更新 config.json     │
 └─────────────────────┘    └──────────────────────┘
         │                            │
         ▼                            ▼
-    Continue                     Continue
+       继续                         继续
 ```
 
-## Flow 1: No EXTEND.md (Full Setup)
+## Flow 1：没有配置文件（完整设置）
 
-**Language**: Use user's input language or saved language preference.
+**语言**：使用用户当前语言或已保存的语言偏好。
 
-Use AskUserQuestion with ALL questions in ONE call:
+一次 `AskUserQuestion` 把所有问题问完：
 
-### Question 1: Default Provider
+### 问题 1：默认 Provider
 
 ```yaml
 header: "Provider"
-question: "Default image generation provider?"
+question: "默认图片生成 provider 选哪个？"
 options:
   - label: "Google (Recommended)"
-    description: "Gemini multimodal - high quality, reference images, flexible sizes"
+    description: "Gemini 多模态，质量高，支持参考图，尺寸灵活"
   - label: "OpenAI"
-    description: "GPT Image - consistent quality, reliable output"
+    description: "GPT Image，质量稳定，输出可靠"
   - label: "DashScope"
-    description: "Alibaba Cloud - z-image-turbo, good for Chinese content"
+    description: "阿里云 z-image-turbo，对中文内容友好"
   - label: "Replicate"
-    description: "Community models - nano-banana-pro, flexible model selection"
+    description: "社区模型丰富，模型选择更灵活"
 ```
 
-### Question 2: Default Google Model
+### 问题 2：默认 Google 模型
 
-Only show if user selected Google or auto-detect (no explicit provider).
+只有在用户选择 Google，或未明确指定 provider 需要自动判定时才显示。
 
 ```yaml
 header: "Google Model"
-question: "Default Google image generation model?"
+question: "默认使用哪个 Google 图像模型？"
 options:
   - label: "gemini-3-pro-image-preview (Recommended)"
-    description: "Highest quality, best for production use"
+    description: "质量最高，适合正式产出"
   - label: "gemini-3.1-flash-image-preview"
-    description: "Fast generation, good quality, lower cost"
+    description: "更快，质量也不错，成本更低"
   - label: "gemini-3-flash-preview"
-    description: "Fast generation, balanced quality and speed"
+    description: "速度与质量更均衡"
 ```
 
-### Question 3: Default Quality
+### 问题 3：默认质量
 
 ```yaml
 header: "Quality"
-question: "Default image quality?"
+question: "默认图片质量是什么？"
 options:
   - label: "2k (Recommended)"
-    description: "2048px - covers, illustrations, infographics"
+    description: "2048px，适合封面、插图、信息图"
   - label: "normal"
-    description: "1024px - quick previews, drafts"
+    description: "1024px，适合快速预览与草稿"
 ```
 
-### Question 4: Save Location
+### 问题 4：保存位置
 
 ```yaml
 header: "Save"
-question: "Where to save preferences?"
+question: "偏好保存到哪里？"
 options:
   - label: "Project (Recommended)"
-    description: ".gino-skills/ (this project only)"
+    description: ".gino-skills/（仅当前项目）"
   - label: "User"
-    description: "~/.gino-skills/ (all projects)"
+    description: "~/.gino-skills/（当前用户所有项目）"
 ```
 
-### Save Locations
+### 保存位置
 
-| Choice | Path | Scope |
-|--------|------|-------|
-| Project | `.gino-skills/image-gen/EXTEND.md` | Current project |
-| User | `$HOME/.gino-skills/image-gen/EXTEND.md` | All projects |
+| 选项 | 路径 | 作用范围 |
+|------|------|----------|
+| Project | `.gino-skills/image-gen/config.json` | 当前项目 |
+| User | `$HOME/.gino-skills/image-gen/config.json` | 当前用户所有项目 |
 
-### EXTEND.md Template
+### `config.json` 模板
 
-```yaml
----
-version: 1
-default_provider: [selected provider or null]
-default_quality: [selected quality]
-default_aspect_ratio: null
-default_image_size: null
-default_model:
-  google: [selected google model or null]
-  openai: null
-  dashscope: null
-  replicate: null
----
+```json
+{
+  "version": 1,
+  "default_provider": "[selected provider or null]",
+  "default_quality": "[selected quality]",
+  "default_aspect_ratio": null,
+  "default_image_size": null,
+  "default_model": {
+    "google": "[selected google model or null]",
+    "openai": null,
+    "dashscope": null,
+    "replicate": null
+  }
+}
 ```
 
-## Flow 2: EXTEND.md Exists, Model Null
+## Flow 2：已有配置，但当前 provider 的模型为空
 
-When EXTEND.md exists but `default_model.[current_provider]` is null, ask ONLY the model question for the current provider.
+当 `config.json` 已存在，但 `default_model.[current_provider]` 为空时，只询问当前 provider 对应的模型。
 
-### Google Model Selection
+### Google 模型选择
 
 ```yaml
 header: "Google Model"
-question: "Choose a default Google image generation model?"
+question: "为 Google 选择一个默认图像模型？"
 options:
   - label: "gemini-3-pro-image-preview (Recommended)"
-    description: "Highest quality, best for production use"
+    description: "质量最高，适合正式产出"
   - label: "gemini-3.1-flash-image-preview"
-    description: "Fast generation, good quality, lower cost"
+    description: "更快，质量不错，成本更低"
   - label: "gemini-3-flash-preview"
-    description: "Fast generation, balanced quality and speed"
+    description: "速度与质量更均衡"
 ```
 
-### OpenAI Model Selection
+### OpenAI 模型选择
 
 ```yaml
 header: "OpenAI Model"
-question: "Choose a default OpenAI image generation model?"
+question: "为 OpenAI 选择一个默认图像模型？"
 options:
   - label: "gpt-image-1.5 (Recommended)"
-    description: "Latest GPT Image model, high quality"
+    description: "最新一代 GPT Image 模型，质量更高"
   - label: "gpt-image-1"
-    description: "Previous generation GPT Image model"
+    description: "上一代 GPT Image 模型"
 ```
 
-### DashScope Model Selection
+### DashScope 模型选择
 
 ```yaml
 header: "DashScope Model"
-question: "Choose a default DashScope image generation model?"
+question: "为 DashScope 选择一个默认图像模型？"
 options:
   - label: "z-image-turbo (Recommended)"
-    description: "Fast generation, good quality"
+    description: "速度快，质量稳定"
   - label: "z-image-ultra"
-    description: "Higher quality, slower generation"
+    description: "质量更高，但生成更慢"
 ```
 
-### Replicate Model Selection
+### Replicate 模型选择
 
 ```yaml
 header: "Replicate Model"
-question: "Choose a default Replicate image generation model?"
+question: "为 Replicate 选择一个默认图像模型？"
 options:
   - label: "google/nano-banana-pro (Recommended)"
-    description: "Google's fast image model on Replicate"
+    description: "Google 的高质量快速图像模型"
   - label: "google/nano-banana"
-    description: "Google's base image model on Replicate"
+    description: "Google 的基础图像模型"
 ```
 
-### Update EXTEND.md
+### 更新配置
 
-After user selects a model:
+用户选定模型后：
 
-1. Read existing EXTEND.md
-2. If `default_model:` section exists → update the provider-specific key
-3. If `default_model:` section missing → add the full section:
+1. 读取已有 `config.json`
+2. 如果已有 `default_model:` 区块，只更新当前 provider 对应的键
+3. 如果没有 `default_model:`，则补上完整区块：
 
-```yaml
-default_model:
-  google: [value or null]
-  openai: [value or null]
-  dashscope: [value or null]
-  replicate: [value or null]
+```json
+{
+  "default_model": {
+    "google": "[value or null]",
+    "openai": "[value or null]",
+    "dashscope": "[value or null]",
+    "replicate": "[value or null]"
+  }
+}
 ```
 
-Only set the selected provider's model; leave others as their current value or null.
+只更新当前 provider 的模型，其他 provider 保持原值或为 `null`。
 
-## After Setup
+## 设置完成后
 
-1. Create directory if needed
-2. Write/update EXTEND.md with frontmatter
-3. Confirm: "Preferences saved to [path]"
-4. Continue with image generation
+1. 如有需要先创建目录
+2. 写入或更新 `config.json`
+3. 向用户确认：“偏好已保存到 [path]”
+4. 回到图片生成主流程

@@ -3,6 +3,19 @@
 接口地址: `https://api.xgo.ing`
 认证方式: 请求头 `X-API-KEY`（环境变量 `XGO_API_KEY`）
 
+## Worker-First 说明
+
+本文件保留底层 endpoint 和字段映射，主要用于 debug 和扩展。
+
+默认执行路径应优先使用：
+
+```bash
+python3 scripts/examples/xgo_view_profile.py TARGET_USER --max-pages 3
+python3 scripts/examples/xgo_following_status.py TARGET_USER
+```
+
+仅在需要 `userId` / `feedId` 特殊查询或排查底层响应时，再回退到下面的原始接口示例。
+
 ## 目录
 
 1. [实时用户资料](#实时用户资料) - 实时获取用户资料

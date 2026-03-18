@@ -1,6 +1,6 @@
 ---
 name: bestblogs-weekly-blogger
-description: "从 BestBlogs.dev 周刊生成图文并茂的博客文章。适用场景：(1) 基于某期周刊撰写博客，(2) 将周刊精选内容转化为深度阅读笔记，(3) 生成带个人洞察的周刊导读文章。触发短语：'写周刊博客', '生成博客', 'weekly blog', '周刊导读', 'write blog from newsletter', '写第 N 期博客', '周刊笔记', 'bestblogs blog'"
+description: "Use when 用户想把 BestBlogs 周刊一期内容扩写成带有更多评论、结构和配图的博客文章。"
 ---
 
 # BestBlogs 周刊博客生成器 (Weekly Blogger)
@@ -10,6 +10,32 @@ description: "从 BestBlogs.dev 周刊生成图文并茂的博客文章。适用
 博客不是周刊的简单搬运，而是一篇有主题线索、有层次感、有个人思考的深度导读。好的周刊博客让读者在 5 分钟内抓住本周 AI 领域最值得关注的趋势，同时在重点内容上获得超越摘要的理解。
 
 完整 API 参数详情见 `references/api_reference.md`，博客写作风格指南见 `references/blog_style_guide.md`。
+
+## When to Use
+
+- 用户已经有一份 BestBlogs 周刊 issue，想进一步扩写成博客文章
+- 用户希望把 issue 中的重点内容、个人洞察和视觉素材整合成更完整的叙事
+- 输出目标是 blog post，而不是 issue copy 或原始候选池
+
+## When Not to Use
+
+- 还在挑本周哪些内容该进周刊时，使用 `bestblogs-weekly-curator`
+- 只想生成单篇内容推荐语时，使用 `bestblogs-article-recommender`
+- 只想浏览周刊或原始内容时，使用 `bestblogs-fetcher`
+
+## Gotchas
+
+- 这不是“把周刊摘要改写长一点”，必须先确定主题线索和重点文章
+- 个人洞察是关键输入；没有用户补充时也要显式说明采用了默认推断
+- 图片生成和上传是后续阶段，不应在文章结构尚未稳定前提前做
+- 博客链接优先使用 BestBlogs 站内链接，避免正文里混入原站和聚合站两套 URL
+
+## Related Skills
+
+- `bestblogs-weekly-curator`：先产出周刊 issue 的选文与推荐语
+- `bestblogs-fetcher`：读取周刊详情和重点文章正文
+- `baoyu-cover-image`、`baoyu-article-illustrator`：补视觉素材时调用
+- `baoyu-post-to-wechat`、`baoyu-post-to-x`：写完博客后继续分发
 
 ## 认证
 
@@ -266,112 +292,14 @@ slug: bestblogs-weekly-issue-{N}
 
 ---
 
-## 阶段六：生成配图与封面
+## 阶段六和七：配图生成与上传
 
-使用 `image-gen` 技能的 CLI 脚本为博客生成配图和封面。如需更精细的维度定制，可参考 `cover-image` 和 `article-illustrator` 的提示词模板。
+配图生成（image-gen CLI）和 R2 上传的完整流程详见 `references/image_workflow.md`，包含环境变量检查、图片生成命令、R2 上传脚本和链接替换步骤。
 
-### 6.1 环境检查
-
-确认 `GOOGLE_API_KEY` 环境变量已设置（默认使用 Google Gemini 生成图片）。
-
-### 6.2 生成文章配图
-
-创建工作目录存放图片：
-
-```bash
-mkdir -p /tmp/bestblogs-issue-{N}/
-```
-
-为博客中的每张配图生成提示词并调用 `image-gen` 生成。每张图的提示词应基于：
-- 对应章节的主题和核心内容
-- 图片 alt 文本描述
-- 整体视觉风格保持一致（同一期使用相同风格）
-
-使用 `image-gen` 的 CLI 生成图片：
-
-```bash
-SKILL_DIR=~/.claude/skills/image-gen
-bun run ${SKILL_DIR}/scripts/main.ts \
-  --prompt "{图片提示词}" \
-  --image /tmp/bestblogs-issue-{N}/bestblogs-issue-{N}-{seq}.png \
-  --provider google \
-  --model gemini-3-pro-image-preview \
-  --ar 16:9 \
-  --quality 2k
-```
-
-每张图片依次生成，生成后确认图片文件存在。如果生成失败，重试一次。
-
-### 6.3 生成封面图
-
-封面图使用不同的宽高比和风格：
-
-```bash
-bun run ${SKILL_DIR}/scripts/main.ts \
-  --prompt "{封面提示词，包含标题关键词和期数}" \
-  --image /tmp/bestblogs-issue-{N}/cover_bestblogs_{N}.png \
-  --provider google \
-  --model gemini-3-pro-image-preview \
-  --ar 16:9 \
-  --quality 2k
-```
-
-### 6.4 确认图片
-
-生成完成后列出所有图片，告知用户：
-- 图片数量和路径
-- 询问是否需要重新生成某张图片
-
----
-
-## 阶段七：上传图片到 R2 并替换链接
-
-### 7.1 环境检查
-
-确认以下环境变量已设置：
-- `CLOUDFLARE_ACCOUNT_ID`
-- `R2_ACCESS_KEY_ID`
-- `R2_SECRET_ACCESS_KEY`
-- `R2_BUCKET_NAME`
-- `R2_PUBLIC_URL`
-
-### 7.2 上传配图
-
-使用 `image-gen` 中的 R2 上传脚本批量上传：
-
-```bash
-SKILL_DIR=~/.claude/skills/image-gen
-bun run ${SKILL_DIR}/scripts/upload-r2.ts \
-  --batch /tmp/bestblogs-issue-{N}/ \
-  Banana/
-```
-
-脚本会输出每个文件的公开 URL（格式：`{R2_PUBLIC_URL}/Banana/{filename}`）。
-
-### 7.3 上传封面图
-
-封面图上传到单独路径：
-
-```bash
-bun run ${SKILL_DIR}/scripts/upload-r2.ts \
-  /tmp/bestblogs-issue-{N}/cover_bestblogs_{N}.png \
-  covers/cover_bestblogs_{N}.png
-```
-
-### 7.4 替换博客中的链接
-
-用上传后的实际 URL 替换博客文件中的占位路径：
-- 配图：`bestblogs-issue-{N}-{seq}.png` → `{R2_PUBLIC_URL}/Banana/bestblogs-issue-{N}-{seq}.png`
-- 封面：frontmatter 中 `cover` 字段的 `cover_bestblogs_{N}.png` → `{R2_PUBLIC_URL}/covers/cover_bestblogs_{N}.png`
-
-使用 Edit 工具逐个替换。
-
-### 7.5 完成
-
-告知用户：
-- 所有图片已上传到 R2
-- 博客文件中的链接已替换为实际 URL
-- 博客文件最终路径
+核心要点：
+- 环境变量：`GOOGLE_API_KEY`（图片生成）、`CLOUDFLARE_ACCOUNT_ID` / `R2_*`（上传）
+- 工作目录：`/tmp/bestblogs-issue-{N}/`
+- 图片占位符替换为 `{R2_PUBLIC_URL}/Banana/` 下的实际 URL
 
 ---
 

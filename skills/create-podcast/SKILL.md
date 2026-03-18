@@ -1,6 +1,6 @@
 ---
 name: create-podcast
-description: 「将任意内容生成播客音频。适用场景：(1) 将每日早报生成播客，(2) 将每周周刊生成播客，(3) 将博客文章/文档生成播客，(4) 将任意文本生成语音播客，(5) 更新播客 RSS Feed，(6) 用我的声音播报内容，(7) 发布到小宇宙。触发短语：'生成播客', 'create podcast', '做成播客', '播客音频', '文章转播客', 'article to podcast', '语音版', '音频版', '录制播客', '把这个做成播客', '周报播客', 'weekly podcast', '早报播客', 'daily podcast', '内容转音频', '播客', '发小宇宙', 'xiaoyuzhou'」
+description: "Use when 用户想把文本内容转换成带旁白的播客音频文件，或更新播客 feed。"
 ---
 
 # 播客生成器 (Create Podcast)
@@ -9,6 +9,14 @@ description: 「将任意内容生成播客音频。适用场景：(1) 将每日
 
 - 脚本撰写模板和风格指南见 `references/script_templates.md`
 - Fish.audio TTS API 和 FFmpeg 详情见 `references/api_reference.md`
+
+## Worker Entrypoints
+
+- `python3 scripts/examples/bestblogs_resource_bundle.py --resource-id <ID> --resource-type ARTICLE`
+- `python3 scripts/examples/bestblogs_resource_bundle.py --resource-id <ID> --resource-type PODCAST`
+- `python3 scripts/examples/content_style_profile_state.py read`
+
+这些 worker 用来替代正文里的直接 `curl` 主路径，统一读取 BestBlogs 资源详情和 stable style profile。
 
 ## 认证与环境变量
 
@@ -42,13 +50,14 @@ description: 「将任意内容生成播客音频。适用场景：(1) 将每日
 
 首次使用前需完成声音克隆。若 `FISH_AUDIO_API_KEY` 和 `FISH_AUDIO_VOICE_ID` 环境变量已设置，可跳过。
 
-可选的 EXTEND.md 配置文件用于记录个人偏好（如开场白名字、语速）:
+可选的 `config.json` 配置文件用于记录个人偏好（如开场白名字、语速）；legacy `EXTEND.md` 仅兼容旧流程：
 
 ```markdown
-# EXTEND.md 模板
-voice_id: <your-voice-id>
-speech_rate: 0.95         # 语速（0.5-2.0），默认 0.95
-podcast_intro_name: Gino   # 开场白中使用的名字
+{
+  "voice_id": "<your-voice-id>",
+  "speech_rate": 0.95,
+  "podcast_intro_name": "Gino"
+}
 ```
 
 ## 工作流概览
@@ -69,7 +78,7 @@ podcast_intro_name: Gino   # 开场白中使用的名字
 播客和视频共享内容源。开始前**先查 workspace 缓存**（`contents/tmp/workspace/YYYY-MM-DD/`），避免重复 API 调用：
 
 - **`article-details/{id}.md`**: create-video 或 daily-content-curator 已获取的文章详情，直接复用
-- **`plan.md`**: 当天选题计划
+- **stable daily plan**: 当天选题计划，必要时兼容同日工作区 `plan.md` 副本
 
 **回写**: 播客获取的新文章详情也要写回 `article-details/`，供后续 skill（如 create-video）复用。
 
@@ -79,7 +88,7 @@ podcast_intro_name: Gino   # 开场白中使用的名字
 
 | 来源类型 | 识别方式 | 脚本模板 | 预估时长 |
 |----------|---------|---------|---------|
-| **每日早报** | 用户提到「早报/daily digest」 或指定日期 | `daily` | 10-15 分钟 |
+| **每日早报** | 用户提到「早报/daily digest」或指定日期 | `daily` | 10-15 分钟 |
 | **每周周刊** | 用户提到「周刊/weekly/newsletter」或指定期数 | `weekly` | 15-20 分钟 |
 | **单篇文章** | 用户提供 URL、文件路径或粘贴文章内容 | `article` | 5-8 分钟 |
 | **任意内容** | 用户提供任意文本或 Markdown | `freeform` | 视内容而定 |
@@ -99,39 +108,27 @@ contents/bestblogs-digest/YYYY-MM-DD/digest.txt
 **获取 Top 3 深度内容**: 先查 workspace 缓存 `article-details/{id}.md`，缓存未命中时按 `resourceType` 获取完整信息（获取后写回缓存）：
 
 ```bash
-# 获取资源元数据
-curl -s "https://api.bestblogs.dev/openapi/v1/resource/meta?id={RESOURCE_ID}" \
-  -H "X-API-KEY: $BESTBLOGS_API_KEY"
+python3 scripts/examples/bestblogs_resource_bundle.py \
+  --resource-id {RESOURCE_ID} \
+  --resource-type ARTICLE
 
-# ARTICLE — Markdown 全文
-curl -s "https://api.bestblogs.dev/openapi/v1/resource/markdown?id={RESOURCE_ID}" \
-  -H "X-API-KEY: $BESTBLOGS_API_KEY"
-
-# PODCAST — 播客完整内容
-curl -s "https://api.bestblogs.dev/openapi/v1/resource/podcast/content?id={RESOURCE_ID}" \
-  -H "X-API-KEY: $BESTBLOGS_API_KEY"
+python3 scripts/examples/bestblogs_resource_bundle.py \
+  --resource-id {RESOURCE_ID} \
+  --resource-type PODCAST
 ```
 
-3 个资源的请求并行执行。详见 `references/api_reference.md`。
+3 个资源的请求可以并行执行。仅在调试 worker 时再回退到 `references/api_reference.md` 里的原始接口说明。
 
 ### 1.2.1 搜索相关报道（深度补充）
 
 获取 Top 文章详情后，**针对每个精讲主题搜索近一周相关报道**，结合多个信息源提供更深入、全面的分享，避免仅凭单条早报摘要做浅层介绍。
 
 ```bash
-# 按关键词搜索近一周相关内容（每个主题搜 10-20 篇）
-curl -s -X POST "https://api.bestblogs.dev/api/resource/list" \
-  -H "Content-Type: application/json" \
-  -H "X-API-KEY: $BESTBLOGS_API_KEY" \
-  -d '{
-    "timeFilter": "1w",
-    "language": "all",
-    "sortType": "default",
-    "userLanguage": "zh",
-    "currentPage": 1,
-    "pageSize": 20,
-    "keyword": "{关键词}"
-  }'
+python3 scripts/examples/bestblogs_fetch_resources.py \
+  --type ARTICLE \
+  --time-filter 1w \
+  --sort-type score_desc \
+  --page-size 20
 ```
 
 **搜索策略**：
@@ -140,23 +137,13 @@ curl -s -X POST "https://api.bestblogs.dev/api/resource/list" \
 - 搜索结果中的高分相关文章，选择性获取全文或 meta，补充到脚本素材中
 - 多源交叉验证可以发现单篇报道遗漏的细节、不同视角、后续进展
 
-**注意**：此接口使用 `/api/` 路径（非 `/openapi/`），需要 `$BESTBLOGS_API_KEY` 认证。返回的 `records` 数组包含 `id`、`title`、`sourceName`、`summary`、`aiScore` 等字段。
+返回的 `records` 数组包含 `id`、`title`、`sourceName`、`summary`、`aiScore` 等字段。
 
 ### 1.3 每周周刊输入
 
 读取 `bestblogs-weekly-curator` 生成的周刊数据：
 
-```bash
-# 获取最新周刊
-curl -s -X POST https://api.bestblogs.dev/openapi/v1/newsletter/list \
-  -H "Content-Type: application/json" \
-  -H "X-API-KEY: $BESTBLOGS_API_KEY" \
-  -d '{"currentPage":1,"pageSize":1,"userLanguage":"zh_CN"}'
-
-# 获取周刊详情
-curl -s "https://api.bestblogs.dev/openapi/v1/newsletter/detail?id={NEWSLETTER_ID}" \
-  -H "X-API-KEY: $BESTBLOGS_API_KEY"
-```
+优先复用 `scripts/shared/bestblogs_client.py` 或已有 example worker 读取周刊列表；若需要单次手工核对，再参考 `references/api_reference.md` 中的接口说明。
 
 提取分类文章列表、编辑推荐语、主题关键词。选出 3-5 篇重点文章获取全文。
 
@@ -188,7 +175,7 @@ curl -s "https://api.bestblogs.dev/openapi/v1/newsletter/detail?id={NEWSLETTER_I
 
 ### 核心规则
 
-- **风格锚定**: **必须**读取 `contents/style-profile.md` 注入个人声音特征
+- **风格锚定**: **必须**优先读取 `${CLAUDE_PLUGIN_DATA}/gino-skills/manage-daily-content/memory/style-profile.md`，仅在缺失时临时兼容旧路径 `contents/style-profile.md`
 - **内容驱动**: 由内容本身决定结构和节奏，不要套死模板
 - **信息准确**: 核心信息不失真，技术细节不含糊
 - **自然流畅**: 逻辑通顺，听众不需要倒回去重听
@@ -258,104 +245,9 @@ bun ${SKILL_DIR}/scripts/fish-tts.ts \
 
 #### 4.2.2 ShowNotes
 
-小宇宙 ShowNotes 支持富文本。生成 **Markdown 格式**的 ShowNotes，用户粘贴到编辑器后自动识别。
+完整 ShowNotes 模板（Daily/Weekly/Article）和生成规则见 `references/shownotes-templates.md`。
 
-**Daily 模板**:
-
-```markdown
-## 今日精讲
-
-00:40 {Top1 标题}
-来自 {来源}，{一句话核心观点}
-
-03:30 {Top2 标题}
-来自 {来源}，{一句话核心观点}
-
-06:15 {Top3 标题}
-来自 {来源}，{一句话核心观点}
-
-## 速览
-
-08:00 更多值得关注的内容
-· {第 4 条标题} — {来源}
-· {第 5 条标题} — {来源}
-· {第 6 条标题} — {来源}
-· {第 7 条标题} — {来源}
-· {第 8 条标题} — {来源}
-· {第 9 条标题} — {来源}
-· {第 10 条标题} — {来源}
-
-## 相关链接
-
-· 精讲原文：{readUrl1}
-· 精讲原文：{readUrl2}
-· 精讲原文：{readUrl3}
-· BestBlogs: https://bestblogs.dev
-```
-
-**Weekly 模板**:
-
-```markdown
-## 本周亮点
-
-{3-5 个一句话趋势}
-
-## 分类精选
-
-### 模型
-00:xx {标题} — {来源}
-...
-
-### 开发
-xx:xx {标题} — {来源}
-...
-
-### 产品
-xx:xx {标题} — {来源}
-...
-
-## 重点深度
-
-xx:xx {标题}
-{2-3 句核心内容}
-
-## 相关链接
-
-· 本期周刊：{newsletter_url}
-· BestBlogs: https://bestblogs.dev
-```
-
-**Article 模板**:
-
-```markdown
-## 文章信息
-
-· 原文：{文章标题}
-· 作者：{作者}
-· 来源：{来源}
-
-## 内容概要
-
-{2-3 句核心观点}
-
-## 时间线
-
-00:00 开场
-00:30 背景介绍
-01:00 核心问题
-01:30 关键观点
-05:00 个人思考
-
-## 相关链接
-
-· 原文链接：{url}
-```
-
-ShowNotes 生成规则：
-- **时间戳必须准确**：从各 segment 的实际时长累加计算，格式 `MM:SS`
-- 时间戳放在行首，小宇宙编辑器会自动识别为可点击锚点
-- 原文链接使用 BestBlogs 的 readUrl，确保可访问
-- 不写长段描述，保持精炼，用户能快速扫读
+核心要求：时间戳必须从各 segment 实际时长累加计算（格式 `MM:SS`），放在行首供小宇宙识别为锚点。
 
 #### 4.2.3 单集封面
 
@@ -451,21 +343,8 @@ contents/tmp/podcast/YYYY-MM-DD/        # 临时中间文件（gitignore）
   cover-prompt.md                       # 封面生成 prompt
 
 contents/podcast/                        # 最终产出（持久化）
-  daily/YYYY-MM-DD/
-    podcast.mp3                         # 播客音频
-    metadata.json                       # 元数据
-    cover.png                           # 单集封面（1:1）
-    shownotes.md                        # 小宇宙 ShowNotes
-  weekly/YYYY-MM-DD/
-    podcast.mp3
-    metadata.json
-    cover.png
-    shownotes.md
-  articles/{slug}/
-    podcast.mp3
-    metadata.json
-    cover.png
-    shownotes.md
+  {daily|weekly}/YYYY-MM-DD/            # 或 articles/{slug}/
+    podcast.mp3 / metadata.json / cover.png / shownotes.md
   podcast.xml                           # RSS Feed（可选，扩展时启用）
 ```
 

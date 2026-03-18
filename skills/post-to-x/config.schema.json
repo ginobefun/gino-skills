@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "post-to-x config",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "chrome_profile_path": { "type": ["string", "null"] },
+    "profile_dir": { "type": ["string", "null"] },
+    "browser_path": { "type": ["string", "null"] },
+    "default_post_mode": {
+      "type": ["string", "null"],
+      "enum": ["tweet", "video", "quote", "article", null]
+    }
+  }
+}

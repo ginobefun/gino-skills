@@ -5,6 +5,18 @@
 
 API Key 按用户绑定。服务端自动从 API Key 推断 `userName`。
 
+## Worker-First 说明
+
+简报流程默认走 worker 链路：
+
+```bash
+python3 scripts/examples/xgo_digest_source_data.py
+python3 scripts/examples/xgo_digest_rank.py
+python3 scripts/examples/xgo_digest_render.py
+```
+
+本文件只保留底层 endpoint 细节，用于排查抓取问题或扩展新的 source worker。
+
 ## 目录
 
 1. [获取所有列表](#获取所有列表) - list/all

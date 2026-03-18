@@ -1,20 +1,20 @@
-# BestBlogs Weekly Curator API Reference
+# BestBlogs Weekly Curator API 参考
 
-Base URL: `https://api.bestblogs.dev`
-Auth: Header `X-API-KEY` (env var `BESTBLOGS_API_KEY`)
+基础地址: `https://api.bestblogs.dev`
+认证方式: Header `X-API-KEY` (env var `BESTBLOGS_API_KEY`)
 
 ## 目录
 
-1. [Resource List](#resource-list) - 查询文章/播客/视频列表（主要数据源）
-2. [Resource Markdown](#resource-markdown) - 获取文章 Markdown 正文（深度分析用）
-3. [Newsletter List](#newsletter-list) - 查询期刊列表
-4. [Newsletter Detail](#newsletter-detail) - 获取期刊详情（含文章列表）
-5. [枚举值速查](#枚举值速查)
-6. [错误码](#错误码)
+1. 资源列表 - 查询文章 / 播客 / 视频列表（主要数据源）
+2. 资源 Markdown - 获取文章 Markdown 正文（深度分析用）
+3. 期刊列表 - 查询期刊列表
+4. 期刊详情 - 获取期刊详情（含文章列表）
+5. 枚举值速查
+6. 错误码
 
 ---
 
-## Resource List
+## 资源列表
 
 `POST /openapi/v1/resource/list`
 
@@ -96,7 +96,7 @@ curl -s -X POST https://api.bestblogs.dev/openapi/v1/resource/list \
 
 ---
 
-## Resource Markdown
+## 资源 Markdown
 
 `GET /openapi/v1/resource/markdown?id={id}`
 
@@ -137,7 +137,7 @@ curl -s "https://api.bestblogs.dev/openapi/v1/resource/markdown?id=RAW_4e45fa" \
 
 ---
 
-## Newsletter List
+## 期刊列表
 
 `POST /openapi/v1/newsletter/list`
 
@@ -175,7 +175,7 @@ curl -s -X POST https://api.bestblogs.dev/openapi/v1/newsletter/list \
 
 ---
 
-## Newsletter Detail
+## 期刊详情
 
 `GET /openapi/v1/newsletter/get?id={id}&language={language}`
 
@@ -254,7 +254,7 @@ curl -s "https://api.bestblogs.dev/openapi/v1/newsletter/get?id=issue55&language
 | `PRODUCT` | 产品与设计 |
 | `NEWS` | 资讯与报告 |
 
-### Resource Type (资源类型)
+### 资源类型（Resource Type）
 | 值 | 描述 |
 |----|------|
 | `ARTICLE` | 文章 |

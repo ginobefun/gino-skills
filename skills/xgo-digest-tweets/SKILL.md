@@ -1,6 +1,6 @@
 ---
 name: xgo-digest-tweets
-description: "通过 XGo (xgo.ing) 开放接口生成每日推文简报。适用场景：(1) 查看今日推文精华摘要，(2) 按列表分类浏览推文，(3) 获取关注者和推荐的每日精选，(4) 快速了解今天 Twitter 上发生了什么，(5) 生成推文日报/周报。触发短语：'每日简报', '推文简报', 'daily digest', 'tweet digest', '今日摘要', '今天推文总结', 'twitter summary', '推文精选', '每日精选', 'daily briefing', '推特日报', '今天的推特', '推文汇总', 'tweet roundup', '推特摘要', 'twitter daily', '今天有什么值得看的推文', 或任何与每日推文简报、推文摘要、推文精选相关的表述。"
+description: "Use when 用户想基于 XGo 数据生成近期推文简报，把内容按主题分组或汇总成摘要，而不是查看原始时间线。"
 ---
 
 # 每日推文简报 (Daily Tweet Digest)
@@ -9,22 +9,59 @@ description: "通过 XGo (xgo.ing) 开放接口生成每日推文简报。适用
 
 完整 API 参数详情见 `references/api_reference.md`。
 
+## When to Use
+
+- 用户要一份最近推文的 digest、briefing 或视觉化简报，而不是原始时间线
+- 用户需要把关注流和推荐流汇总成“今天发生了什么”
+- 输出目标是 `digest.md`、`digest.html` 或信息图，而不是单次查询结果
+
+## When Not to Use
+
+- 只想抓取原始 timeline、列表流或书签流时，使用 `xgo-fetch-tweets`
+- 想按关键词或条件搜索推文时，使用 `xgo-search-tweets`
+- 想深挖某个账号时，使用 `xgo-view-profile` 或 `xgo-track-kol`
+
+## Gotchas
+
+- 服务端默认排序不是 `influence`，必须显式传 `sortType: "influence"`
+- 同一推文会同时出现在 following 和 recommendation，需要按 `id` 去重
+- 高互动不等于高价值，生成 digest 时要做内容质量再排序
+- Top 20、Top 10 和完整版应来自同一套去重后的基准数据
+
+## Related Skills
+
+- `xgo-fetch-tweets`：读取原始时间线、列表流、书签流
+- `xgo-search-tweets`：按关键词和过滤条件搜索推文
+- `xgo-view-profile`：查看某个账号及其近期推文
+- `manage-daily-content`：把 digest 结果接到每日内容编排链路
+
+## Shared Scripts
+
+- 优先复用 `scripts/shared/xgo_client.py`
+- 数据抓取优先走 `scripts/examples/xgo_digest_source_data.py`
+- ranking / render 优先走 `scripts/examples/xgo_digest_rank.py` 和 `scripts/examples/xgo_digest_render.py`
+- `scripts/process-tweets.js` 和 `scripts/generate-digest.js` 视为 worker 内部实现，不再作为 orchestrator 直接入口
+
+## Worker Entrypoints
+
+优先把以下入口当成稳定 worker，而不是手写 5 个 `curl` 请求：
+
+```bash
+python3 scripts/examples/xgo_digest_source_data.py --output /tmp/xgo_digest_source_data.json
+python3 scripts/examples/xgo_digest_rank.py --source-data /tmp/xgo_digest_source_data.json --output /tmp/tweet_digest_data.json
+python3 scripts/examples/xgo_digest_render.py --digest-data /tmp/tweet_digest_data.json
+```
+
+其中：
+- `xgo_digest_source_data.py` 负责拉取 `list/all`、following feed、recommendation feed，并输出统一 JSON 契约
+- `xgo_digest_rank.py` 负责包装 `process-tweets.js`，输出 Top 20 / Top 10 和完整 digest 数据
+- `xgo_digest_render.py` 负责包装 `generate-digest.js`，输出生成文件列表和产物目录
+
+orchestrator 应优先消费 worker 的 JSON 输出，而不是依赖散落的 shell 日志。
+
 ## 认证
 
 所有请求需要 `X-API-KEY` 请求头。从环境变量 `XGO_API_KEY` 读取密钥。
-
-**注意**: 在某些 shell 环境中 `$XGO_API_KEY` 可能无法正确展开，建议先检查变量值或直接使用硬编码：
-
-```bash
-# 方法 1: 直接使用变量值
-curl -s "https://api.xgo.ing/openapi/v1/list/all" \
-  -H "X-API-KEY: xgo_xxxxxx..."
-
-# 方法 2: 先验证变量存在
-echo "${XGO_API_KEY:0:20}..."
-curl -s "https://api.xgo.ing/openapi/v1/list/all" \
-  -H "X-API-KEY: ${XGO_API_KEY}"
-```
 
 若 `XGO_API_KEY` 未设置，提示用户配置。
 
@@ -58,43 +95,32 @@ curl -s "https://api.xgo.ing/openapi/v1/list/all" \
 
 ---
 
-## 第一步：并行拉取数据（5 个请求）
+## 第一步：拉取 digest 源数据
 
 ```bash
-# 1. 获取所有列表（含成员信息，用于构建映射）
-curl -s "https://api.xgo.ing/openapi/v1/list/all" \
-  -H "X-API-KEY: $XGO_API_KEY"
-
-# 2. 关注者推文 - 第1页（按影响力排序，排除纯转推，近24小时）
-curl -s -X POST https://api.xgo.ing/openapi/v1/tweet/list \
-  -H "Content-Type: application/json" \
-  -H "X-API-KEY: $XGO_API_KEY" \
-  -d '{"queryType":"following","timeRange":"LAST_24H","sortType":"influence","tweetType":"NO_RETWEET","currentPage":1,"pageSize":50}'
-
-# 3. 关注者推文 - 第2页
-curl -s -X POST https://api.xgo.ing/openapi/v1/tweet/list \
-  -H "Content-Type: application/json" \
-  -H "X-API-KEY: $XGO_API_KEY" \
-  -d '{"queryType":"following","timeRange":"LAST_24H","sortType":"influence","tweetType":"NO_RETWEET","currentPage":2,"pageSize":50}'
-
-# 4. 推荐推文 - 第1页
-curl -s -X POST https://api.xgo.ing/openapi/v1/tweet/list \
-  -H "Content-Type: application/json" \
-  -H "X-API-KEY: $XGO_API_KEY" \
-  -d '{"queryType":"recommendation","timeRange":"LAST_24H","sortType":"influence","tweetType":"NO_RETWEET","currentPage":1,"pageSize":50}'
-
-# 5. 推荐推文 - 第2页
-curl -s -X POST https://api.xgo.ing/openapi/v1/tweet/list \
-  -H "Content-Type: application/json" \
-  -H "X-API-KEY: $XGO_API_KEY" \
-  -d '{"queryType":"recommendation","timeRange":"LAST_24H","sortType":"influence","tweetType":"NO_RETWEET","currentPage":2,"pageSize":50}'
+python3 scripts/examples/xgo_digest_source_data.py \
+  --time-range LAST_24H \
+  --sort-type influence \
+  --tweet-type NO_RETWEET \
+  --page-size 50 \
+  --max-pages 2 \
+  --output /tmp/xgo_digest_source_data.json
 ```
 
-**并行执行所有 5 个请求。** 必须显式传递 `sortType: "influence"` — 服务端默认值为 `recent`。
+worker 会统一抓取：
+- `list/all`
+- following feed
+- recommendation feed
+
+必须显式传递 `--sort-type influence`，因为服务端默认排序仍然是 `recent`。
+worker JSON 中：
+- `items` 为 following + recommendation 的合并原始推文
+- `verify.lists` 为列表数据
+- `meta` 记录每类来源的数量和抓取参数
 
 ## 第二步：构建 author->list 映射
 
-从 `list/all` 响应中构建映射表：
+从 worker 输出中的 `verify.lists` 构建映射表：
 
 ```
 对每个 UserListDTO:
@@ -108,7 +134,7 @@ curl -s -X POST https://api.xgo.ing/openapi/v1/tweet/list \
 
 ### 去重
 
-合并所有推文（请求 2-5），按推文 `id` 去重。同一推文在多个查询中仅保留一条。
+合并 worker 输出中的 following / recommendation 推文，按推文 `id` 去重。同一推文在多个查询中仅保留一条。
 
 ### 分类规则
 
@@ -126,88 +152,7 @@ curl -s -X POST https://api.xgo.ing/openapi/v1/tweet/list \
 
 这一步从去重后的全部推文中，按重要性和读者迫切性选出 Top 20，不均衡分配到分类，纯按内容价值排序。
 
-### 筛选维度与加权
-
-对每条推文计算综合优先级分数，考虑以下维度：
-
-#### 1. 来源权重（最重要）
-
-**头部厂商官方账号** — 最高优先级，这些账号发布的新模型、新产品、新功能几乎必选：
-- OpenAI 系：`OpenAI`, `OpenAIDevs`, `ChatGPTapp`
-- Anthropic 系：`AnthropicAI`, `claudeai`, `alexalbert__`
-- Google 系：`GoogleDeepMind`, `sundarpichai`
-- 国内头部：DeepSeek, 阿里通义 Qwen, 月之暗面 Kimi, 智谱 GLM, MiniMax
-- Meta: `AIatMeta`, `ylecun`
-
-**行业领袖与研究者** — 高优先级，他们的观点和判断有前瞻价值：
-- `karpathy`, `sama`, `AndrewYNg`, `ylecun`
-
-**高优媒体/创作者** — 中高优先级，内容质量稳定：
-- 英文：`ycombinator`, `a16z`, `LennysPodcast`, `GergelyOrosz`, `lexfridman`, `TheRundownAI`
-- 中文：宝玉 (`vista8`/`dotey`), `HiTw93`, `xicilion`, 张小珺，Latent Space, Founder Park
-
-**Builder/独立开发者** — 中优先级，实践经验有参考价值：
-- `levelsio`, `garrytan`, `pmarca`, `gregisenberg`
-
-注意：上面列出的用户名是已知的参考示例。匹配时应同时检查 `author.userName` 和 `author.name`（显示名称可能包含公司/产品名）。国内厂商账号的 handle 可能不固定，优先通过 `author.name` 中包含的关键词（如 "DeepSeek", "Qwen", "Kimi", "智谱", "MiniMax"）匹配。不在列表中的账号按默认权重处理。
-
-#### 2. 内容主题加权
-
-以下关键词出现在推文文本中时提升优先级：
-
-**AI Coding（高加权）**: Claude Code, Codex, Cursor, Windsurf, Copilot, vibe coding, AI coding, agentic coding
-
-**新模型/新产品发布（高加权）**: launching, introducing, announcing, releasing, now available, 发布，上线，开源
-
-**方法论/深度实践（中加权）**: best practice, lesson learned, how I, architecture, framework, 实践，经验，方法论
-
-#### 3. 基础影响力
-
-`influenceScore` 作为基础分，但不是唯一决定因素。一条来自 Anthropic 的 influenceScore=200 的产品发布，应排在一条无关账号的 influenceScore=2000 的热门段子前面。
-
-### 排序逻辑
-
-```
-综合分 = influenceScore * 来源权重系数 * 主题加权系数
-```
-
-参考权重系数：
-- 头部厂商官方：5x
-- 行业领袖：3x
-- 高优媒体：2x
-- Builder/独立开发者: 1.5x
-- 其他：1x
-
-主题加权：
-- AI Coding 相关：2x
-- 新发布/新产品：1.8x
-- 方法论/实践：1.3x
-- 其他：1x
-
-### 同话题去重
-
-多条推文讨论同一话题（如多人转发评论同一事件）时，保留综合分最高的一条，在描述中可提及其他来源的视角。
-
-**常见同话题场景**：
-- 同一产品发布，多个账号转发评论 → 保留官方账号或最权威来源
-- 同一新闻事件，多个媒体报导 → 保留影响力最高或最详细的一条
-- 同一 meme/梗图被广泛传播 → 保留原始发布者或互动最高的一条
-
-**AI 判断提示**：在生成简报时，AI 应识别并合并同一话题的多条推文，避免重复占用头条位置。
-
-### 内容质量人工判断
-
-算法排序基于互动量和来源权重，但**内容质量需要人工判断**：
-
-**高互动但低价值的内容**（可能排在前列但不应作为头条）：
-- 调侃/段子性质的对比推文（如 "Chipotle 机器人免费 vs Claude Code"）
-- 情绪煽动性内容（如 "SHOCKING: AI 变 evil"）
-- 纯娱乐性质的 viral 内容
-
-**头条选择建议**：
-- 优先选择产品发布、技术突破、重要观点等实质性内容
-- 对于调侃类高互动推文，可放入"值得关注"或"快速浏览"部分
-- 在生成简报时，AI 应识别内容类型并调整排序
+详细的筛选维度、来源权重、主题加权、排序公式、同话题去重和内容质量判断规则见 `references/scoring-rules.md`。
 
 ### 输出
 
@@ -384,19 +329,21 @@ mkdir -p contents/twitter-digest/YYYY-MM-DD
 
 本 skill 的工作流可通过以下方式实现：
 
-### 方式一：命令行 + 脚本（推荐）
+### 方式一：worker 链路（推荐）
 
-1. 创建数据处理脚本（Node.js/Python）：
-   - `scripts/process-tweets.js` - 处理原始数据，构建映射、去重、分类、计算综合分数
-   - `scripts/generate-digest.js` - 生成四种输出文件
+1. 先运行抓取 worker：
+   - `scripts/examples/xgo_digest_source_data.py`
 
-2. 脚本核心逻辑：
-   - 并行执行 5 个 curl 请求获取数据
-   - 构建 author->list 映射表
-   - 按 id 去重，保留 following 来源优先
-   - 计算综合分数：`influenceScore * 来源权重 * 主题加权`
-   - 排序取 Top 20/Top 10
-   - 生成 Markdown/HTML 输出
+2. 再运行 ranking worker：
+   - `scripts/examples/xgo_digest_rank.py`
+
+3. 最后运行 render worker：
+   - `scripts/examples/xgo_digest_render.py`
+
+4. 工作流拆分：
+   - worker 负责共享 API 调用和稳定 JSON 输出
+   - `process-tweets.js` 负责 ranking worker 内部的本地排名与分类
+   - `generate-digest.js` 负责 render worker 内部的最终产物生成
 
 3. 输出目录结构：
    ```
@@ -407,9 +354,11 @@ mkdir -p contents/twitter-digest/YYYY-MM-DD
    └── infographic-prompt.txt  # 信息图提示词
    ```
 
-### 方式二：直接使用 API
+### 方式二：直接调用 shared client 或内部脚本
 
-如需更灵活的控制，可直接调用 XGo API 并在代码中实现筛选逻辑。参考 `references/api_reference.md` 获取完整的端点文档和 DTO 定义。
+如需更灵活的控制，直接在 Python 中调用 `scripts/shared/xgo_client.py`，而不是回退到手写 `curl`。
+只有在需要修改内部算法或渲染逻辑时，才直接编辑 `scripts/process-tweets.js` 或 `scripts/generate-digest.js`。
+参考 `references/api_reference.md` 获取端点文档和 DTO 定义。
 
 ### 关键实现细节
 

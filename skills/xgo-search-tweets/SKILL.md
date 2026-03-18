@@ -1,11 +1,41 @@
 ---
 name: xgo-search-tweets
-description: "通过 XGo (xgo.ing) 开放接口实时搜索推文、获取特定用户最新推文。适用场景：(1) 按关键词/话题搜索推文，(2) 查找热门讨论，(3) 实时获取某用户最新推文，(4) 刷新指定推文获取最新互动数据，(5) 了解推特上对某话题的讨论。触发短语：'搜索推文', '搜推特', 'search tweets', 'search twitter', '找推文', '关于 XX 的推文', 'tweets about', '某人的最新推文', 'latest tweets from @user', '刷新推文', 'refresh tweets', '推特上怎么说', '看看大家怎么讨论', 或任何与推文搜索或实时推文获取相关的表述。注意：拉取时间线/Feed（如 '拉取推文', '今天的推文', '推文列表'）请使用 xgo-fetch-tweets。"
+description: "Use when 用户想在 X 上搜索某个话题、拉取指定账号最新推文，或刷新已知推文 ID；时间线、推荐流、列表或收藏请使用 xgo-fetch-tweets。"
 ---
 
 # 推文搜索器 (Twitter Searcher)
 
 通过 XGo (xgo.ing) 开放接口实时搜索推文、获取特定用户最新推文。
+
+## When to Use
+
+- 当用户想按关键词、话题或搜索运算符查推文
+- 当用户想看某个账号最新推文，而不是自己的时间线
+- 当用户已经有推文 ID，想刷新互动数据
+
+## When Not to Use
+
+- 拉取时间线、推荐流、列表或收藏夹：用 `xgo-fetch-tweets`
+- 做账号深度画像或双账号对比：用 `xgo-track-kol`
+
+## Gotchas
+
+- `tweet/search` 和 `tweet/latest` 返回扁平数组，不要套用 feed 端点的分页思维
+- 搜索语法和 `queryType` 是两层不同控制，不要把它们当成同一个过滤器
+- 刷新场景必须有 tweet ID；没有 ID 时先搜索或让用户提供链接
+- 搜索没结果不一定是错误，很多时候只是查询词过宽或过窄
+
+## Related Skills
+
+- `xgo-fetch-tweets`: timelines, feeds, lists, bookmarks
+- `xgo-view-profile`: profile-first view of an account
+- `xgo-track-kol`: deeper analytical profile of an account
+- `xgo-digest-tweets`: turn search results into digest outputs
+
+## Shared Scripts
+
+- 优先复用 `scripts/shared/xgo_client.py`
+- 对需要统一 headers、错误处理和分页的 XGo 调用，不再重复拼装底层请求
 
 完整 API 参数详情见 `references/api_reference.md`。
 
@@ -31,10 +61,9 @@ description: "通过 XGo (xgo.ing) 开放接口实时搜索推文、获取特定
 ### 搜索推文
 
 ```bash
-curl -s -X POST https://api.xgo.ing/openapi/v1/tweet/search \
-  -H "Content-Type: application/json" \
-  -H "X-API-KEY: $XGO_API_KEY" \
-  -d '{"query":"AI agents","queryType":"Top","maxResults":30}'
+python3 scripts/examples/xgo_search_tweets.py "AI agents" \
+  --query-type Top \
+  --max-results 30
 ```
 
 ### 参数调整
@@ -68,8 +97,7 @@ curl -s -X POST https://api.xgo.ing/openapi/v1/tweet/search \
 从 Twitter API 实时拉取用户最新推文（非 DB 缓存）。
 
 ```bash
-curl -s "https://api.xgo.ing/openapi/v1/tweet/latest?userName=elonmusk&maxPages=3" \
-  -H "X-API-KEY: $XGO_API_KEY"
+python3 scripts/examples/xgo_view_profile.py elonmusk --max-pages 3
 ```
 
 - `userName`: 目标用户名（不填则为 API Key 对应用户）
@@ -80,10 +108,13 @@ curl -s "https://api.xgo.ing/openapi/v1/tweet/latest?userName=elonmusk&maxPages=
 重新拉取指定推文以获取最新互动数据。
 
 ```bash
-curl -s -X POST https://api.xgo.ing/openapi/v1/tweet/refresh \
-  -H "Content-Type: application/json" \
-  -H "X-API-KEY: $XGO_API_KEY" \
-  -d '{"tweetIds":["1234567890","9876543210"]}'
+python3 - <<'PY'
+from scripts.shared.xgo_client import XGoClient
+
+client = XGoClient()
+payload = client.post_json("/openapi/v1/tweet/refresh", {"tweetIds": ["1234567890", "9876543210"]})
+print(payload)
+PY
 ```
 
 - `tweetIds`: 每次最多 100 个推文 ID。

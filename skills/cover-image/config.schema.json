@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "cover-image config",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "version": { "type": "integer", "minimum": 1 },
+    "watermark": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "enabled": { "type": ["boolean", "null"] },
+        "content": { "type": ["string", "null"] },
+        "position": {
+          "type": ["string", "null"],
+          "enum": ["bottom-right", "bottom-left", "bottom-center", "top-right", null]
+        },
+        "opacity": { "type": ["number", "null"], "minimum": 0, "maximum": 1 }
+      }
+    },
+    "preferred_type": { "type": ["string", "null"] },
+    "preferred_palette": { "type": ["string", "null"] },
+    "preferred_rendering": { "type": ["string", "null"] },
+    "preferred_text": { "type": ["string", "null"] },
+    "preferred_mood": { "type": ["string", "null"] },
+    "default_aspect": { "type": ["string", "null"] },
+    "default_output_dir": { "type": ["string", "null"] },
+    "quick_mode": { "type": ["boolean", "null"] },
+    "language": { "type": ["string", "null"] },
+    "custom_palettes": {
+      "type": ["array", "null"],
+      "items": { "type": "object" }
+    }
+  }
+}

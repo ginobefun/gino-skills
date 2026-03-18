@@ -1,19 +1,19 @@
-# BestBlogs Daily Digest API Reference
+# BestBlogs Daily Digest API 参考
 
-Base URL: `https://api.bestblogs.dev`
-Auth: Header `X-API-KEY` (env var `BESTBLOGS_API_KEY`)
+基础地址: `https://api.bestblogs.dev`
+认证方式: Header `X-API-KEY` (env var `BESTBLOGS_API_KEY`)
 
 ---
 
-## Resource List
+## 资源列表
 
 `POST /openapi/v1/resource/list`
 
 查询文章、播客、视频资源列表。
 
-### Request Body
+### 请求体
 
-| Field | Type | Default | Description |
+| 字段 | 类型 | 默认值 | 说明 |
 |-------|------|---------|-------------|
 | currentPage | Integer | 1 | 页码 |
 | pageSize | Integer | 10 | 每页数量（最大 100） |
@@ -27,9 +27,9 @@ Auth: Header `X-API-KEY` (env var `BESTBLOGS_API_KEY`)
 | timeFilter | String | | 时间范围：`1d`, `3d`, `1w`, `1m`, `3m`, `1y` |
 | sortType | String | | 排序：`default`, `time_desc`, `score_desc`, `read_desc` |
 
-### Response Fields (dataList items)
+### 返回字段（dataList items）
 
-| Field | Description |
+| 字段 | 说明 |
 |-------|-------------|
 | id | 资源唯一 ID |
 | title | 优化后标题 |
@@ -58,7 +58,7 @@ Auth: Header `X-API-KEY` (env var `BESTBLOGS_API_KEY`)
 | publishDateTimeStr | 完整发布时间 |
 | qualified | 是否精选 |
 
-### Example
+### 示例
 
 ```bash
 curl -s -X POST https://api.bestblogs.dev/openapi/v1/resource/list \
@@ -69,15 +69,15 @@ curl -s -X POST https://api.bestblogs.dev/openapi/v1/resource/list \
 
 ---
 
-## Tweet List
+## 推文列表
 
 `POST /openapi/v1/tweet/list`
 
 查询推文列表，包含推文原始数据和 BestBlogs 分析结果。
 
-### Request Body
+### 请求体
 
-| Field | Type | Default | Description |
+| 字段 | 类型 | 默认值 | 说明 |
 |-------|------|---------|-------------|
 | currentPage | Integer | 1 | 页码 |
 | pageSize | Integer | 10 | 每页数量 |
@@ -89,7 +89,7 @@ curl -s -X POST https://api.bestblogs.dev/openapi/v1/resource/list \
 | timeFilter | String | | 时间范围 |
 | sortType | String | | 排序方式 |
 
-### Response Structure
+### 返回结构
 
 每个 dataList item 包含两层:
 
@@ -98,7 +98,7 @@ curl -s -X POST https://api.bestblogs.dev/openapi/v1/resource/list \
 
 **tweet 字段:**
 
-| Field | Description |
+| 字段 | 说明 |
 |-------|-------------|
 | id | 推文 ID |
 | url | 推文链接 |
@@ -108,7 +108,7 @@ curl -s -X POST https://api.bestblogs.dev/openapi/v1/resource/list \
 | author | {id, name, userName, profileImageUrl} |
 | mediaList | [{type, mediaUrlHttps, url}] |
 
-### Example
+### 示例
 
 ```bash
 curl -s -X POST https://api.bestblogs.dev/openapi/v1/tweet/list \
@@ -119,7 +119,7 @@ curl -s -X POST https://api.bestblogs.dev/openapi/v1/tweet/list \
 
 ---
 
-## Enums
+## 枚举值
 
 ### Category
 - `Artificial_Intelligence` - 人工智能
@@ -127,7 +127,7 @@ curl -s -X POST https://api.bestblogs.dev/openapi/v1/tweet/list \
 - `Programming_Technology` - 软件编程
 - `Product_Development` - 产品设计
 
-### Resource Type
+### 资源类型
 - `ARTICLE` - 文章
 - `PODCAST` - 播客
 - `VIDEO` - 视频
@@ -162,9 +162,9 @@ curl -s -X POST https://api.bestblogs.dev/openapi/v1/tweet/list \
 }
 ```
 
-## Error Codes
+## 错误码
 
-| Code | HTTP Status | Description |
+| 错误码 | HTTP 状态码 | 说明 |
 |------|-------------|-------------|
 | AUTH_001 | 401 | API Key 缺失 |
 | AUTH_002 | 401 | API Key 无效 |

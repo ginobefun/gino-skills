@@ -3,6 +3,18 @@
 接口地址: `https://api.xgo.ing`
 认证方式: 请求头 `X-API-KEY`（环境变量 `XGO_API_KEY`）
 
+## Worker-First 说明
+
+默认执行路径优先使用：
+
+```bash
+python3 scripts/examples/xgo_list_overview.py
+python3 scripts/examples/xgo_save_list.py --name "AI Builders"
+python3 scripts/examples/xgo_list_member_action.py add --list-id LIST_ID --user-id USER_ID
+```
+
+本文件保留底层 `list/*` 端点说明，主要用于 debug 和扩展 worker。
+
 ## 目录
 
 1. [获取所有列表](#获取所有列表)

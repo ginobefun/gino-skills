@@ -1,31 +1,31 @@
-# BestBlogs OpenAPI Reference
+# BestBlogs OpenAPI 参考
 
-Base URL: `https://api.bestblogs.dev`
-Auth: Header `X-API-KEY` (env var `BESTBLOGS_API_KEY`)
+基础地址: `https://api.bestblogs.dev`
+认证方式: Header `X-API-KEY` (env var `BESTBLOGS_API_KEY`)
 
-## Table of Contents
+## 目录
 
-1. [Resource List](#resource-list) - 查询文章/播客/视频/推文列表
-2. [Resource Meta](#resource-meta) - 获取单个资源元数据
-3. [Resource Markdown Content](#resource-markdown-content) - 获取资源 Markdown 正文
-4. [Podcast Content](#podcast-content) - 获取播客转录和章节
-5. [Tweet List](#tweet-list) - 查询推文列表（含互动数据）
-6. [Newsletter List](#newsletter-list) - 查询期刊列表
-7. [Newsletter Detail](#newsletter-detail) - 获取期刊详情
-8. [Source List](#source-list) - 查询订阅源列表
-9. [Enums](#enums) - 枚举值速查
+1. 资源列表 - 查询文章 / 播客 / 视频 / 推文列表
+2. 资源元数据 - 获取单个资源元数据
+3. 资源 Markdown 正文 - 获取资源 Markdown 正文
+4. 播客内容 - 获取播客转录和章节
+5. 推文列表 - 查询推文列表（含互动数据）
+6. 期刊列表 - 查询期刊列表
+7. 期刊详情 - 获取期刊详情
+8. 订阅源列表 - 查询订阅源列表
+9. 枚举值 - 枚举值速查
 
 ---
 
-## Resource List
+## 资源列表
 
 `POST /openapi/v1/resource/list`
 
 查询文章、播客、视频、推文资源列表。**最常用的端点。**
 
-### Request Body
+### 请求体
 
-| Field | Type | Default | Description |
+| 字段 | 类型 | 默认值 | 说明 |
 |-------|------|---------|-------------|
 | currentPage | Integer | 1 | 页码 |
 | pageSize | Integer | 10 | 每页数量 |
@@ -40,9 +40,9 @@ Auth: Header `X-API-KEY` (env var `BESTBLOGS_API_KEY`)
 | timeFilter | String | | 时间范围：`1d`, `3d`, `1w`, `1m`, `3m`, `1y` |
 | sortType | String | | 排序：`default`, `time_desc`, `score_desc`, `read_desc` |
 
-### Response Fields (dataList items)
+### 返回字段（dataList items）
 
-| Field | Description |
+| 字段 | 说明 |
 |-------|-------------|
 | id | 资源唯一 ID |
 | originalTitle | 原始标题 |
@@ -73,7 +73,7 @@ Auth: Header `X-API-KEY` (env var `BESTBLOGS_API_KEY`)
 | publishDateTimeStr | 完整发布时间 |
 | qualified | 是否精选 |
 
-### Example
+### 示例
 
 ```bash
 curl -X POST https://api.bestblogs.dev/openapi/v1/resource/list \
@@ -91,7 +91,7 @@ curl -X POST https://api.bestblogs.dev/openapi/v1/resource/list \
 
 ---
 
-## Resource Meta
+## 资源元数据
 
 `GET /openapi/v1/resource/meta?id={id}&language={language}`
 
@@ -101,7 +101,7 @@ curl -X POST https://api.bestblogs.dev/openapi/v1/resource/list \
 
 注意：列表接口已返回 summary、mainPoints、keyQuotes 等详情字段，通常无需额外调用 meta。仅在需要单条资源详情时使用此端点。
 
-### Example
+### 示例
 
 ```bash
 curl "https://api.bestblogs.dev/openapi/v1/resource/meta?id=RAW_4e45fa&language=zh_CN" \
@@ -110,13 +110,13 @@ curl "https://api.bestblogs.dev/openapi/v1/resource/meta?id=RAW_4e45fa&language=
 
 ---
 
-## Resource Markdown Content
+## 资源 Markdown 正文
 
 `GET /openapi/v1/resource/markdown?id={id}`
 
 获取资源的 Markdown 正文内容。HTML 原文经服务端自动转换为 Markdown，适合大模型直接阅读。
 
-### Response
+### 返回结果
 
 `data` 字段直接返回 Markdown 字符串，资源不存在时返回 `null`。
 
@@ -130,7 +130,7 @@ curl "https://api.bestblogs.dev/openapi/v1/resource/meta?id=RAW_4e45fa&language=
 }
 ```
 
-### Example
+### 示例
 
 ```bash
 curl "https://api.bestblogs.dev/openapi/v1/resource/markdown?id=RAW_4e45fa" \
@@ -139,15 +139,15 @@ curl "https://api.bestblogs.dev/openapi/v1/resource/markdown?id=RAW_4e45fa" \
 
 ---
 
-## Podcast Content
+## 播客内容
 
 `GET /openapi/v1/resource/podcast/content?id={id}`
 
 获取播客的完整分析结果。
 
-### Response Fields
+### 返回字段
 
-| Field | Description |
+| 字段 | 说明 |
 |-------|-------------|
 | id | 播客资源 ID |
 | transcriptionSegments | 转录分段 [{id, speakerId, beginTime, endTime, text}] |
@@ -158,7 +158,7 @@ curl "https://api.bestblogs.dev/openapi/v1/resource/markdown?id=RAW_4e45fa" \
 | keywords | 关键词列表 |
 | keySentences | 关键句子 [{sentence, beginTime, endTime}] |
 
-### Example
+### 示例
 
 ```bash
 curl "https://api.bestblogs.dev/openapi/v1/resource/podcast/content?id=PODCAST_abc123" \
@@ -167,15 +167,15 @@ curl "https://api.bestblogs.dev/openapi/v1/resource/podcast/content?id=PODCAST_a
 
 ---
 
-## Tweet List
+## 推文列表
 
 `POST /openapi/v1/tweet/list`
 
 查询推文列表，包含推文原始数据和 BestBlogs 分析结果。
 
-### Request Body
+### 请求体
 
-| Field | Type | Default | Description |
+| 字段 | 类型 | 默认值 | 说明 |
 |-------|------|---------|-------------|
 | currentPage | Integer | 1 | 页码 |
 | pageSize | Integer | 10 | 每页数量 |
@@ -191,7 +191,7 @@ curl "https://api.bestblogs.dev/openapi/v1/resource/podcast/content?id=PODCAST_a
 | upperTotalScore | Integer | | 最高总分过滤 |
 | mainDomainFilter | String | | 主领域过滤 |
 
-### Response Structure
+### 返回结构
 
 每个 dataList item 包含两层：
 - `resourceMeta`: 资源元数据 (同 Resource List 字段，额外含 `translateContent`)
@@ -199,7 +199,7 @@ curl "https://api.bestblogs.dev/openapi/v1/resource/podcast/content?id=PODCAST_a
 
 **tweet 字段：**
 
-| Field | Description |
+| 字段 | 说明 |
 |-------|-------------|
 | id | 推文 ID |
 | url | 推文链接 |
@@ -216,7 +216,7 @@ curl "https://api.bestblogs.dev/openapi/v1/resource/podcast/content?id=PODCAST_a
 | urlInfos | [{url, expandedUrl, displayUrl}] |
 | userMentions | [{userId, name, userName}] |
 
-### Example
+### 示例
 
 ```bash
 curl -X POST https://api.bestblogs.dev/openapi/v1/tweet/list \
@@ -234,23 +234,23 @@ curl -X POST https://api.bestblogs.dev/openapi/v1/tweet/list \
 
 ---
 
-## Newsletter List
+## 期刊列表
 
 `POST /openapi/v1/newsletter/list`
 
 查询期刊列表。
 
-### Request Body
+### 请求体
 
-| Field | Type | Default | Description |
+| 字段 | 类型 | 默认值 | 说明 |
 |-------|------|---------|-------------|
 | currentPage | Integer | 1 | 页码 |
 | pageSize | Integer | 10 | 每页数量 |
 | userLanguage | String | | 用户语言偏好 |
 
-### Response Fields (dataList items)
+### 返回字段（dataList items）
 
-| Field | Description |
+| 字段 | 说明 |
 |-------|-------------|
 | id | 期刊 ID (如 "issue55") |
 | title | 期刊标题 |
@@ -263,15 +263,15 @@ curl -X POST https://api.bestblogs.dev/openapi/v1/tweet/list \
 
 ---
 
-## Newsletter Detail
+## 期刊详情
 
 `GET /openapi/v1/newsletter/get?id={id}&language={language}`
 
 获取期刊详情，包含文章列表。
 
-### Response Fields
+### 返回字段
 
-| Field | Description |
+| 字段 | 说明 |
 |-------|-------------|
 | id | 期刊 ID |
 | title / enTitle / zhTitle | 标题 (多语言) |
@@ -282,15 +282,15 @@ curl -X POST https://api.bestblogs.dev/openapi/v1/tweet/list \
 
 ---
 
-## Source List
+## 订阅源列表
 
 `POST /openapi/v1/source/list`
 
 查询订阅源列表。
 
-### Request Body
+### 请求体
 
-| Field | Type | Default | Description |
+| 字段 | 类型 | 默认值 | 说明 |
 |-------|------|---------|-------------|
 | currentPage | Integer | 1 | 页码 |
 | pageSize | Integer | 10 | 每页数量 |
@@ -301,9 +301,9 @@ curl -X POST https://api.bestblogs.dev/openapi/v1/tweet/list \
 | priority | String | | 优先级过滤 |
 | userLanguage | String | | 用户语言偏好 |
 
-### Response Fields (dataList items)
+### 返回字段（dataList items）
 
-| Field | Description |
+| 字段 | 说明 |
 |-------|-------------|
 | id | 订阅源 ID |
 | name | 名称 |
@@ -324,7 +324,7 @@ curl -X POST https://api.bestblogs.dev/openapi/v1/tweet/list \
 
 ---
 
-## Enums
+## 枚举值
 
 ### Category (分类)
 - `Artificial_Intelligence` - 人工智能
@@ -338,7 +338,7 @@ curl -X POST https://api.bestblogs.dev/openapi/v1/tweet/list \
 - `PRODUCT` - AI 产品
 - `NEWS` - AI 资讯
 
-### Resource Type (资源类型)
+### 资源类型（Resource Type）
 - `ARTICLE` - 文章
 - `PODCAST` - 播客
 - `VIDEO` - 视频
@@ -392,9 +392,9 @@ Paginated responses wrap data in:
 }
 ```
 
-## Error Codes
+## 错误码
 
-| Code | HTTP Status | Description |
+| 错误码 | HTTP 状态码 | 说明 |
 |------|-------------|-------------|
 | AUTH_001 | 401 | API Key 缺失 |
 | AUTH_002 | 401 | API Key 无效 |

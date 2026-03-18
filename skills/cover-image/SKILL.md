@@ -1,193 +1,202 @@
 ---
 name: cover-image
-description: Generates article cover images with 5 dimensions (type, palette, rendering, text, mood) combining 9 color palettes and 6 rendering styles. Supports cinematic (2.35:1), widescreen (16:9), and square (1:1) aspects. Use when user asks to "generate cover image", "create article cover", or "make cover".
+description: "Use when 用户想为文章、帖子或文档生成一张封面图，并希望控制风格维度，或可选提供参考图片。"
 ---
 
-# Cover Image Generator
+# 封面图生成器
 
-Generate elegant cover images for articles with 5-dimensional customization.
+为文章生成有明确风格控制的封面图，支持 5 个核心维度和参考图输入。
 
-## Usage
+## 用法
 
 ```bash
-# Auto-select dimensions based on content
+# 根据内容自动选择维度
 /cover-image path/to/article.md
 
-# Quick mode: skip confirmation
+# 快速模式：跳过确认
 /cover-image article.md --quick
 
-# Specify dimensions
+# 指定维度
 /cover-image article.md --type conceptual --palette warm --rendering flat-vector
 
-# Style presets (shorthand for palette + rendering)
+# 风格预设（palette + rendering 的简写）
 /cover-image article.md --style blueprint
 
-# With reference images
+# 搭配参考图
 /cover-image article.md --ref style-ref.png
 
-# Direct content input
+# 直接输入内容
 /cover-image --palette mono --aspect 1:1 --quick
 [paste content]
 ```
 
-## Options
+## 参数
 
-| Option | Description |
+| 参数 | 说明 |
 |--------|-------------|
-| `--type <name>` | hero, conceptual, typography, metaphor, scene, minimal |
-| `--palette <name>` | warm, elegant, cool, dark, earth, vivid, pastel, mono, retro |
-| `--rendering <name>` | flat-vector, hand-drawn, painterly, digital, pixel, chalk |
-| `--style <name>` | Preset shorthand (see [Style Presets](references/style-presets.md)) |
-| `--text <level>` | none, title-only, title-subtitle, text-rich |
-| `--mood <level>` | subtle, balanced, bold |
-| `--font <name>` | clean, handwritten, serif, display |
-| `--aspect <ratio>` | 16:9 (default), 2.35:1, 4:3, 3:2, 1:1, 3:4 |
-| `--lang <code>` | Title language (en, zh, ja, etc.) |
-| `--no-title` | Alias for `--text none` |
-| `--quick` | Skip confirmation, use auto-selection |
-| `--ref <files...>` | Reference images for style/composition guidance |
+| `--type <name>` | hero、conceptual、typography、metaphor、scene、minimal |
+| `--palette <name>` | warm、elegant、cool、dark、earth、vivid、pastel、mono、retro |
+| `--rendering <name>` | flat-vector、hand-drawn、painterly、digital、pixel、chalk |
+| `--style <name>` | 预设简写（见 [Style Presets](references/style-presets.md)） |
+| `--text <level>` | none、title-only、title-subtitle、text-rich |
+| `--mood <level>` | subtle、balanced、bold |
+| `--font <name>` | clean、handwritten、serif、display |
+| `--aspect <ratio>` | 16:9（默认）、2.35:1、4:3、3:2、1:1、3:4 |
+| `--lang <code>` | 标题语言（en、zh、ja 等） |
+| `--no-title` | `--text none` 的别名 |
+| `--quick` | 跳过确认，直接使用自动选择 |
+| `--ref <files...>` | 用于风格或构图参考的参考图 |
 
-## Five Dimensions
+## 五个维度
 
-| Dimension | Values | Default |
+| 维度 | 可选值 | 默认 |
 |-----------|--------|---------|
-| **Type** | hero, conceptual, typography, metaphor, scene, minimal | auto |
-| **Palette** | warm, elegant, cool, dark, earth, vivid, pastel, mono, retro | auto |
-| **Rendering** | flat-vector, hand-drawn, painterly, digital, pixel, chalk | auto |
-| **Text** | none, title-only, title-subtitle, text-rich | title-only |
-| **Mood** | subtle, balanced, bold | balanced |
-| **Font** | clean, handwritten, serif, display | clean |
+| **Type** | hero、conceptual、typography、metaphor、scene、minimal | auto |
+| **Palette** | warm、elegant、cool、dark、earth、vivid、pastel、mono、retro | auto |
+| **Rendering** | flat-vector、hand-drawn、painterly、digital、pixel、chalk | auto |
+| **Text** | none、title-only、title-subtitle、text-rich | title-only |
+| **Mood** | subtle、balanced、bold | balanced |
+| **Font** | clean、handwritten、serif、display | clean |
 
-Auto-selection rules: [references/auto-selection.md](references/auto-selection.md)
+自动选择规则见：[references/auto-selection.md](references/auto-selection.md)
 
-## Galleries
+## 图库
 
-**Types**: hero, conceptual, typography, metaphor, scene, minimal
-→ Details: [references/types.md](references/types.md)
+**Types**：hero、conceptual、typography、metaphor、scene、minimal  
+→ 详见：[references/types.md](references/types.md)
 
-**Palettes**: warm, elegant, cool, dark, earth, vivid, pastel, mono, retro
-→ Details: [references/palettes/](references/palettes/)
+**Palettes**：warm、elegant、cool、dark、earth、vivid、pastel、mono、retro  
+→ 详见：[references/palettes/](references/palettes/)
 
-**Renderings**: flat-vector, hand-drawn, painterly, digital, pixel, chalk
-→ Details: [references/renderings/](references/renderings/)
+**Renderings**：flat-vector、hand-drawn、painterly、digital、pixel、chalk  
+→ 详见：[references/renderings/](references/renderings/)
 
-**Text Levels**: none (pure visual) | title-only (default) | title-subtitle | text-rich (with tags)
-→ Details: [references/dimensions/text.md](references/dimensions/text.md)
+**Text Levels**：none（纯视觉）| title-only（默认）| title-subtitle | text-rich（包含标签）  
+→ 详见：[references/dimensions/text.md](references/dimensions/text.md)
 
-**Mood Levels**: subtle (low contrast) | balanced (default) | bold (high contrast)
-→ Details: [references/dimensions/mood.md](references/dimensions/mood.md)
+**Mood Levels**：subtle（低对比）| balanced（默认）| bold（高对比）  
+→ 详见：[references/dimensions/mood.md](references/dimensions/mood.md)
 
-**Fonts**: clean (sans-serif) | handwritten | serif | display (bold decorative)
-→ Details: [references/dimensions/font.md](references/dimensions/font.md)
+**Fonts**：clean（无衬线）| handwritten | serif | display（装饰性强）  
+→ 详见：[references/dimensions/font.md](references/dimensions/font.md)
 
-## File Structure
+## 文件结构
 
-Output directory per `default_output_dir` preference:
-- `same-dir`: `{article-dir}/`
-- `imgs-subdir`: `{article-dir}/imgs/`
-- `independent` (default): `cover-image/{topic-slug}/`
+输出目录由 `default_output_dir` 决定：
+- `same-dir`：`{article-dir}/`
+- `imgs-subdir`：`{article-dir}/imgs/`
+- `independent`（默认）：`cover-image/{topic-slug}/`
 
-```
+```text
 <output-dir>/
-├── source-{slug}.{ext}    # Source files
-├── refs/                  # Reference images (if provided)
+├── source-{slug}.{ext}    # 源文件
+├── refs/                  # 参考图（如果有）
 │   ├── ref-01-{slug}.{ext}
-│   └── ref-01-{slug}.md   # Description file
-├── prompts/cover.md       # Generation prompt
-└── cover.png              # Output image
+│   └── ref-01-{slug}.md   # 描述文件
+├── prompts/cover.md       # 生成 prompt
+└── cover.png              # 输出图片
 ```
 
-**Slug**: 2-4 words, kebab-case. Conflict: append `-YYYYMMDD-HHMMSS`
+**Slug**：2-4 个词，kebab-case。冲突时追加 `-YYYYMMDD-HHMMSS`
 
-## Workflow
+## 工作流
 
-### Progress Checklist
+### 进度清单
 
-```
+```text
 Cover Image Progress:
-- [ ] Step 0: Check preferences (EXTEND.md) ⛔ BLOCKING
-- [ ] Step 1: Analyze content + save refs + determine output dir
-- [ ] Step 2: Confirm options (6 dimensions) ⚠️ unless --quick
-- [ ] Step 3: Create prompt
-- [ ] Step 4: Generate image
-- [ ] Step 5: Completion report
+- [ ] Step 0: 检查偏好 / 配置 ⛔ BLOCKING
+- [ ] Step 1: 分析内容 + 保存 refs + 确定输出目录
+- [ ] Step 2: 确认选项（6 个维度）⚠️ 除非 --quick
+- [ ] Step 3: 创建 prompt
+- [ ] Step 4: 生成图片
+- [ ] Step 5: 完成报告
 ```
 
-### Flow
+### 流程图
 
-```
+```text
 Input → [Step 0: Preferences] ─┬─ Found → Continue
-                               └─ Not found → First-Time Setup ⛔ BLOCKING → Save EXTEND.md → Continue
+                               └─ Not found → First-Time Setup ⛔ BLOCKING → Save config.json → Continue
         ↓
 Analyze + Save Refs → [Output Dir] → [Confirm: 6 Dimensions] → Prompt → Generate → Complete
                                               ↓
                                      (skip if --quick or all specified)
 ```
 
-### Step 0: Load Preferences ⛔ BLOCKING
+### 第 0 步：加载偏好 ⛔ 阻塞步骤
 
-Check EXTEND.md existence (priority: project → user):
+优先走共享 loader：
+
 ```bash
-# macOS, Linux, WSL, Git Bash
-test -f .gino-skills/cover-image/EXTEND.md && echo "project"
-test -f "$HOME/.gino-skills/cover-image/EXTEND.md" && echo "user"
+bun scripts/examples/cover_image_config_state.ts read
+```
+
+只有在排查路径解析问题时，才手动检查文件：
+
+```bash
+test -f .gino-skills/cover-image/config.json && echo "project-config"
+test -f "$HOME/.gino-skills/cover-image/config.json" && echo "user-config"
+test -f .gino-skills/cover-image/EXTEND.md && echo "project-extend"
+test -f "$HOME/.gino-skills/cover-image/EXTEND.md" && echo "user-extend"
 ```
 
 ```powershell
-# PowerShell (Windows)
-if (Test-Path .gino-skills/cover-image/EXTEND.md) { "project" }
-if (Test-Path "$HOME/.gino-skills/cover-image/EXTEND.md") { "user" }
+if (Test-Path .gino-skills/cover-image/config.json) { "project-config" }
+if (Test-Path "$HOME/.gino-skills/cover-image/config.json") { "user-config" }
+if (Test-Path .gino-skills/cover-image/EXTEND.md) { "project-extend" }
+if (Test-Path "$HOME/.gino-skills/cover-image/EXTEND.md") { "user-extend" }
 ```
 
-| Result | Action |
+| 结果 | 动作 |
 |--------|--------|
-| Found | Load, display summary → Continue |
-| Not found | ⛔ Run first-time setup ([references/config/first-time-setup.md](references/config/first-time-setup.md)) → Save → Continue |
+| Found `config.json` | 加载并展示摘要 → 继续 |
+| Not found | ⛔ 运行首次配置（[references/config/first-time-setup.md](references/config/first-time-setup.md)）→ 保存 `config.json` → 继续 |
 
-**CRITICAL**: If not found, complete setup BEFORE any other steps or questions.
+**关键要求**：如果没找到配置，必须先完成 setup，再继续后续任何步骤或问题。
 
-### Step 1: Analyze Content
+### 第 1 步：分析内容
 
-1. **Save reference images** (if provided) → [references/workflow/reference-images.md](references/workflow/reference-images.md)
-2. **Save source content** (if pasted, save to `source.md`)
-3. **Analyze content**: topic, tone, keywords, visual metaphors
-4. **Deep analyze references** ⚠️: Extract specific, concrete elements (see reference-images.md)
-5. **Detect language**: Compare source, user input, EXTEND.md preference
-6. **Determine output directory**: Per File Structure rules
+1. **保存参考图**（如果有）→ [references/workflow/reference-images.md](references/workflow/reference-images.md)
+2. **保存源内容**（如果是粘贴输入，就保存为 `source.md`）
+3. **分析内容**：主题、语气、关键词、视觉隐喻
+4. **深度分析参考图** ⚠️：提炼具体、可操作的风格元素
+5. **识别语言**：结合源内容、用户输入和配置偏好判断
+6. **确定输出目录**：按上面的文件结构规则落盘
 
-### Step 2: Confirm Options ⚠️
+### 第 2 步：确认选项 ⚠️
 
-Full confirmation flow: [references/workflow/confirm-options.md](references/workflow/confirm-options.md)
+完整确认流程见：[references/workflow/confirm-options.md](references/workflow/confirm-options.md)
 
-| Condition | Skipped | Still Asked |
+| 条件 | 可跳过内容 | 仍需确认 |
 |-----------|---------|-------------|
-| `--quick` or `quick_mode: true` | 6 dimensions | Aspect ratio (unless `--aspect`) |
-| All 6 + `--aspect` specified | All | None |
+| `--quick` 或配置中 `quick_mode: true` | 6 个维度 | 宽高比（除非传了 `--aspect`） |
+| 6 个维度和 `--aspect` 都已显式给出 | 全部 | 无 |
 
-### Step 3: Create Prompt
+### 第 3 步：创建 Prompt
 
-Save to `prompts/cover.md`. Template: [references/workflow/prompt-template.md](references/workflow/prompt-template.md)
+保存到 `prompts/cover.md`。模板见：[references/workflow/prompt-template.md](references/workflow/prompt-template.md)
 
-**CRITICAL - References in Frontmatter**:
-- Files saved to `refs/` → Add to frontmatter `references` list
-- Style extracted verbally (no file) → Omit `references`, describe in body
-- Before writing → Verify: `test -f refs/ref-NN-{slug}.{ext}`
+**关键要求：Frontmatter 中 references 的处理方式**
+- 如果文件已保存到 `refs/` → 加入 frontmatter 的 `references` 列表
+- 如果只是从参考图中抽取了风格描述，没有直接引用文件 → 不要写 `references`，而是在正文里描述
+- 写入前必须验证：`test -f refs/ref-NN-{slug}.{ext}`
 
-**Reference elements in body** MUST be detailed, prefixed with "MUST"/"REQUIRED", with integration approach.
+正文里引用参考图时，必须写得具体、明确，并用 `MUST` / `REQUIRED` 这种强约束词说明如何整合。
 
-### Step 4: Generate Image
+### 第 4 步：生成图片
 
-1. **Backup existing** `cover.png` if regenerating
-2. **Check image generation skills**; if multiple, ask preference
-3. **Process references** from prompt frontmatter:
-   - `direct` usage → pass via `--ref` (use ref-capable backend)
-   - `style`/`palette` → extract traits, append to prompt
-4. **Generate**: Call skill with prompt file, output path, aspect ratio
-5. On failure: auto-retry once
+1. 如果要重生成，先备份已有的 `cover.png`
+2. 检查可用的图片生成 skill；如果有多个，询问用户偏好
+3. 处理 prompt frontmatter 里的 references：
+   - `direct` → 通过 `--ref` 传给支持参考图的后端
+   - `style` / `palette` → 提炼风格特征后拼接进 prompt 正文
+4. 调用图片生成 skill，传入 prompt 文件、输出路径和宽高比
+5. 失败时自动重试一次
 
-### Step 5: Completion Report
+### 第 5 步：完成报告
 
-```
+```text
 Cover Generated!
 
 Topic: [topic]
@@ -204,37 +213,67 @@ Files:
 ✓ cover.png
 ```
 
-## Image Modification
+## 图片修改
 
-| Action | Steps |
+| 动作 | 步骤 |
 |--------|-------|
-| **Regenerate** | Backup → Update prompt file FIRST → Regenerate |
-| **Change dimension** | Backup → Confirm new value → Update prompt → Regenerate |
+| **Regenerate** | 备份 → 先更新 prompt 文件 → 再重新生成 |
+| **Change dimension** | 备份 → 确认新值 → 更新 prompt → 重新生成 |
 
-## Composition Principles
+## 构图原则
 
-- **Whitespace**: 40-60% breathing room
-- **Visual anchor**: Main element centered or offset left
-- **Characters**: Simplified silhouettes; NO realistic humans
-- **Title**: Use exact title from user/source; never invent
+- **留白**：保留 40-60% 的呼吸空间
+- **视觉锚点**：主元素居中或偏左
+- **人物**：使用简化剪影；不要生成写实人像
+- **标题**：必须使用用户或源文中的真实标题，不能凭空编造
 
-## Extension Support
+## 运行时约定
 
-Custom configurations via EXTEND.md. See **Step 0** for paths.
+本技能遵循 `docs/skill-runtime-conventions.md`。
 
-Supports: Watermark | Preferred dimensions | Default aspect/output | Quick mode | Custom palettes | Language
+- 首选配置：`.gino-skills/cover-image/config.json`
+- 用户级回退配置：`$HOME/.gino-skills/cover-image/config.json`
+- 兼容旧版：`.gino-skills/cover-image/EXTEND.md` 和 `$HOME/.gino-skills/cover-image/EXTEND.md`
+
+## 共享脚本
+
+- `scripts/shared/cover_image_config.ts`：统一解析 `config.json`，并兼容 legacy `EXTEND.md`
+- `scripts/examples/cover_image_config_state.ts`：输出当前命中的配置来源、路径和摘要
+
+## Worker 入口
+
+优先使用统一 loader，而不是手写文件探测：
+
+```bash
+bun scripts/examples/cover_image_config_state.ts paths
+bun scripts/examples/cover_image_config_state.ts read
+```
+
+## 扩展配置支持
+
+自定义配置优先使用 `config.json`；legacy `EXTEND.md` 仅保留兼容用途。主入口和回退路径见 **Step 0**。
+
+## Legacy 兼容附录
+
+迁移期内仍保留 legacy `EXTEND.md` 回退路径，但它仅用于兼容，不应出现在主流程中。详见 [docs/deprecation-roadmap.md](/Users/gino/Documents/Github/gino-skills/docs/deprecation-roadmap.md)。
+
+Fallback paths:
+- `.gino-skills/cover-image/EXTEND.md`
+- `$HOME/.gino-skills/cover-image/EXTEND.md`
+
+支持项：Watermark | Preferred dimensions | Default aspect/output | Quick mode | Custom palettes | Language
 
 Schema: [references/config/preferences-schema.md](references/config/preferences-schema.md)
 
-## References
+## 参考资料
 
-**Dimensions**: [text.md](references/dimensions/text.md) | [mood.md](references/dimensions/mood.md) | [font.md](references/dimensions/font.md)
-**Palettes**: [references/palettes/](references/palettes/)
-**Renderings**: [references/renderings/](references/renderings/)
-**Types**: [references/types.md](references/types.md)
-**Auto-Selection**: [references/auto-selection.md](references/auto-selection.md)
-**Style Presets**: [references/style-presets.md](references/style-presets.md)
-**Compatibility**: [references/compatibility.md](references/compatibility.md)
-**Visual Elements**: [references/visual-elements.md](references/visual-elements.md)
-**Workflow**: [confirm-options.md](references/workflow/confirm-options.md) | [prompt-template.md](references/workflow/prompt-template.md) | [reference-images.md](references/workflow/reference-images.md)
-**Config**: [preferences-schema.md](references/config/preferences-schema.md) | [first-time-setup.md](references/config/first-time-setup.md) | [watermark-guide.md](references/config/watermark-guide.md)
+**Dimensions**： [text.md](references/dimensions/text.md) | [mood.md](references/dimensions/mood.md) | [font.md](references/dimensions/font.md)  
+**Palettes**： [references/palettes/](references/palettes/)  
+**Renderings**： [references/renderings/](references/renderings/)  
+**Types**： [references/types.md](references/types.md)  
+**Auto-Selection**： [references/auto-selection.md](references/auto-selection.md)  
+**Style Presets**： [references/style-presets.md](references/style-presets.md)  
+**Compatibility**： [references/compatibility.md](references/compatibility.md)  
+**Visual Elements**： [references/visual-elements.md](references/visual-elements.md)  
+**Workflow**： [confirm-options.md](references/workflow/confirm-options.md) | [prompt-template.md](references/workflow/prompt-template.md) | [reference-images.md](references/workflow/reference-images.md)  
+**Config**： [preferences-schema.md](references/config/preferences-schema.md) | [first-time-setup.md](references/config/first-time-setup.md) | [watermark-guide.md](references/config/watermark-guide.md)

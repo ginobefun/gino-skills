@@ -1,8 +1,8 @@
-# Gino Skills
+# Gino Skills 技能集合
 
 个人 Claude Code Skills 集合，服务于 [Content OS](docs/content-os-plan-v2.md) 个人内容操作系统。
 
-> **40 个 Skills** 覆盖从内容获取、筛选、阅读、创作到多渠道分发的完整链路。
+> **43 个 Skills** 覆盖从内容获取、筛选、阅读、创作到多渠道分发的完整链路。
 
 ## Skills 总览
 
@@ -28,7 +28,7 @@
 
 ---
 
-## 一、BestBlogs 内容平台 Skills (13 个)
+## 一、BestBlogs 内容平台 Skills (16 个)
 
 从 [BestBlogs.dev](https://bestblogs.dev) 获取、处理、策展、生成内容。
 
@@ -38,10 +38,13 @@
 |-------|------|------|
 | [bestblogs-fetcher](skills/bestblogs-fetcher/) | 拉取文章、播客、视频、推文、期刊内容 | REST API |
 | [bestblogs-add-source](skills/bestblogs-add-source/) | 从文本或 OPML 批量添加 RSS 订阅源 | Admin API |
-| [bestblogs-process-videos](skills/bestblogs-process-videos/) | 批量转录视频、深度分析评分，≥80 分自动翻译 | Admin API + Gemini 转录 + AI 分析/翻译 |
+| [bestblogs-fetch-pending-content](skills/bestblogs-fetch-pending-content/) | 查询待处理队列（WAIT_PREPARE / WAIT_ANALYSIS / WAIT_TRANSLATE） | Admin API |
+| [bestblogs-analyze-content](skills/bestblogs-analyze-content/) | 对单条待处理内容执行结构化分析并保存 | Admin API + AI 分析 |
+| [bestblogs-translate-analysis-result](skills/bestblogs-translate-analysis-result/) | 对已分析结果执行翻译并保存 | Admin API + AI 翻译 |
+| [bestblogs-process-videos](skills/bestblogs-process-videos/) | 视频处理编排器：队列选择 → 转录/分析 → 翻译 | Admin API + Gemini 转录 + AI 分析/翻译 |
 | [bestblogs-transcribe-youtube](skills/bestblogs-transcribe-youtube/) | 通过 Gemini Gem 转写单个 YouTube 视频 | Chrome AppleScript + Gemini |
-| [bestblogs-process-articles](skills/bestblogs-process-articles/) | 批量获取文章正文、深度分析并更新，≥80 分自动翻译 | Admin API + AI 分析/翻译 |
-| [bestblogs-process-podcasts](skills/bestblogs-process-podcasts/) | 审校播客转录内容、深度分析并评分，≥80 分自动翻译 | Admin API + AI 审校/分析/翻译 |
+| [bestblogs-process-articles](skills/bestblogs-process-articles/) | 文章处理编排器：队列选择 → 分析 → 翻译 | Admin API + AI 分析/翻译 |
+| [bestblogs-process-podcasts](skills/bestblogs-process-podcasts/) | 播客处理编排器：队列选择 → 审校/分析 → 翻译 | Admin API + AI 审校/分析/翻译 |
 | [bestblogs-process-tweets](skills/bestblogs-process-tweets/) | 按作者分组批量分析推文并更新 | Admin API + AI 分析 |
 
 ### 评审与策展
@@ -103,7 +106,7 @@
 
 | Skill | 功能 | 技术 |
 |-------|------|------|
-| [deep-reading](skills/deep-reading/) | 15+ 思维框架深度分析（SCQA、MECE、第一性原理、系统思维等） | Jina Reader + 多层框架 |
+| [read-deeply](skills/deep-reading/) | 15+ 思维框架深度分析（SCQA、MECE、第一性原理、系统思维等） | Jina Reader + 多层框架 |
 
 ### 图片生成
 
@@ -138,10 +141,10 @@
 
 | Skill | 功能 | 在流程中的位置 |
 |-------|------|---------------|
-| [daily-content-management](skills/daily-content-management/) | 每日内容全流程编排器（获取 → 选题 → 创作 → 分发） | 总控 |
-| [daily-content-curator](skills/daily-content-curator/) | 跨 BestBlogs + Twitter 多维度评分，输出分层阅读清单 | ② 筛选 |
-| [reading-workflow](skills/reading-workflow/) | 逐篇阅读引导 + 思考反馈 + 创作素材收集 | ③ 阅读 |
-| [content-synthesizer](skills/content-synthesizer/) | 多平台内容生成（博客/推文/公众号/小红书/即刻/知乎） | ④ 创作 |
+| [manage-daily-content](skills/daily-content-management/) | 每日内容全流程编排器（获取 → 选题 → 创作 → 分发） | 总控 |
+| [curate-daily-content](skills/daily-content-curator/) | 跨 BestBlogs + Twitter 多维度评分，输出分层阅读清单 | ② 筛选 |
+| [guide-reading](skills/reading-workflow/) | 逐篇阅读引导 + 思考反馈 + 创作素材收集 | ③ 阅读 |
+| [synthesize-content](skills/content-synthesizer/) | 多平台内容生成（博客/推文/公众号/小红书/即刻/知乎） | ④ 创作 |
 | [content-analytics](skills/content-analytics/) | X/Twitter 发布数据回收，周度/月度分析报告 | ⑤ 反馈 |
 
 ---
@@ -211,10 +214,10 @@
 ### 深度阅读 → 创作 → 发布
 
 ```
-"深度阅读 https://..."  →  deep-reading 分析
-    → "基于这篇写推文"  →  content-synthesizer 生成
+"深度阅读 https://..."  →  read-deeply 分析
+    → "基于这篇写推文"  →  synthesize-content 生成
     → "发布到推特"       →  post-to-x 发布
-    → "也写一篇公众号"   →  content-synthesizer 生成
+    → "也写一篇公众号"   →  synthesize-content 生成
     → "发到公众号"       →  post-to-wechat 发布
 ```
 
@@ -253,9 +256,9 @@
                                               ↓
 8:00  content-reviewer ──→ 评分 review ──→ 推荐阅读清单
          ↓                                    ↓
-8:30  人工调分                          deep-reading → reading-workflow
+8:30  人工调分                          read-deeply → guide-reading
                                               ↓
-                                     content-synthesizer（多平台内容生成）
+                                     synthesize-content（多平台内容生成）
                                         ↓        ↓        ↓
                                     post-to-x  post-to-wechat  blog
 

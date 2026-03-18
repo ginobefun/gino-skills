@@ -8,7 +8,7 @@
 
 **关键原则**: 这不是一份填空模板。每期视频的结构应该由内容本身决定。你的配音应该让观众觉得"这个人真的看懂了这些内容，在帮我提炼价值"。
 
-**风格锚点**: 脚本**必须**读取 `contents/style-profile.md`，注入个人声音特征。以下原则与 style-profile 对齐，style-profile 有更新时以 style-profile 为准。
+**风格锚点**: 脚本**必须**优先读取 `${CLAUDE_PLUGIN_DATA}/gino-skills/manage-daily-content/memory/style-profile.md`，仅在缺失时临时兼容旧路径 `contents/style-profile.md`，注入个人声音特征。以下原则与 stable style-profile 对齐。
 
 ---
 

@@ -1,26 +1,26 @@
-# Step 2: Confirm Options
+# Step 2：确认选项
 
-## Purpose
+## 目标
 
-Validate all 6 dimensions + aspect ratio.
+确认 6 个维度 + 宽高比。
 
-## Skip Conditions
+## 跳过条件
 
-| Condition | Skipped Questions | Still Asked |
-|-----------|-------------------|-------------|
-| `--quick` flag | Type, Palette, Rendering, Text, Mood, Font | **Aspect Ratio** (unless `--aspect` specified) |
-| All 6 dimensions + `--aspect` specified | All | None |
-| `quick_mode: true` in EXTEND.md | Type, Palette, Rendering, Text, Mood, Font | **Aspect Ratio** (unless `--aspect` specified) |
-| Otherwise | None | All 7 questions |
+| 条件 | 可跳过的问题 | 仍需询问 |
+|------|--------------|----------|
+| 传入 `--quick` | Type、Palette、Rendering、Text、Mood、Font | **Aspect Ratio**（除非显式指定 `--aspect`） |
+| 6 个维度和 `--aspect` 都已显式传入 | 全部 | 无 |
+| `config.json` 中 `quick_mode: true` | Type、Palette、Rendering、Text、Mood、Font | **Aspect Ratio**（除非显式指定 `--aspect`） |
+| 其他情况 | 无 | 全部 7 个问题 |
 
-**Important**: Aspect ratio is ALWAYS asked unless explicitly specified via `--aspect` CLI flag. User presets in EXTEND.md are shown as recommended option, not auto-selected.
+**重要**：除非 CLI 明确传了 `--aspect`，否则永远都要确认宽高比。`config.json` 里的预设只能作为推荐值展示，不能直接跳过。
 
-## Quick Mode Output
+## Quick Mode 输出
 
-When skipping 6 dimensions:
+当跳过前 6 个维度时，输出类似：
 
-```
-Quick Mode: Auto-selected dimensions
+```text
+Quick Mode：自动选择的维度
 • Type: [type] ([reason])
 • Palette: [palette] ([reason])
 • Rendering: [rendering] ([reason])
@@ -28,125 +28,125 @@ Quick Mode: Auto-selected dimensions
 • Mood: [mood] ([reason])
 • Font: [font] ([reason])
 
-[Then ask Question 7: Aspect Ratio]
+[然后继续问 Question 7: Aspect Ratio]
 ```
 
-## Confirmation Flow
+## 确认流程
 
-**Language**: Auto-determined (user's input language > saved preference > source language). No need to ask.
+**语言**：自动决定（用户输入语言 > 已保存偏好 > 来源语言），不需要额外询问。
 
-Present ALL options in a **single AskUserQuestion call** (4 questions max).
+把所有问题放进一次 `AskUserQuestion` 调用中（最多 4 个）。
 
-Skip any question where the dimension is already specified via CLI flag or `--style` preset.
+对于已经通过 CLI 指定，或已由 `--style` 预设覆盖的维度，可以跳过对应问题。
 
-### Q1: Type (skip if `--type`)
+### Q1：Type（若已传 `--type` 则跳过）
 
 ```yaml
 header: "Type"
-question: "Which cover type?"
+question: "封面图用哪种 type？"
 multiSelect: false
 options:
   - label: "[auto-recommended type] (Recommended)"
-    description: "[reason based on content signals]"
+    description: "[基于内容信号给出的理由]"
   - label: "hero"
-    description: "Large visual impact, title overlay - product launch, announcements"
+    description: "强视觉冲击 + 标题覆盖，适合发布、公告"
   - label: "conceptual"
-    description: "Concept visualization - technical, architecture"
+    description: "概念表达，适合技术、架构、抽象主题"
   - label: "typography"
-    description: "Text-focused layout - opinions, quotes"
+    description: "文字优先，适合观点、引语、短标题"
 ```
 
-### Q2: Palette (skip if `--palette` or `--style`)
+### Q2：Palette（若已传 `--palette` 或 `--style` 则跳过）
 
 ```yaml
 header: "Palette"
-question: "Which color palette?"
+question: "颜色方案选哪种？"
 multiSelect: false
 options:
   - label: "[auto-recommended palette] (Recommended)"
-    description: "[reason based on content signals]"
+    description: "[基于内容信号给出的理由]"
   - label: "warm"
-    description: "Friendly - orange, golden yellow, terracotta"
+    description: "友好、温暖：orange / golden yellow / terracotta"
   - label: "elegant"
-    description: "Sophisticated - soft coral, muted teal, dusty rose"
+    description: "克制、高级：soft coral / muted teal / dusty rose"
   - label: "cool"
-    description: "Technical - engineering blue, navy, cyan"
+    description: "技术感：engineering blue / navy / cyan"
 ```
 
-### Q3: Rendering (skip if `--rendering` or `--style`)
+### Q3：Rendering（若已传 `--rendering` 或 `--style` 则跳过）
 
-Show compatible renderings (✓✓ first from compatibility matrix):
+优先展示兼容度最高的 rendering：
 
 ```yaml
 header: "Rendering"
-question: "Which rendering style?"
+question: "渲染风格选哪种？"
 multiSelect: false
 options:
   - label: "[best compatible rendering] (Recommended)"
-    description: "[reason based on palette + type + content]"
+    description: "[基于 palette + type + content 的理由]"
   - label: "flat-vector"
-    description: "Clean outlines, flat fills, geometric icons"
+    description: "干净描边、纯色填充、几何图形"
   - label: "hand-drawn"
-    description: "Sketchy, organic, imperfect strokes"
+    description: "更有手感，线条更自由"
   - label: "digital"
-    description: "Polished, precise, subtle gradients"
+    description: "更精致、边缘更准、渐变更细"
 ```
 
-### Q4: Font (skip if `--font`)
+### Q4：Font（若已传 `--font` 则跳过）
 
 ```yaml
 header: "Font"
-question: "Which font style?"
+question: "字体风格选哪种？"
 multiSelect: false
 options:
   - label: "[auto-recommended font] (Recommended)"
-    description: "[reason based on content signals]"
+    description: "[基于内容信号给出的理由]"
   - label: "clean"
-    description: "Modern geometric sans-serif - tech, professional"
+    description: "现代几何无衬线，偏技术、专业"
   - label: "handwritten"
-    description: "Warm hand-lettered - personal, friendly"
+    description: "更温暖，像手写"
   - label: "serif"
-    description: "Classic elegant - editorial, luxury"
+    description: "经典、优雅、偏 editorial"
   - label: "display"
-    description: "Bold decorative - announcements, entertainment"
+    description: "更夸张、更装饰化，适合公告或娱乐内容"
 ```
 
-### Q5: Other Settings (skip if all remaining dimensions already specified)
+### Q5：其他设置（若剩余维度都已明确则跳过）
 
-Combine remaining settings into one question. Include: Output Dir (if no preference + file path input), Text, Mood, Aspect. Show auto-selected values as recommended option. User can accept all or type adjustments via "Other".
+把剩余项合并成一个问题。可能包括：输出目录（如果 file path 模式且没有默认偏好）、Text、Mood、Aspect。自动推荐值作为第一项，用户也可以通过 “Other” 自定义。
 
-**When output dir needs asking** (no `default_output_dir` preference + file path input):
+**当输出目录仍需询问时**：
 
 ```yaml
 header: "Settings"
-question: "Output / Text / Mood / Aspect?"
+question: "输出目录 / Text / Mood / Aspect 怎么选？"
 multiSelect: false
 options:
   - label: "imgs/ / [auto-text] / [auto-mood] / [preset-aspect] (Recommended)"
     description: "{article-dir}/imgs/, [text reason], [mood reason], [aspect source]"
   - label: "same-dir / [auto-text] / [auto-mood] / [preset-aspect]"
-    description: "{article-dir}/, same directory as article"
+    description: "{article-dir}/，与文章同目录"
   - label: "independent / [auto-text] / [auto-mood] / [preset-aspect]"
-    description: "cover-image/{topic-slug}/, separate from article"
+    description: "cover-image/{topic-slug}/，使用独立目录"
 ```
 
-**When output dir already set** (preference exists or pasted content):
+**如果输出目录已固定**（已有偏好，或当前是 paste 模式）：
 
 ```yaml
 header: "Settings"
-question: "Text / Mood / Aspect?"
+question: "Text / Mood / Aspect 怎么选？"
 multiSelect: false
 options:
   - label: "[auto-text] / [auto-mood] / [preset-aspect] (Recommended)"
-    description: "Auto-selected: [text reason], [mood reason], [aspect source]"
+    description: "自动选择：[text reason], [mood reason], [aspect source]"
   - label: "[auto-text] / bold / [preset-aspect]"
-    description: "High contrast, vivid — matches [content signal]"
+    description: "高对比、更鲜明，适合 [content signal]"
   - label: "[auto-text] / subtle / [preset-aspect]"
-    description: "Low contrast, muted — calm, professional"
+    description: "低对比、更克制，适合平静、专业内容"
 ```
 
-*Note*: "Other" (auto-added) allows typing custom combo. Parse `/`-separated values matching the question format.
+说明：“Other” 会自动出现，可让用户输入自定义组合。解析时按 `/` 分隔并匹配问题顺序。
 
-## After Response
+## 回答后
 
-Proceed to Step 3 with confirmed dimensions.
+进入 Step 3，并使用确认后的维度继续生成。

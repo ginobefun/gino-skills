@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "manage-daily-content config",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "style_profile_path": { "type": ["string", "null"] },
+    "legacy_style_profile_path": { "type": ["string", "null"] },
+    "daily_output_root": { "type": ["string", "null"] },
+    "max_selected_topics": { "type": ["integer", "null"], "minimum": 1 },
+    "auto_archive_days": { "type": ["integer", "null"], "minimum": 1 }
+  }
+}

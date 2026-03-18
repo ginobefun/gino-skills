@@ -1,16 +1,60 @@
 ---
-name: content-synthesizer
-description: "将阅读笔记、文章洞察或个人思考转化为多平台适配的内容。适用场景：(1) 将深度阅读笔记转化为博客文章，(2) 将文章洞察改写为推文/推文串，(3) 将阅读素材转为公众号文章，(4) 生成小红书笔记文案，(5) 将英文内容转为中文创作，(6) 一次阅读生成多平台内容，(7) 基于个人思考扩展为完整文章，(8) 将技术内容转为通俗解读。触发短语：'内容转化', '生成博客', '写推文', '转为公众号文章', '小红书文案', '内容合成', 'content synthesize', 'write blog post', 'generate tweets', 'create content', '帮我写一篇', '把这个写成', '转化为', '改写为', '生成内容', '多平台内容', '内容创作', '写一篇文章', '发一条推特', '素材转内容'"
+name: synthesize-content
+description: "Use when 用户想把素材转换成一个或多个平台可直接发布的内容，例如博客、推文、微信公众号文章、小红书笔记或知乎帖子。"
 ---
 
 # 内容合成器 (Content Synthesizer)
 
 将阅读笔记、文章洞察或个人思考转化为多种平台适配的内容格式。核心能力是理解素材本质，结合个人视角，生成适合不同平台的高质量原创内容。
 
+## When to Use
+
+- 当用户已经有素材，希望把它写成一个或多个平台可发布的草稿
+- 当用户想把阅读笔记、文章洞察、推文想法或个人思考转成成品文案
+- 当用户明确要求多平台适配，而不是只做选题或只做发布
+
+## When Not to Use
+
+- 还在找今天该写什么：用 `curate-daily-content`
+- 想按流程逐篇阅读和记录想法：用 `guide-reading`
+- 只想对单篇材料做深度框架分析：用 `read-deeply`
+- 已有文案，只想直接发到平台：用 `post-to-x`、`post-to-wechat`
+
+## Gotchas
+
+- 不要替用户编造第一手经验、实践结果或态度；素材里没有的个人经验必须显式留白
+- 如果输入素材不足，先指出缺口，不要靠模板话术硬凑完整文章
+- 这里产出的是草稿和成稿，不应自动触发发布
+- 平台适配不等于同一段话机械改写；需要根据平台目标重组结构和密度
+
+## Related Skills
+
+- `curate-daily-content`：发现值得写的主题
+- `guide-reading`：从阅读流程中沉淀素材
+- `read-deeply`：为重要文章生成高质量分析底稿
+- `post-to-x` / `post-to-wechat`：将已确认文案发布
+- `manage-daily-content`：在全流程里调度创作和分发
+
+## Boundary
+
+本 skill 只负责把素材变成内容：
+- 选题优先级不在这里决定
+- 阅读流程不在这里管理
+- 发布动作不在这里执行
+
+## Runtime Conventions
+
+This skill follows `docs/skill-runtime-conventions.md`.
+
+- Reusable synthesis preferences should eventually live in `.gino-skills/synthesize-content/config.json`
+- Durable memory or prior-run artifacts belong under `${CLAUDE_PLUGIN_DATA}/gino-skills/synthesize-content/` or `.gino-skills/data/synthesize-content/`
+- Daily source bundles and draft outputs remain in `contents/tmp/workspace/YYYY-MM-DD/`
+- `contents/style-profile.md` is a reusable content artifact, not a substitute for runtime config/state, and should be treated as a temporary compatibility mirror
+
 ### 个人风格加载
 
 按优先级加载写作风格参考：
-1. **风格画像**（优先）: 读取 `contents/style-profile.md` — 从用户真实博客和推文中提取的风格特征（语言特征、思维模式、平台风格差异、禁忌清单、代表性样本）
+1. **风格画像**（优先）: 读取 `${CLAUDE_PLUGIN_DATA}/gino-skills/manage-daily-content/memory/style-profile.md`，仅在缺失时临时兼容旧路径 `contents/style-profile.md`
 2. **用户画像**: 读取 `gino-bot/USER.md` — 基本信息、写作偏好
 3. **均不可用时**: 使用通用风格，告知用户"未加载个人画像，内容可能缺少个性化风格"
 
@@ -169,41 +213,9 @@ tags: [tag1, tag2, tag3]
 - 结尾加引导关注/转发
 - 可添加 "延伸阅读" 链接列表
 
-### 3.4 小红书笔记
+### 3.4-3.6 小红书 / 即刻 / 知乎
 
-**字数**: 300-800 字
-**结构**:
-```
-标题（含 emoji，吸引点击）
-
-正文:
-开头 1-2 句抓注意力
-
-🔑 关键点 1: ...
-🔑 关键点 2: ...
-🔑 关键点 3: ...
-
-💡 个人心得/实操建议
-
-#标签1 #标签2 #标签3 #标签4 #标签5
-```
-
-**风格**: 简洁实用、列表化、口语但不轻浮
-
-### 3.5 即刻动态
-
-**字数**: 100-500 字
-**风格**: 社区讨论感，像在跟朋友分享发现
-**结构**: 观点/发现 + 简要分析 + 邀请讨论
-
-### 3.6 知乎文章
-
-**字数**: 2000-5000 字
-**风格**: 专业深入，论证严密
-**与博客的差异**:
-- 更注重论证逻辑和数据引用
-- 段间过渡更明确
-- 适合用 Q&A 格式展开
+各平台的字数、结构和风格规范详见 `references/platform_specs.md`。
 
 ---
 
@@ -362,17 +374,4 @@ tags: [tag1, tag2, tag3]
 
 ## 与其他 Skill 的协作
 
-| 上游 Skill | 输入 | 说明 |
-|-----------|------|------|
-| deep-reading | 分析结果 + 核心洞察 | 最常见的输入来源 |
-| reading-workflow | `materials.md` 素材清单 | 批量素材输入，解析 `contents/reading-notes/YYYY-MM-DD/materials.md` |
-| bestblogs-fetcher | 文章元数据 | 提供基础素材 |
-| xgo-fetch-tweets | 推文内容 | 推文内容再创作 |
-
-| 下游 Skill | 输出 | 说明 |
-|-----------|------|------|
-| post-to-x | 推文/推文串 | 直接发布到 Twitter |
-| post-to-wechat | 公众号文章 | 直接发布到微信公众号 |
-| cover-image | 博客/公众号标题 | 生成封面图 |
-| article-illustrator | 文章内容 | 生成文章配图 |
-| image-gen | 内容主题 | 生成各类图片 |
+上下游 Skill 协作关系详见 `references/skill_collaboration.md`。

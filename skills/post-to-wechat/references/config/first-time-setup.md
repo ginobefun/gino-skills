@@ -1,71 +1,72 @@
 ---
 name: first-time-setup
-description: First-time setup flow for post-to-wechat preferences
+description: post-to-wechat 首次偏好设置流程
 ---
 
-# First-Time Setup
+# 首次设置
 
-## Overview
+## 概览
 
-When no EXTEND.md is found, guide user through preference setup.
+当找不到 `config.json` 时，必须先引导用户完成偏好设置。
 
-**BLOCKING OPERATION**: This setup MUST complete before ANY other workflow steps. Do NOT:
-- Ask about content or files to publish
-- Ask about themes or publishing methods
-- Proceed to content conversion or publishing
+**阻塞操作**：在设置完成前，禁止进入任何其他流程。不要：
 
-ONLY ask the questions in this setup flow, save EXTEND.md, then continue.
+- 询问要发布什么内容或文件
+- 询问主题、样式或发布方式细节
+- 继续进行转换或发布步骤
 
-## Setup Flow
+只执行本页中的设置流程，写入 `config.json`，然后再继续主工作流。
 
-```
-No EXTEND.md found
+## 设置流程
+
+```text
+未找到 config.json
         |
         v
 +---------------------+
 | AskUserQuestion     |
-| (all questions)     |
+| （一次问完）         |
 +---------------------+
         |
         v
 +---------------------+
-| Create EXTEND.md    |
+| 创建 config.json    |
 +---------------------+
         |
         v
-    Continue to Step 1
+继续 Step 1
 ```
 
-## Questions
+## 问题清单
 
-**Language**: Use user's input language or saved language preference.
+**语言**：使用用户当前输入语言，或已保存的语言偏好。
 
-Use AskUserQuestion with ALL questions in ONE call:
+用一次 `AskUserQuestion` 把所有问题一起问完：
 
-### Question 1: Default Theme
+### 问题 1：默认主题
 
 ```yaml
 header: "Theme"
-question: "Default theme for article conversion?"
+question: "文章转换默认使用哪个主题？"
 options:
   - label: "default (Recommended)"
-    description: "Classic layout - centered title with border, white-on-color H2 (default: blue)"
+    description: "经典布局：标题居中，H2 使用有底色的白字（默认蓝色）"
   - label: "grace"
-    description: "Elegant - text shadows, rounded cards, refined blockquotes (default: purple)"
+    description: "更优雅：文字阴影、圆角卡片、更精致的引用块（默认紫色）"
   - label: "simple"
-    description: "Minimal modern - asymmetric rounded corners, clean whitespace (default: green)"
+    description: "极简现代：不对称圆角、留白干净（默认绿色）"
   - label: "modern"
-    description: "Large rounded corners, pill headings, spacious (default: orange)"
+    description: "大圆角、胶囊标题、排版更宽松（默认橙色）"
 ```
 
-### Question 2: Default Color
+### 问题 2：默认颜色
 
 ```yaml
 header: "Color"
-question: "Default color preset? (theme default if not set)"
+question: "默认颜色预设是什么？（不设则使用主题默认值）"
 options:
   - label: "Theme default (Recommended)"
-    description: "Use the theme's built-in default color"
+    description: "直接使用主题内置默认颜色"
   - label: "blue"
     description: "#0F4C81 经典蓝"
   - label: "red"
@@ -74,94 +75,96 @@ options:
     description: "#009874 翡翠绿"
 ```
 
-Note: User can choose "Other" to type any preset name (vermilion, yellow, purple, sky, rose, olive, black, gray, pink, orange) or hex value.
+说明：如果用户选择 “Other”，可以输入其他预设名（如 `vermilion`、`yellow`、`purple`、`sky`、`rose`、`olive`、`black`、`gray`、`pink`、`orange`）或任意十六进制颜色。
 
-### Question 3: Default Publishing Method
+### 问题 3：默认发布方式
 
 ```yaml
 header: "Method"
-question: "Default publishing method?"
+question: "默认使用哪种发布方式？"
 options:
   - label: "api (Recommended)"
-    description: "Fast, requires API credentials (AppID + AppSecret)"
+    description: "速度快，但需要 API 凭据（AppID + AppSecret）"
   - label: "browser"
-    description: "Slow, requires Chrome and login session"
+    description: "速度慢，但只需要 Chrome 与登录态"
 ```
 
-### Question 4: Default Author
+### 问题 4：默认作者名
 
 ```yaml
 header: "Author"
-question: "Default author name for articles?"
+question: "文章默认作者名是什么？"
 options:
   - label: "No default"
-    description: "Leave empty, specify per article"
+    description: "留空，每篇文章单独指定"
 ```
 
-Note: User will likely choose "Other" to type their author name.
+说明：用户大概率会通过 “Other” 输入自己的作者名。
 
-### Question 5: Open Comments
+### 问题 5：默认开启评论
 
 ```yaml
 header: "Comments"
-question: "Enable comments on articles by default?"
+question: "文章默认是否开启评论？"
 options:
   - label: "Yes (Recommended)"
-    description: "Allow readers to comment on articles"
+    description: "允许读者评论"
   - label: "No"
-    description: "Disable comments by default"
+    description: "默认关闭评论"
 ```
 
-### Question 6: Fans-Only Comments
+### 问题 6：仅粉丝可评论
 
 ```yaml
 header: "Fans only"
-question: "Restrict comments to followers only?"
+question: "是否默认只允许粉丝评论？"
 options:
   - label: "No (Recommended)"
-    description: "All readers can comment"
+    description: "所有读者都可以评论"
   - label: "Yes"
-    description: "Only followers can comment"
+    description: "只有粉丝可以评论"
 ```
 
-### Question 7: Save Location
+### 问题 7：保存位置
 
 ```yaml
 header: "Save"
-question: "Where to save preferences?"
+question: "偏好保存到哪里？"
 options:
   - label: "Project (Recommended)"
-    description: ".gino-skills/ (this project only)"
+    description: ".gino-skills/（仅当前项目）"
   - label: "User"
-    description: "~/.gino-skills/ (all projects)"
+    description: "~/.gino-skills/（当前用户所有项目）"
 ```
 
-## Save Locations
+## 保存位置
 
-| Choice | Path | Scope |
-|--------|------|-------|
-| Project | `.gino-skills/post-to-wechat/EXTEND.md` | Current project |
-| User | `~/.gino-skills/post-to-wechat/EXTEND.md` | All projects |
+| 选项 | 路径 | 作用范围 |
+|------|------|----------|
+| Project | `.gino-skills/post-to-wechat/config.json` | 当前项目 |
+| User | `~/.gino-skills/post-to-wechat/config.json` | 当前用户所有项目 |
 
-## After Setup
+## 设置完成后
 
-1. Create directory if needed
-2. Write EXTEND.md
-3. Confirm: "Preferences saved to [path]"
-4. Continue to Step 0 (load the saved preferences)
+1. 如有需要先创建目录
+2. 写入 `config.json`
+3. 向用户确认：“偏好已保存到 [path]”
+4. 返回 Step 0，重新加载保存后的偏好
 
-## EXTEND.md Template
+## `config.json` 模板
 
-```md
-default_theme: [default/grace/simple/modern]
-default_color: [preset name, hex, or empty for theme default]
-default_publish_method: [api/browser]
-default_author: [author name or empty]
-need_open_comment: [1/0]
-only_fans_can_comment: [1/0]
-chrome_profile_path:
+```json
+{
+  "default_theme": "[default/grace/simple/modern]",
+  "default_color": "[preset name, hex, or null for theme default]",
+  "default_publish_method": "[api/browser]",
+  "default_author": "[author name or null]",
+  "need_open_comment": true,
+  "only_fans_can_comment": false,
+  "chrome_profile_path": null
+}
 ```
 
-## Modifying Preferences Later
+## 后续修改偏好
 
-Users can edit EXTEND.md directly or delete it to trigger setup again.
+用户可以直接编辑 `config.json`，也可以删除后重新触发设置流程。Legacy `EXTEND.md` 仅保留兼容用途。

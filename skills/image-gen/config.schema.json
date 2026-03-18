@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "image-gen config",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "default_provider": {
+      "type": ["string", "null"],
+      "enum": ["google", "openai", "dashscope", "replicate", null]
+    },
+    "default_quality": {
+      "type": ["string", "null"],
+      "enum": ["normal", "2k", null]
+    },
+    "default_aspect_ratio": {
+      "type": ["string", "null"]
+    },
+    "default_image_size": {
+      "type": ["string", "null"],
+      "enum": ["1K", "2K", "4K", null]
+    },
+    "default_model": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "google": { "type": ["string", "null"] },
+        "openai": { "type": ["string", "null"] },
+        "dashscope": { "type": ["string", "null"] },
+        "replicate": { "type": ["string", "null"] }
+      }
+    }
+  }
+}

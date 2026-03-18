@@ -1,30 +1,26 @@
 ---
 name: preferences-schema
-description: EXTEND.md YAML schema for image-gen user preferences
+description: config.json schema for image-gen user preferences
 ---
 
 # Preferences Schema
 
 ## Full Schema
 
-```yaml
----
-version: 1
-
-default_provider: null      # google|openai|dashscope|replicate|null (null = auto-detect)
-
-default_quality: null       # normal|2k|null (null = use default: 2k)
-
-default_aspect_ratio: null  # "16:9"|"1:1"|"4:3"|"3:4"|"2.35:1"|null
-
-default_image_size: null    # 1K|2K|4K|null (Google only, overrides quality)
-
-default_model:
-  google: null              # e.g., "gemini-3-pro-image-preview", "gemini-3.1-flash-image-preview"
-  openai: null              # e.g., "gpt-image-1.5"
-  dashscope: null           # e.g., "z-image-turbo"
-  replicate: null           # e.g., "google/nano-banana-pro"
----
+```json
+{
+  "version": 1,
+  "default_provider": null,
+  "default_quality": null,
+  "default_aspect_ratio": null,
+  "default_image_size": null,
+  "default_model": {
+    "google": null,
+    "openai": null,
+    "dashscope": null,
+    "replicate": null
+  }
+}
 ```
 
 ## Field Reference
@@ -44,26 +40,29 @@ default_model:
 ## Examples
 
 **Minimal**:
-```yaml
----
-version: 1
-default_provider: google
-default_quality: 2k
----
+```json
+{
+  "version": 1,
+  "default_provider": "google",
+  "default_quality": "2k"
+}
 ```
 
 **Full**:
-```yaml
----
-version: 1
-default_provider: google
-default_quality: 2k
-default_aspect_ratio: "16:9"
-default_image_size: 2K
-default_model:
-  google: "gemini-3-pro-image-preview"
-  openai: "gpt-image-1.5"
-  dashscope: "z-image-turbo"
-  replicate: "google/nano-banana-pro"
----
+```json
+{
+  "version": 1,
+  "default_provider": "google",
+  "default_quality": "2k",
+  "default_aspect_ratio": "16:9",
+  "default_image_size": "2K",
+  "default_model": {
+    "google": "gemini-3-pro-image-preview",
+    "openai": "gpt-image-1.5",
+    "dashscope": "z-image-turbo",
+    "replicate": "google/nano-banana-pro"
+  }
+}
 ```
+
+Canonical machine-readable schema: `skills/image-gen/config.schema.json`

@@ -6,14 +6,15 @@
 const fs = require('fs');
 const path = require('path');
 
-const data = JSON.parse(fs.readFileSync('/tmp/tweet_digest_data.json', 'utf8'));
+const dataPath = process.env.XGO_DIGEST_DATA_PATH || '/tmp/tweet_digest_data.json';
+const data = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
 const date = data.date;
 const top20 = data.top20;
 const top10 = data.top10;
 const allTweets = data.allTweets;
 const categories = data.categories;
 
-const outputDir = path.join('contents/twitter-digest', date);
+const outputDir = process.env.XGO_DIGEST_OUTPUT_DIR || path.join('contents/twitter-digest', date);
 fs.mkdirSync(outputDir, { recursive: true });
 
 // 格式化数字

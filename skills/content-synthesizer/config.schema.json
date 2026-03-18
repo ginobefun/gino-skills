@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "synthesize-content config",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "style_profile_path": { "type": ["string", "null"] },
+    "default_platforms": {
+      "type": ["array", "null"],
+      "items": { "type": "string" }
+    },
+    "draft_output_root": { "type": ["string", "null"] },
+    "require_personal_viewpoint": { "type": ["boolean", "null"] }
+  }
+}

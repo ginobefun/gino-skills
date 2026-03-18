@@ -3,6 +3,7 @@ import process from "node:process";
 import { homedir } from "node:os";
 import { access, mkdir, readFile, writeFile } from "node:fs/promises";
 import type { CliArgs, Provider, ExtendConfig } from "./types";
+import { loadConfigWithLegacy } from "../../../scripts/shared/config_loader";
 
 function printUsage(): void {
   console.log(`Usage:
@@ -41,7 +42,7 @@ Environment variables:
   DASHSCOPE_BASE_URL        Custom DashScope endpoint
   REPLICATE_BASE_URL        Custom Replicate endpoint
 
-Env file load order: CLI args > EXTEND.md > process.env > <cwd>/.gino-skills/.env > ~/.gino-skills/.env`);
+Env file load order: CLI args > config.json > legacy EXTEND.md > process.env > <cwd>/.gino-skills/.env > ~/.gino-skills/.env`);
 }
 
 function parseArgs(argv: string[]): CliArgs {
@@ -219,6 +220,45 @@ async function loadEnv(): Promise<void> {
   }
 }
 
+function coerceString(value: unknown): string | null {
+  if (value == null) return null;
+  if (typeof value !== "string") return null;
+  const trimmed = value.trim();
+  return trimmed.length > 0 ? trimmed : null;
+}
+
+function parseJsonConfig(data: unknown): Partial<ExtendConfig> {
+  if (!data || typeof data !== "object" || Array.isArray(data)) {
+    throw new Error("image-gen config.json must contain an object.");
+  }
+
+  const raw = data as Record<string, unknown>;
+  const defaultModelInput =
+    raw.default_model && typeof raw.default_model === "object" && !Array.isArray(raw.default_model)
+      ? (raw.default_model as Record<string, unknown>)
+      : {};
+
+  return {
+    version: typeof raw.version === "number" ? raw.version : 1,
+    default_provider:
+      raw.default_provider === "google" ||
+      raw.default_provider === "openai" ||
+      raw.default_provider === "dashscope" ||
+      raw.default_provider === "replicate"
+        ? raw.default_provider
+        : null,
+    default_quality: raw.default_quality === "normal" || raw.default_quality === "2k" ? raw.default_quality : null,
+    default_aspect_ratio: coerceString(raw.default_aspect_ratio),
+    default_image_size: raw.default_image_size === "1K" || raw.default_image_size === "2K" || raw.default_image_size === "4K" ? raw.default_image_size : null,
+    default_model: {
+      google: coerceString(defaultModelInput.google),
+      openai: coerceString(defaultModelInput.openai),
+      dashscope: coerceString(defaultModelInput.dashscope),
+      replicate: coerceString(defaultModelInput.replicate),
+    },
+  };
+}
+
 function extractYamlFrontMatter(content: string): string | null {
   const match = content.match(/^---\s*\n([\s\S]*?)\n---\s*$/m);
   return match ? match[1] : null;
@@ -266,28 +306,20 @@ function parseSimpleYaml(yaml: string): Partial<ExtendConfig> {
   return config;
 }
 
-async function loadExtendConfig(): Promise<Partial<ExtendConfig>> {
-  const home = homedir();
-  const cwd = process.cwd();
+function parseLegacyConfig(content: string): Partial<ExtendConfig> {
+  const yaml = extractYamlFrontMatter(content);
+  return yaml ? parseSimpleYaml(yaml) : {};
+}
 
-  const paths = [
-    path.join(cwd, ".gino-skills", "image-gen", "EXTEND.md"),
-    path.join(home, ".gino-skills", "image-gen", "EXTEND.md"),
-  ];
-
-  for (const p of paths) {
-    try {
-      const content = await readFile(p, "utf8");
-      const yaml = extractYamlFrontMatter(content);
-      if (!yaml) continue;
-
-      return parseSimpleYaml(yaml);
-    } catch {
-      continue;
-    }
-  }
-
-  return {};
+function loadResolvedConfig(): Partial<ExtendConfig> {
+  const loaded = loadConfigWithLegacy<ExtendConfig>({
+    skillName: "image-gen",
+    cwd: process.cwd(),
+    homeDir: homedir(),
+    parseJson: parseJsonConfig,
+    parseLegacy: parseLegacyConfig,
+  });
+  return loaded.config;
 }
 
 function mergeConfig(args: CliArgs, extend: Partial<ExtendConfig>): CliArgs {
@@ -410,7 +442,7 @@ async function main(): Promise<void> {
   }
 
   await loadEnv();
-  const extendConfig = await loadExtendConfig();
+  const extendConfig = loadResolvedConfig();
   const mergedArgs = mergeConfig(args, extendConfig);
 
   if (!mergedArgs.quality) mergedArgs.quality = "2k";

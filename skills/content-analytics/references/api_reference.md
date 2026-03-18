@@ -3,6 +3,16 @@
 接口地址: `https://api.xgo.ing`
 认证: `X-API-KEY: $XGO_API_KEY`
 
+## Worker-First 说明
+
+主流程优先使用：
+
+```bash
+python3 scripts/examples/xgo_content_analytics_source.py --page-size 100 --max-pages 2
+```
+
+本页保留原始接口说明，供调试 worker、校对字段和扩展分析逻辑时参考。
+
 ---
 
 ## 推文列表

@@ -262,70 +262,23 @@ python3 scripts/examples/bestblogs_update_content.py \
 
 **获取转录内容**：WAIT_PREPARE 使用步骤 B 本地文件；WAIT_ANALYSIS 通过 `curl -s "https://api.bestblogs.dev/dify/resource/markdown?id=RR_xxx&language=zh"` 获取（无需认证头，`success` 为**字符串类型**，使用 `markdown` 字段）。
 
-**构造分析输入 XML**:
-
-```xml
-<video>
-  <metadata>
-    <title>视频标题（来自列表 title 字段）</title>
-    <source>来源名称（来自列表 sourceName 字段）</source>
-    <url>原始链接（来自列表 url 字段）</url>
-    <priority>来源优先级（来自列表 priority 字段）</priority>
-  </metadata>
-  <transcript>
-    <![CDATA[
-    转录的 Markdown 内容
-    ]]>
-  </transcript>
-</video>
-```
+分析输入 XML 格式和输出 JSON 格式见 `references/workflow-details.md`。
 
 **分析要求**（完整标准见 `references/analysis_rubric.md`，分析时**必须加载并遵循**）:
 
-1. 仔细阅读全文，理解核心论述和技术细节
-2. 按视频评估维度打分：内容价值 (35)、实用性 (25)、相关性 (20)、制作质量 (10)、创新性 (10)
-3. 考虑来源优先级（`priority` 字段）和原创性对评分的影响
-4. 检查视频减分项（念稿式、搬运、标题党等）
-5. **评分校正**：≥95/≥90/≥85 分别执行自检清单
-6. **输出语言**：内容字段与视频同语言，`remark` 始终中文，`domain`/`aiSubcategory` 用枚举值
-
-**分析输出 JSON**:
-
-```json
-{
-  "title": "可选：仅在标题含冗余信息时填写清理后的标题",
-  "oneSentenceSummary": "一句话核心总结（与视频同语言）",
-  "summary": "核心内容概要（200-400 字，与视频同语言）",
-  "domain": "一级分类代码",
-  "aiSubcategory": "二级分类代码（核心分类必填，通用分类留空）",
-  "tags": ["与视频同语言的标签（3-8 个）"],
-  "mainPoints": [{"point": "主要观点", "explanation": "观点解释"}],
-  "keyQuotes": ["原文金句，必须逐字引用转录内容"],
-  "score": 85,
-  "remark": "中文评分依据、分析和推荐等级"
-}
-```
+1. 仔细阅读全文，按视频评估维度打分：内容价值 (35)、实用性 (25)、相关性 (20)、制作质量 (10)、创新性 (10)
+2. 考虑来源优先级和原创性，检查视频减分项（念稿式、搬运、标题党等）
+3. **评分校正**：≥95/≥90/≥85 分别执行自检清单
+4. **输出语言**：内容字段与视频同语言，`remark` 始终中文，`domain`/`aiSubcategory` 用枚举值
 
 ### 步骤 E: 保存分析结果
 
 **端点**：`POST /api/admin/article/saveAnalysisResult?id={id}`，id 为 query 参数。
 
 ```bash
-curl -s -X POST "https://api.bestblogs.dev/api/admin/article/saveAnalysisResult?id=RR_xxx" \
-  -H "Authorization: Bearer $BESTBLOGS_ADMIN_JWT_TOKEN" \
-  -H "User-Id: $BESTBLOGS_ADMIN_USER_ID" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "oneSentenceSummary": "...",
-    "summary": "...",
-    "domain": "Artificial_Intelligence",
-    "aiSubcategory": "DEV",
-    "tags": ["Tag1", "Tag2"],
-    "mainPoints": [{"point": "...", "explanation": "..."}],
-    "keyQuotes": ["..."],
-    "score": 85,
-    "remark": "中文评分依据"
-  }'
+python3 scripts/examples/bestblogs_save_analysis.py \
+  --id RR_xxx \
+  --json /tmp/bestblogs-analysis-RR_xxx.json
 ```
 
 > 步骤 D（分析）和步骤 E（保存）**必须作为独立步骤分开执行**。先确保 JSON 合法，再调用保存 API。
@@ -384,18 +337,7 @@ curl -s "https://api.bestblogs.dev/dify/resource/markdown?id=RR_xxx&language=zh"
 
 若 `success` 为 `"false"` 或 `analysisResult` 为空/null，跳过该视频。
 
-**`analysisResult` 解析后结构**：
-
-```json
-{
-  "title": "视频标题",
-  "oneSentenceSummary": "一句话总结",
-  "summary": "全文摘要",
-  "tags": ["标签1", "标签2"],
-  "mainPoints": [{"point": "观点1", "explanation": "解释1"}],
-  "keyQuotes": ["金句1", "金句2"]
-}
-```
+`analysisResult` 解析后结构与阶段三步骤 D 的分析输出 JSON 一致（含 `title`、`oneSentenceSummary`、`summary`、`tags`、`mainPoints`、`keyQuotes`）。
 
 ### 步骤 G: 翻译分析结果
 
@@ -406,27 +348,9 @@ curl -s "https://api.bestblogs.dev/dify/resource/markdown?id=RR_xxx&language=zh"
 **需翻译字段**：`title`, `oneSentenceSummary`, `summary`, `tags`, `mainPoints[].point/explanation`, `keyQuotes`
 **保持不变（不传给翻译，也不传给保存接口）**：`score`, `remark`, `domain`, `aiSubcategory`
 
-**翻译要求**（AI 翻译专家角色）:
+详细翻译要求见 `references/translation-requirements.md`，翻译时**必须加载并遵循**。
 
-1. **术语**：常见技术术语直接用，不加括号注释（AI、Agent、RAG、LLM 等）；AI 领域英译中：Agent → 智能体，Memory → 记忆；全文术语一致
-2. **表达**：意译非直译，地道流畅；减少引号破折号；中文引号用「」；保持原文风格
-3. **格式**：中英文/数字间加空格；保持原 JSON 结构和 key 不变
-4. **输出**：**只输出翻译后的 JSON**，禁止解释说明、括号注释、术语列表
-
-**翻译输出 JSON**：
-
-```json
-{
-  "title": "翻译后的标题",
-  "oneSentenceSummary": "翻译后的一句话总结",
-  "summary": "翻译后的全文摘要",
-  "tags": ["翻译后标签1", "翻译后标签2"],
-  "mainPoints": [
-    {"point": "翻译后的观点 1", "explanation": "翻译后的解释 1"}
-  ],
-  "keyQuotes": ["翻译后的金句 1", "翻译后的金句 2"]
-}
-```
+翻译输出 JSON 格式见 `references/workflow-details.md`（字段：title, oneSentenceSummary, summary, tags, mainPoints, keyQuotes）。
 
 ### 步骤 H: 保存翻译结果
 
@@ -435,16 +359,7 @@ curl -s -X POST "https://api.bestblogs.dev/api/admin/article/saveTranslateResult
   -H "Authorization: Bearer $BESTBLOGS_ADMIN_JWT_TOKEN" \
   -H "User-Id: $BESTBLOGS_ADMIN_USER_ID" \
   -H "Content-Type: application/json" \
-  -d '{
-    "title": "翻译后的标题",
-    "oneSentenceSummary": "翻译后的一句话总结",
-    "summary": "翻译后的全文摘要",
-    "tags": ["翻译后标签1", "翻译后标签2"],
-    "mainPoints": [
-      {"point": "翻译后的观点 1", "explanation": "翻译后的解释 1"}
-    ],
-    "keyQuotes": ["翻译后的金句 1", "翻译后的金句 2"]
-  }'
+  -d '{步骤 G 的翻译输出 JSON}'
 ```
 
 **注意**：`score`、`remark`、`domain`、`aiSubcategory`、`content` **不传** — 保持分析阶段的原值。
@@ -463,54 +378,18 @@ curl -s -X POST "https://api.bestblogs.dev/api/admin/article/saveTranslateResult
 
 ## 阶段五：输出最终结果
 
-### 模式 A — 转录/分析 + 翻译
+完整输出模板（模式 A 转录/分析+翻译、模式 B 仅翻译）见 `references/workflow-details.md`。
 
-```markdown
-## 处理结果
-
-| # | ID | 标题 | 链接 | 转录 | 评分 | 翻译 | 文件 |
-|---|-----|------|------|------|------|------|------|
-| 1 | RR_xxx | 标题 1 | [YouTube](url) | ✅ 12345 字 | 85 | ✅ English→中文 | transcribe-RR_xxx-xxx.md |
-| 2 | RR_yyy | 标题 2 | [YouTube](url) | ✅ 8901 字 | 72 | ⏭️ <80分 | transcribe-RR_yyy-xxx.md |
-| 3 | RR_zzz | 标题 3 | [YouTube](url) | ❌ 转录失败 | - | - | - |
-
-### 统计
-- 转录成功：2 / 失败：1 | 分析成功：2 | 翻译成功：1 / 跳过：1（<80 分）
-- 评分分布：90+: 0 | 80-89: 1（已翻译） | 70-79: 1 | <70: 0
-```
-
-### 模式 B — 仅翻译
-
-```markdown
-## 翻译结果
-
-| # | ID | 标题 | 链接 | 语言方向 | 翻译 |
-|---|-----|------|------|----------|------|
-| 1 | RR_xxx | 标题 1 | [YouTube](url) | English→中文 | ✅ |
-| 2 | RR_yyy | 标题 2 | [YouTube](url) | 中文→English | ❌ 分析结果为空 |
-
-### 统计
-- 翻译成功：1 / 跳过：1
-```
+输出需包含：每个视频的处理状态表格（ID、标题、转录/评分/翻译状态）+ 统计汇总（成功/失败/跳过数量、评分分布）。
 
 ---
 
 ## 错误处理
 
-| 错误 | 原因 | 处理 |
-|------|------|------|
-| `success: false` | API 返回错误 | 读取 `code` 和 `message`，告知用户 |
-| `401` / `403` | Token 过期或无权限 | 立即暂停，提示用户更新 `BESTBLOGS_ADMIN_JWT_TOKEN`（可在 `~/.claude/settings.json` 的 `env` 中更新） |
-| `ETIMEDOUT`（Chrome AppleScript 超时） | `pro` 模式响应过慢或 Chrome 繁忙 | 自动降级为 `think` 重试一次；若仍失败，记录并跳过 |
-| `ERR:parse_failed` | Gemini 无法解析该视频（私有/受限/格式不支持） | 记录失败，跳过，继续下一个 |
-| `bestblogs_update_content.py` 返回 `ok: false` | `updateContent` 写入失败，或读回校验未通过 | 查看 worker JSON 的 `meta.error`、`write`、`verify`，决定是重试还是跳过 |
-| 转录失败（其他） | Chrome 未登录 / 网络问题 | 记录失败，跳过该视频后续步骤，继续下一个 |
-| updateContent 失败 | 内容过大或 ID 不存在 | 记录失败，跳过分析，文件已保存可手动重试 |
-| 分析 JSON 格式错误 | 分析输出不符合预期格式 | 重试分析一次，仍失败则跳过 |
-| saveAnalysisResult 失败 | 参数错误或服务端异常 | 记录失败，输出分析 JSON 供手动重试 |
-| `/dify/resource/markdown` 返回 `success: "false"` | 视频内容不可用（注意 success 为**字符串**类型） | 跳过翻译，继续下一个 |
-| `analysisResult` 为空/null | 视频尚未完成分析 | 跳过翻译，继续下一个 |
-| `analysisResult` JSON 解析失败 | 格式异常 | 记录原始内容，跳过翻译，继续下一个 |
-| 翻译 JSON 格式错误 | 翻译输出不符合预期格式 | 重试翻译一次，仍失败则跳过 |
-| saveTranslateResult 失败 | 参数错误或服务端异常 | 记录失败，输出翻译 JSON 供手动重试 |
-| 环境变量未设置 | 缺少认证信息 | 提示配置 `BESTBLOGS_ADMIN_USER_ID` 和 `BESTBLOGS_ADMIN_JWT_TOKEN` |
+完整错误处理表见 `references/workflow-details.md`。核心原则：
+
+- **始终检查 `success` 字段**（`/dify/resource/markdown` 的 success 为**字符串**类型）
+- `401`/`403`：立即暂停，提示更新认证信息
+- `ETIMEDOUT`（pro 模式）：自动降级为 `think` 重试一次
+- 单个视频任一步骤失败：记录错误，跳过该视频后续步骤，继续下一个
+- 分析/翻译 JSON 格式错误：重试一次，仍失败则跳过

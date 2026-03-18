@@ -245,104 +245,9 @@ bun ${SKILL_DIR}/scripts/fish-tts.ts \
 
 #### 4.2.2 ShowNotes
 
-小宇宙 ShowNotes 支持富文本。生成 **Markdown 格式**的 ShowNotes，用户粘贴到编辑器后自动识别。
+完整 ShowNotes 模板（Daily/Weekly/Article）和生成规则见 `references/shownotes-templates.md`。
 
-**Daily 模板**:
-
-```markdown
-## 今日精讲
-
-00:40 {Top1 标题}
-来自 {来源}，{一句话核心观点}
-
-03:30 {Top2 标题}
-来自 {来源}，{一句话核心观点}
-
-06:15 {Top3 标题}
-来自 {来源}，{一句话核心观点}
-
-## 速览
-
-08:00 更多值得关注的内容
-· {第 4 条标题} — {来源}
-· {第 5 条标题} — {来源}
-· {第 6 条标题} — {来源}
-· {第 7 条标题} — {来源}
-· {第 8 条标题} — {来源}
-· {第 9 条标题} — {来源}
-· {第 10 条标题} — {来源}
-
-## 相关链接
-
-· 精讲原文：{readUrl1}
-· 精讲原文：{readUrl2}
-· 精讲原文：{readUrl3}
-· BestBlogs: https://bestblogs.dev
-```
-
-**Weekly 模板**:
-
-```markdown
-## 本周亮点
-
-{3-5 个一句话趋势}
-
-## 分类精选
-
-### 模型
-00:xx {标题} — {来源}
-...
-
-### 开发
-xx:xx {标题} — {来源}
-...
-
-### 产品
-xx:xx {标题} — {来源}
-...
-
-## 重点深度
-
-xx:xx {标题}
-{2-3 句核心内容}
-
-## 相关链接
-
-· 本期周刊：{newsletter_url}
-· BestBlogs: https://bestblogs.dev
-```
-
-**Article 模板**:
-
-```markdown
-## 文章信息
-
-· 原文：{文章标题}
-· 作者：{作者}
-· 来源：{来源}
-
-## 内容概要
-
-{2-3 句核心观点}
-
-## 时间线
-
-00:00 开场
-00:30 背景介绍
-01:00 核心问题
-01:30 关键观点
-05:00 个人思考
-
-## 相关链接
-
-· 原文链接：{url}
-```
-
-ShowNotes 生成规则：
-- **时间戳必须准确**：从各 segment 的实际时长累加计算，格式 `MM:SS`
-- 时间戳放在行首，小宇宙编辑器会自动识别为可点击锚点
-- 原文链接使用 BestBlogs 的 readUrl，确保可访问
-- 不写长段描述，保持精炼，用户能快速扫读
+核心要求：时间戳必须从各 segment 实际时长累加计算（格式 `MM:SS`），放在行首供小宇宙识别为锚点。
 
 #### 4.2.3 单集封面
 
@@ -438,21 +343,8 @@ contents/tmp/podcast/YYYY-MM-DD/        # 临时中间文件（gitignore）
   cover-prompt.md                       # 封面生成 prompt
 
 contents/podcast/                        # 最终产出（持久化）
-  daily/YYYY-MM-DD/
-    podcast.mp3                         # 播客音频
-    metadata.json                       # 元数据
-    cover.png                           # 单集封面（1:1）
-    shownotes.md                        # 小宇宙 ShowNotes
-  weekly/YYYY-MM-DD/
-    podcast.mp3
-    metadata.json
-    cover.png
-    shownotes.md
-  articles/{slug}/
-    podcast.mp3
-    metadata.json
-    cover.png
-    shownotes.md
+  {daily|weekly}/YYYY-MM-DD/            # 或 articles/{slug}/
+    podcast.mp3 / metadata.json / cover.png / shownotes.md
   podcast.xml                           # RSS Feed（可选，扩展时启用）
 ```
 

@@ -313,54 +313,7 @@ ${BUN_X} ${SKILL_DIR}/scripts/wechat-article.ts --html <html_file>
 
 ### 第 5 步：完成报告
 
-**如果使用 API 方式**，完成报告里要带上草稿管理入口：
-
-```text
-WeChat Publishing Complete!
-
-Input: [type] - [path]
-Method: API
-Theme: [theme name] [color if set]
-
-Article:
-• Title: [title]
-• Summary: [summary]
-• Images: [N] inline images
-• Comments: [open/closed], [fans-only/all users]
-
-Result:
-✓ Draft saved to WeChat Official Account
-• media_id: [media_id]
-
-Next Steps:
-→ Manage drafts: https://mp.weixin.qq.com (登录后进入「内容管理」→「草稿箱」)
-
-Files created:
-[• post-to-wechat/yyyy-MM-dd/slug.md (if plain text)]
-[• slug.html (converted)]
-```
-
-**如果使用浏览器方式**：
-
-```text
-WeChat Publishing Complete!
-
-Input: [type] - [path]
-Method: Browser
-Theme: [theme name] [color if set]
-
-Article:
-• Title: [title]
-• Summary: [summary]
-• Images: [N] inline images
-
-Result:
-✓ Draft saved to WeChat Official Account
-
-Files created:
-[• post-to-wechat/yyyy-MM-dd/slug.md (if plain text)]
-[• slug.html (converted)]
-```
+输出发布结果摘要（输入、方式、主题、文章元数据、结果状态、生成文件列表）。API 方式需额外包含 `media_id` 和草稿管理入口链接。详细模板见 `references/completion-report.md`。
 
 ## 详细参考
 

@@ -384,18 +384,7 @@ curl -s "https://api.bestblogs.dev/dify/resource/markdown?id=RR_xxx&language=zh"
 
 若 `success` 为 `"false"` 或 `analysisResult` 为空/null，跳过该视频。
 
-**`analysisResult` 解析后结构**：
-
-```json
-{
-  "title": "视频标题",
-  "oneSentenceSummary": "一句话总结",
-  "summary": "全文摘要",
-  "tags": ["标签1", "标签2"],
-  "mainPoints": [{"point": "观点1", "explanation": "解释1"}],
-  "keyQuotes": ["金句1", "金句2"]
-}
-```
+`analysisResult` 解析后结构与阶段三步骤 D 的分析输出 JSON 一致（含 `title`、`oneSentenceSummary`、`summary`、`tags`、`mainPoints`、`keyQuotes`）。
 
 ### 步骤 G: 翻译分析结果
 
@@ -406,12 +395,7 @@ curl -s "https://api.bestblogs.dev/dify/resource/markdown?id=RR_xxx&language=zh"
 **需翻译字段**：`title`, `oneSentenceSummary`, `summary`, `tags`, `mainPoints[].point/explanation`, `keyQuotes`
 **保持不变（不传给翻译，也不传给保存接口）**：`score`, `remark`, `domain`, `aiSubcategory`
 
-**翻译要求**（AI 翻译专家角色）:
-
-1. **术语**：常见技术术语直接用，不加括号注释（AI、Agent、RAG、LLM 等）；AI 领域英译中：Agent → 智能体，Memory → 记忆；全文术语一致
-2. **表达**：意译非直译，地道流畅；减少引号破折号；中文引号用「」；保持原文风格
-3. **格式**：中英文/数字间加空格；保持原 JSON 结构和 key 不变
-4. **输出**：**只输出翻译后的 JSON**，禁止解释说明、括号注释、术语列表
+详细翻译要求见 `references/translation-requirements.md`，翻译时**必须加载并遵循**。
 
 **翻译输出 JSON**：
 
@@ -435,16 +419,7 @@ curl -s -X POST "https://api.bestblogs.dev/api/admin/article/saveTranslateResult
   -H "Authorization: Bearer $BESTBLOGS_ADMIN_JWT_TOKEN" \
   -H "User-Id: $BESTBLOGS_ADMIN_USER_ID" \
   -H "Content-Type: application/json" \
-  -d '{
-    "title": "翻译后的标题",
-    "oneSentenceSummary": "翻译后的一句话总结",
-    "summary": "翻译后的全文摘要",
-    "tags": ["翻译后标签1", "翻译后标签2"],
-    "mainPoints": [
-      {"point": "翻译后的观点 1", "explanation": "翻译后的解释 1"}
-    ],
-    "keyQuotes": ["翻译后的金句 1", "翻译后的金句 2"]
-  }'
+  -d '{步骤 G 的翻译输出 JSON}'
 ```
 
 **注意**：`score`、`remark`、`domain`、`aiSubcategory`、`content` **不传** — 保持分析阶段的原值。

@@ -1,6 +1,8 @@
 # Skills 改进建议
 
-> 基于对 38 个 skills 的全面梳理，从定位、命名、使用体验三个维度提出改进建议。
+> 基于对全部 skills 的全面梳理，从定位、命名、使用体验三个维度提出改进建议。
+>
+> **注**: 本文档最初基于 38 个 skills 编写，当前仓库已有 43 个 skills（新增 `bestblogs-fetch-pending-content`、`bestblogs-analyze-content`、`bestblogs-translate-analysis-result` 等 worker skills）。数字引用保留历史上下文。
 
 ---
 
@@ -112,7 +114,7 @@
 
 ### 4.1 Skill 粒度问题
 
-当前 38 个 skills 中，BestBlogs 系列占 13 个 (34%)。如果 BestBlogs 的 API 功能继续扩展，skill 数量会进一步膨胀。建议：
+当前 43 个 skills 中，BestBlogs 系列占 16 个 (37%)。如果 BestBlogs 的 API 功能继续扩展，skill 数量会进一步膨胀。建议：
 
 - **短期**: 维持现状，每个 skill 职责清晰
 - **中期**: 考虑将 `bestblogs-process-*` 三兄弟合并为一个 `bestblogs-process-content`

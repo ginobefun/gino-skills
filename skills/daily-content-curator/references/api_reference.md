@@ -27,26 +27,38 @@
 | sortType | String | | 排序: `default`, `time_desc`, `score_desc`, `read_desc` |
 | qualifiedFilter | String | | 精选: `true`, `false`, `ALL` |
 
-#### 响应 (dataList 项)
+#### 响应结构
 
-| 字段 | 说明 |
-|------|------|
-| id | 资源唯一 ID |
-| title | 标题 |
-| oneSentenceSummary | 一句话摘要 |
-| summary | 详细摘要 |
-| tags | 标签列表 |
-| mainPoints | 主要观点 [{point, explanation}] |
-| url | 原文链接 |
-| readUrl | BestBlogs 站内链接（**输出优先**） |
-| sourceName | 来源名称 |
-| category / categoryDesc | 分类 |
-| score | 质量评分 (0-100) |
-| wordCount | 字数 |
-| readTime | 阅读时间（分钟） |
-| authors | 作者列表 |
-| publishTimeStamp | 发布时间戳 (ms) |
-| publishDateTimeStr | 完整发布时间 |
+```json
+{
+  "currentPage": 1,
+  "pageSize": 100,
+  "totalCount": 59,
+  "pageCount": 1,
+  "dataList": [ ResourceDTO, ... ]
+}
+```
+
+#### ResourceDTO (dataList 项)
+
+| 字段 | 说明 | 可能为 null |
+|------|------|-------------|
+| id | 资源唯一 ID | 否 |
+| title | 标题 | **是** |
+| oneSentenceSummary | 一句话摘要 | **是** |
+| summary | 详细摘要 | **是** |
+| tags | 标签列表 | **是** |
+| mainPoints | 主要观点 [{point, explanation}] | **是** |
+| url | 原文链接 | **是** |
+| readUrl | BestBlogs 站内链接（**输出优先**） | **是** |
+| sourceName | 来源名称 | **是** |
+| category / categoryDesc | 分类 | **是** |
+| score | 质量评分 (0-100) | **是** |
+| wordCount | 字数 | **是** |
+| readTime | 阅读时间（分钟） | **是** |
+| authors | 作者列表 | **是** |
+| publishTimeStamp | 发布时间戳 (ms) | **是** |
+| publishDateTimeStr | 完整发布时间 | **是** |
 
 ### BestBlogs 推文列表
 
@@ -63,21 +75,33 @@
 | sortType | String | | 排序 |
 | language | String | | 推文语言: `all`, `zh`, `en` 等 |
 
-#### 响应 (dataList 项)
+#### 响应结构
 
-| 字段 | 说明 |
-|------|------|
-| tweet.id | 推文 ID |
-| tweet.author.userName | 作者用户名 |
-| tweet.author.name | 作者显示名 |
-| resourceMeta.title | 标题 |
-| resourceMeta.oneSentenceSummary | 一句话摘要 |
-| resourceMeta.summary | 详细摘要 |
-| resourceMeta.score | 评分 |
-| resourceMeta.tags | 标签 |
-| resourceMeta.readUrl | 站内链接 |
-| resourceMeta.url | 原文链接 |
-| resourceMeta.publishTimeStamp | 发布时间戳 |
+```json
+{
+  "currentPage": 1,
+  "pageSize": 100,
+  "totalCount": 200,
+  "pageCount": 2,
+  "dataList": [ TweetResourceDTO, ... ]
+}
+```
+
+#### TweetResourceDTO (dataList 项)
+
+| 字段 | 说明 | 可能为 null |
+|------|------|-------------|
+| tweet.id | 推文 ID | 否 |
+| tweet.author.userName | 作者用户名 | **是** |
+| tweet.author.name | 作者显示名 | **是** |
+| resourceMeta.title | 标题 | **是** |
+| resourceMeta.oneSentenceSummary | 一句话摘要 | **是** |
+| resourceMeta.summary | 详细摘要 | **是** |
+| resourceMeta.score | 评分 | **是** |
+| resourceMeta.tags | 标签 | **是** |
+| resourceMeta.readUrl | 站内链接 | **是** |
+| resourceMeta.url | 原文链接 | **是** |
+| resourceMeta.publishTimeStamp | 发布时间戳 | **是** |
 
 ---
 
@@ -121,35 +145,35 @@
 
 #### TweetDTO
 
-| 字段 | 说明 |
-|------|------|
-| id | 推文 ID |
-| text | 推文完整文本 |
-| url | 推文原文链接 |
-| lang | 推文语言 |
-| createdAt | 创建时间 |
-| likeCount | 点赞数 |
-| retweetCount | 转推数 |
-| replyCount | 回复数 |
-| quoteCount | 引用数 |
-| bookmarkCount | 收藏数 |
-| viewCount | 浏览数 |
-| influenceScore | 影响力评分 |
-| hashTags | 标签 [{text}] |
-| userMentions | 提及 [{userName, name}] |
-| mediaList | 媒体列表 |
-| quotedTweet | 引用推文 |
-| author | 作者信息（UserBrief） |
+| 字段 | 说明 | 可能为 null |
+|------|------|-------------|
+| id | 推文 ID | 否 |
+| text | 推文完整文本 | **是** |
+| url | 推文原文链接 | **是** |
+| lang | 推文语言 | **是** |
+| createdAt | 创建时间 | **是** |
+| likeCount | 点赞数 | **是** (默认 0) |
+| retweetCount | 转推数 | **是** (默认 0) |
+| replyCount | 回复数 | **是** (默认 0) |
+| quoteCount | 引用数 | **是** (默认 0) |
+| bookmarkCount | 收藏数 | **是** (默认 0) |
+| viewCount | 浏览数 | **是** (默认 0) |
+| influenceScore | 影响力评分 | **是** |
+| hashTags | 标签 [{text}] | **是** |
+| userMentions | 提及 [{userName, name}] | **是** |
+| mediaList | 媒体列表 | **是** |
+| quotedTweet | 引用推文 | **是** |
+| author | 作者信息（UserBrief） | **是** |
 
 #### UserBrief
 
-| 字段 | 说明 |
-|------|------|
-| userName | 用户名（@handle） |
-| name | 显示名称 |
-| avatar | 头像 URL |
-| description | 简介 |
-| followersCount | 粉丝数 |
+| 字段 | 说明 | 可能为 null |
+|------|------|-------------|
+| userName | 用户名（@handle） | **是** |
+| name | 显示名称 | **是** |
+| avatar | 头像 URL | **是** |
+| description | 简介 | **是** |
+| followersCount | 粉丝数 | **是** (默认 0) |
 
 ---
 

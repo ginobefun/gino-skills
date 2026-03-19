@@ -54,15 +54,7 @@ python3 scripts/examples/xgo_following_status.py TARGET_USER
 
 ## 认证
 
-所有请求需要 `X-API-KEY` 请求头。从环境变量 `XGO_API_KEY` 读取密钥：
-
-```bash
--H "X-API-KEY: $XGO_API_KEY"
-```
-
-若 `XGO_API_KEY` 未设置，提示用户配置。
-
-接口地址：`https://api.xgo.ing`
+认证方式见 `../../references/shared/auth-xgo.md`。
 
 ## 工作流概览
 
@@ -299,12 +291,8 @@ python3 scripts/examples/xgo_following_status.py TARGET_USER
 
 ## 错误处理
 
-**重要**: 始终先检查 `response.success` 再处理 `response.data`。部分错误返回 HTTP 200 但 `success: false` — 不要仅依赖 HTTP 状态码。
+通用错误码见 `../../references/shared/error-handling-xgo.md`。本 skill 额外关注：
 
-- `401`: 检查 `XGO_API_KEY` 是否已设置且有效
-- `403`: 开放接口需要 Plus 或 Pro 会员
-- `429`: 频率限制 — 等待 10 秒后重试一次。若仍为 429，告知用户："频率限制，请稍后重试。"（PLUS 200 次/分，PRO 600 次/分）
 - `xgo-0001`（用户不存在，HTTP 200）: 用户名可能不正确或账号已被封禁。务必检查 `success` 字段
 - `xgo-0012`（需要会员，HTTP 200）: 部分功能需要更高等级会员。注意：此错误以 HTTP 200 返回
-- `success: false` 且 `code` 非零：读取响应体中的 `code` 和 `message`，对照 api_reference 中的错误码处理
 - 推文数据为空：用户可能没有公开推文或账号已设为私密。仍基于 user/info 数据输出可用的画像信息

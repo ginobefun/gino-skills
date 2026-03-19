@@ -1,6 +1,7 @@
 ---
 name: x-actions
 description: "Use when 用户想在浏览器里对 X 执行写操作，例如发帖、回复、引用、转推或点赞。"
+disable-model-invocation: true
 ---
 
 # X 操作器 (X Actions)

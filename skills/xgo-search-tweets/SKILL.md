@@ -41,15 +41,7 @@ description: "Use when 用户想在 X 上搜索某个话题、拉取指定账号
 
 ## 认证
 
-所有请求需要 `X-API-KEY` 请求头。从环境变量 `XGO_API_KEY` 读取密钥：
-
-```bash
--H "X-API-KEY: $XGO_API_KEY"
-```
-
-若 `XGO_API_KEY` 未设置，提示用户配置。
-
-接口地址：`https://api.xgo.ing`
+认证方式见 `../../references/shared/auth-xgo.md`。
 
 ## 默认搜索策略
 
@@ -236,11 +228,7 @@ PY
 
 ## 错误处理
 
-**重要**: 始终先检查 `response.success` 再处理 `response.data`。部分错误返回 HTTP 200 但 `success: false`（如 `xgo-0001` 用户不存在）— 不要仅依赖 HTTP 状态码。
+通用错误码见 `../../references/shared/error-handling-xgo.md`。本 skill 额外关注：
 
-- `401`: 检查 `XGO_API_KEY` 是否已设置且有效
-- `403`: 开放接口需要 Plus 或 Pro 会员
-- `429`: 频率限制 — 等待 10 秒后重试一次。若仍为 429，告知用户："频率限制，请稍后重试。"（PLUS 200 次/分，PRO 600 次/分）
-- `success: false` 且 `code` 非零：读取响应体中的 `code` 和 `message`，对照 api_reference 中的错误码处理
 - 结果为空：搜索可能返回空列表 — 建议用户调整搜索词
 - `query` 最大 500 字符：**不要**静默截断。告知用户查询过长，请缩短内容或拆分为多次搜索

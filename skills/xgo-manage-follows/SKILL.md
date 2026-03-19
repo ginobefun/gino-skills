@@ -1,6 +1,13 @@
 ---
 name: xgo-manage-follows
 description: "Use when 用户想查看或分析自己在 X 上关注的账号，包括关注状态、统计、刷新，以及关注或取关建议。"
+hooks:
+  PreToolUse:
+    - matcher: "Bash"
+      hooks:
+        - type: command
+          command: "bash scripts/hooks/write-guard.sh"
+          timeout: 5
 ---
 
 # 关注管理器 (XGo Manage Follows)
@@ -60,15 +67,7 @@ python3 scripts/examples/xgo_follow_action.py --action unfollow --user-name TARG
 
 ## 认证
 
-所有请求需要 `X-API-KEY` 请求头。从环境变量 `XGO_API_KEY` 读取密钥：
-
-```bash
--H "X-API-KEY: $XGO_API_KEY"
-```
-
-若 `XGO_API_KEY` 未设置，提示用户配置。
-
-接口地址：`https://api.xgo.ing`
+认证方式见 `../../references/shared/auth-xgo.md`。
 
 ## 可用端点
 
@@ -372,11 +371,8 @@ worker JSON 中：
 
 ## 错误处理
 
-**重要**: 始终先检查 `response.success` 再处理 `response.data`。部分错误返回 HTTP 200 但 `success: false` — 不要仅依赖 HTTP 状态码。
+通用错误码见 `../../references/shared/error-handling-xgo.md`。本 skill 额外关注：
 
-- `401`: 检查 `XGO_API_KEY` 是否已设置且有效
-- `403`: 开放接口需要 Plus 或 Pro 会员
-- `429`: 频率限制 — 等待 10 秒后重试一次。若仍为 429，告知用户："频率限制，请稍后重试。"
 - `xgo-0012`（需要会员，HTTP 200）: 部分功能需要更高等级会员。注意：此错误以 HTTP 200 返回，必须检查 `success` 字段
 - `xgo-9005`（操作不允许，HTTP 200）: 刷新间隔未到或其他限制。注意：此错误以 HTTP 200 返回，必须检查 `success` 字段。告知用户当前会员等级的刷新间隔（PLUS 15 天，PRO 1 天），建议稍后重试
 

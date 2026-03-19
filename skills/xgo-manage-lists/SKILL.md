@@ -1,6 +1,13 @@
 ---
 name: xgo-manage-lists
 description: "Use when 用户想通过 XGo 查看或修改 X 列表，包括创建列表、添加成员和移除成员。"
+hooks:
+  PreToolUse:
+    - matcher: "Bash"
+      hooks:
+        - type: command
+          command: "bash scripts/hooks/write-guard.sh"
+          timeout: 5
 ---
 
 # 列表管理器 (XGo Manage Lists)
@@ -58,15 +65,7 @@ python3 scripts/examples/xgo_list_member_action.py --action remove --list-id LIS
 
 ## 认证
 
-所有请求需要 `X-API-KEY` 请求头。从环境变量 `XGO_API_KEY` 读取密钥：
-
-```bash
--H "X-API-KEY: $XGO_API_KEY"
-```
-
-若 `XGO_API_KEY` 未设置，提示用户配置。
-
-接口地址：`https://api.xgo.ing`
+认证方式见 `../../references/shared/auth-xgo.md`。
 
 ## 可用端点
 
@@ -213,11 +212,8 @@ python3 scripts/examples/xgo_list_detail.py --list-id LIST_abc12345
 
 ## 错误处理
 
-**重要**: 始终先检查 `response.success` 再处理 `response.data`。部分错误返回 HTTP 200 但 `success: false` — 不要仅依赖 HTTP 状态码。
+通用错误码见 `../../references/shared/error-handling-xgo.md`。本 skill 额外关注：
 
-- `401`: 检查 `XGO_API_KEY` 是否已设置且有效
-- `403`: 开放接口需要 Plus 或 Pro 会员
-- `429`: 频率限制 — 等待 10 秒后重试一次。若仍为 429，告知用户："频率限制，请稍后重试。"
 - `xgo-0002`（列表不存在）: 列表 ID 可能不正确，建议用户先运行 `xgo_list_overview.py` 查看可用列表
 - `xgo-0005`（成员数超限）: 告知用户当前会员等级的成员数上限（PLUS 200, PRO 1000）
 - `xgo-0011`（列表数超限）: 告知用户当前会员等级的列表数上限（PLUS 20, PRO 100）

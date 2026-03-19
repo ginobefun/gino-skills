@@ -41,17 +41,7 @@ description: "Use when 用户想拉取时间线、推荐流、列表、标签或
 
 ## 认证
 
-所有请求需要 `X-API-KEY` 请求头。从环境变量 `XGO_API_KEY` 读取密钥：
-
-```bash
--H "X-API-KEY: $XGO_API_KEY"
-```
-
-若 `XGO_API_KEY` 未设置，提示用户配置。
-
-接口地址：`https://api.xgo.ing`
-
-API Key 绑定特定 XGo 用户账号。服务端会自动从密钥推断 `userName`，因此大多数请求中 `userName` 为**可选**参数。仅在 `queryType=user` 时需要指定 `userName` 以查询其他用户的公开推文。
+认证方式见 `../../references/shared/auth-xgo.md`。仅 `queryType=user` 时需要指定 `userName` 以查询其他用户的公开推文。
 
 ## 默认拉取策略
 
@@ -257,13 +247,9 @@ curl -s -X POST https://api.xgo.ing/openapi/v1/tweet/batch \
 
 ## 错误处理
 
-**重要**: 始终先检查 `response.success` 再处理 `response.data`。部分错误返回 HTTP 200 但 `success: false` — 不要仅依赖 HTTP 状态码。
+通用错误码见 `../../references/shared/error-handling-xgo.md`。本 skill 额外关注：
 
-- `401`: 检查 `XGO_API_KEY` 是否已设置且有效
-- `403`: 开放接口需要 Plus 或 Pro 会员
-- `429`: 频率限制 — 等待 10 秒后重试一次。若仍为 429，告知用户："频率限制，请稍后重试。"（PLUS 200 次/分，PRO 600 次/分）
-- `xgo-0001`（用户不存在，HTTP 200）: `queryType=user` 时若 `userName` 不存在触发。务必检查 `success` 字段
-- `success: false` 且 `code` 非零：读取响应体中的 `code` 和 `message`，对照 api_reference 中的错误码处理
+- `xgo-0001`（用户不存在，HTTP 200）: `queryType=user` 时若 `userName` 不存在触发
 - `data` 为空：用户可能没有关注者，或时间范围太窄 — 建议扩大 `timeRange`
 - `totalSize: 0`: 无推文匹配查询条件，建议调整筛选参数
 

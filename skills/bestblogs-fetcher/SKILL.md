@@ -42,13 +42,9 @@ For full API parameter details, read `references/api_reference.md`.
 
 ## Auth
 
-All requests require header `X-API-KEY`. Read the key from environment variable `BESTBLOGS_API_KEY`:
+> Full auth configuration: `../../references/shared/auth-bestblogs.md`.
 
-```bash
--H "X-API-KEY: $BESTBLOGS_API_KEY"
-```
-
-If `BESTBLOGS_API_KEY` is not set, prompt the user to configure it.
+This skill uses OpenAPI only (public content reading).
 
 ## Default Fetch Strategy
 
@@ -223,7 +219,9 @@ Use `readUrl` (BestBlogs 站内链接) for all links. Use `url` only as fallback
 
 ## Error Handling
 
-- `401`: Check if `BESTBLOGS_API_KEY` is set and valid
+> Common error codes: `../../references/shared/error-handling-bestblogs.md`.
+
+Skill-specific errors:
 - `400`: Verify parameter values match allowed enums
 - `404`: Resource ID may be invalid
 - `500`: Retry once, then report to user

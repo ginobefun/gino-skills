@@ -381,6 +381,55 @@
 
 ### 本轮复审结论
 
-- 当前改动已经从“治理实施中”推进到“适合发起 CR”的状态
+- 当前改动已经从”治理实施中”推进到”适合发起 CR”的状态
 - 保留的 legacy fallback 是有意保留的兼容窗口，不是遗漏
 - 剩余英文主要集中在 `Use when` 触发位、schema 字段名和 CLI `Usage` 文本，属于可接受范围
+
+---
+
+## 第二轮改进：基于 Anthropic 最佳实践 (2026-03-19)
+
+基于 Anthropic 官方文章 “Lessons from Building Claude Code: How We Use Skills” 中的 9 大 Skill 类型和 12 条最佳实践，对 43 个 skills 进行全面审视后实施的改进。
+
+完整 review 文档见 `docs/skills-review-anthropic-best-practices.md`。
+
+### Phase 7 — 共享模板提取（P0，已完成）
+
+**变更内容**：
+- 创建 `references/shared/` 目录，包含 4 个共享模板：`auth-xgo.md`、`error-handling-xgo.md`、`auth-bestblogs.md`、`error-handling-bestblogs.md`
+- 9 个 XGo skill 的认证区块（~10行/个）和错误处理通用码（401/403/429）改为引用共享模板
+- 6 个 BestBlogs skill 的认证区块改为引用共享模板
+- 3 个 BestBlogs worker skill 补充了缺失的错误处理引用
+
+**效果**：净减少 87 行重复内容，各 skill 释放 6-7% 行配额用于更有价值的 gotchas 和 edge case 说明。
+
+### Phase 8 — On Demand Hooks（P0，已完成）
+
+**变更内容**：
+- 4 个 XGo 写操作 skill（manage-follows/lists/bookmarks, organize-follows）在 frontmatter 添加 `hooks.PreToolUse`，挂载 `write-guard.sh` 拦截绕过 worker 的原始 curl 写操作
+- 4 个发布类 skill（post-to-x/wechat, send-wechat-group-message, x-actions）添加 `disable-model-invocation: true`，防止 Claude 自动触发
+- 创建 `scripts/hooks/write-guard.sh`（PreToolUse 安全门控）
+- 创建 `scripts/hooks/skill-usage-tracker.sh`（使用追踪，可配置为全局 PostToolUse hook）
+
+**效果**：从 0 个 skill 使用 hooks 到 8 个 skill 有安全控制。
+
+### Phase 9 — lint 增强与规范更新（P1，已完成）
+
+**变更内容**：
+- `lint_skills.py` 的 `ALLOWED_FRONTMATTER_FIELDS` 扩展为支持所有 Claude Code 标准字段（hooks, disable-model-invocation, allowed-tools 等）
+- frontmatter 解析器兼容多行 YAML 嵌套（hooks 块的缩进行不再误报）
+- `CLAUDE.md` 新增 On Demand Hooks 规范章节、共享模板引用规范
+- `docs/skill-style-guide.md` 新增共享模板引用规范、Gotchas 持续迭代原则、可选 frontmatter 字段说明
+
+**效果**：lint 从仅检查 name+description 到支持完整 Claude Code frontmatter 规范。
+
+### 本轮改进总结
+
+| 维度 | 改进前 | 改进后 |
+|------|--------|--------|
+| 共享模板 | 0 个，认证/错误处理每个 skill 重复 | 4 个共享模板，15 个 skill 引用 |
+| On Demand Hooks | 0 个 skill 使用 | 8 个 skill 有安全控制 |
+| 发布类 skill 保护 | 无，Claude 可能自动触发 | `disable-model-invocation: true` |
+| lint 覆盖 | 仅 name + description | 完整 Claude Code frontmatter |
+| BestBlogs worker 错误处理 | 3 个 skill 缺失 | 全部补充 |
+| Gotchas 规范 | 建议积累 | 明确持续迭代原则和格式 |

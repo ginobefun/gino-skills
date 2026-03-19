@@ -1,6 +1,7 @@
 ---
 name: post-to-wechat
 description: "Use when 用户想通过 API 或浏览器自动化把内容发布到微信公众号，包括文章和图文消息。"
+disable-model-invocation: true
 ---
 
 # 发布到微信公众号

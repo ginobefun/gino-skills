@@ -1,6 +1,7 @@
 ---
 name: send-wechat-group-message
 description: "Use when 用户想向一个或多个微信群发送文本或图片消息，而不是发布到微信公众号。"
+disable-model-invocation: true
 ---
 
 # 微信群消息推送 (WeChat Group Messenger)

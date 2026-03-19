@@ -1,6 +1,13 @@
 ---
 name: xgo-manage-bookmarks
 description: "Use when 用户想通过 XGo 查看或修改 X 的书签及书签文件夹。"
+hooks:
+  PreToolUse:
+    - matcher: "Bash"
+      hooks:
+        - type: command
+          command: "bash scripts/hooks/write-guard.sh"
+          timeout: 5
 ---
 
 # 收藏管理器 (XGo Manage Bookmarks)
@@ -56,15 +63,7 @@ python3 scripts/examples/xgo_bookmark_action.py --action remove --folder-id FOLD
 
 ## 认证
 
-所有请求需要 `X-API-KEY` 请求头。从环境变量 `XGO_API_KEY` 读取密钥：
-
-```bash
--H "X-API-KEY: $XGO_API_KEY"
-```
-
-若 `XGO_API_KEY` 未设置，提示用户配置。
-
-接口地址：`https://api.xgo.ing`
+认证方式见 `../../references/shared/auth-xgo.md`。
 
 ## 可用端点
 
@@ -191,11 +190,8 @@ python3 scripts/examples/xgo_bookmark_action.py \
 
 ## 错误处理
 
-**重要**: 始终先检查 `response.success` 再处理 `response.data`。部分错误返回 HTTP 200 但 `success: false` — 不要仅依赖 HTTP 状态码。
+通用错误码见 `../../references/shared/error-handling-xgo.md`。本 skill 额外关注：
 
-- `401`: 检查 `XGO_API_KEY` 是否已设置且有效
-- `403`: 开放接口需要 Plus 或 Pro 会员
-- `429`: 频率限制 — 等待 10 秒后重试一次。若仍为 429，告知用户："频率限制，请稍后重试。"
 - `xgo-0003`（收藏夹不存在）: 收藏夹 ID 可能不正确，建议用户先运行 `xgo_folder_overview.py` 查看可用收藏夹
 - `xgo-1001`（参数错误，HTTP 400）: 请求体字段缺失或格式不正确。最常见原因：`folder/collect` 缺少 `tweet.tweetId`，或 `folder/remove` 缺少 `tweetId`
 - `xgo-9005`（操作不允许，HTTP 200）: 可能尝试操作非自己的收藏夹。注意：此错误以 HTTP 200 返回，必须检查 `success` 字段

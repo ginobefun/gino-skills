@@ -40,13 +40,9 @@ description: "Use when 用户或 orchestrator 需要分析一条指定的 BestBl
 
 ## 认证
 
-根据内容类型组合使用 Admin API 与 OpenAPI：
+> 完整认证配置见 `../../references/shared/auth-bestblogs.md`。
 
-| 变量 | 用途 |
-|------|------|
-| `BESTBLOGS_ADMIN_USER_ID` | 管理员用户 ID |
-| `BESTBLOGS_ADMIN_JWT_TOKEN` | 管理员 JWT Token |
-| `BESTBLOGS_API_KEY` | OpenAPI 密钥，文章正文等读取时使用 |
+本 skill 使用 Admin API（保存分析结果）+ OpenAPI（读取文章正文等）。
 
 ## 核心工作流
 

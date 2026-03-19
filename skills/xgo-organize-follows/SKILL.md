@@ -1,6 +1,13 @@
 ---
 name: xgo-organize-follows
 description: "Use when 用户想把未分类的 X 关注账号整理进列表，并在批量更新前先经过分析和分阶段确认。"
+hooks:
+  PreToolUse:
+    - matcher: "Bash"
+      hooks:
+        - type: command
+          command: "bash scripts/hooks/write-guard.sh"
+          timeout: 5
 ---
 
 # 关注整理助手 (Follow Organizer)
@@ -60,15 +67,7 @@ python3 scripts/examples/xgo_list_member_action.py --action add --list-id LIST_x
 
 ## 认证
 
-所有请求需要 `X-API-KEY` 请求头。从环境变量 `XGO_API_KEY` 读取密钥：
-
-```bash
--H "X-API-KEY: $XGO_API_KEY"
-```
-
-若 `XGO_API_KEY` 未设置，提示用户配置。
-
-接口地址：`https://api.xgo.ing`
+认证方式见 `../../references/shared/auth-xgo.md`。
 
 ## 工作流概览（6 个阶段）
 
@@ -278,14 +277,10 @@ python3 scripts/examples/xgo_list_member_action.py \
 
 ## 错误处理
 
-**重要**: 始终先检查 `response.success` 再处理 `response.data`。部分错误返回 HTTP 200 但 `success: false` — 不要仅依赖 HTTP 状态码。
+通用错误码见 `../../references/shared/error-handling-xgo.md`。本 skill 额外关注：
 
-- `401`: 检查 `XGO_API_KEY` 是否已设置且有效
-- `403`: 开放接口需要 Plus 或 Pro 会员
-- `429`: 频率限制 — 等待 10 秒后重试该组。若仍为 429，告知用户并暂停。阶段三分组策略可有效避免触发限制
 - `xgo-0001`（用户不存在，HTTP 200）: 某些关注用户可能已注销或被封禁，跳过该用户并继续
 - `xgo-0005`（成员数超限，HTTP 200）: 目标列表成员数已达上限。告知用户，建议创建新列表或升级会员
 - `xgo-0011`（列表数超限，HTTP 200）: 列表数量已达上限，无法创建新列表
 - `xgo-9005`（操作不允许，HTTP 200）: 可能尝试操作非自己的列表
-- `success: false` 且 `code` 非零：读取 `code` 和 `message`，记录失败并继续处理下一个用户
 - 部分失败不影响整体：单个用户分析或添加失败时，记录错误并继续处理其他用户

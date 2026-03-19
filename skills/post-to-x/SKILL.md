@@ -1,6 +1,7 @@
 ---
 name: post-to-x
 description: "Use when 用户想通过浏览器发布流程在 X 上发布推文、媒体帖子或 X Article 长文。"
+disable-model-invocation: true
 ---
 
 # 发布到 X（Twitter）

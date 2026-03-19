@@ -61,11 +61,7 @@ orchestrator 应优先消费 worker 的 JSON 输出，而不是依赖散落的 s
 
 ## 认证
 
-所有请求需要 `X-API-KEY` 请求头。从环境变量 `XGO_API_KEY` 读取密钥。
-
-若 `XGO_API_KEY` 未设置，提示用户配置。
-
-接口地址：`https://api.xgo.ing`
+认证方式见 `../../references/shared/auth-xgo.md`。
 
 ## 工作流概览
 
@@ -302,12 +298,8 @@ mkdir -p contents/twitter-digest/YYYY-MM-DD
 
 ## 错误处理
 
-**重要**: 始终先检查 `response.success` 再处理 `response.data`。部分错误返回 HTTP 200 但 `success: false` — 不要仅依赖 HTTP 状态码。
+通用错误码见 `../../references/shared/error-handling-xgo.md`。本 skill 额外关注：
 
-- `401`: 检查 `XGO_API_KEY` 是否已设置且有效
-- `403`: 开放接口需要 Plus 或 Pro 会员
-- `429`: 频率限制 — 等待 10 秒后重试一次。若仍为 429，告知用户："频率限制，请稍后重试。"（PLUS 200 次/分，PRO 600 次/分）
-- `success: false` 且 `code` 非零：读取响应体中的 `code` 和 `message`，对照 api_reference 中的错误码处理
 - `data` 为空或 `totalSize: 0`: 该时间范围内无推文，建议扩大 `timeRange`
 - `list/all` 返回空列表：所有推文归入 "其他" / "其他 (推荐)"
 - `image-gen` 失败：重试一次，仍失败则跳过信息图并告知用户

@@ -11,6 +11,16 @@ skills/
     references/                 # 按需加载的深度参考资料
       api_reference.md          # 自包含的 API 参考（端点、数据类型、错误码）
     scripts/                    # 可选：封装的工具脚本（黑箱调用）
+references/
+  shared/                       # 跨 skill 共享的模板（认证、错误处理）
+    auth-xgo.md                 # XGo API 认证模板
+    error-handling-xgo.md       # XGo API 错误处理模板
+    auth-bestblogs.md           # BestBlogs API 认证模板
+    error-handling-bestblogs.md # BestBlogs API 错误处理模板
+scripts/
+  hooks/                        # On Demand Hook 脚本
+    write-guard.sh              # 写操作安全门控（PreToolUse）
+    skill-usage-tracker.sh      # Skill 使用追踪（PostToolUse）
 docs/                           # 项目规划文档
 ```
 
@@ -97,7 +107,7 @@ description: "Use when the user wants to ... Use sibling-skill instead for ..."
 ---
 ```
 
-1. **YAML Frontmatter**: `name` + `description`（简洁描述触发条件）
+1. **YAML Frontmatter**: `name` + `description`（简洁描述触发条件）+ 可选 `hooks`、`disable-model-invocation` 等
 2. **标题**: `# 中文名 (English Name)`
 3. **认证区块**: 统一模板（见下方）
 4. **可用端点表格**: 方法、类型（DB/实时/写入）、用途
@@ -107,35 +117,34 @@ description: "Use when the user wants to ... Use sibling-skill instead for ..."
 8. **输出完整性规则**: 空值处理、格式化规则
 9. **错误处理**: 统一错误处理模板
 
-### 认证区块（统一模板）
+### 认证区块（共享模板引用）
+
+认证和错误处理已提取为共享模板，各 skill 通过引用避免重复：
 
 ```markdown
 ## 认证
 
-所有请求需要 `X-API-KEY` 请求头。从环境变量 `XGO_API_KEY` 读取密钥：
-
-\```bash
--H "X-API-KEY: $XGO_API_KEY"
-\```
-
-若 `XGO_API_KEY` 未设置，提示用户配置。
-
-接口地址：`https://api.xgo.ing`
+认证方式见 `../../references/shared/auth-xgo.md`。
 ```
 
-### 错误处理（统一模板）
+共享模板位于 `references/shared/`：
+- `auth-xgo.md` — XGo API 认证（X-API-KEY + 接口地址）
+- `error-handling-xgo.md` — XGo 通用错误码（401/403/429/xgo-0012/xgo-9005）+ 批量写操作策略
+- `auth-bestblogs.md` — BestBlogs Admin API + OpenAPI 认证
+- `error-handling-bestblogs.md` — BestBlogs 通用错误码 + 批量处理策略
+
+### 错误处理（共享 + skill 特有）
+
+各 skill 引用共享模板后，仅补充本 skill 特有的错误码：
 
 ```markdown
-**重要**: 始终先检查 `response.success` 再处理 `response.data`。
-部分错误返回 HTTP 200 但 `success: false` — 不要仅依赖 HTTP 状态码。
-```
+## 错误处理
 
-必须覆盖的错误码:
-- `401` (AUTH_001/002/003): API Key 问题
-- `403` (AUTH_004): 会员等级不足
-- `429` (xgo-0010): 频率限制，等待 10 秒重试一次
-- `xgo-0012` (HTTP 200): 功能级会员限制
-- `xgo-9005` (HTTP 200): 操作不允许
+通用错误码见 `../../references/shared/error-handling-xgo.md`。本 skill 额外关注：
+
+- `xgo-0001`（用户不存在，HTTP 200）: ...
+- 结果为空：...
+```
 
 ### api_reference.md 规范
 
@@ -196,6 +205,34 @@ description: "Use when the user wants to ... Use sibling-skill instead for ..."
 4. 单个失败不中断整批，记录 ❌ 和错误信息并继续
 5. 连续失败超过 3 次时暂停，告知用户可能是系统性问题
 6. 空结果时给出友好提示（如 "暂无推荐关注的用户"）
+
+---
+
+## On Demand Hooks
+
+Skills 可在 frontmatter 中声明 hooks，仅在该 skill 激活时生效。
+
+### 写操作门控（PreToolUse）
+
+含写操作的 XGo skill（manage-follows, manage-lists, manage-bookmarks, organize-follows）声明了 `write-guard.sh` hook，拦截绕过 worker 脚本的直接 curl 写操作：
+
+```yaml
+hooks:
+  PreToolUse:
+    - matcher: "Bash"
+      hooks:
+        - type: command
+          command: "bash scripts/hooks/write-guard.sh"
+          timeout: 5
+```
+
+### 发布类 skill 手动触发
+
+高副作用的发布 skill（post-to-x, post-to-wechat, send-wechat-group-message, x-actions）使用 `disable-model-invocation: true`，防止 Claude 自动触发，用户必须通过 `/skill-name` 手动调用。
+
+### 使用追踪
+
+`scripts/hooks/skill-usage-tracker.sh` 记录每次 skill 调用到 `${CLAUDE_PLUGIN_DATA}/logs/skill-usage.log`。可配置为全局 PostToolUse hook 以追踪所有 skill 触发频率。
 
 ---
 

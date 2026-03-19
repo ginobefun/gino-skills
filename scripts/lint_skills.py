@@ -7,7 +7,7 @@ import re
 import sys
 from pathlib import Path
 
-ALLOWED_FRONTMATTER_FIELDS = {"name", "description"}
+ALLOWED_FRONTMATTER_FIELDS = {"name", "description", "hooks", "disable-model-invocation", "user-invocable", "allowed-tools", "argument-hint", "model", "context", "agent"}
 DESCRIPTION_PREFIX = "Use when"
 DESCRIPTION_MAX_CHARS = 500
 FRONTMATTER_MAX_CHARS = 1024
@@ -56,9 +56,14 @@ def parse_frontmatter(text: str) -> tuple[dict[str, str], list[str]]:
             f"frontmatter exceeds {FRONTMATTER_MAX_CHARS} characters ({len(raw_body)})"
         )
 
+    # Parse top-level keys only (lines starting at column 0 with "key:")
+    # Indented lines belong to the previous key (e.g. hooks YAML blocks)
     data: dict[str, str] = {}
     for line in raw_body.splitlines():
         if not line.strip():
+            continue
+        # Skip indented lines (nested YAML content like hooks blocks)
+        if line[0] in (" ", "\t"):
             continue
         if ":" not in line:
             violations.append(f"invalid frontmatter line: {line}")

@@ -64,3 +64,11 @@ description: "Use when 用户或 orchestrator 需要分析一条指定的 BestBl
 - 输出中必须包含内容 ID、score、summary、tags、remark 等后续阶段必需字段
 - 若分析失败，应说明失败发生在读取、构造输入还是保存阶段
 - 不自行决定是否翻译；只把分析结果和必要元数据交回上游
+
+## 错误处理
+
+通用错误码见 `../../references/shared/error-handling-bestblogs.md`。本 skill 额外关注：
+
+- markdown 正文为空：先调 `runPrepareFlow`，重试最多 3 次，仍失败则跳过
+- 分析 JSON 格式错误：重试一次，仍失败则跳过并向 orchestrator 报告
+- 保存失败：记录内容 ID 和失败阶段（读取/构造/保存），不静默丢弃

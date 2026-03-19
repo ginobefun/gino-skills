@@ -10,8 +10,15 @@
 - `name`
 - `description`
 
-不支持的字段：
-- 其他任何字段
+可选字段：
+- `hooks` — On Demand Hooks，仅在 skill 激活时生效
+- `disable-model-invocation` — 禁止 Claude 自动触发（发布类 skill 必须设置为 `true`）
+- `user-invocable` — 设为 `false` 时隐藏 `/` 菜单（背景知识类 skill）
+- `allowed-tools` — 限制 skill 可用的工具集
+- `context` — 设为 `fork` 在子代理中运行
+- `agent` — 指定子代理类型（需配合 `context: fork`）
+- `model` — 指定运行模型
+- `argument-hint` — 自动补全时显示的参数提示
 
 规则：
 - `name` 只能使用小写字母、数字和连字符
@@ -103,14 +110,21 @@ description: Use when the user wants to search X for a topic or fetch the latest
 
 ## Gotchas
 
-每个 skill 都应该逐步积累 `Gotchas`、`Common Mistakes` 或 `Troubleshooting` 章节。
+每个 skill 都应该逐步积累 `Gotchas` 章节。这是 skill 中**信号密度最高**的内容。
 
-优先沉淀：
-- known model failure modes
+**持续迭代原则**：
+- Gotchas 不是一次性写完的，应在每次执行出错后追加新条目
+- 新 gotcha 追加到列表末尾，保留历史条目
+- 格式：`- 简短描述问题 + 后果/建议`（一行一条）
+- 每条 gotcha 应来自真实踩坑经验，不要预测性地编造
+
+**优先沉淀的 gotcha 类型**：
+- known model failure modes（Claude 常犯的错误）
 - API defaults that differ from repository expectations
-- write-action guardrails
+- write-action guardrails（写操作安全边界）
 - pagination, retry, or response-shape traps
-- sibling-skill confusion
+- sibling-skill confusion（与相似 skill 的混淆场景）
+- 数据格式 edge case（空值、类型不匹配、编码问题）
 
 ## 渐进披露
 
@@ -120,6 +134,28 @@ description: Use when the user wants to search X for a topic or fetch the latest
 - templates or assets
 
 正文应该在合适时机指向正确文件，而不是把所有细节一次性内联展开。
+
+## 共享模板引用
+
+认证和错误处理已提取为跨 skill 共享模板，位于 `references/shared/`。各 skill 通过相对路径引用：
+
+```markdown
+## 认证
+
+认证方式见 `../../references/shared/auth-xgo.md`。
+
+## 错误处理
+
+通用错误码见 `../../references/shared/error-handling-xgo.md`。本 skill 额外关注：
+
+- [仅列出本 skill 特有的错误码和处理逻辑]
+```
+
+**规则**：
+- XGo skill 引用 `auth-xgo.md` + `error-handling-xgo.md`
+- BestBlogs skill 引用 `auth-bestblogs.md` + `error-handling-bestblogs.md`
+- 通用错误码（401/403/429）不要在各 skill 中重复，只写在共享模板里
+- 各 skill 只保留自己特有的错误码和业务异常处理
 
 ## 共享写入模板
 

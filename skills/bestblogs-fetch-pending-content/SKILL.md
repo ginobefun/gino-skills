@@ -73,4 +73,11 @@ python3 scripts/examples/bestblogs_fetch_pending.py \
 
 - 结果中必须保留原始内容 ID，供后续写回时复用
 - 应同时输出总数、状态、类型和分页情况，方便 orchestrator 判断是否需要快捷模式
-- 若队列为空，应明确说明哪个状态为空，而不是笼统返回“没数据”
+- 若队列为空，应明确说明哪个状态为空，而不是笼统返回”没数据”
+
+## 错误处理
+
+通用错误码见 `../../references/shared/error-handling-bestblogs.md`。本 skill 额外关注：
+
+- 队列为空：明确说明哪个 `flowStatusFilter` 下为空，建议尝试其他状态
+- 分页中断：记录已获取的页数和条数，告知 orchestrator 结果可能不完整

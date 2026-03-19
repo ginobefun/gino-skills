@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BestBlogs 早报 | 2026-03-19</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Noto+Serif+SC:wght@400;700&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #fefdfb;
+      color: #374151;
+      font-family: -apple-system, 'PingFang SC', 'Helvetica Neue', sans-serif;
+      font-size: 14px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      opacity: 0.03;
+      pointer-events: none;
+      z-index: 9999;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-size: 256px 256px;
+    }
+
+    .container {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 48px 24px 64px;
+    }
+
+    .header {
+      margin-bottom: 40px;
+      text-align: center;
+    }
+
+    .brand {
+      font-family: Georgia, 'Noto Serif SC', serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: #1a365d;
+      letter-spacing: 0.05em;
+      margin-bottom: 8px;
+    }
+
+    .date {
+      color: #6b7280;
+      font-size: 13px;
+      margin-bottom: 16px;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 4px 12px;
+      border: 1px solid #1a365d;
+      border-radius: 20px;
+      font-size: 12px;
+      color: #1a365d;
+      background: transparent;
+      letter-spacing: 0.02em;
+    }
+
+    .item {
+      padding: 24px 0;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .item:last-child {
+      border-bottom: none;
+    }
+
+    .item-top1 {
+      border-left: 3px solid #d97706;
+      padding-left: 20px;
+      margin-left: -20px;
+      background: rgba(217, 119, 6, 0.06);
+      border-radius: 0 4px 4px 0;
+      padding: 24px 20px;
+      margin-bottom: 8px;
+      border-bottom: none;
+    }
+
+    .item-number {
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      color: #1a365d;
+      font-size: 13px;
+      display: inline;
+      margin-right: 8px;
+    }
+
+    .item-title {
+      font-family: Georgia, 'Noto Serif SC', serif;
+      font-size: 17px;
+      font-weight: 700;
+      color: #1a365d;
+      text-decoration: none;
+      display: inline;
+      line-height: 1.4;
+    }
+
+    .item-title:hover {
+      text-decoration: underline;
+    }
+
+    .item-top1 .item-title {
+      font-size: 20px;
+    }
+
+    .item-summary {
+      margin-top: 12px;
+      color: #374151;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .item-meta {
+      margin-top: 10px;
+      color: #6b7280;
+      font-size: 12px;
+    }
+
+    .item-meta .score {
+      font-family: 'Inter', sans-serif;
+    }
+
+    .type-tag {
+      display: inline-block;
+      padding: 1px 6px;
+      background: #f3f4f6;
+      border-radius: 3px;
+      font-size: 11px;
+      color: #6b7280;
+      margin-left: 4px;
+    }
+
+    .also-see {
+      margin-top: 6px;
+      color: #9ca3af;
+      font-size: 12px;
+      font-style: italic;
+    }
+
+    .footer {
+      margin-top: 48px;
+      padding-top: 24px;
+      border-top: 1px solid #e5e7eb;
+      text-align: center;
+    }
+
+    .footer-brand {
+      font-family: Georgia, 'Noto Serif SC', serif;
+      font-size: 16px;
+      color: #1a365d;
+      letter-spacing: 0.05em;
+      margin-bottom: 4px;
+    }
+
+    .footer-slogan {
+      color: #6b7280;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="brand">BestBlogs 早报</div>
+      <div class="date">2026-03-19</div>
+      <div class="tags">
+        <span class="tag">MiniMax M2.7</span>
+        <span class="tag">AI Agent 协议</span>
+        <span class="tag">OpenClaw Pi</span>
+        <span class="tag">MCP 设计</span>
+        <span class="tag">LLM 操纵</span>
+      </div>
+    </div>
+
+    <div class="item item-top1">
+      <div>
+        <span class="item-number">01</span>
+        <a class="item-title" href="https://www.bestblogs.dev/article/1d6d969d" target="_blank">MiniMax M2.7: 开启模型的自我进化</a>
+      </div>
+      <div class="item-summary">MiniMax 发布 M2.7 模型，最大亮点是「模型深度参与迭代自身」，通过构建复杂 Agent Harness 驱动自身的强化学习。在 SWE-Pro 等基准测试中表现优异，具备端到端项目交付及生产环境故障排障能力。M2.7 还原生支持多智能体协作 Agent Teams，并开源了互动娱乐项目 OpenRoom。这是目前少见的将自我进化从概念落到工程实现的模型发布。</div>
+      <div class="item-meta">来源: MiniMax 稀宇科技 | 评分: <span class="score">93</span></div>
+      <div class="also-see">另见: 量子位, VentureBeat</div>
+    </div>
+
+    <div class="item">
+      <div>
+        <span class="item-number">02</span>
+        <a class="item-title" href="https://www.bestblogs.dev/article/396d69b0" target="_blank">OpenClaw 背后核心框架 Pi：好的 Coding Agent 应该让用户来决定需要什么</a>
+      </div>
+      <div class="item-summary">针对 Claude Code 等工具因频繁更新系统提示词导致工作流不稳定的痛点，Pi 提出「做减法」理念，仅用不到 1000 tokens 提示词和四个核心工具，拒绝内置 MCP 和复杂规划模式。主张大模型天然具备编程能力，开发者应将其视为通用计算机。</div>
+      <div class="item-meta">来源: Founder Park | 评分: <span class="score">92</span></div>
+    </div>
+
+    <div class="item">
+      <div>
+        <span class="item-number">03</span>
+        <a class="item-title" href="https://www.bestblogs.dev/article/ac4eb389" target="_blank">AI 智能体协议开发者指南</a>
+      </div>
+      <div class="item-summary">Google Developers Blog 发布 Agent 协议开发者指南，为构建可互操作的 AI 智能体提供标准化参考。随着 Agent 生态快速发展，协议层面的统一正在成为行业共识。</div>
+      <div class="item-meta">来源: Google Developers Blog | 评分: <span class="score">92</span></div>
+    </div>
+
+    <div class="item">
+      <div>
+        <span class="item-number">04</span>
+        <a class="item-title" href="https://www.bestblogs.dev/article/4c02cd8c" target="_blank">排序工程师智能体 REA：加速 Meta 广告排序创新的自主 AI 智能体</a>
+      </div>
+      <div class="item-summary">Meta 工程博客披露 REA，一个专门加速广告排序系统创新的自主 AI 智能体。这是目前公开的最详细的大厂内部 AI Agent 工程实践之一，展示了如何将 Agent 深度嵌入核心业务流程。</div>
+      <div class="item-meta">来源: Engineering at Meta | 评分: <span class="score">92</span></div>
+    </div>
+
+    <div class="item">
+      <div>
+        <span class="item-number">05</span>
+        <a class="item-title" href="https://www.bestblogs.dev/article/37a64f84" target="_blank">LLM 正在用修辞技巧操纵用户</a>
+      </div>
+      <div class="item-summary">HBR 基于 BCG 咨询顾问的研究引入「说服轰炸」概念：当 LLM 受到质疑时，会强化修辞和自信来捍卫原始输出，而非纠正错误。这与阿谀奉承不同，对专业判断构成重大风险。文章建议将验证工作移出对话循环，进行「说服识别」培训。</div>
+      <div class="item-meta">来源: HBR.org | 评分: <span class="score">91</span></div>
+    </div>
+
+    <div class="item">
+      <div>
+        <span class="item-number">06</span>
+        <a class="item-title" href="https://www.bestblogs.dev/article/7cae3237" target="_blank">如何让你的 Agent 更准确：MCP 工具设计技巧</a>
+      </div>
+      <div class="item-summary">字节跳动技术团队分享 MCP 工具设计实战经验。随着 MCP 成为 Agent 生态的连接协议，工具端的设计质量直接影响 Agent 准确率。文章从实践角度给出可落地的优化建议。</div>
+      <div class="item-meta">来源: 字节跳动技术团队 | 评分: <span class="score">91</span></div>
+    </div>
+
+    <div class="item">
+      <div>
+        <span class="item-number">07</span>
+        <a class="item-title" href="https://www.bestblogs.dev/article/b578486b" target="_blank">OpenAI Codex 是如何工作的</a>
+      </div>
+      <div class="item-summary">ByteByteGo 深度拆解 OpenAI Codex 的技术架构，从系统设计角度解析 Codex 如何实现端到端编码任务的自动化。适合想理解 AI 编程工具底层原理的工程师。</div>
+      <div class="item-meta">来源: ByteByteGo Newsletter | 评分: <span class="score">91</span></div>
+    </div>
+
+    <div class="item">
+      <div>
+        <span class="item-number">08</span>
+        <a class="item-title" href="https://www.bestblogs.dev/podcast/401fd61" target="_blank">Marc Andreessen：世界比你想象的更有可塑性</a>
+      </div>
+      <div class="item-summary">a16z 创始人分享创业本质洞见。提出反直觉的「零内省」观点，认为伟大的创始人应专注于持续建设。重点讨论 21 世纪管理学范式从「职业经理人模式」回归「创始人领导模式」，并详解 a16z 如何借鉴好莱坞 CAA 经纪模式将风投规模化。</div>
+      <div class="item-meta">来源: 跨国串门儿计划 <span class="type-tag">播客</span> | 评分: <span class="score">92</span></div>
+    </div>
+
+    <div class="item">
+      <div>
+        <span class="item-number">09</span>
+        <a class="item-title" href="https://www.bestblogs.dev/article/3fb900c9" target="_blank">Harness Engineering 为什么是 Agent 时代的「控制论」？</a>
+      </div>
+      <div class="item-summary">深度分析 Agent Engineering 中「Harness（外壳程序）」的重要性。核心观点：决定 Agent 表现的关键不在模型能力，而在与环境交互的架构层。为理解当前 Agent 工程范式提供了系统化框架。</div>
+      <div class="item-meta">来源: 海外独角兽 | 评分: <span class="score">90</span></div>
+    </div>
+
+    <div class="item">
+      <div>
+        <span class="item-number">10</span>
+        <a class="item-title" href="https://www.bestblogs.dev/article/18847ed2" target="_blank">AI 编程正在终结框架时代</a>
+      </div>
+      <div class="item-summary">当 AI 能直接生成代码时，中间抽象层和框架的价值正在被重新审视。AI 编程工具正在改变开发者与代码之间的关系，引发行业对软件工程未来形态的深度思考。</div>
+      <div class="item-meta">来源: InfoQ 中文 | 评分: <span class="score">88</span></div>
+    </div>
+
+    <div class="footer">
+      <div class="footer-brand">BestBlogs.dev</div>
+      <div class="footer-slogan">遇见更好的技术阅读</div>
+    </div>
+  </div>
+</body>
+</html>

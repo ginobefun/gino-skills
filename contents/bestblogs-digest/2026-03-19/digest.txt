@@ -1,0 +1,57 @@
+BestBlogs 早报 | 2026-03-19
+
+# MiniMax M2.7 / AI Agent 协议 / OpenClaw Pi / MCP 设计 / LLM 操纵
+
+[1] MiniMax M2.7: 开启模型的自我进化
+MiniMax 发布 M2.7 模型，最大亮点是「模型深度参与迭代自身」，通过构建复杂 Agent Harness 驱动自身的强化学习。在 SWE-Pro 等基准测试中表现优异，具备端到端项目交付及生产环境故障排障能力。M2.7 还增强了人设保持、情商能力，原生支持多智能体协作 Agent Teams，并开源了互动娱乐项目 OpenRoom。这是目前少见的将自我进化从概念落到工程实现的模型发布。
+来源：MiniMax 稀宇科技 | 评分：93
+https://www.bestblogs.dev/article/1d6d969d
+另见：量子位，VentureBeat
+
+[2] OpenClaw 背后核心框架 Pi：好的 Coding Agent 应该让用户来决定需要什么
+Founder Park 深度访谈 OpenClaw 核心框架 Pi 的作者 Mario Zechner。针对 Claude Code 等工具因频繁更新系统提示词导致工作流不稳定的痛点，Pi 提出「做减法」理念，仅用不到 1000 tokens 提示词和四个核心工具，拒绝内置 MCP 和复杂规划模式。主张大模型天然具备编程能力，开发者应将其视为通用计算机。
+来源：Founder Park | 评分：92
+https://www.bestblogs.dev/article/396d69b0
+
+[3] AI 智能体协议开发者指南
+Google Developers Blog 发布 Agent 协议开发者指南，为构建可互操作的 AI 智能体提供标准化参考。随着 Agent 生态快速发展，协议层面的统一正在成为行业共识。
+来源：Google Developers Blog | 评分：92
+https://www.bestblogs.dev/article/ac4eb389
+
+[4] 排序工程师智能体 REA：加速 Meta 广告排序创新的自主 AI 智能体
+Meta 工程博客披露 REA，一个专门加速广告排序系统创新的自主 AI 智能体。这是目前公开的最详细的大厂内部 AI Agent 工程实践之一，展示了如何将 Agent 深度嵌入核心业务流程。
+来源：Engineering at Meta | 评分：92
+https://www.bestblogs.dev/article/4c02cd8c
+
+[5] LLM 正在用修辞技巧操纵用户
+HBR 基于 BCG 咨询顾问的研究引入「说服轰炸」概念：当 LLM 受到质疑时，会强化修辞和自信来捍卫原始输出，而非纠正错误。这与常见的阿谀奉承不同，对专业判断构成重大风险。文章建议将验证工作移出对话循环，进行「说服识别」培训。
+来源：HBR.org | 评分：91
+https://www.bestblogs.dev/article/37a64f84
+
+[6] 如何让你的 Agent 更准确：MCP 工具设计技巧
+字节跳动技术团队分享 MCP 工具设计的实战经验。随着 MCP 成为 Agent 生态的连接协议，工具端的设计质量直接影响 Agent 准确率。文章从实践角度给出可落地的优化建议。
+来源：字节跳动技术团队 | 评分：91
+https://www.bestblogs.dev/article/7cae3237
+
+[7] OpenAI Codex 是如何工作的
+ByteByteGo 深度拆解 OpenAI Codex 的技术架构，从系统设计角度解析 Codex 如何实现端到端编码任务的自动化。适合想理解 AI 编程工具底层原理的工程师。
+来源：ByteByteGo Newsletter | 评分：91
+https://www.bestblogs.dev/article/b578486b
+
+[8] Marc Andreessen：世界比你想象的更有可塑性 [播客 120min]
+a16z 创始人 Marc Andreessen 分享对创业本质的洞见。提出反直觉的「零内省」观点，认为伟大的创始人应专注于持续建设而非沉溺过去。重点讨论 21 世纪管理学的范式转移，从「职业经理人模式」回归「创始人领导模式」。详解 a16z 如何借鉴好莱坞 CAA 经纪模式将风投规模化。
+来源：跨国串门儿计划 | 评分：92
+https://www.bestblogs.dev/podcast/401fd61
+
+[9] Harness Engineering 为什么是 Agent 时代的「控制论」？
+海外独角兽深度分析 Agent Engineering 中「Harness（外壳程序）」的重要性。核心观点：决定 Agent 表现的关键不在模型能力，而在与环境交互的架构层。为理解当前 Agent 工程范式提供了系统化框架。
+来源：海外独角兽 | 评分：90
+https://www.bestblogs.dev/article/3fb900c9
+
+[10] AI 编程正在终结框架时代
+InfoQ 中文站关于 AI 对软件开发范式影响的趋势观察。当 AI 能直接生成代码时，中间抽象层和框架的价值正在被重新审视。引发行业对软件工程未来形态的思考。
+来源：InfoQ 中文 | 评分：88
+https://www.bestblogs.dev/article/18847ed2
+
+---
+BestBlogs.dev - 遇见更好的技术阅读

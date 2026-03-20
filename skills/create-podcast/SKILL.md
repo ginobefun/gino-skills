@@ -208,11 +208,20 @@ bun ${SKILL_DIR}/scripts/fish-tts.ts \
   --script contents/tmp/podcast/YYYY-MM-DD/script.md \
   --output-dir contents/tmp/podcast/YYYY-MM-DD/segments/ \
   --voice-id "$FISH_AUDIO_VOICE_ID" \
+  --fallback-voice-id "5e43d887557a470ba1daf6c5a1d27bd8" \
+  --delay 8 \
   --rate 0.95 \
   --merge contents/podcast/daily/YYYY-MM-DD/podcast.mp3
 ```
 
 脚本自动按 `<!-- SEGMENT: name -->` 标记分段合成，`--merge` 参数自动调用 FFmpeg 合并并归一化音量。
+
+| 参数 | 说明 |
+|------|------|
+| `--delay <seconds>` | 段间冷却延迟，避免 API 限流（默认 5 秒，推荐 8 秒） |
+| `--fallback-voice-id <id>` | 主声音失败后自动切换的备用声音模型 |
+
+脚本内置空音频检测：合成结果小于 1 KB 时自动重试（递增延迟 10/20/40 秒），全部失败后切换备用声音。
 
 分段合成优势：避免超长文本质量下降，失败时可单段重试。
 
@@ -378,7 +387,9 @@ contents/podcast/                        # 最终产出（持久化）
 - `401`: 检查 `FISH_AUDIO_API_KEY`
 - `404` (Voice not found): 检查 `FISH_AUDIO_VOICE_ID`
 - `429` (Rate limit): 等待 10 秒后重试当前片段
+- **空音频**（HTTP 200 但文件 ≤1 KB）: 声音模型被限流，脚本自动递增延迟重试（10/20/40 秒），全部失败后切换 `--fallback-voice-id`
 - 单段失败：重试一次，仍失败则标记该段，继续后续片段，最后汇报
+- **备用声音模型**: `5e43d887557a470ba1daf6c5a1d27bd8`（已验证可用）
 
 ### FFmpeg
 - 未安装：提示用户安装 `brew install ffmpeg` 或 `apt install ffmpeg`

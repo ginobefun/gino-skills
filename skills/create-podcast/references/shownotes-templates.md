@@ -29,9 +29,9 @@
 
 ## 相关链接
 
-· 精讲原文：{readUrl1}
-· 精讲原文：{readUrl2}
-· 精讲原文：{readUrl3}
+· {Top1 简短描述}：{readUrl1}
+· {Top2 简短描述}：{readUrl2}
+· {Top3 简短描述}：{readUrl3}
 · BestBlogs: https://bestblogs.dev
 ```
 
@@ -98,4 +98,5 @@ xx:xx {标题}
 - **时间戳必须准确**：从各 segment 的实际时长累加计算，格式 `MM:SS`
 - 时间戳放在行首，小宇宙编辑器会自动识别为可点击锚点
 - 原文链接使用 BestBlogs 的 readUrl，确保可访问
+- **链接文案用具体标题**：不要写重复的「精讲原文」，用简短描述区分每条链接，如「Cursor Composer 2 发布博客」「LangSmith Fleet 平台介绍」
 - 不写长段描述，保持精炼，用户能快速扫读

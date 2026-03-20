@@ -1,0 +1,23 @@
+{
+  "date": "2026-03-20",
+  "title": "EP6 · BestBlogs 周刊第 87 期 · 自我进化",
+  "description": "MiniMax M2.7 让模型参与自身迭代，Cursor 用持续预训练重塑编程模型，Cloudflare 把大模型嵌入边缘，Simon Willison 分享 Agent 编程实战方法论，谢赛宁追问语言模型之外的智能路径。",
+  "duration": 985,
+  "durationFormatted": "16:25",
+  "audioFile": "podcast.mp3",
+  "audioSize": 23635634,
+  "keywords": ["MiniMax M2.7", "Cursor Composer 2", "Cloudflare", "Simon Willison", "GTC 2026", "谢赛宁", "自我进化"],
+  "series": "article",
+  "sourceType": "weekly-newsletter",
+  "sourceFile": "bestblogs-weekly-issue-87",
+  "items": [
+    "MiniMax M2.7 模型自我迭代",
+    "Cursor Composer 2 持续预训练",
+    "Cloudflare Workers AI 边缘推理",
+    "Simon Willison Agent 编程方法论",
+    "Agent 架构与 AI 同事",
+    "黄仁勋 GTC 2026",
+    "谢赛宁 世界模型",
+    "工具越强大判断力越珍贵"
+  ]
+}

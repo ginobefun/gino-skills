@@ -90,6 +90,7 @@ description: "Use when 用户想把文本内容转换成带旁白的播客音频
 |----------|---------|---------|---------|
 | **每日早报** | 用户提到「早报/daily digest」或指定日期 | `daily` | 10-15 分钟 |
 | **每周周刊** | 用户提到「周刊/weekly/newsletter」或指定期数 | `weekly` | 15-20 分钟 |
+| **已有博文** | 用户提供已写好的博客文章文件路径 | `weekly` 或 `article`（按内容量判断） | 视内容而定 |
 | **单篇文章** | 用户提供 URL、文件路径或粘贴文章内容 | `article` | 5-8 分钟 |
 | **任意内容** | 用户提供任意文本或 Markdown | `freeform` | 视内容而定 |
 
@@ -154,7 +155,11 @@ python3 scripts/examples/bestblogs_fetch_resources.py \
 - 文件路径：直接读取
 - 粘贴内容：直接使用
 
-### 1.5 任意内容输入
+### 1.5 已有博文输入
+
+用户提供已写好的博客文章（如周刊博客），直接读取。脚本基于博文结构改写为口语化表达，核心工作是**书面→播报适配**（见 `references/script_templates.md` 中的适配规则），而非重新编排内容。按内容量选模板：多主题综述用 `weekly`，单主题深度用 `article`。
+
+### 1.6 任意内容输入
 
 直接使用用户提供的文本，分析内容结构后选择合适的脚本组织方式。
 
@@ -191,8 +196,10 @@ python3 scripts/examples/bestblogs_fetch_resources.py \
 脚本保存到：
 
 ```bash
-contents/tmp/podcast/YYYY-MM-DD/script.md
+contents/tmp/podcast/YYYY-MM-DD-{type}/script.md
 ```
+
+`{type}` 为 `daily`、`weekly`、`article` 或 slug 名。同一天可能生成多个播客（如早报 + 周刊），用类型后缀避免 tmp 目录冲突和旧 segments 残留。
 
 ---
 
@@ -295,7 +302,10 @@ contents/podcast/daily/YYYY-MM-DD/
   metadata.json        # 元数据
   cover.png            # 单集封面
   shownotes.md         # ShowNotes（Markdown）
+  script.md            # 正式版文字稿（便于回顾）
 ```
+
+**ShowNotes 时间戳**: 先生成 ShowNotes 骨架（标题、链接），时间戳留空或估算。音频合成完成后，用各 segment 实际时长累加回填精确时间戳。不要在合成前就输出最终版 ShowNotes。
 
 ### 4.3 上传 R2（可选）
 
@@ -346,15 +356,15 @@ RSS 适用场景：Apple Podcasts、Spotify、Google Podcasts 等平台通过订
 ## 输出目录
 
 ```
-contents/tmp/podcast/YYYY-MM-DD/        # 临时中间文件（gitignore）
-  script.md                             # 播客脚本
-  segments/                             # TTS 音频片段
-  cover-prompt.md                       # 封面生成 prompt
+contents/tmp/podcast/YYYY-MM-DD-{type}/  # 临时中间文件（gitignore）
+  script.md                              # 播客脚本草稿
+  segments/                              # TTS 音频片段
+  cover-prompt.md                        # 封面生成 prompt
 
-contents/podcast/                        # 最终产出（持久化）
-  {daily|weekly}/YYYY-MM-DD/            # 或 articles/{slug}/
-    podcast.mp3 / metadata.json / cover.png / shownotes.md
-  podcast.xml                           # RSS Feed（可选，扩展时启用）
+contents/podcast/                         # 最终产出（持久化）
+  {daily|weekly}/YYYY-MM-DD/             # 或 articles/{slug}/
+    podcast.mp3 / metadata.json / cover.png / shownotes.md / script.md
+  podcast.xml                            # RSS Feed（可选，扩展时启用）
 ```
 
 ---

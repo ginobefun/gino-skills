@@ -1,0 +1,127 @@
+{
+  "date": "2026-03-18",
+  "keywords": [
+    "GTC 2026",
+    "Open SWE",
+    "Anthropic Cowork",
+    "GPT-5.4 mini",
+    "Midjourney V8"
+  ],
+  "items": [
+    {
+      "rank": 1,
+      "title": "黄仁勋 GTC 2026：万亿美元愿景",
+      "keywords": [
+        "GTC"
+      ],
+      "source": "InfoQ 中文",
+      "score": 90,
+      "url": "https://www.bestblogs.dev/article/00d1d39b",
+      "readUrl": "https://www.bestblogs.dev/article/00d1d39b"
+    },
+    {
+      "rank": 2,
+      "title": "Open SWE：面向企业内部编码智能体的开源框架",
+      "keywords": [
+        "Open SWE"
+      ],
+      "source": "LangChain Blog",
+      "score": 93,
+      "url": "https://www.bestblogs.dev/article/9f6c9323",
+      "readUrl": "https://www.bestblogs.dev/article/9f6c9323"
+    },
+    {
+      "rank": 3,
+      "title": "为什么 Anthropic 认为 AI 应该拥有自己的计算机",
+      "keywords": [
+        "Anthropic",
+        "AI"
+      ],
+      "source": "Latent Space",
+      "score": 93,
+      "url": "https://www.bestblogs.dev/article/933bc25e",
+      "readUrl": "https://www.bestblogs.dev/article/933bc25e"
+    },
+    {
+      "rank": 4,
+      "title": "OpenAI 发布 GPT-5.4 mini 和 nano：更小更快更便宜",
+      "keywords": [
+        "OpenAI",
+        "GPT-5.4"
+      ],
+      "source": "Simon Willison's Weblog",
+      "score": 90,
+      "url": "https://www.bestblogs.dev/article/eedde830",
+      "readUrl": "https://www.bestblogs.dev/article/eedde830"
+    },
+    {
+      "rank": 5,
+      "title": "训练 Composer 以应对更长期的任务——自我总结技术",
+      "keywords": [
+        "Composer"
+      ],
+      "source": "Cursor Blog",
+      "score": 91,
+      "url": "https://www.bestblogs.dev/article/40081192",
+      "readUrl": "https://www.bestblogs.dev/article/40081192"
+    },
+    {
+      "rank": 6,
+      "title": "Agent/Skills/Teams 架构演进过程及技术选型之道",
+      "keywords": [
+        "Agent",
+        "Skills",
+        "Teams"
+      ],
+      "source": "阿里云开发者",
+      "score": 93,
+      "url": "https://www.bestblogs.dev/article/2902aba4",
+      "readUrl": "https://www.bestblogs.dev/article/2902aba4"
+    },
+    {
+      "rank": 7,
+      "title": "Hugging Face 开源现状：2026 年春季",
+      "keywords": [
+        "Hugging Face"
+      ],
+      "source": "Hugging Face Blog",
+      "score": 91,
+      "url": "https://www.bestblogs.dev/article/4e42b0b6",
+      "readUrl": "https://www.bestblogs.dev/article/4e42b0b6"
+    },
+    {
+      "rank": 8,
+      "title": "上下文锚定：减少 AI 辅助编程中的摩擦",
+      "keywords": [
+        "AI"
+      ],
+      "source": "Martin Fowler",
+      "score": 91,
+      "url": "https://www.bestblogs.dev/article/a289e2c6",
+      "readUrl": "https://www.bestblogs.dev/article/a289e2c6"
+    },
+    {
+      "rank": 9,
+      "title": "构建 Claude Code 的经验：我们如何使用 Skills",
+      "keywords": [
+        "Claude Code",
+        "Skills"
+      ],
+      "source": "宝玉的分享",
+      "score": 92,
+      "url": "https://www.bestblogs.dev/article/2614f825",
+      "readUrl": "https://www.bestblogs.dev/article/2614f825"
+    },
+    {
+      "rank": 10,
+      "title": "Midjourney V8 发布：5 倍速度提升 @midjourney",
+      "keywords": [
+        "Midjourney V8"
+      ],
+      "source": "@midjourney",
+      "score": 93,
+      "url": "https://www.bestblogs.dev/status/2034015674046288171",
+      "readUrl": "https://www.bestblogs.dev/status/2034015674046288171"
+    }
+  ]
+}

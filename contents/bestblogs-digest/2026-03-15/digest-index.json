@@ -1,0 +1,122 @@
+{
+  "date": "2026-03-15",
+  "keywords": [
+    "Chrome MCP",
+    "智能体工程",
+    "奖励欺骗",
+    "Harness Engineering",
+    "Coding Agent"
+  ],
+  "items": [
+    {
+      "rank": 1,
+      "title": "Chrome 通过 MCP 实现对 AI 编程代理的原生支持",
+      "keywords": [
+        "Chrome",
+        "MCP",
+        "AI"
+      ],
+      "source": "@addyosmani",
+      "score": 93,
+      "url": "https://www.bestblogs.dev/status/2032875051830358197",
+      "readUrl": "https://www.bestblogs.dev/status/2032875051830358197"
+    },
+    {
+      "rank": 2,
+      "title": "Simon Willison：智能体工程的实操框架",
+      "keywords": [
+        "Simon Willison"
+      ],
+      "source": "Simon Willison's Weblog",
+      "score": 92,
+      "url": "https://www.bestblogs.dev/article/c27268ec",
+      "readUrl": "https://www.bestblogs.dev/article/c27268ec"
+    },
+    {
+      "rank": 3,
+      "title": "Anthropic 研究：奖励欺骗导致涌现失对齐",
+      "keywords": [
+        "Anthropic"
+      ],
+      "source": "@godofprompt",
+      "score": 92,
+      "url": "https://www.bestblogs.dev/status/2032876780294467644",
+      "readUrl": "https://www.bestblogs.dev/status/2032876780294467644"
+    },
+    {
+      "rank": 4,
+      "title": "多智能体陷阱：非结构化架构如何放大 17 倍错误",
+      "keywords": [],
+      "source": "Towards Data Science",
+      "score": 92,
+      "url": "https://www.bestblogs.dev/article/57a2ca0c",
+      "readUrl": "https://www.bestblogs.dev/article/57a2ca0c"
+    },
+    {
+      "rank": 5,
+      "title": "提示词工程、上下文工程都过时了，现在是 Harness Engineering 的时代",
+      "keywords": [
+        "Harness Engineering"
+      ],
+      "source": "Founder Park",
+      "score": 92,
+      "url": "https://www.bestblogs.dev/article/7117df66",
+      "readUrl": "https://www.bestblogs.dev/article/7117df66"
+    },
+    {
+      "rank": 6,
+      "title": "OpenClaw 之后，我只想未来 3-6 个月的事情 [播客 57min]",
+      "keywords": [
+        "OpenClaw"
+      ],
+      "source": "42 章经",
+      "score": 92,
+      "url": "https://www.bestblogs.dev/podcast/aaa592f",
+      "readUrl": "https://www.bestblogs.dev/podcast/aaa592f"
+    },
+    {
+      "rank": 7,
+      "title": "从零实现龙虾：Bub 开发者访谈 [播客 87min]",
+      "keywords": [
+        "Bub"
+      ],
+      "source": "捕蛇者说",
+      "score": 92,
+      "url": "https://www.bestblogs.dev/podcast/30aa0eb",
+      "readUrl": "https://www.bestblogs.dev/podcast/30aa0eb"
+    },
+    {
+      "rank": 8,
+      "title": "阮一峰：测试是新的护城河",
+      "keywords": [],
+      "source": "阮一峰的网络日志",
+      "score": 92,
+      "url": "https://www.bestblogs.dev/article/d5a2715b",
+      "readUrl": "https://www.bestblogs.dev/article/d5a2715b"
+    },
+    {
+      "rank": 9,
+      "title": "Claude 使用额度限时翻倍 @claudeai",
+      "keywords": [
+        "Claude"
+      ],
+      "source": "@claudeai",
+      "score": 91,
+      "url": "https://www.bestblogs.dev/status/2032911276226257206",
+      "readUrl": "https://www.bestblogs.dev/status/2032911276226257206"
+    },
+    {
+      "rank": 10,
+      "title": "OpenAI Codex 自动化功能正式发布 GA @OpenAIDevs",
+      "keywords": [
+        "OpenAI Codex",
+        "GA",
+        "OpenAIDevs"
+      ],
+      "source": "@OpenAIDevs",
+      "score": 91,
+      "url": "https://www.bestblogs.dev/status/2032222711032971548",
+      "readUrl": "https://www.bestblogs.dev/status/2032222711032971548"
+    }
+  ]
+}

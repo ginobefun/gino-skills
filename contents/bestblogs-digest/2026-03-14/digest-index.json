@@ -1,0 +1,131 @@
+{
+  "date": "2026-03-14",
+  "keywords": [
+    "Agent 可观测性",
+    "Claude Code 治理",
+    "Skills 工程化",
+    "AI 代码评审",
+    "TPU vs GPU"
+  ],
+  "items": [
+    {
+      "rank": 1,
+      "title": "你的 AI Agent 真的在受控运行吗？",
+      "keywords": [
+        "AI Agent"
+      ],
+      "source": "阿里云开发者",
+      "score": 93,
+      "url": "https://www.bestblogs.dev/article/e2b00eaa",
+      "readUrl": "https://www.bestblogs.dev/article/e2b00eaa"
+    },
+    {
+      "rank": 2,
+      "title": "如何使用 Hooks、Skills 和 Agents 为 Claude Code 构建治理层",
+      "keywords": [
+        "Hooks",
+        "Skills",
+        "Agents",
+        "Claude Code"
+      ],
+      "source": "HackerNoon",
+      "score": 93,
+      "url": "https://www.bestblogs.dev/article/6abd2f96",
+      "readUrl": "https://www.bestblogs.dev/article/6abd2f96"
+    },
+    {
+      "rank": 3,
+      "title": "一文搞懂爆火的 Skills 原理及实践案例",
+      "keywords": [
+        "Skills"
+      ],
+      "source": "腾讯云开发者",
+      "score": 92,
+      "url": "https://www.bestblogs.dev/article/a9529ba9",
+      "readUrl": "https://www.bestblogs.dev/article/a9529ba9"
+    },
+    {
+      "rank": 4,
+      "title": "给\"氛围编程\"系上安全带：阿里集团 AI 代码评审实践与 Benchmark 开源",
+      "keywords": [
+        "AI",
+        "Benchmark"
+      ],
+      "source": "阿里技术",
+      "score": 92,
+      "url": "https://www.bestblogs.dev/article/7a6e51dd",
+      "readUrl": "https://www.bestblogs.dev/article/7a6e51dd"
+    },
+    {
+      "rank": 5,
+      "title": "AI 操作系统：从指令到意图",
+      "keywords": [
+        "AI"
+      ],
+      "source": "浮之静",
+      "score": 92,
+      "url": "https://www.bestblogs.dev/article/c5d9d9be",
+      "readUrl": "https://www.bestblogs.dev/article/c5d9d9be"
+    },
+    {
+      "rank": 6,
+      "title": "GPT-5.4 引起轰动，AI 在移动端的增长，数据中心脱离电网",
+      "keywords": [
+        "GPT-5.4",
+        "AI"
+      ],
+      "source": "deeplearning.ai",
+      "score": 91,
+      "url": "https://www.bestblogs.dev/article/ed4a931a",
+      "readUrl": "https://www.bestblogs.dev/article/ed4a931a"
+    },
+    {
+      "rank": 7,
+      "title": "从 IDE 到 Terminal：适合后端宝宝体质的 Claude Code 工作流",
+      "keywords": [
+        "IDE",
+        "Terminal",
+        "Claude Code"
+      ],
+      "source": "得物技术",
+      "score": 91,
+      "url": "https://www.bestblogs.dev/article/f583e1be",
+      "readUrl": "https://www.bestblogs.dev/article/f583e1be"
+    },
+    {
+      "rank": 8,
+      "title": "谷歌 TPU 能撼动英伟达吗？前 TPU 工程师首次揭秘 [播客 67min]",
+      "keywords": [
+        "TPU",
+        "TPU"
+      ],
+      "source": "硅谷 101",
+      "score": 92,
+      "url": "https://www.bestblogs.dev/podcast/ca55255",
+      "readUrl": "https://www.bestblogs.dev/podcast/ca55255"
+    },
+    {
+      "rank": 9,
+      "title": "Claude Opus 4.6 推出自适应推理与上下文压缩，助力长时运行智能体",
+      "keywords": [
+        "Claude Opus"
+      ],
+      "source": "InfoQ",
+      "score": 88,
+      "url": "https://www.bestblogs.dev/article/1390d442",
+      "readUrl": "https://www.bestblogs.dev/article/1390d442"
+    },
+    {
+      "rank": 10,
+      "title": "余一：如何高效 PUA 100 个 Agents 为你卖命 [播客 87min]",
+      "keywords": [
+        "PUA",
+        "Agents"
+      ],
+      "source": "AI 炼金术",
+      "score": 92,
+      "url": "https://www.bestblogs.dev/podcast/b15cd11",
+      "readUrl": "https://www.bestblogs.dev/podcast/b15cd11"
+    }
+  ]
+}

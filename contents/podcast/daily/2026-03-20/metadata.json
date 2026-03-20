@@ -1,0 +1,23 @@
+{
+  "date": "2026-03-20",
+  "title": "EP5 · Composer 2/编码智能体实践/企业 Agent 治理 · 03.20 早报",
+  "description": "Cursor 发布 Composer 2 编程模型性能翻倍，Simon Willison 分享 AI 编码智能体协作的 TDD 方法论，LangChain 推出企业级智能体治理平台 LangSmith Fleet。另有 GTC 2026 对话、人形机器人量产、Cherry Studio、OpenClaw 架构、Next.js 16.2、Google Stitch 等速览。",
+  "duration": 718,
+  "durationFormatted": "11:58",
+  "audioFile": "podcast.mp3",
+  "audioSize": 17227693,
+  "keywords": ["Cursor", "Composer 2", "AI 编程", "Simon Willison", "TDD", "LangSmith Fleet", "智能体治理", "GTC 2026"],
+  "series": "daily",
+  "items": [
+    {"title": "Cursor 发布 Composer 2：编程模型性能翻倍，定价重塑", "source": "Cursor Blog", "url": "https://www.bestblogs.dev/article/67644639"},
+    {"title": "让编码 Agent 发挥作用的工程实践", "source": "The Pragmatic Engineer", "url": "https://www.bestblogs.dev/video/891ae75"},
+    {"title": "LangSmith Fleet：企业级 AI 智能体治理平台", "source": "LangChain Blog", "url": "https://www.bestblogs.dev/article/3424ffde"},
+    {"title": "GTC 巅峰对话：Jeff Dean x Bill Dally 谈透 AI 五年未来", "source": "AI 科技大本营", "url": "https://www.bestblogs.dev/article/adc5700e"},
+    {"title": "一个大脑控制所有机器人？GTC 2026 人形机器人圆桌", "source": "AI 科技大本营", "url": "https://www.bestblogs.dev/article/92867e59"},
+    {"title": "Cherry Studio：2 个人，GitHub 42k 星，代码贡献第一名是 Claude", "source": "AI 炼金术", "url": "https://www.bestblogs.dev/podcast/c40b08b"},
+    {"title": "深入理解 OpenClaw 技术架构与实现原理", "source": "阿里云开发者", "url": "https://www.bestblogs.dev/article/278b3853"},
+    {"title": "Next.js 16.2：框架走向 Agent-Ready", "source": "Next.js Blog", "url": "https://www.bestblogs.dev/article/b2db5597"},
+    {"title": "Google Stitch 升级为 AI 设计画布", "source": "@GoogleAI", "url": "https://www.bestblogs.dev/status/2034332963811344738"},
+    {"title": "定义 OpenClaw for Teams 新产品形态", "source": "42 章经", "url": "https://www.bestblogs.dev/podcast/4ab7c9a"}
+  ]
+}

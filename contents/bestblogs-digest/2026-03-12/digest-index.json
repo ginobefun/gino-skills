@@ -1,0 +1,133 @@
+{
+  "date": "2026-03-12",
+  "keywords": [
+    "Gemini Embedding 2",
+    "Nemotron 3 Super",
+    "黄仁勋 GTC",
+    "Replit 90亿",
+    "Jeff Dean"
+  ],
+  "items": [
+    {
+      "rank": 1,
+      "title": "Google 发布 Gemini Embedding 2：首个原生多模态嵌入模型",
+      "keywords": [
+        "Google",
+        "Gemini Embedding"
+      ],
+      "source": "The Keyword (blog.google)",
+      "score": 93,
+      "url": "https://www.bestblogs.dev/article/648f3821",
+      "readUrl": "https://www.bestblogs.dev/article/648f3821"
+    },
+    {
+      "rank": 2,
+      "title": "NVIDIA 开源 Nemotron 3 Super：混合 Mamba-Transformer MoE 智能体推理模型",
+      "keywords": [
+        "NVIDIA",
+        "Nemotron",
+        "Super",
+        "Mamba-Transformer MoE"
+      ],
+      "source": "NVIDIA Technical Blog",
+      "score": 93,
+      "url": "https://www.bestblogs.dev/article/00a3e802",
+      "readUrl": "https://www.bestblogs.dev/article/00a3e802"
+    },
+    {
+      "rank": 3,
+      "title": "编程智能体如何重塑工程、产品与设计",
+      "keywords": [],
+      "source": "LangChain Blog",
+      "score": 93,
+      "url": "https://www.bestblogs.dev/article/f133b342",
+      "readUrl": "https://www.bestblogs.dev/article/f133b342"
+    },
+    {
+      "rank": 4,
+      "title": "黄仁勋 GTC 2026 罕见署名长文：AI 是五层蛋糕",
+      "keywords": [
+        "GTC",
+        "AI"
+      ],
+      "source": "Web3天空之城",
+      "score": 91,
+      "url": "https://www.bestblogs.dev/article/08eddcb0",
+      "readUrl": "https://www.bestblogs.dev/article/08eddcb0"
+    },
+    {
+      "rank": 5,
+      "title": "Replit 完成 4 亿美元 C 轮融资，估值飙至 90 亿美元 @Replit",
+      "keywords": [
+        "Replit",
+        "Replit"
+      ],
+      "source": "@Replit",
+      "score": 92,
+      "url": "https://www.bestblogs.dev/status/2031779575315968165",
+      "readUrl": "https://www.bestblogs.dev/status/2031779575315968165"
+    },
+    {
+      "rank": 6,
+      "title": "吴恩达开源 Context Hub：为 AI Agent 提供最新 API 文档，终结幻觉 @AndrewYNg",
+      "keywords": [
+        "Context Hub",
+        "AI Agent",
+        "API",
+        "AndrewYNg"
+      ],
+      "source": "@AndrewYNg",
+      "score": 91,
+      "url": "https://www.bestblogs.dev/status/2031051809499054099",
+      "readUrl": "https://www.bestblogs.dev/status/2031051809499054099"
+    },
+    {
+      "rank": 7,
+      "title": "Jeff Dean：未来开发者人均 50 个智能体，写需求成核心技能",
+      "keywords": [
+        "Jeff Dean"
+      ],
+      "source": "量子位",
+      "score": 91,
+      "url": "https://www.bestblogs.dev/article/1acc77ad",
+      "readUrl": "https://www.bestblogs.dev/article/1acc77ad"
+    },
+    {
+      "rank": 8,
+      "title": "陶哲轩 × OpenAI 高管：AI 正把数学变成一门重工业",
+      "keywords": [
+        "OpenAI",
+        "AI"
+      ],
+      "source": "AI科技大本营",
+      "score": 91,
+      "url": "https://www.bestblogs.dev/article/da200ce2",
+      "readUrl": "https://www.bestblogs.dev/article/da200ce2"
+    },
+    {
+      "rank": 9,
+      "title": "PlugMem：微软研究院通用 AI 记忆系统，可插入任意 Agent",
+      "keywords": [
+        "PlugMem",
+        "AI",
+        "Agent"
+      ],
+      "source": "Microsoft Research Blog",
+      "score": 92,
+      "url": "https://www.bestblogs.dev/article/4e07a1f9",
+      "readUrl": "https://www.bestblogs.dev/article/4e07a1f9"
+    },
+    {
+      "rank": 10,
+      "title": "你养的\"龙虾\"，已在失控边缘：L2 认知/L4 权限的错配危机",
+      "keywords": [
+        "L2",
+        "L4"
+      ],
+      "source": "腾讯科技",
+      "score": 90,
+      "url": "https://www.bestblogs.dev/article/b7d64d9a",
+      "readUrl": "https://www.bestblogs.dev/article/b7d64d9a"
+    }
+  ]
+}

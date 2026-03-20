@@ -1,0 +1,125 @@
+{
+  "date": "2026-03-17",
+  "keywords": [
+    "GPT-5.4 营收破纪录",
+    "世界模型",
+    "Cursor 安全智能体",
+    "GLM-5-Turbo",
+    "Attention Residuals"
+  ],
+  "items": [
+    {
+      "rank": 1,
+      "title": "GPT-5.4 创下 API 采用率与营收新纪录 @gdb",
+      "keywords": [
+        "GPT-5.4",
+        "API"
+      ],
+      "source": "@gdb",
+      "score": 92,
+      "url": "https://www.bestblogs.dev/status/2033605419726483963",
+      "readUrl": "https://www.bestblogs.dev/status/2033605419726483963"
+    },
+    {
+      "rank": 2,
+      "title": "对谢赛宁的 7 小时马拉松访谈：世界模型、逃出硅谷、AMI Labs [播客 420min]",
+      "keywords": [
+        "AMI Labs"
+      ],
+      "source": "张小珺 Jùn｜商业访谈录",
+      "score": 94,
+      "url": "https://www.bestblogs.dev/podcast/7231850",
+      "readUrl": "https://www.bestblogs.dev/podcast/7231850"
+    },
+    {
+      "rank": 3,
+      "title": "使用自主智能体保护我们的代码库",
+      "keywords": [],
+      "source": "Cursor Blog",
+      "score": 92,
+      "url": "https://www.bestblogs.dev/article/145bc7c9",
+      "readUrl": "https://www.bestblogs.dev/article/145bc7c9"
+    },
+    {
+      "rank": 4,
+      "title": "GLM-5-Turbo：龙虾增强的基座模型",
+      "keywords": [
+        "GLM-5-Turbo"
+      ],
+      "source": "智谱",
+      "score": 92,
+      "url": "https://www.bestblogs.dev/article/88892d20",
+      "readUrl": "https://www.bestblogs.dev/article/88892d20"
+    },
+    {
+      "rank": 5,
+      "title": "软件为何越做越乱？万字长文讲透软件的\"复杂性\"",
+      "keywords": [],
+      "source": "大淘宝技术",
+      "score": 93,
+      "url": "https://www.bestblogs.dev/article/a389a9b9",
+      "readUrl": "https://www.bestblogs.dev/article/a389a9b9"
+    },
+    {
+      "rank": 6,
+      "title": "Moonshot AI 推出 Attention Residuals @Kimi_Moonshot",
+      "keywords": [
+        "Moonshot AI",
+        "Attention Residuals",
+        "Kimi",
+        "Moonshot"
+      ],
+      "source": "@Kimi_Moonshot",
+      "score": 92,
+      "url": "https://www.bestblogs.dev/status/2033378587878072424",
+      "readUrl": "https://www.bestblogs.dev/status/2033378587878072424"
+    },
+    {
+      "rank": 7,
+      "title": "LLM 幻觉并非数据缺陷",
+      "keywords": [
+        "LLM"
+      ],
+      "source": "Towards Data Science",
+      "score": 91,
+      "url": "https://www.bestblogs.dev/article/198f0999",
+      "readUrl": "https://www.bestblogs.dev/article/198f0999"
+    },
+    {
+      "rank": 8,
+      "title": "Stripe 的 Minions 如何每周发布 1,300 个 PR",
+      "keywords": [
+        "Stripe",
+        "Minions",
+        "PR"
+      ],
+      "source": "ByteByteGo Newsletter",
+      "score": 90,
+      "url": "https://www.bestblogs.dev/article/2a6f7fa5",
+      "readUrl": "https://www.bestblogs.dev/article/2a6f7fa5"
+    },
+    {
+      "rank": 9,
+      "title": "Claude Code 团队总结的六条反直觉缓存法则",
+      "keywords": [
+        "Claude Code"
+      ],
+      "source": "前端早读课",
+      "score": 90,
+      "url": "https://www.bestblogs.dev/article/7f5fdb64",
+      "readUrl": "https://www.bestblogs.dev/article/7f5fdb64"
+    },
+    {
+      "rank": 10,
+      "title": "深度解读 315 曝光的\"GEO 乱象\"：AI 的回答是如何\"被操控\"的？",
+      "keywords": [
+        "GEO",
+        "AI"
+      ],
+      "source": "腾讯研究院",
+      "score": 89,
+      "url": "https://www.bestblogs.dev/article/96a7310b",
+      "readUrl": "https://www.bestblogs.dev/article/96a7310b"
+    }
+  ]
+}

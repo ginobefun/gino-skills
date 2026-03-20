@@ -1,0 +1,57 @@
+BestBlogs 早报 | 2026-03-20
+
+# Composer 2 / LangSmith Fleet / GTC 2026 / OpenClaw / AI 设计
+
+[1] Cursor 发布 Composer 2：编程模型性能翻倍，定价重塑
+Cursor 推出 Composer 2，内部基准测试得分几乎翻倍，在 Terminal-Bench 2.0 和 SWE-bench Multilingual 中表现出色。技术核心是持续预训练加专注于长程任务的强化学习，使模型能执行数百个连续动作。同时引入新定价模式和「快速」版本，在速度、成本和编程能力之间寻找最佳平衡。这是 AI Coding 工具从「辅助补全」走向「自主编程」的关键一步。
+来源：Cursor Blog | 评分：93
+https://www.bestblogs.dev/article/67644639
+另见：@mntruell
+
+[2] LangSmith Fleet：企业级 AI 智能体治理平台
+LangChain 发布 LangSmith Fleet，从「构建智能体」转向「治理智能体机群」。核心功能包括分级权限模型、双重身份凭证（共享服务账户 Claws + 个人用户 OAuth Assistants）、集中式 Agent Inbox 用于人机协作监督，以及基于 LangSmith 追踪的全面可观测性。随着非技术人员也能创建 Agent，治理正在成为企业落地的关键瓶颈。
+来源：LangChain Blog | 评分：92
+https://www.bestblogs.dev/article/3424ffde
+
+[3] GTC 巅峰对话：Jeff Dean x Bill Dally 谈透 AI 五年未来
+NVIDIA 首席科学家 Bill Dally 与 Google DeepMind 首席科学家 Jeff Dean 的深度对谈。核心判断：预训练范式正在演变，推理已成为当前 AI 系统核心瓶颈，通信延迟而非计算能力才是关键。AI 正在重塑芯片设计流程，未来将走向更具自主性的 Agent 系统和环境交互学习。
+来源：AI 科技大本营 | 评分：92
+https://www.bestblogs.dev/article/adc5700e
+
+[4] Simon Willison：让编码 Agent 发挥作用的工程实践 [视频]
+Django 联合创始人 Simon Willison 在 Pragmatic Summit 分享与 AI 编码 Agent 高效协作的工作流。核心方法论：用红绿测试驱动开发防止过度工程化，无需逐行审查即可保证代码质量。还涵盖手动测试验证、沙盒安全实践和最小权限原则。
+来源：The Pragmatic Engineer | 评分：92
+https://www.bestblogs.dev/video/891ae75
+
+[5] 定义 OpenClaw for Teams 新产品形态 [播客]
+42 章经对话 QCI 联创宇豪，探讨 AI 从工具到劳动力的形态演进。核心主张：AI 不应仅是私人助手，而应是具备独立身份、明确职责和企业级记忆的「数字劳动力」。团队在未融资情况下通过 Usage-based 定价实现千万美金 ARR，并预测 2026 年将进入全天候 AI 劳动力时代。
+来源：42 章经 | 评分：92
+https://www.bestblogs.dev/podcast/4ab7c9a
+
+[6] Cherry Studio：2 个人，GitHub 42k 星，代码贡献第一名是 Claude [播客]
+对话 Cherry Studio 创始人王新铭。项目从个人兴趣驱动的桌面客户端，抓住 DeepSeek 爆火机遇演变为 42k Star 的 Agent 平台。提出 AI Native 组织新范式：产品经理写 PRD 给 AI 看，设计师直接出代码。探讨 Long-running Agent 趋势和企业「AI 效能中心」如何实现十倍能效飞跃。
+来源：AI 炼金术 | 评分：92
+https://www.bestblogs.dev/podcast/c40b08b
+
+[7] 深入理解 OpenClaw 技术架构与实现原理
+阿里云开发者系统剖析 OpenClaw 的本地优先多端联动架构。核心模块包括：统一 WebSocket Gateway 作为控制平面、事件驱动的 Pi Loop 推理循环、支持多种调度模式的 Cron 定时任务系统，以及多层策略流水线确保工具调用安全合规。为理解当前最热门个人 AI 助手的工程实现提供了完整技术参考。
+来源：阿里云开发者 | 评分：92
+https://www.bestblogs.dev/article/278b3853
+
+[8] Next.js 16.2：框架走向「Agent-Ready」
+Next.js 16.2 标志着框架设计向 AI 辅助开发工作流转型。关键功能：捆绑 AGENTS.md 为 LLM 提供版本匹配文档、浏览器日志转发到终端、实验性 next-browser CLI 让 AI Agent 以编程方式检查 React 组件树和网络请求。弥合了浏览器调试与终端 Agent 工作流之间的鸿沟。
+来源：Next.js Blog | 评分：92
+https://www.bestblogs.dev/article/b2db5597
+
+[9] 一个大脑控制所有机器人？特斯拉、Skild AI、Agility 激辩量产路线 | GTC 2026
+GTC 2026 人形机器人圆桌论坛，汇集特斯拉、Agility Robotics、Skild AI 等核心负责人。讨论从「能否制造」转向「如何量产」：真实世界数据结合仿真预训练、端到端通用大脑与模块化架构之争、从短期 Demo 走向 24/7 运行的长时 Agent 是行业真正试金石。
+来源：AI 科技大本营 | 评分：91
+https://www.bestblogs.dev/article/92867e59
+
+[10] Google Stitch 升级为 AI 设计画布 @GoogleAI
+Google Labs 对 Stitch 进行重大升级，从代码生成工具转型为 AI 设计画布。支持多模态输入（文本、图像、代码），引入上下文感知设计 Agent 支持反馈和 PRD 生成，新增 DESIGN.md 文件格式管理跨工具设计规则。简化从概念到原型的转化过程。
+来源：@GoogleAI | 评分：92
+https://www.bestblogs.dev/status/2034332963811344738
+
+---
+BestBlogs.dev - 遇见更好的技术阅读

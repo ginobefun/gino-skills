@@ -21,6 +21,8 @@
  *   --format <string>      Audio format: mp3 (default), wav, opus
  *   --bitrate <int>        MP3 bitrate, default 192
  *   --merge <path>         After synthesizing segments, merge into this file
+ *   --delay <seconds>      Delay between segments to avoid rate limiting (default: 5)
+ *   --fallback-voice-id <id>  Fallback voice model if primary fails
  *   --help                 Show help
  */
 
@@ -44,6 +46,8 @@ interface CliArgs {
   format: string;
   bitrate: number;
   merge: string | null;
+  delay: number;
+  fallbackVoiceId: string | null;
   help: boolean;
 }
 
@@ -59,6 +63,8 @@ function parseArgs(): CliArgs {
     format: "mp3",
     bitrate: 192,
     merge: null,
+    delay: 5,
+    fallbackVoiceId: null,
     help: false,
   };
 
@@ -91,6 +97,12 @@ function parseArgs(): CliArgs {
       case "--merge":
         result.merge = args[++i];
         break;
+      case "--delay":
+        result.delay = parseFloat(args[++i]);
+        break;
+      case "--fallback-voice-id":
+        result.fallbackVoiceId = args[++i];
+        break;
       case "--help":
         result.help = true;
         break;
@@ -118,6 +130,8 @@ Options:
   --format <string>      Audio format: mp3, wav, opus (default: mp3)
   --bitrate <int>        MP3 bitrate (default: 192)
   --merge <path>         Merge all segments into single file (requires ffmpeg)
+  --delay <seconds>      Delay between segments (default: 5)
+  --fallback-voice-id <id>  Fallback voice if primary fails after retries
   --help                 Show this help
 
 Environment:
@@ -225,7 +239,22 @@ async function synthesize(
     );
   }
 
-  return await response.arrayBuffer();
+  const audioBuffer = await response.arrayBuffer();
+
+  if (audioBuffer.byteLength <= 1024) {
+    throw new EmptyAudioError(
+      `Empty audio received (${audioBuffer.byteLength} bytes)`
+    );
+  }
+
+  return audioBuffer;
+}
+
+class EmptyAudioError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "EmptyAudioError";
+  }
 }
 
 async function synthesizeWithRetry(
@@ -234,23 +263,55 @@ async function synthesizeWithRetry(
   rate: number,
   format: string,
   bitrate: number,
-  retries: number = 1
+  retries: number = 3,
+  fallbackVoiceId: string | null = null
 ): Promise<ArrayBuffer> {
-  try {
-    return await synthesize(text, voiceId, rate, format, bitrate);
-  } catch (err) {
-    if (retries > 0 && err instanceof Error && err.message.includes("429")) {
-      console.log("  Rate limited, waiting 10s before retry...");
-      await new Promise((resolve) => setTimeout(resolve, 10000));
-      return synthesizeWithRetry(text, voiceId, rate, format, bitrate, retries - 1);
+  const emptyAudioDelays = [10, 20, 40]; // seconds
+
+  for (let attempt = 0; attempt <= retries; attempt++) {
+    try {
+      return await synthesize(text, voiceId, rate, format, bitrate);
+    } catch (err) {
+      const isLastAttempt = attempt === retries;
+
+      if (err instanceof EmptyAudioError) {
+        if (!isLastAttempt) {
+          const delay = emptyAudioDelays[attempt] || emptyAudioDelays[emptyAudioDelays.length - 1];
+          console.log(`  ⚠️ Empty audio received (${err.message}), retrying after ${delay}s...`);
+          await new Promise((resolve) => setTimeout(resolve, delay * 1000));
+          continue;
+        }
+        // All retries exhausted for empty audio - try fallback voice
+        if (fallbackVoiceId) {
+          console.log(`  ⚠️ Primary voice failed, trying fallback voice...`);
+          return synthesizeWithRetry(text, fallbackVoiceId, rate, format, bitrate, retries, null);
+        }
+        throw new Error(`Synthesis failed: empty audio after ${retries + 1} attempts`);
+      }
+
+      if (err instanceof Error && err.message.includes("429")) {
+        if (!isLastAttempt) {
+          console.log("  Rate limited, waiting 10s before retry...");
+          await new Promise((resolve) => setTimeout(resolve, 10000));
+          continue;
+        }
+      } else if (!isLastAttempt) {
+        console.log("  Retrying...");
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+        continue;
+      }
+
+      // All retries exhausted - try fallback voice before giving up
+      if (fallbackVoiceId) {
+        console.log(`  ⚠️ Primary voice failed, trying fallback voice...`);
+        return synthesizeWithRetry(text, fallbackVoiceId, rate, format, bitrate, retries, null);
+      }
+      throw err;
     }
-    if (retries > 0) {
-      console.log("  Retrying once...");
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-      return synthesizeWithRetry(text, voiceId, rate, format, bitrate, retries - 1);
-    }
-    throw err;
   }
+
+  // Should not reach here, but TypeScript needs it
+  throw new Error("Synthesis failed after all retries");
 }
 
 async function mergeSegments(
@@ -346,7 +407,9 @@ async function main(): Promise<void> {
       args.voiceId,
       args.rate,
       args.format,
-      args.bitrate
+      args.bitrate,
+      3,
+      args.fallbackVoiceId
     );
     writeFileSync(args.output, Buffer.from(audio));
     console.log(`Done: ${args.output} (${(audio.byteLength / 1024).toFixed(0)} KB)`);
@@ -386,7 +449,9 @@ async function main(): Promise<void> {
           args.voiceId,
           args.rate,
           args.format,
-          args.bitrate
+          args.bitrate,
+          3,
+          args.fallbackVoiceId
         );
         writeFileSync(outFile, Buffer.from(audio));
         segmentNames.push(seg.name);
@@ -408,6 +473,12 @@ async function main(): Promise<void> {
           status: `error: ${msg}`,
         });
         console.error(`  ❌ Failed: ${msg}`);
+      }
+
+      // Inter-segment delay to avoid rate limiting
+      if (i < segments.length - 1 && args.delay > 0) {
+        console.log(`  Waiting ${args.delay}s before next segment...`);
+        await new Promise((resolve) => setTimeout(resolve, args.delay * 1000));
       }
     }
 

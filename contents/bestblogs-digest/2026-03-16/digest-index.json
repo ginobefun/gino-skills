@@ -1,0 +1,127 @@
+{
+  "date": "2026-03-16",
+  "keywords": [
+    "生成式 UI",
+    "Agentic Engineering",
+    "Claude 百万 token",
+    "AI Agent 互动"
+  ],
+  "items": [
+    {
+      "rank": 1,
+      "title": "我复刻了 Claude 刚发布的生成式 UI 交互！",
+      "keywords": [
+        "Claude",
+        "UI"
+      ],
+      "source": "歸藏的 AI 工具箱",
+      "score": 92,
+      "url": "https://www.bestblogs.dev/article/15435105",
+      "readUrl": "https://www.bestblogs.dev/article/15435105"
+    },
+    {
+      "rank": 2,
+      "title": "什么是 Agentic Engineering？",
+      "keywords": [
+        "Agentic Engineering"
+      ],
+      "source": "Simon Willison's Weblog",
+      "score": 87,
+      "url": "https://www.bestblogs.dev/article/30679c3f",
+      "readUrl": "https://www.bestblogs.dev/article/30679c3f"
+    },
+    {
+      "rank": 3,
+      "title": "Claude 百万 token 上下文登场，吞下整个代码库",
+      "keywords": [
+        "Claude"
+      ],
+      "source": "新智元",
+      "score": 89,
+      "url": "https://www.bestblogs.dev/article/bb6d26d4",
+      "readUrl": "https://www.bestblogs.dev/article/bb6d26d4"
+    },
+    {
+      "rank": 4,
+      "title": "OpenViking：把文件系统式记忆与检索带入 AI 代理系统",
+      "keywords": [
+        "OpenViking",
+        "AI"
+      ],
+      "source": "MarkTechPost",
+      "score": 91,
+      "url": "https://www.bestblogs.dev/article/55c83261",
+      "readUrl": "https://www.bestblogs.dev/article/55c83261"
+    },
+    {
+      "rank": 5,
+      "title": "ICLR-26 腾讯混元：Agent 是强大的，但用户是狂野的",
+      "keywords": [
+        "ICLR-26",
+        "Agent"
+      ],
+      "source": "PaperAgent",
+      "score": 88,
+      "url": "https://www.bestblogs.dev/article/f81f2c04",
+      "readUrl": "https://www.bestblogs.dev/article/f81f2c04"
+    },
+    {
+      "rank": 6,
+      "title": "AI Agent 之间可以有什么样的互动",
+      "keywords": [
+        "AI Agent"
+      ],
+      "source": "Hung-yi Lee",
+      "score": 90,
+      "url": "",
+      "readUrl": ""
+    },
+    {
+      "rank": 7,
+      "title": "Hinton 最新警告：AI 会撒谎、可能操纵人类",
+      "keywords": [
+        "Hinton",
+        "AI"
+      ],
+      "source": "InfoQ 中文",
+      "score": 88,
+      "url": "https://www.bestblogs.dev/article/857775e4",
+      "readUrl": "https://www.bestblogs.dev/article/857775e4"
+    },
+    {
+      "rank": 8,
+      "title": "Anthropic CEO：AI 盈利源于低估需求，2030 年营收将达万亿",
+      "keywords": [
+        "Anthropic CEO",
+        "AI"
+      ],
+      "source": "Z Potentials",
+      "score": 89,
+      "url": "https://www.bestblogs.dev/article/06c15bef",
+      "readUrl": "https://www.bestblogs.dev/article/06c15bef"
+    },
+    {
+      "rank": 9,
+      "title": "中美 AI 与全球芯片供应链深度解析",
+      "keywords": [
+        "AI"
+      ],
+      "source": "Web3 天空之城",
+      "score": 91,
+      "url": "https://www.bestblogs.dev/article/0ff1e0f3",
+      "readUrl": "https://www.bestblogs.dev/article/0ff1e0f3"
+    },
+    {
+      "rank": 10,
+      "title": "Agentic AI 时代，OpenAI 成了\"老登\"？",
+      "keywords": [
+        "Agentic AI",
+        "OpenAI"
+      ],
+      "source": "腾讯科技",
+      "score": 87,
+      "url": "https://www.bestblogs.dev/article/ecf0b178",
+      "readUrl": "https://www.bestblogs.dev/article/ecf0b178"
+    }
+  ]
+}

@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BestBlogs 早报 | 2026-03-20</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Noto+Serif+SC:wght@400;600&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #fefdfb;
+      color: #374151;
+      font-family: -apple-system, 'PingFang SC', 'Helvetica Neue', sans-serif;
+      font-size: 14px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body::before {
+      content: '';
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      opacity: 0.03; pointer-events: none; z-index: 9999;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    }
+
+    .container {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 48px 24px 64px;
+    }
+
+    /* Header */
+    .header {
+      margin-bottom: 40px;
+      text-align: center;
+    }
+
+    .brand {
+      font-family: Georgia, 'Noto Serif SC', serif;
+      font-size: 28px;
+      font-weight: 600;
+      color: #1a365d;
+      letter-spacing: 0.05em;
+      margin-bottom: 8px;
+    }
+
+    .date {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      color: #6b7280;
+      margin-bottom: 16px;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .tag {
+      font-size: 12px;
+      color: #1a365d;
+      border: 1px solid #1a365d;
+      border-radius: 100px;
+      padding: 3px 12px;
+      white-space: nowrap;
+    }
+
+    /* Top 1 Card */
+    .card-top {
+      border-left: 3px solid #d97706;
+      background: rgba(217,119,6,0.06);
+      padding: 24px;
+      margin-bottom: 32px;
+      border-radius: 2px;
+    }
+
+    .card-top .card-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      color: #d97706;
+      margin-bottom: 8px;
+    }
+
+    .card-top .card-title {
+      font-family: Georgia, 'Noto Serif SC', serif;
+      font-size: 20px;
+      font-weight: 600;
+      color: #1a365d;
+      line-height: 1.4;
+      margin-bottom: 12px;
+    }
+
+    .card-top .card-title a {
+      color: #1a365d;
+      text-decoration: none;
+    }
+
+    .card-top .card-title a:hover {
+      text-decoration: underline;
+    }
+
+    .card-top .card-summary {
+      color: #374151;
+      font-size: 14px;
+      line-height: 1.7;
+      margin-bottom: 12px;
+    }
+
+    .card-top .card-meta {
+      font-size: 12px;
+      color: #6b7280;
+    }
+
+    .card-top .card-meta .score {
+      font-family: 'Inter', sans-serif;
+    }
+
+    /* Regular Cards */
+    .card {
+      padding: 24px 0;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .card:last-child {
+      border-bottom: none;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    .card .card-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      color: #1a365d;
+      min-width: 20px;
+      padding-top: 2px;
+    }
+
+    .card .card-title {
+      font-family: Georgia, 'Noto Serif SC', serif;
+      font-size: 17px;
+      font-weight: 400;
+      color: #1a365d;
+      line-height: 1.4;
+    }
+
+    .card .card-title a {
+      color: #1a365d;
+      text-decoration: none;
+    }
+
+    .card .card-title a:hover {
+      text-decoration: underline;
+    }
+
+    .card .card-summary {
+      color: #374151;
+      font-size: 14px;
+      line-height: 1.6;
+      margin-left: 32px;
+      margin-bottom: 8px;
+    }
+
+    .card .card-meta {
+      font-size: 12px;
+      color: #6b7280;
+      margin-left: 32px;
+    }
+
+    .card .card-meta .score {
+      font-family: 'Inter', sans-serif;
+    }
+
+    .type-tag {
+      display: inline-block;
+      font-size: 11px;
+      color: #6b7280;
+      border: 1px solid #d1d5db;
+      border-radius: 3px;
+      padding: 1px 6px;
+      margin-left: 4px;
+    }
+
+    /* Footer */
+    .footer {
+      margin-top: 48px;
+      padding-top: 24px;
+      border-top: 1px solid #e5e7eb;
+      text-align: center;
+    }
+
+    .footer-brand {
+      font-family: Georgia, 'Noto Serif SC', serif;
+      font-size: 16px;
+      font-weight: 600;
+      color: #1a365d;
+      letter-spacing: 0.05em;
+      margin-bottom: 4px;
+    }
+
+    .footer-brand a {
+      color: #1a365d;
+      text-decoration: none;
+    }
+
+    .footer-slogan {
+      font-size: 12px;
+      color: #6b7280;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <!-- Header -->
+    <div class="header">
+      <div class="brand">BestBlogs 早报</div>
+      <div class="date">2026-03-20</div>
+      <div class="tags">
+        <span class="tag">Composer 2</span>
+        <span class="tag">LangSmith Fleet</span>
+        <span class="tag">GTC 2026</span>
+        <span class="tag">OpenClaw</span>
+        <span class="tag">AI 设计</span>
+      </div>
+    </div>
+
+    <!-- Top 1 -->
+    <div class="card-top">
+      <div class="card-num">01</div>
+      <div class="card-title"><a href="https://www.bestblogs.dev/article/67644639" target="_blank">Cursor 发布 Composer 2：编程模型性能翻倍，定价重塑</a></div>
+      <div class="card-summary">Cursor 推出 Composer 2，内部基准测试得分几乎翻倍，在 Terminal-Bench 2.0 和 SWE-bench Multilingual 中表现出色。技术核心是持续预训练加专注于长程任务的强化学习，使模型能执行数百个连续动作。同时引入新定价模式和「快速」版本，在速度、成本和编程能力之间寻找最佳平衡。这是 AI Coding 工具从「辅助补全」走向「自主编程」的关键一步。</div>
+      <div class="card-meta">Cursor Blog · 评分 <span class="score">93</span> · 另见 @mntruell</div>
+    </div>
+
+    <!-- 2-10 -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-num">02</span>
+        <span class="card-title"><a href="https://www.bestblogs.dev/article/3424ffde" target="_blank">LangSmith Fleet：企业级 AI 智能体治理平台</a></span>
+      </div>
+      <div class="card-summary">LangChain 从「构建智能体」转向「治理智能体机群」。分级权限、双重身份凭证、集中式 Agent Inbox 人机协作监督，以及全面可观测性。随着非技术人员也能创建 Agent，治理正在成为企业落地的关键瓶颈。</div>
+      <div class="card-meta">LangChain Blog · 评分 <span class="score">92</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-num">03</span>
+        <span class="card-title"><a href="https://www.bestblogs.dev/article/adc5700e" target="_blank">GTC 巅峰对话：Jeff Dean x Bill Dally 谈透 AI 五年未来</a></span>
+      </div>
+      <div class="card-summary">NVIDIA 与 Google DeepMind 两位首席科学家的深度对谈。核心判断：预训练范式正在演变，推理已成为核心瓶颈，通信延迟而非计算能力才是关键。AI 正在重塑芯片设计流程，未来将走向 Agent 系统和环境交互学习。</div>
+      <div class="card-meta">AI 科技大本营 · 评分 <span class="score">92</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-num">04</span>
+        <span class="card-title"><a href="https://www.bestblogs.dev/video/891ae75" target="_blank">Simon Willison：让编码 Agent 发挥作用的工程实践</a></span>
+      </div>
+      <div class="card-summary">Django 联合创始人分享与 AI 编码 Agent 高效协作的工作流：红绿测试驱动开发防止过度工程化，手动测试验证、沙盒安全实践和最小权限原则。</div>
+      <div class="card-meta">The Pragmatic Engineer · 评分 <span class="score">92</span> <span class="type-tag">视频</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-num">05</span>
+        <span class="card-title"><a href="https://www.bestblogs.dev/podcast/4ab7c9a" target="_blank">定义 OpenClaw for Teams 新产品形态</a></span>
+      </div>
+      <div class="card-summary">42 章经对话 QCI 联创宇豪。AI 不应仅是私人助手，而应是具备独立身份、明确职责和企业级记忆的「数字劳动力」。未融资实现千万美金 ARR，预测 2026 年进入全天候 AI 劳动力时代。</div>
+      <div class="card-meta">42 章经 · 评分 <span class="score">92</span> <span class="type-tag">播客</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-num">06</span>
+        <span class="card-title"><a href="https://www.bestblogs.dev/podcast/c40b08b" target="_blank">Cherry Studio：2 个人，GitHub 42k 星，代码贡献第一名是 Claude</a></span>
+      </div>
+      <div class="card-summary">从个人兴趣桌面客户端到 42k Star Agent 平台。AI Native 组织新范式：产品经理写 PRD 给 AI 看，设计师直接出代码。探讨 Long-running Agent 趋势和「AI 效能中心」如何实现十倍能效飞跃。</div>
+      <div class="card-meta">AI 炼金术 · 评分 <span class="score">92</span> <span class="type-tag">播客</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-num">07</span>
+        <span class="card-title"><a href="https://www.bestblogs.dev/article/278b3853" target="_blank">深入理解 OpenClaw 技术架构与实现原理</a></span>
+      </div>
+      <div class="card-summary">系统剖析 OpenClaw 本地优先多端联动架构：WebSocket Gateway 控制平面、事件驱动 Pi Loop 推理循环、多层策略流水线确保工具调用安全合规。为理解当前最热个人 AI 助手提供完整技术参考。</div>
+      <div class="card-meta">阿里云开发者 · 评分 <span class="score">92</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-num">08</span>
+        <span class="card-title"><a href="https://www.bestblogs.dev/article/b2db5597" target="_blank">Next.js 16.2：框架走向「Agent-Ready」</a></span>
+      </div>
+      <div class="card-summary">框架设计向 AI 辅助开发转型。捆绑 AGENTS.md 提供版本匹配文档，实验性 next-browser CLI 让 Agent 以编程方式检查 React 组件树和网络请求，弥合浏览器调试与终端 Agent 工作流的鸿沟。</div>
+      <div class="card-meta">Next.js Blog · 评分 <span class="score">92</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-num">09</span>
+        <span class="card-title"><a href="https://www.bestblogs.dev/article/92867e59" target="_blank">一个大脑控制所有机器人？特斯拉、Skild AI 激辩量产路线</a></span>
+      </div>
+      <div class="card-summary">GTC 2026 人形机器人圆桌，讨论从「能否制造」转向「如何量产」。真实数据结合仿真预训练、端到端通用大脑与模块化架构之争，从短期 Demo 走向 24/7 长时 Agent 是行业试金石。</div>
+      <div class="card-meta">AI 科技大本营 · 评分 <span class="score">91</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-num">10</span>
+        <span class="card-title"><a href="https://www.bestblogs.dev/status/2034332963811344738" target="_blank">Google Stitch 升级为 AI 设计画布</a></span>
+      </div>
+      <div class="card-summary">Google Labs 将 Stitch 从代码生成工具转型为 AI 设计画布，支持多模态输入，引入上下文感知设计 Agent，新增 DESIGN.md 管理跨工具设计规则。</div>
+      <div class="card-meta">@GoogleAI · 评分 <span class="score">92</span></div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <div class="footer-brand"><a href="https://www.bestblogs.dev" target="_blank">BestBlogs.dev</a></div>
+      <div class="footer-slogan">遇见更好的技术阅读</div>
+    </div>
+
+  </div>
+</body>
+</html>

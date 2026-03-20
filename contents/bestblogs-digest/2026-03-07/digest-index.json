@@ -1,0 +1,115 @@
+{
+  "date": "2026-03-07",
+  "keywords": [
+    "GPT-5.4",
+    "Cursor 云端智能体",
+    "AI Coding",
+    "比亚迪刀片电池"
+  ],
+  "items": [
+    {
+      "rank": 1,
+      "title": "GPT-5.4：专业工作流进入\"可执行时代\"",
+      "keywords": [
+        "GPT-5.4"
+      ],
+      "source": "浮之静",
+      "score": 93,
+      "url": "https://www.bestblogs.dev/article/bfed7323",
+      "readUrl": "https://www.bestblogs.dev/article/bfed7323"
+    },
+    {
+      "rank": 2,
+      "title": "Cursor 的第三个时代：云端智能体",
+      "keywords": [
+        "Cursor"
+      ],
+      "source": "Latent Space",
+      "score": 93,
+      "url": "https://www.bestblogs.dev/article/862a3021",
+      "readUrl": "https://www.bestblogs.dev/article/862a3021"
+    },
+    {
+      "rank": 3,
+      "title": "打造 Vercel v0 和 d0 智能体的经验教训 [视频]",
+      "keywords": [
+        "Vercel"
+      ],
+      "source": "The Pragmatic Engineer",
+      "score": 93,
+      "url": "https://www.bestblogs.dev/video/14400be",
+      "readUrl": "https://www.bestblogs.dev/video/14400be"
+    },
+    {
+      "rank": 4,
+      "title": "OpenAI 推出 Codex Security @OpenAIDevs",
+      "keywords": [
+        "OpenAI",
+        "Codex Security",
+        "OpenAIDevs"
+      ],
+      "source": "OpenAI Developers",
+      "score": 92,
+      "url": "https://www.bestblogs.dev/status/2029983809652035758",
+      "readUrl": "https://www.bestblogs.dev/status/2029983809652035758"
+    },
+    {
+      "rank": 5,
+      "title": "智能体时代的人月神话",
+      "keywords": [],
+      "source": "InfoQ 中文",
+      "score": 89,
+      "url": "https://www.bestblogs.dev/article/3069e75c",
+      "readUrl": "https://www.bestblogs.dev/article/3069e75c"
+    },
+    {
+      "rank": 6,
+      "title": "大模型之后：人类与机器的分工重写",
+      "keywords": [],
+      "source": "腾讯研究院",
+      "score": 92,
+      "url": "https://www.bestblogs.dev/article/a5e6b529",
+      "readUrl": "https://www.bestblogs.dev/article/a5e6b529"
+    },
+    {
+      "rank": 7,
+      "title": "GPT-5.4 回一个 hi 要花 80 刀，谷歌这篇论文有解",
+      "keywords": [
+        "GPT-5.4"
+      ],
+      "source": "腾讯科技",
+      "score": 90,
+      "url": "https://www.bestblogs.dev/article/ffe71bbd",
+      "readUrl": "https://www.bestblogs.dev/article/ffe71bbd"
+    },
+    {
+      "rank": 8,
+      "title": "智能体手动测试 — 智能体工程模式",
+      "keywords": [],
+      "source": "Simon Willison's Weblog",
+      "score": 88,
+      "url": "https://www.bestblogs.dev/article/f425bd68",
+      "readUrl": "https://www.bestblogs.dev/article/f425bd68"
+    },
+    {
+      "rank": 9,
+      "title": "比亚迪第二代刀片电池：9 分钟满电",
+      "keywords": [],
+      "source": "爱范儿",
+      "score": 89,
+      "url": "https://www.bestblogs.dev/article/cf23cc8a",
+      "readUrl": "https://www.bestblogs.dev/article/cf23cc8a"
+    },
+    {
+      "rank": 10,
+      "title": "林俊旸离职风波：Qwen 负责人与阿里的分歧",
+      "keywords": [
+        "Qwen"
+      ],
+      "source": "晚点LatePost",
+      "score": 85,
+      "url": "https://www.bestblogs.dev/article/7b55fd09",
+      "readUrl": "https://www.bestblogs.dev/article/7b55fd09"
+    }
+  ]
+}

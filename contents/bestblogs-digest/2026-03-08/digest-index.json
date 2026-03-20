@@ -1,0 +1,132 @@
+{
+  "date": "2026-03-08",
+  "keywords": [
+    "Cursor Automations",
+    "Claude Code",
+    "loop",
+    "Karpathy autoresearch",
+    "AI 安全审计"
+  ],
+  "items": [
+    {
+      "rank": 1,
+      "title": "Cursor 推出 Automations：从 IDE 进化为全天候智能体平台",
+      "keywords": [
+        "Cursor",
+        "Automations",
+        "IDE"
+      ],
+      "source": "Cursor Blog",
+      "score": 93,
+      "url": "https://www.bestblogs.dev/article/110938d0",
+      "readUrl": "https://www.bestblogs.dev/article/110938d0"
+    },
+    {
+      "rank": 2,
+      "title": "Claude Code 新增 /loop：支持最长 3 天的循环任务调度 @bcherny",
+      "keywords": [
+        "Claude Code"
+      ],
+      "source": "Boris Cherny(@bcherny)",
+      "score": 92,
+      "url": "https://www.bestblogs.dev/status/2030193932404150413",
+      "readUrl": "https://www.bestblogs.dev/status/2030193932404150413"
+    },
+    {
+      "rank": 3,
+      "title": "2026，写给 AI 创业者的慷慨、残酷、与迷雾",
+      "keywords": [
+        "AI"
+      ],
+      "source": "十字路口Crossing",
+      "score": 93,
+      "url": "https://www.bestblogs.dev/article/eb5bf321",
+      "readUrl": "https://www.bestblogs.dev/article/eb5bf321"
+    },
+    {
+      "rank": 4,
+      "title": "Karpathy 开源 autoresearch：630 行代码实现 AI 自主迭代训练 @karpathy",
+      "keywords": [
+        "Karpathy",
+        "AI"
+      ],
+      "source": "Andrej Karpathy(@karpathy)",
+      "score": 92,
+      "url": "https://www.bestblogs.dev/status/2030371219518931079",
+      "readUrl": "https://www.bestblogs.dev/status/2030371219518931079"
+    },
+    {
+      "rank": 5,
+      "title": "构建 Cursor 的经验教训 [视频]",
+      "keywords": [
+        "Cursor"
+      ],
+      "source": "ByteByteGo",
+      "score": 93,
+      "url": "https://www.bestblogs.dev/video/1fcd0e1",
+      "readUrl": "https://www.bestblogs.dev/video/1fcd0e1"
+    },
+    {
+      "rank": 6,
+      "title": "Anthropic 与 Mozilla 合作：Claude 两周发现 Firefox 22 个漏洞",
+      "keywords": [
+        "Anthropic",
+        "Mozilla",
+        "Claude",
+        "Firefox"
+      ],
+      "source": "Anthropic News",
+      "score": 91,
+      "url": "https://www.bestblogs.dev/article/138d8a61",
+      "readUrl": "https://www.bestblogs.dev/article/138d8a61"
+    },
+    {
+      "rank": 7,
+      "title": "深度解析 Google Workspace CLI：从 HCI 到 ACI 的范式转移",
+      "keywords": [
+        "Google Workspace CLI",
+        "HCI",
+        "ACI"
+      ],
+      "source": "浮之静",
+      "score": 93,
+      "url": "https://www.bestblogs.dev/article/5db40510",
+      "readUrl": "https://www.bestblogs.dev/article/5db40510"
+    },
+    {
+      "rank": 8,
+      "title": "The Batch：Context Hub 防幻觉、Nano Banana 2、Anthropic 伦理冲突",
+      "keywords": [
+        "The Batch",
+        "Context Hub",
+        "Nano Banana",
+        "Anthropic"
+      ],
+      "source": "deeplearning.ai",
+      "score": 93,
+      "url": "https://www.bestblogs.dev/article/08c8a4c7",
+      "readUrl": "https://www.bestblogs.dev/article/08c8a4c7"
+    },
+    {
+      "rank": 9,
+      "title": "科技爱好者周刊（第 387 期）：你是领先的",
+      "keywords": [],
+      "source": "阮一峰的网络日志",
+      "score": 92,
+      "url": "https://www.bestblogs.dev/article/31d261bc",
+      "readUrl": "https://www.bestblogs.dev/article/31d261bc"
+    },
+    {
+      "rank": 10,
+      "title": "GitHub Security Lab 开源 AI 驱动漏洞扫描框架",
+      "keywords": [
+        "GitHub Security Lab",
+        "AI"
+      ],
+      "source": "The GitHub Blog",
+      "score": 89,
+      "url": "https://www.bestblogs.dev/article/cc1aeca3",
+      "readUrl": "https://www.bestblogs.dev/article/cc1aeca3"
+    }
+  ]
+}

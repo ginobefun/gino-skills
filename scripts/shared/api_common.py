@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import json
+import os
+import ssl
 from typing import Any, Callable, Iterable, Sequence
 from urllib import error, parse, request
 
@@ -81,8 +83,15 @@ def request_json(
 
     req = request.Request(url=url, data=body, headers=request_headers, method=method.upper())
 
+    # macOS Python 常见问题：系统证书未导入，需跳过 SSL 验证
+    # 设置环境变量 BESTBLOGS_SKIP_SSL_VERIFY=0 可恢复严格验证
+    skip_ssl = os.getenv("BESTBLOGS_SKIP_SSL_VERIFY", "1") != "0"
+    ssl_context: ssl.SSLContext | None = None
+    if skip_ssl:
+        ssl_context = ssl._create_unverified_context()
+
     try:
-        with request.urlopen(req, timeout=timeout) as response:
+        with request.urlopen(req, timeout=timeout, context=ssl_context) as response:
             raw = response.read().decode("utf-8")
             return json.loads(raw) if raw else None
     except error.HTTPError as exc:

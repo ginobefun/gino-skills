@@ -1,0 +1,131 @@
+{
+  "date": "2026-03-11",
+  "keywords": [
+    "Harness Engineering",
+    "AMI Labs",
+    "autoresearch",
+    "Uber Agent",
+    "Gemini 3"
+  ],
+  "items": [
+    {
+      "rank": 1,
+      "title": "OpenAI Build Hour: Harness Engineering — 让智能体自主交付高质量代码 [视频]",
+      "keywords": [
+        "OpenAI Build Hour",
+        "Harness Engineering"
+      ],
+      "source": "OpenAI",
+      "score": 94,
+      "url": "https://www.bestblogs.dev/video/77d5e14",
+      "readUrl": "https://www.bestblogs.dev/video/77d5e14"
+    },
+    {
+      "rank": 2,
+      "title": "Yann LeCun 创立 AMI Labs，完成 $10.3 亿种子轮融资 @ylecun",
+      "keywords": [
+        "Yann LeCun",
+        "AMI Labs"
+      ],
+      "source": "@ylecun",
+      "score": 93,
+      "url": "https://www.bestblogs.dev/status/2031268686984527936",
+      "readUrl": "https://www.bestblogs.dev/status/2031268686984527936"
+    },
+    {
+      "rank": 3,
+      "title": "Karpathy autoresearch 实测：AI 自动发现 20 项改进，训练效率提升 11% @karpathy",
+      "keywords": [
+        "Karpathy",
+        "AI"
+      ],
+      "source": "@karpathy",
+      "score": 93,
+      "url": "https://www.bestblogs.dev/status/2031135152349524125",
+      "readUrl": "https://www.bestblogs.dev/status/2031135152349524125"
+    },
+    {
+      "rank": 4,
+      "title": "Uber 智能体工程转型：从代码补全到自主任务执行 [视频]",
+      "keywords": [
+        "Uber"
+      ],
+      "source": "The Pragmatic Engineer",
+      "score": 93,
+      "url": "https://www.bestblogs.dev/video/fac7677",
+      "readUrl": "https://www.bestblogs.dev/video/fac7677"
+    },
+    {
+      "rank": 5,
+      "title": "Google AI 最新更新全汇总：NotebookLM 电影级视频 + Gemini 3 + AI 智能体 [视频]",
+      "keywords": [
+        "Google AI",
+        "NotebookLM",
+        "Gemini",
+        "AI"
+      ],
+      "source": "Futurepedia",
+      "score": 92,
+      "url": "https://www.bestblogs.dev/video/954bb75",
+      "readUrl": "https://www.bestblogs.dev/video/954bb75"
+    },
+    {
+      "rank": 6,
+      "title": "AlphaGo 十年回顾：从第 37 手到科学突破 [视频]",
+      "keywords": [
+        "AlphaGo"
+      ],
+      "source": "Google DeepMind",
+      "score": 92,
+      "url": "https://www.bestblogs.dev/video/8afa36a",
+      "readUrl": "https://www.bestblogs.dev/video/8afa36a"
+    },
+    {
+      "rank": 7,
+      "title": "Claude Code vs Codex：智能体编程迎来拐点",
+      "keywords": [
+        "Claude Code",
+        "Codex"
+      ],
+      "source": "LessWrong",
+      "score": 92,
+      "url": "https://www.bestblogs.dev/article/4b14d95b",
+      "readUrl": "https://www.bestblogs.dev/article/4b14d95b"
+    },
+    {
+      "rank": 8,
+      "title": "当\"小龙虾\"接管日常：OpenClaw 引发的 Agent 范式转移 [播客]",
+      "keywords": [
+        "OpenClaw",
+        "Agent"
+      ],
+      "source": "硬地骇客",
+      "score": 92,
+      "url": "https://www.bestblogs.dev/podcast/6df0d8a",
+      "readUrl": "https://www.bestblogs.dev/podcast/6df0d8a"
+    },
+    {
+      "rank": 9,
+      "title": "LlamaIndex 战略转型：从 RAG 框架到文档基础设施 @jerryjliu0",
+      "keywords": [
+        "LlamaIndex",
+        "RAG"
+      ],
+      "source": "@jerryjliu0",
+      "score": 92,
+      "url": "https://www.bestblogs.dev/status/2031171466574889344",
+      "readUrl": "https://www.bestblogs.dev/status/2031171466574889344"
+    },
+    {
+      "rank": 10,
+      "title": "GitHub 智能体工作流的安全架构：零密钥 + 深度防御",
+      "keywords": [
+        "GitHub"
+      ],
+      "source": "The GitHub Blog",
+      "score": 92,
+      "url": "https://www.bestblogs.dev/article/3727eb85",
+      "readUrl": "https://www.bestblogs.dev/article/3727eb85"
+    }
+  ]
+}

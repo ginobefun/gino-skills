@@ -98,7 +98,7 @@ class BestBlogsAdminClient(JsonApiClient):
         return collect_paginated(
             lambda page: self.post_json("/api/admin/article/list", {**base_payload, "currentPage": page}),
             extract_items=lambda body: get_path(body, ("data", "dataList"), []),
-            extract_total_pages=lambda body: get_path(body, ("data", "totalPage")),
+            extract_total_pages=lambda body: get_path(body, ("data", "pageCount")),
             start_page=start_page,
             max_pages=max_pages,
         )

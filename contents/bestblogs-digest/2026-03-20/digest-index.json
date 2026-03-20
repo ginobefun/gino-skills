@@ -1,0 +1,136 @@
+{
+  "date": "2026-03-20",
+  "keywords": [
+    "Composer 2",
+    "LangSmith Fleet",
+    "GTC 2026",
+    "OpenClaw",
+    "AI 设计"
+  ],
+  "items": [
+    {
+      "rank": 1,
+      "title": "Cursor 发布 Composer 2：编程模型性能翻倍，定价重塑",
+      "keywords": [
+        "Cursor",
+        "Composer"
+      ],
+      "source": "Cursor Blog",
+      "score": 93,
+      "url": "https://www.bestblogs.dev/article/67644639",
+      "readUrl": "https://www.bestblogs.dev/article/67644639"
+    },
+    {
+      "rank": 2,
+      "title": "LangSmith Fleet：企业级 AI 智能体治理平台",
+      "keywords": [
+        "LangSmith Fleet",
+        "AI"
+      ],
+      "source": "LangChain Blog",
+      "score": 92,
+      "url": "https://www.bestblogs.dev/article/3424ffde",
+      "readUrl": "https://www.bestblogs.dev/article/3424ffde"
+    },
+    {
+      "rank": 3,
+      "title": "GTC 巅峰对话：Jeff Dean x Bill Dally 谈透 AI 五年未来",
+      "keywords": [
+        "GTC",
+        "Jeff Dean",
+        "Bill Dally",
+        "AI"
+      ],
+      "source": "AI 科技大本营",
+      "score": 92,
+      "url": "https://www.bestblogs.dev/article/adc5700e",
+      "readUrl": "https://www.bestblogs.dev/article/adc5700e"
+    },
+    {
+      "rank": 4,
+      "title": "Simon Willison：让编码 Agent 发挥作用的工程实践 [视频]",
+      "keywords": [
+        "Simon Willison",
+        "Agent"
+      ],
+      "source": "The Pragmatic Engineer",
+      "score": 92,
+      "url": "https://www.bestblogs.dev/video/891ae75",
+      "readUrl": "https://www.bestblogs.dev/video/891ae75"
+    },
+    {
+      "rank": 5,
+      "title": "定义 OpenClaw for Teams 新产品形态 [播客]",
+      "keywords": [
+        "OpenClaw",
+        "Teams"
+      ],
+      "source": "42 章经",
+      "score": 92,
+      "url": "https://www.bestblogs.dev/podcast/4ab7c9a",
+      "readUrl": "https://www.bestblogs.dev/podcast/4ab7c9a"
+    },
+    {
+      "rank": 6,
+      "title": "Cherry Studio：2 个人，GitHub 42k 星，代码贡献第一名是 Claude [播客]",
+      "keywords": [
+        "Cherry Studio",
+        "GitHub",
+        "Claude"
+      ],
+      "source": "AI 炼金术",
+      "score": 92,
+      "url": "https://www.bestblogs.dev/podcast/c40b08b",
+      "readUrl": "https://www.bestblogs.dev/podcast/c40b08b"
+    },
+    {
+      "rank": 7,
+      "title": "深入理解 OpenClaw 技术架构与实现原理",
+      "keywords": [
+        "OpenClaw"
+      ],
+      "source": "阿里云开发者",
+      "score": 92,
+      "url": "https://www.bestblogs.dev/article/278b3853",
+      "readUrl": "https://www.bestblogs.dev/article/278b3853"
+    },
+    {
+      "rank": 8,
+      "title": "Next.js 16.2：框架走向「Agent-Ready」",
+      "keywords": [
+        "Next.js",
+        "Agent-Ready"
+      ],
+      "source": "Next.js Blog",
+      "score": 92,
+      "url": "https://www.bestblogs.dev/article/b2db5597",
+      "readUrl": "https://www.bestblogs.dev/article/b2db5597"
+    },
+    {
+      "rank": 9,
+      "title": "一个大脑控制所有机器人？特斯拉、Skild AI、Agility 激辩量产路线 | GTC 2026",
+      "keywords": [
+        "Skild AI",
+        "Agility",
+        "GTC"
+      ],
+      "source": "AI 科技大本营",
+      "score": 91,
+      "url": "https://www.bestblogs.dev/article/92867e59",
+      "readUrl": "https://www.bestblogs.dev/article/92867e59"
+    },
+    {
+      "rank": 10,
+      "title": "Google Stitch 升级为 AI 设计画布 @GoogleAI",
+      "keywords": [
+        "Google Stitch",
+        "AI",
+        "GoogleAI"
+      ],
+      "source": "@GoogleAI",
+      "score": 92,
+      "url": "https://www.bestblogs.dev/status/2034332963811344738",
+      "readUrl": "https://www.bestblogs.dev/status/2034332963811344738"
+    }
+  ]
+}
